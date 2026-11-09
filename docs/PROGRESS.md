@@ -23,7 +23,7 @@
 | R-c | Research: SEBI/NSE/Upstox niyam (subagent) | chal raha |
 | R-d | Research: kharche aur data sources (subagent) | chal raha |
 | R-e | Benchmark: Python vs Rust vs C++ synthetic tick replay (subagent) | chal raha |
-| D1 | `docs/01_Bot_Idea_v4.md` + `docs/01b_Audit_Findings.md` | baaki |
+| D1 | `docs/01_Bot_Idea_v4.md` + `docs/01b_Audit_Findings.md` | chal raha (v4 mein header se Section 6 tak ke additions ho gaye; Section 7 se aage baaki; 01b baaki) |
 | D2 | `docs/02_Tech_Decisions.md` | baaki |
 | D3 | `docs/03_Strategy_Edge_Plan.md` | baaki |
 | D4 | `docs/04_Build_Roadmap.md` | baaki |
@@ -31,3 +31,6 @@
 
 ## Log
 - 10 Nov 2026: Environment bana. Upload ki file `docs/00_input/bot_idea_final.md` mein copy hui (byte-for-byte `cmp` se same). File read-only (chmod 444). sha256 upar likha.
+- 10 Nov 2026: 5 research subagents shuru (VPS, repo/licence, SEBI/NSE/Upstox, kharche/data, benchmark). Unki files `docs/research/` mein aayengi.
+- 10 Nov 2026: D1 ka tareeka: `scratch/d1_build/build_v4.py` original + `add_*.md` se v4 banata hai aur verify karta hai ki original ki har line usi kram mein maujood hai. Abhi tak: VERIFY PASS, 0 lines missing, instruction block same.
+- 10 Nov 2026: Malik ke kehne par abhi tak ka kaam (WIP) GitHub par push karke PR banaya. Baaki kaam isi branch par aage jaayega.
