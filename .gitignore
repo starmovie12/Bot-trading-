@@ -1,0 +1,14 @@
+# Secrets kabhi commit nahi
+.env
+*.env
+*.key
+*.pem
+secrets/
+# Scratch build output
+scratch/**/target/
+scratch/**/build/
+scratch/**/*.o
+scratch/**/bin/
+__pycache__/
+*.pyc
+.venv/
