@@ -122,3 +122,17 @@ def test_kul_jeb_lock_protects_last_capital() -> None:
     stop, msg2 = account_allows_trading(15000, 11000, 4000)
     assert not stop and "hamesha ke liye band" in msg2
     assert account_allows_trading(15000, 10500, 4000)[0] is False  # seema ke paar bhi band hi rahe
+
+
+def test_chart_sl_makes_small_capital_tradable() -> None:
+    from bot.strategy.rules import risk_per_trade
+
+    q = chain(25000, 50, {24950: 140.0, 25000: 110.0}, {})
+    lim = Limits(capital=15000, max_risk_rupees=risk_per_trade(15000, 1500))  # ₹900
+    assert not choose_strike("Nifty50", 25000.0, "CALL", q, lim).ok  # sirf 25% SL: kabhi trade nahi (purani kami)
+    p = choose_strike("Nifty50", 25000.0, "CALL", q, lim, underlying_sl_points=15.0)  # chart SL 15 point paas
+    assert p.ok and p.strike == 24950
+    assert p.sl_price == pytest.approx(140.0 - 15.0 * 0.6)
+    assert p.risk_rupees <= 900
+    far = choose_strike("Nifty50", 25000.0, "CALL", q, lim, underlying_sl_points=60.0)
+    assert not far.ok and "SL par nuksan" in far.reason  # chart SL door = SKIP

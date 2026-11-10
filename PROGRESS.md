@@ -63,3 +63,7 @@ Docs ka progress: branch `idea`, `docs/PROGRESS.md`.
 - Internet research (expiry Tue/Thu, Bank Nifty weekly band, lot 65/30/20, STT 0.15%, SEBI FY25 ~91% nuksan, VRP) se `strategy/STRATEGY_v2.md` (v2.3) aur 3 audit round `strategy/AUDIT_ROUNDS.md`.
 - Naya code `src/bot/strategy/`: instruments (expiry calendar), costs (kharcha, andaza fields alag), selection (ITM→ATM, OTM kabhi nahi, affordability + risk seema par SKIP), rules (entry/exit, time-stop, trailing, halt, risk per trade). Tests: `tests/test_strategy.py`.
 - Poori audit report: `AUDIT_REPORT.md`.
+- Malik: ₹15,000 = ek mahine ki salary, "aakhri mauka". Isliye **kul jeb ka taala** (`account_allows_trading`): seema par bot hamesha ke liye band. Prastaav ₹4,000; faisla malik ka.
+- `bot/dimaag/` (regime, setups) aur `bot/backtest/` (engine + gate) bane. Round 4: risk sirf 25% SL se ginne par bot kabhi trade nahi leta tha; ab chart SL × delta.
+- NAKLI data par backtest: Gate FAIL (sirf 9 trade < 200). Yeh number asli market ke nahi.
+

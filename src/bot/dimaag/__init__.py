@@ -1,4 +1,4 @@
-"""Dimaag: feed decode, candles, checks, scoring. Broker ko kabhi seedha hukm nahi deta, sirf Intent bhejta hai.
+"""Dimaag: candles, mausam (regime), setups. Broker ko kabhi seedha hukm nahi deta; sirf Signal deta hai.
 
-Abhi khaali (M2 aur M3 mein banega). Dekho: branch `idea`, docs/02_Tech_Decisions.md Section C2.
+Pure functions (koi network nahi). Live feed (M2) aur backtest (bot.backtest) dono yahi use karte hain.
 """

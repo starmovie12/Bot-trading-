@@ -38,7 +38,9 @@ Jaanch ke tareeke:
 | B6 | Plan mein 2 server (Oracle) the | Theek: **sirf ek Amazon Lightsail**. `deploy/bot.service` + `deploy/pehredaar.service` (alag service, memory seema, OOM niyam) |
 | B7 | Ek server mare toh SL? | Theek (niyam): har entry ke baad broker par SL-M. Code M5 (order manager) mein |
 | B8 | Bot ka chalu hone ka entrypoint (`python -m bot`) abhi nahi hai | **Baaki (M1):** server setup ke saath |
-| B9 | Event calendar, gap-day niyam, regime ka code | **Baaki (M3)** |
+| B9 | Regime, gap-day niyam, setups S1/S2/S3 | Theek: `bot/dimaag/` + tests. Event calendar ka source **baaki** |
+| B11 | Risk sirf 25% premium SL se: ₹15k par bot kabhi trade nahi leta | Theek: chart SL × delta (Round 4) |
+| B12 | Backtest Gate jaanchne ka tool nahi | Theek: `bot/backtest/` (engine, metrics, gate). Asli data recorder (M1) se aayega |
 | B10 | Chhutti par expiry shift | **Baaki:** broker instrument list se (verify nahi hua) |
 
 ## C. Strategy

@@ -35,6 +35,10 @@ class Limits:
     min_oi: int = 50_000
 
 
+# Delta ka andaza (live mein broker ke Greeks se badlega). Underlying SL ko premium SL mein badalne ke liye.
+DELTA_GUESS: dict[str, float] = {"itm": 0.6, "atm": 0.5}
+
+
 @dataclass(frozen=True, slots=True)
 class Pick:
     ok: bool
@@ -45,9 +49,18 @@ class Pick:
     qty: int = 0
     cost_rupees: float = 0.0
     risk_rupees: float = 0.0
+    sl_price: float | None = None
 
 
-def _check(q: Quote, qty: int, lim: Limits, costs: CostModel) -> str | None:
+def _sl_price(ask: float, lim: Limits, underlying_sl_points: float | None, delta: float) -> float:
+    """Premium SL: 25% wala ya chart (underlying) SL x delta, jo PAAS ho (kam nuksan)."""
+    pct_sl = ask * (1 - lim.sl_pct / 100)
+    if underlying_sl_points is None or underlying_sl_points <= 0:
+        return pct_sl
+    return max(pct_sl, ask - underlying_sl_points * delta)
+
+
+def _check(q: Quote, qty: int, lim: Limits, costs: CostModel, sl_price: float) -> str | None:
     if q.ask <= 0 or q.bid <= 0 or q.bid > q.ask:
         return "quote galat (bid/ask)"
     spread = (q.ask - q.bid) / q.ask * 100
@@ -55,7 +68,6 @@ def _check(q: Quote, qty: int, lim: Limits, costs: CostModel) -> str | None:
         return f"spread {spread:.2f}% > {lim.max_spread_pct}%"
     if q.oi < lim.min_oi:
         return f"OI kam ({q.oi})"
-    sl_price = q.ask * (1 - lim.sl_pct / 100)
     fees = round_trip(q.ask, sl_price, qty, costs).total
     cost = q.ask * qty + fees
     if cost > lim.capital * lim.max_capital_use_pct / 100:
@@ -67,7 +79,14 @@ def _check(q: Quote, qty: int, lim: Limits, costs: CostModel) -> str | None:
 
 
 def choose_strike(
-    index: str, spot: float, side: Side, chain: list[Quote], lim: Limits, costs: CostModel | None = None
+    index: str,
+    spot: float,
+    side: Side,
+    chain: list[Quote],
+    lim: Limits,
+    costs: CostModel | None = None,
+    *,
+    underlying_sl_points: float | None = None,
 ) -> Pick:
     spec = SPECS[index]
     if not spec.tradable:
@@ -80,16 +99,16 @@ def choose_strike(
     itm = atm - spec.strike_step if side == "CALL" else atm + spec.strike_step
     book = {(q.strike, q.opt): q for q in chain}
     first_reason = None
-    for strike in (itm, atm):  # premium quality: pehle ITM, phir ATM; OTM kabhi nahi
+    for strike, kind in ((itm, "itm"), (atm, "atm")):  # premium quality: pehle ITM, phir ATM; OTM kabhi nahi
         q = book.get((strike, opt))
         if q is None:
             first_reason = first_reason or f"{strike} {opt} ka quote nahi"
             continue
-        bad = _check(q, spec.lot, lim, costs)
+        sl_price = _sl_price(q.ask, lim, underlying_sl_points, DELTA_GUESS[kind])
+        bad = _check(q, spec.lot, lim, costs, sl_price)
         if bad:
             first_reason = first_reason or f"{strike} {opt}: {bad}"
             continue
-        sl_price = q.ask * (1 - lim.sl_pct / 100)
         fees = round_trip(q.ask, sl_price, spec.lot, costs).total
         return Pick(
             True,
@@ -100,5 +119,6 @@ def choose_strike(
             qty=spec.lot,
             cost_rupees=round(q.ask * spec.lot + fees, 2),
             risk_rupees=round((q.ask - sl_price) * spec.lot + fees, 2),
+            sl_price=round(sl_price, 2),
         )
     return Pick(False, f"SKIP: {first_reason}")

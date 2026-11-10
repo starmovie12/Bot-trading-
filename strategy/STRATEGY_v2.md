@@ -58,6 +58,7 @@ Har 5 min par: (a) opening range (9:15-9:30) ki chaudai vs pichhle 10 din ka ave
 ### Parat 3: Option chunna (code: `bot/strategy/selection.py`)
 - Weekly, sabse paas wali expiry. Expiry din par S4 ke alawa koi nahi.
 - Strike: **1-step ITM, phir ATM.** OTM kabhi nahi.
+- SL: 25% premium SL aur **chart (underlying) SL × delta**, dono mein jo paas ho. Chart SL door ho toh nuksan seema se upar jaata hai, isliye SKIP (Round 4).
 - Har candidate ke liye chaar jaanch:
   1. Spread ≤ 1% (ask ke hisaab se).
   2. OI ≥ 50,000.
