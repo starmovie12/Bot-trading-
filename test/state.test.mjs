@@ -1,8 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { cpSync, existsSync, mkdtempSync, readFileSync } from "node:fs";
-import { execFileSync } from "node:child_process";
-import { tmpdir } from "node:os";
+import { readFileSync, readdirSync, statSync } from "node:fs";
 import { join } from "node:path";
 import { demoState, sign, validateState, verifyPush } from "../lib/state.mjs";
 import { handle } from "../api/state.mjs";
@@ -80,31 +78,35 @@ test("page par inline script ya innerHTML nahi (XSS se bachav)", () => {
   assert.doesNotMatch(js, /innerHTML|eval\(|new Function/);
 });
 
-test("repo ROOT se bana Vercel project bhi wahi functions chalaye", async () => {
-  const root = await import("../../api/state.mjs");
-  const r = await root.default.fetch(new Request("https://x.vercel.app/api/state"));
-  assert.equal(r.status, 200);
-  assert.equal((await r.json()).demo, true);
-  const health = await import("../../api/health.mjs");
-  assert.equal((await (await health.default.fetch(new Request("https://x.vercel.app/api/health"))).json()).ok, true);
+
+
+
+test("vercel.json: framework Other, koi install/build nahi, output public", () => {
+  const cfg = JSON.parse(readFileSync(new URL("../vercel.json", import.meta.url)));
+  assert.equal(cfg.framework, null);
+  assert.equal(cfg.installCommand, "");
+  assert.equal(cfg.buildCommand, undefined);
+  assert.equal(cfg.outputDirectory, "public");
 });
 
-test("dono vercel.json: framework Other, koi install nahi, sahi output folder, same headers", () => {
-  const rootCfg = JSON.parse(readFileSync(new URL("../../vercel.json", import.meta.url)));
-  const dashCfg = JSON.parse(readFileSync(new URL("../vercel.json", import.meta.url)));
-  for (const cfg of [rootCfg, dashCfg]) {
-    assert.equal(cfg.framework, null);
-    assert.equal(cfg.installCommand, "");
+test("is branch mein sirf website: koi bot code, chaabi ya TLS-off code nahi", () => {
+  const root = new URL("..", import.meta.url).pathname;
+  const files = [];
+  const walk = (d) => {
+    for (const n of readdirSync(d)) {
+      if (n === ".git" || n === "node_modules") continue;
+      const p = join(d, n);
+      if (statSync(p).isDirectory()) walk(p);
+      else files.push(p);
+    }
+  };
+  walk(root);
+  assert.ok(!files.some((f) => /\.(py|go)$/.test(f)), "bot ka Python/Go code website branch mein nahi");
+  const tlsOff = /rejectUnauthorized\s*:\s*false|NODE_TLS_REJECT_UNAUTHORIZED|CERT_NONE/;
+  const secret = /(api[_-]?key|secret|token|password)\s*[:=]\s*['"][A-Za-z0-9_-]{12,}|eyJ[A-Za-z0-9_-]{20,}/i;
+  for (const f of files.filter((f) => /\.(mjs|js|json|html)$/.test(f) && !f.includes("/test/"))) {
+    const text = readFileSync(f, "utf8");
+    assert.doesNotMatch(text, tlsOff, f);
+    assert.doesNotMatch(text, secret, f);
   }
-  assert.equal(rootCfg.outputDirectory, "public");
-  assert.equal(dashCfg.outputDirectory, "public");
-  assert.equal(rootCfg.buildCommand, dashCfg.buildCommand);
-  assert.deepEqual(rootCfg.headers, dashCfg.headers);
-});
-
-test("build.mjs: website files repo root ke public/ mein bhi aati hain (Vercel kisi bhi layout mein dhoondhe)", () => {
-  const dir = mkdtempSync(join(tmpdir(), "vb-"));
-  cpSync(new URL("..", import.meta.url), join(dir, "dashboard"), { recursive: true });
-  execFileSync(process.execPath, [join(dir, "dashboard", "build.mjs")], { cwd: dir, stdio: "pipe" });
-  for (const f of ["index.html", "app.js", "style.css"]) assert.ok(existsSync(join(dir, "public", f)), f);
 });

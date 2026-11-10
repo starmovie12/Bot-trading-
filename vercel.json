@@ -2,7 +2,6 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "framework": null,
   "installCommand": "",
-  "buildCommand": "if [ -f dashboard/build.mjs ]; then node dashboard/build.mjs; else node build.mjs; fi",
   "outputDirectory": "public",
   "cleanUrls": true,
   "headers": [

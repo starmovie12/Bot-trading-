@@ -1,52 +1,38 @@
-# Bot-trading- (code)
+# Bot Dashboard (branch `website`)
 
-BankNifty, Nifty50 aur Sensex options ka trading bot. **Yeh `main` branch sirf code ke liye hai.**
-Poora idea (v4), audit, tech faisle, strategy plan aur roadmap **branch `idea`** par hain:
-`docs/01_Bot_Idea_v4.md`, `docs/02_Tech_Decisions.md`, `docs/03_Strategy_Edge_Plan.md`, `docs/04_Build_Roadmap.md`.
+Yeh branch **sirf website** hai. Vercel isi branch se `bot-trading-pi.vercel.app` banata hai.
+Bot ka code branch **`bot`** mein hai, aur idea/docs branch **`idea`** mein.
 
-## Abhi kahan hain
-- M0 (Neev) ho gaya. **M1 shuru:** auto-login module (TOTP) aur Vercel website ka dhaancha. Status: `PROGRESS.md`.
-- **Abhi kisi broker (Upstox) ya Telegram se koi asli connection nahi.** Login ka code hai, par asli login nahi kiya gaya. Koi order code nahi.
-- Profit ki koi guarantee nahi. Goal: kharche ke baad positive expectancy **sabit** karna; sabit na ho toh live nahi.
-
-## Dhaancha
-| Folder | Kya hai |
+| Branch | Kya hai |
 |---|---|
-| `src/bot/niyam.py` | Niyam-file ka loader aur validation. Code koi number guess nahi karta |
-| `src/bot/login/` | Roz ka auto-login (malik ka niyam: haath se nahi). TOTP (RFC 6238), secrets sirf encrypted store se, token sirf memory mein |
-| `src/bot/dashboard_push.py` | Bot se website ko signed haalat |
-| `dashboard/` | Vercel website (static page + function). Lagane ke steps: `dashboard/README.md` |
-| `vercel.json`, `api/`, `.vercelignore` | Vercel project repo root se bana ho tab bhi website chale |
-| `SETUP_GUIDE.md` / `SETUP_GUIDE.pdf` | **Malik ke liye step-by-step setup** (kya khareedna, kya settings, kis kram mein) |
-| `src/bot/dimaag/` | Feed, candles, checks, scoring (M2, M3) |
-| `src/bot/haath/` | Order manager, broker ko hukm dene wala akela hissa (M5) |
-| `src/bot/recorder/` | Har event ka record, replay ke liye (M1) |
-| `pehredaar/` | Pehredaar (Go): Lease ka niyam; baaki M6 mein |
-| `config/niyam.toml` | Idea ki Numbers list (202 numbers). **Haath se mat badlo**; idea file badlo aur generator chalao |
-| `tools/niyam_from_idea.py` | Idea file se `config/niyam.toml` banane wala |
-| `tests/` | Tests (network band) |
+| `website` | Yeh website (Vercel) |
+| `bot` | Bot ka code (Python, Pehredaar, tests, SETUP_GUIDE) |
+| `idea` | Idea v4, audit, tech faisle, strategy, roadmap, research |
 
-## Checks chalana (developer ke liye)
-```bash
-uv venv .venv && . .venv/bin/activate
-```
-```bash
-uv pip install --require-hashes -r requirements-dev.lock
-```
-```bash
-ruff check . && ruff format --check . && mypy && pytest
-```
-```bash
-PYTHONPATH=src python -m bot.niyam config/niyam.toml
-```
-```bash
-cd pehredaar && go vet ./... && go test ./...
-```
-```bash
-cd dashboard && node --test
-```
+## Vercel settings (ek baar)
+1. **Settings → Build and Deployment → Root Directory:** khaali chhodo (agar `pehredaar` likha hai toh hatao) → **Save**.
+2. **Settings → Environments → Production → Branch Tracking:** `website` likho → **Save**.
+3. **Deployments** mein jaakar sabse naye deployment par **⋯ → Redeploy** (ya is branch par koi naya commit).
+4. **Settings → Deployment Protection → Vercel Authentication** production par bhi chalu karo; Vercel account par 2FA.
 
-## Niyam (har session)
-- Key, token, password kabhi code, config, log ya chat mein nahi.
-- Har dependency exact version + hash ke saath (`requirements-dev.lock`). TLS jaanch kabhi band nahi.
-- Numbers sirf `config/niyam.toml` se; "Tay nahi" ya range wale number par code `NeedsDecision` deta hai.
+Website ko build ki zaroorat nahi: `vercel.json` mein framework "Other", install skip, output `public/`.
+
+## Folder
+| Folder | Kya |
+|---|---|
+| `public/` | Page (`index.html`, `app.js`, `style.css`) |
+| `api/` | `/api/state`, `/api/health` (Vercel functions) |
+| `lib/state.mjs` | Haalat ka dhaancha + signed push ki jaanch (bot ka `dashboard_push.py` yahi signature banata hai) |
+| `test/` | Tests: `node --test` |
+
+## Free plan (dekha 10 Nov 2026, https://vercel.com/docs/plans/hobby)
+Sirf personal, non-commercial use. Mahine mein 1,000,000 function calls; isliye page har 5 second refresh hota hai.
+
+## Suraksha
+Koi npm dependency nahi, koi inline script nahi, sakht CSP aur headers, saara text `textContent` se.
+Bot ki haalat sirf signed (HMAC) POST se aayegi; 5 second se purana signature reject. Website ke paas broker ya Telegram ki chaabi kabhi nahi.
+
+## Tests
+```bash
+node --test
+```

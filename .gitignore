@@ -1,21 +1,4 @@
-# Secrets kabhi commit nahi
+node_modules/
+.vercel/
 .env
 *.env
-*.key
-*.pem
-secrets/
-# Python
-__pycache__/
-*.pyc
-.venv/
-.mypy_cache/
-.ruff_cache/
-.pytest_cache/
-.hypothesis/
-# Go
-pehredaar/pehredaar
-# Data aur logs (asli market data kabhi git mein nahi)
-data/
-logs/
-# Vercel build ka generated output (asli files dashboard/public mein)
-/public/
