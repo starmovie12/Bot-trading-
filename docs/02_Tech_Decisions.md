@@ -8,7 +8,7 @@
 3. **Pehredaar Go mein** (alag runtime, ek static binary). Dashboard frontend TypeScript mein. C/C++ nahi. Rust tabhi jab measure kiya hua trigger toote.
 4. **Sabse bada design badlaav (F-76):** Upstox mein ek user ka sirf ek chalu API app hai. Isliye Bot aur Pehredaar **ek hi app ka roz ek hi token** share karenge, encrypted raste se. Shared token ka asli test Real Money se pehle zaroori hai.
 5. **Architecture:** Bot machine par 3 process hain: Dimaag, Haath (akela broker ko hukm dene wala), Recorder. Har input ek event hai, aur Backtest, Paper aur Live mein ek hi code chalta hai. Bot ka broker par haq Lease se bandha hai.
-6. **VPS (malik ka budget ₹1,500/mahina, 10 Nov 2026):** Bot = AWS Lightsail Mumbai $12 plan (2 vCPU, 2 GB, static IP shaamil; Upstox ke server bhi AWS Mumbai mein). Pehredaar aur Dashboard = Oracle Cloud Always Free. Kul ~₹1,330 GST ke saath (D8). Asli paise se pehle Pehredaar paid server par (Plan B, wahi ~₹1,330). Badi machine wali D7 salah ab sirf budget badhne par.
+6. **VPS (malik ka budget ₹1,500/mahina, 10 Nov 2026):** Bot = AWS Lightsail Mumbai $12 plan (2 vCPU, 2 GB, static IP shaamil; Upstox ke server bhi AWS Mumbai mein). Pehredaar = Oracle Cloud Always Free; Dashboard = Vercel (`.vercel.app`, malik ka chunav). Kul ~₹1,330 GST ke saath (D8). Asli paise se pehle Pehredaar paid server par (Plan B, wahi ~₹1,330). Badi machine wali D7 salah ab sirf budget badhne par.
 7. **Khareedne se pehle:** sasti machines par ek hafte ka probe (~₹330) chalega, aur Upstox se 3 sawaal confirm karne hain. Bachat ki keemat: burstable CPU, kam RAM, aur Oracle Free machine ke idle hone par delete hone ka khatra (D8).
 8. **Repos:** sirf official Upstox SDK ka REST hissa (pinned + hash-locked). Iska WebSocket feeder TLS jaanch band rakhta hai, isliye feeder khud likhenge. openalgo (AGPL) aur NseIndiaApi (GPL) nahi lenge.
 9. **Security:** chaabi sirf cloud ke secrets store mein, Dashboard par kabhi nahi. Dashboard par 2FA, signed hukm aur audit log. Har dependency hash-locked.
@@ -297,7 +297,7 @@ Har machine ke kharche mein compute, IPv4, disk aur ek snapshot shaamil hai (`R_
 |---|---|---|---|
 | Bot | **AWS Lightsail Mumbai, Linux $12 plan:** 2 vCPU, 2 GB RAM, 60 GB SSD, CPU baseline 20% prati vCPU; **static IP plan mein shaamil** | 12 | ~₹1,330 |
 | Pehredaar | **Oracle Cloud Always Free** AMD micro (`VM.Standard.E2.1.Micro`: 1/8 OCPU + burst, 1 GB, 1 public IP, 50 Mbps), home region Mumbai | 0 | ₹0 |
-| Dashboard | Oracle Always Free, doosra AMD micro (token ke bina) | 0 | ₹0 |
+| Dashboard | **Vercel Hobby (`.vercel.app`, malik ka chunav 10 Nov 2026)**: static page + ek function; token ke bina | 0 | ₹0 |
 | **Kul** | | **12** | **~₹1,330** (₹170 bachat) |
 
 **Plan B (asli paise / Stage2 se pehle; agar Paper mein Bot 1 GB aur 10% CPU mein fit ho):**
@@ -306,10 +306,12 @@ Har machine ke kharche mein compute, IPv4, disk aur ek snapshot shaamil hai (`R_
 |---|---|---|---|
 | Bot | Lightsail Mumbai Linux $7: 2 vCPU, 1 GB, 40 GB, baseline 10% prati vCPU, static IP shaamil | 7 | ~₹776 |
 | Pehredaar | Vultr Mumbai `vc2-1c-1gb` (1 vCPU, 1 GB, 25 GB) | 5 | ~₹554 (GST maan kar) |
-| Dashboard | Oracle Always Free AMD micro | 0 | ₹0 |
+| Dashboard | Vercel Hobby (`.vercel.app`) | 0 | ₹0 |
 | **Kul** | | **12** | **~₹1,330** |
 
-**Plan C (sabse sasta):** Bot Lightsail $7 + Pehredaar aur Dashboard Oracle Free = ~₹776.
+**Plan C (sabse sasta):** Bot Lightsail $7 + Pehredaar Oracle Free + Dashboard Vercel = ~₹776.
+
+**Dashboard Vercel par (malik, 10 Nov 2026):** Hobby plan free hai par "non-commercial, personal use only"; mahine mein 1,000,000 function calls, 4 Active CPU-ghante, 100 GB transfer; seema paar hone par ~30 din ruk sakta hai ([Vercel Hobby](https://vercel.com/docs/plans/hobby)). Isliye bot haalat har `Dashboard_Push_Samay` (5 s) par bhejta hai: market ke ghanton mein ~1 lakh calls/mahina (bot) + ~1 lakh (browser 5 s par), seema ke andar (andaza). Login: Vercel ki Deployment Protection (Vercel Authentication) se sirf malik; Vercel account par 2FA. Bot khud signed (HMAC) haalat bhejta hai, Vercel bot ki machine mein kuch nahi bhejta. Haalat ka store (Vercel Blob ya koi aur) abhi tay nahi; Blob ki free seema verify nahi hui. Bot doosron ke liye hua toh Pro plan chahiye.
 
 **Sources (dekha: 10 Nov 2026):** [Lightsail pricing](https://aws.amazon.com/lightsail/pricing/) (bundle, static IP "Included in all Lightsail plans", Mumbai region), [Lightsail baseline CPU](https://docs.aws.amazon.com/lightsail/latest/userguide/baseline-cpu-performance.html) ($7 = 10%, $12 = 20% prati vCPU), [OCI Always Free](https://docs.oracle.com/en-us/iaas/Content/FreeTier/freetier_topic-Always_Free_Resources.htm), [Vultr plans API](https://api.vultr.com/v2/plans) (`bom` = Mumbai; $5 aur $10 plan), [Akamai types API](https://api.linode.com/v4/linode/types) (Nanode 1 GB $5, Plan B ka vikalp). AWS EC2 ka sabse sasta vikalp `t4g.micro` $0.0056/ghanta (Mumbai price file, 7 Nov 2026) + public IPv4 $3.65 + disk se ~$8.65 banta hai, isliye Lightsail (IP shaamil) sasta pada.
 

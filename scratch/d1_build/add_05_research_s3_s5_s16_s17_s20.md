@@ -60,7 +60,6 @@
 - Sawal 136 (Pehredaar aur ek API key): kya Pehredaar ka alag Upstox app NSE ke "ek pehle se tay API key" wale niyam ke andar allowed hai? Kyun zaroori: na ho toh Pehredaar ka design badalna padega; Upstox aur vakil se likhit jawab chahiye `[F-62]`.
 - Sawal 137 (naye bazaar samay): 3:40 PM aur 7 Dec 2026 ke baad 3:45 PM (expiry din 3:30 PM) ke hisaab se Gamma Blast Zone ka ant, `Aakhri_Entry_Samay` aur `Auto_Square_Off_Samay` kya ho? Kyun zaroori: samay ke niyam purane bazaar par bane hain `[F-63]`.
 - Sawal 138 (broker ka Kill Switch): Kill-Switch ke baad broker ka segment Kill Switch bhi chale? Kyun zaroori: bot ki galti ho tab bhi naya order ruke, par malik ka manual trade bhi rukega `[F-66]`.
-- Sawal 139 (login ka tareeka): Upstox ka official TOTP login rasta aa gaya hai. Kya roz ka login TOTP se ho (secret machine par rakhna padega) ya phone manzoori se? Kyun zaroori: Sawal 113 ka faisla ab do asli raston mein hai; vakil se bhi poochna hai.
 - Sawal 140 (data ka licence): NSE ke purane data ki licence mein "commercial use" ki pabandi ki line hai. Kya apne paise ke bot ke Backtest ke liye allowed hai? Kyun zaroori: kharid se pehle NSE se likhit jawab chahiye.
 @@AFTER_LINE - **[TAKRAAV #35]
 - **[TAKRAAV #36] `[PRASTAAVIT-CC]` Idea ke samay (3:15 PM square-off, 3:00 se 3:30 ka settlement ausat) banam exchange ke naye samay:** F&O ab 3:40 PM tak, aur 7 Dec 2026 se badlega. `[PRASTAAVIT-CC HAL]` bot roz exchange aur broker ki timing se milaye; malik naye samay tay kare (Sawal 137) `[F-63]`.

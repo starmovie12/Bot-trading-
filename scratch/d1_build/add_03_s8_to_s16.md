@@ -7,7 +7,7 @@
 
 `[PRASTAAVIT-CC]` Vikalp B (Stop-Unit seema): Risk Limit percent ke bajay Stop-Unit mein gine jaayein: `Stop_Unit_Din_Seema`, `Stop_Unit_Hafta_Seema` aur `Stop_Unit_Mahina_Seema`. Yeh vikalp Lot aur premium ko nahi chhoota, sirf ginti ki ikai badalta hai. Wajah: risk ki seema aur Lot ka niyam ek hi ikai mein hon.
 
-`[PRASTAAVIT-CC]` Hypothesis H-10: Monte Carlo aur Backtest mein malik ka niyam percent wali seema ke saath aur Vikalp B ke saath milaya jaaye: kitni baar bot rukega, kitni baar paisa daalna padega aur kul jeb ka nuksan. Wajah: faisla ganit aur data se ho, andaze se nahi.
+`[PRASTAAVIT-CC]` Hypothesis H-10: Monte Carlo aur Backtest mein malik ka niyam percent wali seema aur Vikalp B, dono ke saath chalaya jaaye. Dekhna hai: bot kitni baar rukega, paisa kitni baar daalna padega, aur jeb ka kul nuksan kitna. Wajah: faisla ganit aur data se ho, andaze se nahi.
 
 `[PRASTAAVIT-CC]` `[F-15 | High]` Dikkat: "ek trade ka nuksan `Premium_Max_Stop_Loss_Percent` se bandha hai" gap ya tez girawat mein sach nahi. Bhav Stop-Loss ko kood sakta hai, Broker Stop aur door hota hai, aur MPP Order ka bhav aur neeche ja sakta hai. Agar risk ka koi bhi hisaab ho (Risk Limit, Lot ginti, Daily Profit Lock), toh ek trade ka nuksan Worst-Case Nuksan se gina jaaye. Wajah: kaagaz par chhota dikhta nuksan asal mein bada ho sakta hai. Asar: kam Lot ya kam trade, par seema sach mein bachti hai.
 

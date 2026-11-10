@@ -3,13 +3,13 @@
 **Tarikh:** 10 Nov 2026 · **Kisne:** Claude Code · **Input:** `docs/00_input/bot_idea_final.md` (sha256 `c8770e67…dabb1`) · **Output:** `docs/01_Bot_Idea_v4.md`
 
 ## Saar (10 line)
-1. Idea ka gehra audit section-by-section hua. Kul **79 bindu** mile: **8 Critical, 19 High, 38 Med, 14 Low**.
+1. Idea ka gehra audit section-by-section hua. Kul **81 bindu** mile: **8 Critical, 20 High, 39 Med, 14 Low**.
 2. Sabse bada khatra: kuch niyam bot ko **kabhi trade na karne** ya **galat trade** karne ki taraf le jaate hain (F-01, F-02).
 3. Doosra bada khatra: **paisa doobne ke raaste**. Bot aur Pehredaar ek saath chal sakte hain aur account net short ho sakta hai (F-05). Kill-Switch ke baad bot phir entry le sakta hai (F-04). Upstox ab ek user ko sirf ek chalu API app deta hai, isliye Pehredaar ka alag app mumkin nahi; shared token ka design chahiye (F-76, F-06, F-62).
 4. Teesra: **poore balance ka 1 Lot** wala niyam aur Risk Limit aapas mein mel nahi khaate (F-03). 10 Nov 2026 ko malik ne poora balance + "premium ki quality pehle" pakka kiya; ab sirf Risk Limit ki ikai aur `Kul_Jeb_Nuksan_Seema` ka sawal hai. Malik ke ₹10-15k balance mein Nifty50 ka achha strike lagbhag kabhi nahi aata (F-77).
 5. Har fix `[PRASTAAVIT-CC]` tag ke saath v4 mein sahi ghar mein likha hai. Malik ka ek bhi shabd nahi badla (script se verify: 0 lines missing).
 6. Strategy ke 15 sudhaar Hypothesis H-01 se H-15 hain. Inhe `03_Strategy_Edge_Plan.md` ke tareeke se test karna hai.
-7. 25 sawal (Sawal 117-141; Sawal 118 malik ke jawab ke baad chhota hua) aur 16 nayi Takraav (#26-#41) "Abhi tay nahi hua" mein jode.
+7. Naye sawal Sawal 117-142 (118 chhota hua, 139 ka jawab mila) aur 18 nayi Takraav (#26-#43) "Abhi tay nahi hua" mein jode.
 8. 49 naye number rows (malik ke 3 naye number: `Malik_Max_Balance`, `Achha_Premium_Udaharan`, `Server_Mahina_Budget`) (sab Prastaavit ya Tay nahi). Inme Stage Gates aur Live band karne ki kasauti bhi hain.
 9. Research se 10 nayi baatein mili (bazaar ke naye samay, STT 0.15%, Upstox ke niyam, SDK mein TLS jaanch band). Yeh Section 20 aur 17 mein source ke saath hain.
 10. Asar ke andaze qualitative hain. Asli rupaye ka asar Backtest aur Paper Stage hi batayenge.
@@ -21,8 +21,8 @@
 | Gambhirta | Ginti | Matlab |
 |---|---|---|
 | Critical | 8 | Fix ke bina Real Money Mode nahi chalna chahiye |
-| High | 19 | Asli paise se pehle fix zaroori |
-| Med | 38 | Paper Stage se pehle fix ya test |
+| High | 20 | Asli paise se pehle fix zaroori |
+| Med | 39 | Paper Stage se pehle fix ya test |
 | Low | 14 | Saaf-safai; PRD ke saath theek ho sakta hai |
 
 ## Top 10 (sabse gambhir pehle)
@@ -74,6 +74,7 @@ Asar ka matlab profit/loss par andaza hai, number nahi. "v4 mein" column batata 
 | F-64 | 5, 17 | r, b | High | Upstox SDK ke live data hisse mein TLS certificate jaanch band; usi par token jaata hai | Feed khud likho, TLS jaanch ON, official .proto pin | Token chori ka rasta band | §5, §17 |
 | F-77 | 9, 7 | r, c | High | Malik ka balance ₹10-15k aur achha premium ₹400-500: Nifty50 ka 1 Lot ₹26,000-32,500, yaani balance se bahar; 10% buffer BankNifty ka achha strike bhi rokta hai | Bot Nifty50 mein zyada tar skip karega (malik ka niyam sahi); `Balance_Extra_Buffer_CC` ₹250 (margin shart jaanch kar); report mein "Balance Kam" ginti | Kam index, par sasta premium kabhi nahi; buffer se BankNifty ke mauke wapas | §9, §18, TAKRAAV #39, #41 |
 | F-79 | 5 | b | Med | Pehredaar/Dashboard free server par: provider idle machine delete kar sakta hai; IP badal sakta hai | Pehredaar ki dhadkan na ho toh naye entry band; IP badlaav sirf market ke baad; asli paise se pehle paid Pehredaar (D2 D8 Plan B) | Bachat ke saath suraksha bani rahe | §5 |
+| F-80 | 3, 20 | r, b | High | Malik ka niyam "roz haath se login nahi": TOTP secret aur PIN Bot machine par; leak = poora account | Encrypted store, sirf login hissa padhe, kabhi log/Dashboard/chat nahi; har login ki khabar; vakil se 2FA pushti | Suvidha mili; sabse badi chaabi machine par, isliye suraksha zaroori | §3, §20, TAKRAAV #42 |
 | F-23 | 3 | c | Med | "Kisi bhi index ka 1 Lot" ka matlab saaf nahi; sasta index bhi band ho sakta hai | Kam se kam ek index ka paisa ho toh Start; baaki par alag "Paisa Kam" | Zyada mauke | §3 |
 | F-24 | 3, 7 | e, a | Med | Range Delta band aur free paise se banti hai; Premium_Range_Gate dohraav; purani range sahi strike rokti hai | Range har evaluation par; Range Alert = "paisa kam" | Kam bekaar reject | §7, TAKRAAV #33, Sawal 130 |
 | F-25 | 3 | c | Med | Bade gap ke baad "nayi range" tay nahi | `Gap_Ke_Baad_Range_Samay` | Test-yogya | §3 |
@@ -104,6 +105,7 @@ Asar ka matlab profit/loss par andaza hai, number nahi. "v4 mein" column batata 
 | F-50 | 9 | d | Low | Profit Lock sirf "subah ke trades"; poore balance par lock = din band | Malik se pushti | Niyam ka asar saaf | §9, Sawal 132 |
 | F-51 | 7 | d | Med | IVP ki chhoot "bade clean breakout" vague | Pehle version mein chhoot band | Mehenge IV ka nuksan kam | §7 |
 | F-52 | 16 | c | Med | Paper Mode ka fill niyam tay nahi | Depth mein chal kar fill + `Paper_Deri_Model` | Paper nateeja sach ke paas | §16 |
+| F-81 | 13, 20 | r | Med | Website `vercel.app` ka free plan sirf personal use; 1M function calls/mahina; 1 s refresh se seema ke paas | `Dashboard_Push_Samay` 5 s; Deployment Protection se login; bot khud signed haalat bheje | Website rukne ka khatra kam | §13, §18, TAKRAAV #43, Sawal 142 |
 | F-60 | 7 | c | Med | Liquidity ka "rate ka farak" kaise naapa jaaye, tay nahi | Order quantity ko depth mein chala kar | Bade order mein sahi Slippage | §7 |
 | F-61 | 11 | b | Med | Exit order aadha fill ho toh kya, saaf nahi | Bacha hissa reprice; Broker Stop quantity bache Lot jitni | Aadha trade bina Stop nahi | §11 |
 | F-65 | 5, 20 | r | Med | Static IP badalte hi saare token band; hafte mein ek baar | Kharab machine par wahi IP nayi machine par | DR mein token band nahi | §5, §20 |
@@ -189,7 +191,7 @@ Asar ka matlab profit/loss par andaza hai, number nahi. "v4 mein" column batata 
 | Koi vaakya bahut lamba nahi, koi paragraph 5 vaakya se zyada nahi | PASS (lint) |
 | Idea mein tech ke naam nahi (repo section ke bahar) | PASS: TLS, SDK, API key jaise shabd technical concepts hain, kisi language/library ka naam nahi |
 | Har naya naam Naam-Suchi mein | PASS (29 naye naam) |
-| Takraav suljhaaye nahi, dikhaye (#26-#41 + `[PRASTAAVIT-CC HAL]`) | PASS |
+| Takraav suljhaaye nahi, dikhaye (#26-#43 + `[PRASTAAVIT-CC HAL]`) | PASS |
 | Naye sawal sabse upar, sabse zaroori pehle | PASS (Sawal 117-141) |
 | Version 4.0, tarikh, Badlaav-suchi mein har badlaav ki line | PASS |
 | Koi key, token, password nahi | PASS |

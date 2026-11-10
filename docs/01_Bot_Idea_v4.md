@@ -407,6 +407,12 @@ Sham ko `Aakhri_Entry_Samay` ke baad bot naya entry nahi leta (dekho: Entry). Ph
 
 `[PRASTAAVIT-CC]` `[F-63 | High]` `[TAKRAAV #36]` Dikkat: exchange ne bazaar ke band hone ka samay aur expiry settlement ka tareeka badla hai (dekho: Tarikh wali baatein). Gamma Blast Zone "market band hone tak" hai, aur `Auto_Square_Off_Samay` broker ke square-off se pehle hai; dono naye samay se dobara milaye jaayein. Agar exchange ya broker ka samay badle, toh bot roz Instrument Master aur broker ki timing suchi se apne samay jaanche aur farak par Taiyari Fail kare. Wajah: purane samay par bana niyam naye bazaar mein galat samay par trade kholega ya rakhega.
 
+**Malik ka niyam (10 Nov 2026): roz haath se login nahi.** Agar har subah broker ka naya token chahiye, toh Bot khud broker ke official TOTP raste se login karta hai; malik ko phone par manzoori nahi deni padti. Wajah: malik roz haath se login nahi karna chahta. Login sirf Bot machine karti hai, Pehredaar kabhi nahi (`[F-76]`). Har login ki khabar malik ko Jaankari Alert se jaati hai, aur login fail ho toh Zaroori Alert.
+
+`[PRASTAAVIT-CC]` `[F-80 | High]` `[TAKRAAV #42]` Dikkat: khud login ke liye malik ka TOTP secret aur PIN Bot machine par rakhna padta hai. Yeh dono leak hue toh koi bhi malik ka poora broker account khol sakta hai. Agar TOTP secret aur PIN rakhe jaayein, toh woh sirf encrypted store mein hon, sirf login wala hissa unhe padhe, aur kisi file, log, Dashboard ya chat mein kabhi na aayein. Har login ke baad broker ki taraf se aaya login malik ko dikhe; anjaan login dikhe toh malik turant TOTP aur PIN badle. Wajah: khud login ki suvidha ki keemat sabse badi chaabi ko machine par rakhna hai.
+
+`[PRASTAAVIT-CC]` `[F-80 | High]` Yeh rasta exchange ke "roz 2FA" niyam ke andar maana jaata hai ya nahi, yeh vakil aur broker se likhit pushti baaki hai (CA/vakil suchi). Agar login `Taiyari_Dobara_Koshish_Ginti` koshish mein na ho, toh us din naye entry band rahein. Wajah: bina token ke bot na trade le sakta hai na trade bacha sakta hai.
+
 ## 4. Expiry ke din ke niyam
 
 Har index ki expiry ka din bot roz Instrument Master ki contract suchi se leta hai, weekday ginkar nahi (dekho: Tarikh wali baatein) `[PRASTAAVIT]`. Chhutti hone par expiry pichle trading din par aa jaati hai, aur yeh bhi suchi se hi pata chalta hai. Bot subah hi har index ke liye alag expiry flag lagata hai. Wajah: kuch checks aur theta bachav ke niyam sirf expiry wale din chalte hain.
@@ -513,7 +519,7 @@ Broker ki chaabi, roz ka login-secret aur Telegram ki chaabi sirf trading machin
 
 `[PRASTAAVIT-CC]` `[F-64 | High]` Dikkat: broker ke official SDK ka live data wala hissa TLS certificate ki jaanch band rakhta hai (dekho: Tayyar Code (Repo)). Usi connection par chaabi bhi jaati hai. Agar koi bhi hissa broker ya Telegram se jude, toh connection ki pehchaan ki jaanch hamesha chalu rahe. Wajah: jaanch band ho toh beech ka koi bhi chaabi chura sakta hai.
 
-`[PRASTAAVIT-CC]` `[F-76 | Critical]` `[TAKRAAV #38]` Dikkat: broker ne ab ek user ke liye sirf ek chalu API app ka niyam lagaya hai, aur ek app ka naya token purana token band karta hai (dekho: Tarikh wali baatein). Isliye "Pehredaar ka alag app aur alag token" wala design ab broker ke niyam se takraata hai. Agar bot aur Pehredaar dono broker se judein, toh dono ek hi app ka us din ka ek hi token use karein, aur roz login sirf ek jagah se ho. Wajah: doosri jagah se login karte hi pehle wale ka token band ho jaayega.
+`[PRASTAAVIT-CC]` `[F-76 | Critical]` `[TAKRAAV #38]` Dikkat: broker ne ab ek user ke liye sirf ek chalu API app ka niyam lagaya hai (dekho: Tarikh wali baatein). Ek app ka naya token purana token band karta hai. Isliye "Pehredaar ka alag app aur alag token" wala design ab broker ke niyam se takraata hai. Agar bot aur Pehredaar dono broker se judein, toh dono ek hi app ka us din ka ek hi token use karein, aur roz login sirf ek jagah se ho. Wajah: doosri jagah se login karte hi pehle wale ka token band ho jaayega.
 
 `[PRASTAAVIT-CC]` `[F-76 | Critical]` Token ek machine se doosri machine tak sirf surakshit, encrypted raste se jaaye, aur kisi file, log ya Dashboard mein na aaye. Pehredaar apne hukm Secondary Static IP se bheje. Ek hi token do IP se ek saath chal sakta hai ya nahi, yeh verify nahi hua; Real Money se pehle asli test zaroori hai (Sawal 141). Wajah: shared token par dono machine chalein, tabhi Pehredaar bot ke bina trade bacha sakta hai. Asar: ek hi app hone se exchange ka "ek API key" wala niyam bhi poora hota hai `[F-62]`.
 
@@ -995,7 +1001,7 @@ Kamai bachane ke liye bot mein Daily Profit Lock hota hai. Agar subah ke trades 
 
 `[PRASTAAVIT-CC]` Vikalp B (Stop-Unit seema): Risk Limit percent ke bajay Stop-Unit mein gine jaayein: `Stop_Unit_Din_Seema`, `Stop_Unit_Hafta_Seema` aur `Stop_Unit_Mahina_Seema`. Yeh vikalp Lot aur premium ko nahi chhoota, sirf ginti ki ikai badalta hai. Wajah: risk ki seema aur Lot ka niyam ek hi ikai mein hon.
 
-`[PRASTAAVIT-CC]` Hypothesis H-10: Monte Carlo aur Backtest mein malik ka niyam percent wali seema ke saath aur Vikalp B ke saath milaya jaaye: kitni baar bot rukega, kitni baar paisa daalna padega aur kul jeb ka nuksan. Wajah: faisla ganit aur data se ho, andaze se nahi.
+`[PRASTAAVIT-CC]` Hypothesis H-10: Monte Carlo aur Backtest mein malik ka niyam percent wali seema aur Vikalp B, dono ke saath chalaya jaaye. Dekhna hai: bot kitni baar rukega, paisa kitni baar daalna padega, aur jeb ka kul nuksan kitna. Wajah: faisla ganit aur data se ho, andaze se nahi.
 
 `[PRASTAAVIT-CC]` `[F-15 | High]` Dikkat: "ek trade ka nuksan `Premium_Max_Stop_Loss_Percent` se bandha hai" gap ya tez girawat mein sach nahi. Bhav Stop-Loss ko kood sakta hai, Broker Stop aur door hota hai, aur MPP Order ka bhav aur neeche ja sakta hai. Agar risk ka koi bhi hisaab ho (Risk Limit, Lot ginti, Daily Profit Lock), toh ek trade ka nuksan Worst-Case Nuksan se gina jaaye. Wajah: kaagaz par chhota dikhta nuksan asal mein bada ho sakta hai. Asar: kam Lot ya kam trade, par seema sach mein bachti hai.
 
@@ -1011,7 +1017,7 @@ Kamai bachane ke liye bot mein Daily Profit Lock hota hai. Agar subah ke trades 
 
 `[PRASTAAVIT-CC]` `[F-77 | High]` `[TAKRAAV #39]` Dikkat: `Balance_Extra_Buffer` Lot ke kharche ka ek hissa hai, jo malik ke chhote balance mein achhe premium ko bina wajah rok deta hai. Asli kharcha isse kaafi chhota hai (dekho: Tarikh wali baatein). Agar broker ki margin shart Stage2 mein jaanchne par mel khaye, toh buffer `Balance_Extra_Buffer_CC` ho. Wajah: buffer sirf kharche aur order reject se bachne ke liye hai, achha strike rokne ke liye nahi.
 
-`[PRASTAAVIT-CC]` `[F-03 | Critical]` Malik ke niyam ke saath bhi Risk Limit ka takraav bacha hai: ek Stop-Loss hi `Monthly_Loss_Risk_Limit` se bada ho sakta hai, toh pehle nuksan par bot mahine bhar rukega. Vikalp B (Stop-Unit seema) Lot ya premium ko nahi chhoota, isliye yeh malik ke niyam ke saath chal sakta hai. Saath mein `Kul_Jeb_Nuksan_Seema` ka prastaav hai: agar malik ki jeb se kul daala paisa aur nikala paisa ka farak is seema tak pahunche, toh bot poori tarah ruke aur malik ki likhit jaanch ke bina na chale (Sawal 118). Wajah: chhote balance mein asli khatra baar-baar paisa daalna hai, account ka ek baar doobna nahi.
+`[PRASTAAVIT-CC]` `[F-03 | Critical]` Malik ke niyam ke saath bhi Risk Limit ka takraav bacha hai. Ek Stop-Loss hi `Monthly_Loss_Risk_Limit` se bada ho sakta hai, toh pehle nuksan par bot mahine bhar rukega. Vikalp B (Stop-Unit seema) Lot ya premium ko nahi chhoota, isliye yeh malik ke niyam ke saath chal sakta hai. Agar jeb se daale aur nikale paise ka farak `Kul_Jeb_Nuksan_Seema` tak pahunche, toh bot poori tarah ruke aur malik ki likhit jaanch ke bina na chale (Sawal 118). Wajah: chhote balance mein asli khatra baar-baar paisa daalna hai, account ka ek baar doobna nahi.
 
 ## 10. Entry
 
@@ -1122,6 +1128,12 @@ Dashboard par reject hue strikes aur unki wajah ("Low Liquidity", "Fake Spike", 
 `[PRASTAAVIT-CC]` `[F-17 | High]` Har hukm ka record rahe: kisne, kab, kis jagah se, aur bot ne kya kiya. Wajah: baad mein dikhe ki kaun sa hukm asli tha.
 
 `[PRASTAAVIT-CC]` `[F-47 | Med]` Dikkat: Dashboard band ho jaaye toh malik Start, Stop ya Kill-Switch kaise dabaye, yeh tay nahi. Agar bot `Dashboard_Band_Hadd` tak Dashboard se jud na paaye, toh naye entry band hon, khule trade apne Exit niyam se chalein, aur malik ko Zaroori Alert jaaye. Aapat haalat mein malik Upstox app se trade kaat sakta hai; doosra aapat rasta Sawal 129 mein hai. Wajah: malik ke control ke bina bot ko naya jokhim nahi lena chahiye.
+
+**Malik ka niyam (10 Nov 2026):** Dashboard website `vercel.app` par banegi (malik ne yahi kaha). Wajah: malik ko alag server ke bina, free website chahiye. Dashboard ke paas broker ya Telegram ki chaabi kabhi nahi hoti (Section 5 ka niyam waisa hi hai).
+
+`[PRASTAAVIT-CC]` `[F-81 | Med]` `[TAKRAAV #43]` Dikkat: is website ka free plan sirf personal, non-commercial use ke liye hai, aur mahine ki seemit function calls deta hai. Seema tootne par website kuch din ruk sakti hai (dekho: Tarikh wali baatein). Har second refresh (`Dashboard_Refresh_Samay`) se market ke ghanton mein yeh seema ke paas pahunchta hai. Agar website free plan par ho, toh bot apni haalat har `Dashboard_Push_Samay` par bheje aur website bhi utni hi der mein naya data dikhaye. Wajah: website ka rukna malik ki aankh band hona hai.
+
+`[PRASTAAVIT-CC]` `[F-81 | Med]` Website par login website ki apni "Deployment Protection" (sirf malik ka account, 2FA ke saath) se ho. Bot website ko apni haalat khud bhejta hai, signed (`Command_Max_Umar` jaisi samay jaanch ke saath); website bot ki machine mein kabhi kuch nahi bhejti. Wajah: bot par koi khula darwaza nahi rehta. Bot doosron ke liye hua, toh free plan nahi chalega.
 
 ## 14. Alerts aur insaan ki bhoomika
 
@@ -1455,6 +1467,7 @@ Status ke chaar roop hain: Pakka (user ne final kaha), Andaza (user ne "jaise" l
 | Malik_Max_Balance | 10,000 se 15,000 rupaye (malik ka zyada se zyada balance) | Pakka | 9. Risk aur Lot ginti | Malik ke paas bada fund nahi; Lot aur sizing isi par tike |
 | Achha_Premium_Udaharan | 400 se 500 rupaye (ITM ya ATM, malik ka andaza) `[TAKRAAV #41]` | Andaza | 9. Risk aur Lot ginti | Malik ke hisaab se achhe aur surakshit premium is daayre mein aate hain |
 | Server_Mahina_Budget | 1,500 rupaye prati mahina (teeno server milakar, tax ke saath) | Pakka | 5. Pehredaar aur Suraksha | Chhote capital ke saath server ka kharcha bhi chhota |
+| Dashboard_Push_Samay `[PRASTAAVIT-CC]` | 5 second (website ke free plan ki function seema ke andar) `[TAKRAAV #43]` | Prastaavit | 13. Dashboard | Bot apni haalat website ko kitni der mein bheje `[F-81]` |
 | Balance_Extra_Buffer_CC `[PRASTAAVIT-CC]` | 250 rupaye (round-trip kharche ka lagbhag 3 guna; broker ki margin shart Stage2 mein jaanchni) `[TAKRAAV #39]` | Prastaavit | 7. Check Suchi, 9. Risk aur Lot ginti | 10 percent buffer chhote balance mein achha strike rokta hai `[F-77]` |
 | Kul_Jeb_Nuksan_Seema `[PRASTAAVIT-CC]` | Tay nahi (malik rupaye mein tay kare) | Tay nahi | 9. Risk aur Lot ginti | Baar-baar paisa daalne ka kul nuksan ek seema par ruke `[F-03]` |
 
@@ -1502,10 +1515,11 @@ Yeh sawal 10 Nov 2026 ke audit se aaye hain (dekho: `01b_Audit_Findings.md`). Pu
 - Sawal 136 (Pehredaar aur ek API key): kya Pehredaar ka alag Upstox app NSE ke "ek pehle se tay API key" wale niyam ke andar allowed hai? Kyun zaroori: na ho toh Pehredaar ka design badalna padega; Upstox aur vakil se likhit jawab chahiye `[F-62]`.
 - Sawal 137 (naye bazaar samay): 3:40 PM aur 7 Dec 2026 ke baad 3:45 PM (expiry din 3:30 PM) ke hisaab se Gamma Blast Zone ka ant, `Aakhri_Entry_Samay` aur `Auto_Square_Off_Samay` kya ho? Kyun zaroori: samay ke niyam purane bazaar par bane hain `[F-63]`.
 - Sawal 138 (broker ka Kill Switch): Kill-Switch ke baad broker ka segment Kill Switch bhi chale? Kyun zaroori: bot ki galti ho tab bhi naya order ruke, par malik ka manual trade bhi rukega `[F-66]`.
-- Sawal 139 (login ka tareeka): Upstox ka official TOTP login rasta aa gaya hai. Kya roz ka login TOTP se ho (secret machine par rakhna padega) ya phone manzoori se? Kyun zaroori: Sawal 113 ka faisla ab do asli raston mein hai; vakil se bhi poochna hai.
 - Sawal 140 (data ka licence): NSE ke purane data ki licence mein "commercial use" ki pabandi ki line hai. Kya apne paise ke bot ke Backtest ke liye allowed hai? Kyun zaroori: kharid se pehle NSE se likhit jawab chahiye.
 - Sawal 141 (shared token): kya Upstox ka ek hi token Primary aur Secondary Static IP se ek saath (bot aur Pehredaar) chal sakta hai, aur kya Pehredaar is token se bot ke order cancel aur position band kar sakta hai? Kyun zaroori: broker ke "ek user, ek app" niyam ke baad Pehredaar ka yahi ek rasta bachta hai; Real Money se pehle asli test `[F-76]` `[F-06]`.
 - Sawal 3 ka aadha jawab (10 Nov 2026): teeno server ka kul kharcha `Server_Mahina_Budget` ke andar (malik). Machine ka prastaavit chunav `02_Tech_Decisions.md` Section D8 mein; malik ki pushti baaki.
+- Sawal 113 aur 139 ka jawab (10 Nov 2026, malik): roz haath se login nahi; Bot broker ke official TOTP raste se khud login kare (Section 3). Bacha hissa: vakil aur broker se 2FA niyam ki likhit pushti.
+- Sawal 142 (website ka free plan): bot sirf malik ke apne account ke liye hai, isliye free plan ki "personal use" shart theek hai na? Kyun zaroori: doosron ke liye hua toh paid plan chahiye `[F-81]`.
 
 ### Malik ki pushti ki suchi (prastaavit jawab, haan ya nahi)
 
@@ -1683,6 +1697,8 @@ Har takraav ke saath `[PRASTAAVIT HAL]` ek line mein likha hai. Jab tak malik pu
 - **[TAKRAAV #39] `[PRASTAAVIT-CC]` `Balance_Extra_Buffer` (Lot ka 10 percent) banam malik ka chhota balance aur "achhe premium ka 1 Lot poore balance se":** 10 percent buffer achhe strike ko rok deta hai, jabki asli kharcha chhota hai. `[PRASTAAVIT-CC HAL]` `Balance_Extra_Buffer_CC`, broker ki margin shart Stage2 mein jaanch kar `[F-77]`.
 - **[TAKRAAV #40] `[PRASTAAVIT-CC]` Faisle ka raasta ki aakhri barabari ki shart ("phir jiska Lot kharcha kam ho") banam malik ka "premium ki quality pehle":** `[PRASTAAVIT-CC HAL]` score aur Slippage barabar hon toh pehle zyada Delta (Delta band ke andar) wala strike, phir kam kharcha `[F-78]`.
 - **[TAKRAAV #41] `[PRASTAAVIT-CC]` `Target_Premium_Range` ka udaharan (200 se 300) banam malik ka naya andaza `Achha_Premium_Udaharan` (400 se 500):** Range bot Delta band se khud tay karta hai, isliye dono sirf udaharan hain. `[PRASTAAVIT-CC HAL]` range Delta band aur free paise se hi bane; kisi index mein achha strike balance se bahar ho toh us index mein trade nahi `[F-77]`.
+- **[TAKRAAV #42] `[PRASTAAVIT-CC]` Malik roz phone par login manzoor karta hai (Section 12 ka udaharan, Section 14 ka "roz subah ke login ki manzoori" alert, pushti suchi ka Sawal 15) banam malik ka naya niyam "roz haath se login nahi":** `[PRASTAAVIT-CC HAL]` malik ka naya niyam hi sach; Bot TOTP raste se khud login kare, alert sirf khabar ke liye `[F-80]`.
+- **[TAKRAAV #43] `[PRASTAAVIT-CC]` `Dashboard_Refresh_Samay` (1 second) banam website ke free plan ki function seema:** `[PRASTAAVIT-CC HAL]` `Dashboard_Push_Samay` (5 second) `[F-81]`.
 
 ## 20. Tarikh wali baatein
 
@@ -1719,6 +1735,10 @@ Chhathi baat (Upstox API ki Seemayein, Token aur Square-Off): Upstox API mein st
 `[PRASTAAVIT-CC]` Naveen baat (nayi, retail nuksan): SEBI ki Aug 2026 study ke hisaab se FY26 mein 87.7 percent individual F&O traders ko nuksan hua, kul nuksan 91,685 crore rupaye. Option buyers mein lagbhag 90 percent nuksan mein the. Pehle ki study (Sep 2024) mein FY22 se FY24 ke beech 93 percent ko nuksan hua tha. Kis tarikh tak sahi: 10 Nov 2026. Kisne batayi: [SEBI study FY25-FY26](https://www.sebi.gov.in/sebi_data/attachdocs/aug-2026/1787233506209.pdf), [SEBI trading behaviour study](https://www.sebi.gov.in/sebi_data/attachdocs/aug-2026/1787233601328.pdf).
 
 `[PRASTAAVIT-CC]` Dasvi baat (nayi, ek user ek app): Upstox ki team ne 27 Mar 2026 ko likha: "From 1 April, only a single active API app per user will be allowed". Sabse naya bana app chalu rehta hai, baaki apps delete ho jaate hain. Static IP API se trading ke liye zaroori hai. Token ke baare mein yeh post kuch nahi kehta. Kis tarikh tak sahi: 10 Nov 2026 (post 27 Mar 2026 ka). Kisne batayi: Upstox community par Team Upstox ka post ([link](https://community.upstox.com/t/important-new-sebi-exchange-mandates-for-api-trading-effective-1st-april-2026/14822)); yeh official docs page nahi, isliye Upstox support se likhit pushti baaki `[F-76]`.
+
+`[PRASTAAVIT-CC]` Gyarahvi baat (nayi, website ka free plan): Vercel ka Hobby plan free hai, "non-commercial, personal use only" ke liye. Mahine mein pehle 1,000,000 Function Invocations, 4 Active CPU-ghante aur 100 GB Fast Data Transfer shaamil hain. Seema paar hone par aksar 30 din tak wahi suvidha ruk jaati hai. Hobby par bhi "Vercel Authentication" se production website bachaai ja sakti hai. Kis tarikh tak sahi: 10 Nov 2026. Kisne batayi: [Vercel Hobby plan docs](https://vercel.com/docs/plans/hobby) (page update 14 Sep 2026) `[F-81]`.
+
+`[PRASTAAVIT-CC]` Barahvi baat (nayi, TOTP login): `POST https://api.upstox.com/v2/totp-login/authorization/token`, header `x-api-key`, body mein 6 digit `totp` aur 6 digit `pin`. Sirf "individual" app ke liye. Naya token purana band karta hai, aur token agle din 3:30 AM tak chalta hai. Kis tarikh tak sahi: 10 Nov 2026. Kisne batayi: [Upstox Get Token docs](https://upstox.com/developer/api-documentation/get-token/) `[F-80]`.
 
 ## 21. Badlaav-suchi
 
@@ -1761,6 +1781,7 @@ Chhathi baat (Upstox API ki Seemayein, Token aur Square-Off): Upstox API mein st
 - 4.0: F-76 (Critical) "ek user, ek chalu API app" niyam se Pehredaar ka alag app ab mumkin nahi; shared token ka prastaav, `[TAKRAAV #38]`, Sawal 141, aur Section 20 mein dasvi baat.
 - 4.0 (10 Nov 2026, malik ka jawab): Section 9 mein malik ka naya niyam joda: "premium ki quality pehle; achhe strike ka 1 Lot poore balance se bhi, warna chupchaap skip; Risk Percentage ke liye strike kabhi sasta nahi". Section 5 mein malik ka server budget niyam joda.
 - 4.0 (malik ka jawab): Sawal 118 "poora balance ya Vikalp A/B/C" → chhota sawal "Risk Limit ki ikai aur `Kul_Jeb_Nuksan_Seema`". Vikalp A (Hissa) aur Vikalp C (Rupaye ki hadd) malik ne nahi maane; unke paragraph aur number rows (`Fractional_Stake_Hissa`, `Prati_Trade_Max_Nuksan_Rupaye`) hataye. Vikalp B rakha.
+- 4.0 (10 Nov 2026, malik ke naye jawab): Section 3 mein malik ka niyam "roz haath se login nahi; Bot TOTP raste se khud login" joda; Sawal 139 hataya (jawab mila), Sawal 113 ka jawab note kiya. Section 13 mein malik ka niyam "Dashboard website `vercel.app` par" joda. Naye bindu F-80, F-81; `[TAKRAAV #42]`, `[TAKRAAV #43]`; Sawal 142; number `Dashboard_Push_Samay`; Section 20 mein gyarahvi aur barahvi baat.
 - 4.0: Naye number `Malik_Max_Balance` (Pakka), `Achha_Premium_Udaharan` (Andaza), `Server_Mahina_Budget` (Pakka), aur Prastaavit-CC `Balance_Extra_Buffer_CC`, `Kul_Jeb_Nuksan_Seema`. Naye bindu F-77, F-78, F-79; `[TAKRAAV #39]` se `[TAKRAAV #41]`; Sawal 3 ka aadha jawab.
 
 - **9 Nov 2026 (Version 3.0 → 3.1):** Broker "Angel One (pushti baaki)" → "Upstox (user ne kaha)". Section 17 mein `angel-one/smartapi-python` hata kar `upstox/upstox-python` aur `marketcalls/openalgo` ke `broker/upstox/` ki 9 Nov 2026 ki jaanch jodi. Section 20 mein Upstox ki order seema, subah 3:30 AM token expiry, alag app token niyam, Algo Name aur square-off samay joda. Audit Report ki saari bachi khaali jagahon ke liye `[PRASTAAVIT]` niyam, Check Suchi ke vazan va Shadow Mode, aur Section 18 mein 28 naye `Prastaavit` numbers va khaali rows ke prastaavit maan bhare. Section 2 mein 17 naye shabd jode. Section 19 ko teen hisson mein baanta: malik ki pushti ki suchi (Sawal 2 se 108 ke prastaavit jawab), ab bhi khule sawal (Sawal 1, 3, 12, 16, 17, 20, 29, 40, 41, 60, 76, 92 aur Upstox ke naye Sawal 109 se 116; Sawal 47 broker badalne se hataya), aur 24 `[TAKRAAV]` ke saath `[PRASTAAVIT HAL]`. Koi purana idea, niyam ya number bina user ke kahe hataya nahi.

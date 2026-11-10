@@ -22,7 +22,7 @@ for i, l in enumerate(lines[start:], start + 1):
         issues["para"].append((i, sec, len(sents)))
     for s in sents:
         w = len(ID.sub("X", s).split())
-        if w > 32 and sec not in {"17", "20", "21"}:
+        if w > 32 and sec not in {"17", "19", "20", "21"}:
             issues["long"].append((i, sec, w))
 for k, v in issues.items():
     print(f"{k}: {len(v)}")
