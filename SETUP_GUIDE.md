@@ -1,6 +1,6 @@
 # Bot Setup Guide (malik ke liye, step by step)
 
-**Tarikh:** 10 Nov 2026 · **Kisne:** Claude Code · **Website:** https://bot-trading-pi.vercel.app
+**Tarikh:** 11 Nov 2026 · **Kisne:** Claude Code · **Website:** Vercel par, repo [`Bot-trading-website-`](https://github.com/starmovie12/Bot-trading-website-) se (pata: Vercel project → Overview → Domains)
 
 Is guide ko upar se neeche, ek-ek step karke padho. Har step ke ant mein likha hai ki **kaise pata chalega ki step ho gaya**.
 Kuch bhi samajh na aaye toh wahi step Claude ko bata do.
@@ -19,7 +19,7 @@ Kuch bhi samajh na aaye toh wahi step Claude ko bata do.
 |---|---|---|
 | **Bot ka server** | **AWS Lightsail, Mumbai, Linux $12 plan** (2 vCPU, 2 GB RAM, 60 GB SSD, static IP shaamil) | ~₹1,330 |
 | **Pehredaar ka server** | **Oracle Cloud Always Free** ki chhoti machine (`VM.Standard.E2.1.Micro`) | ₹0 |
-| **Website (Dashboard)** | **Vercel Hobby** (`bot-trading-pi.vercel.app`) | ₹0 |
+| **Website (Dashboard)** | **Vercel Hobby** (repo `Bot-trading-website-`) | ₹0 |
 | **Kul** | | **~₹1,330** |
 
 - Lightsail kyun: Upstox ke order aur live-data server AWS Mumbai mein hain, isliye network sabse chhota rehta hai.
@@ -28,21 +28,23 @@ Kuch bhi samajh na aaye toh wahi step Claude ko bata do.
 
 ---
 
-## 🟡 Step 1: Website theek karo (Vercel)
+## 🟡 Step 1: Website Vercel par lagao (naya repo, naya project)
 
-**Asli wajah mil gayi:** aapke Vercel project ka **Root Directory `pehredaar`** set hai (build log mein `/vercel/path0/pehredaar/...`). Wahan Pehredaar ka code hai, website nahi. Isi se teeno errors aaye (500, "No Output Directory", "Cannot find module"). Ab website alag branch **`website`** mein hai, bilkul akeli, bina build ke.
+**Badlaav (11 Nov 2026):** website ab alag repo [`Bot-trading-website-`](https://github.com/starmovie12/Bot-trading-website-) mein hai (branch `main`). Purane Vercel project mein **Root Directory `pehredaar`** set thi, isi se pichhle saare errors aaye (500, "No Output Directory", "Cannot find module", "Root Directory does not exist"). Naya project khaali Root Directory se banega, isliye woh galti nahi aayegi.
 
-1. Vercel par apna project kholo → **Settings → Build and Deployment → Root Directory:** jo likha hai (`pehredaar`) **mitao, khaali chhodo** → **Save**.
-2. **Settings → Environments → Production → Branch Tracking:** `website` likho → **Save**.
-3. **Deployments** → sabse upar wale deployment par **⋯ → Redeploy**. (Ya kuch der baad `website` branch par naya commit aate hi khud banega.)
-4. Agar Settings mein Framework Preset, Build Command ya Output Directory par "Override" laga ho, toh use band kar do. Hamari `vercel.json` sab khud batati hai.
+1. Vercel dashboard par upar **Create New → Project**.
+2. Repo list mein **`Bot-trading-website-`** chuno → **Import**. (List mein na dikhe toh us screen ka screenshot Claude ko bhejo.)
+3. Configure screen par: **Framework Preset: Other**. **Root Directory: `./`** (khaali, koi folder mat chuno). Build, Output, Install settings mat chhedo; `vercel.json` sab khud batata hai.
+4. **Deploy** dabao. Production branch apne-aap `main` hogi (Vercel docs: naye project mein pehle `main` chuni jaati hai).
+5. Purana project (jo `Bot-trading-` repo se juda hai) ab kaam ka nahi. Us project mein **Settings → General** ke sabse neeche **Delete Project → Delete**. Isse uske fail builds bhi band.
 
-**Agar build phir fail ho:** Vercel → Deployments → fail wala deployment → Build Logs ki aakhri 20 lines copy karke Claude ko bhejo. Unme koi secret nahi hota.
+**Agar build fail ho:** Vercel → Deployments → fail wala deployment → Build Logs ki aakhri 20 lines copy karke Claude ko bhejo. Unme koi secret nahi hota.
 
 **Ho gaya kaise pata chalega:**
 
-- https://bot-trading-pi.vercel.app khole toh **"Bot Dashboard"** aur peela **"NAKLI DATA"** banner dikhe. Yeh sahi hai; bot abhi juda nahi hai.
-- https://bot-trading-pi.vercel.app/api/health par `{"ok":true,...}` dikhe.
+- Deployment ka status **Ready** (hara) ho.
+- Project ke **Overview → Domains** wala pata kholo: **"Bot Dashboard"** aur peela **"NAKLI DATA"** banner dikhe. Yeh sahi hai; bot abhi juda nahi hai.
+- Usi pate ke aage `/api/health` lagao: `{"ok":true,...}` dikhe.
 
 ## 🟡 Step 2: Website ko sirf apne liye band karo (suraksha)
 
@@ -148,7 +150,7 @@ sudo chmod 600 /etc/systemd/system/bot.service.d/50-secrets.conf
 Naye Claude Code session mein yeh prompt paste karo:
 ```
 # PHASE 2 / M1 (baaki): UPSTOX FEED CLIENT + RECORDER + PROBE + SERVER SETUP.
-Repo: starmovie12/Bot-trading- (bot code: branch bot, website: branch website, docs: branch idea). Branch bot ka README.md, PROGRESS.md, SETUP_GUIDE.md padho. PR branch bot mein banao.
+Repo: starmovie12/Bot-trading- (bot code: branch main, docs: branch idea). Website alag repo starmovie12/Bot-trading-website-. Branch main ka README.md, PROGRESS.md, SETUP_GUIDE.md padho. PR main par banao.
 Malik ne SETUP_GUIDE ke Step 1-7 kar liye hain (Lightsail Mumbai bot server, Oracle Pehredaar, Static IPs, chaabiyan systemd-creds mein).
 Kaam: (1) Upstox market feed V3 client khud likho: TLS jaanch ON, official MarketDataFeed.proto pin (sha256), reconnect,
 do timestamp. Order wala koi code nahi. (2) Recorder: har raw event append-only file mein. (3) bot.service (systemd) jo
@@ -160,7 +162,7 @@ Niyam: koi chaabi na maango na likho; asli order nahi; har library internet se v
 ## 🟡 Step 9: Roz kya karna hai (jab bot chalega)
 
 - **Kuch nahi dabana.** Bot subah khud login karega (TOTP), aur har login ki khabar Telegram par aayegi.
-- Dashboard dekho: https://bot-trading-pi.vercel.app
+- Dashboard dekho: Vercel wala pata (Step 1 mein mila).
 - Anjaan login ki khabar aaye toh **turant** Upstox mein TOTP aur PIN badlo, aur Claude ko batao.
 - **Pehle Paper Mode.** Real Money tabhi, jab Backtest Gate, Paper Gate aur Stage2 Gate pass hon (docs/03).
 
@@ -184,8 +186,8 @@ Niyam: koi chaabi na maango na likho; asli order nahi; har library internet se v
 
 ## Kahan kya hai
 
-- Bot ka code: branch **`bot`** (yeh guide bhi yahin). Website: branch **`website`**. Idea aur research: branch **`idea`**.
-- Website ki setting: branch `website` ki `vercel.json`. Branch `bot` aur `idea` par Vercel build band hai.
+- Bot ka code: repo `Bot-trading-` ki branch **`main`** (yeh guide bhi yahin). Idea aur research: branch **`idea`**.
+- Website: alag repo [`Bot-trading-website-`](https://github.com/starmovie12/Bot-trading-website-) (branch `main`); setting uski `vercel.json` mein. Is repo par Vercel build band hai.
 - Kaam ka haal: `PROGRESS.md`.
 
 ## Sources (sab dekhe 10 Nov 2026)

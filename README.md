@@ -1,18 +1,18 @@
 # Bot-trading- (code)
 
-BankNifty, Nifty50 aur Sensex options ka trading bot. **Branch `bot` aur `main` mein sirf bot ka code hai (dono ek jaise).**
+BankNifty, Nifty50 aur Sensex options ka trading bot. **Is repo ki branch `main` mein sirf bot ka code hai.** Website alag repo [`Bot-trading-website-`](https://github.com/starmovie12/Bot-trading-website-) mein hai.
 
 | Branch | Kya hai |
 |---|---|
-| `bot` | Bot ka code + SETUP_GUIDE. Naya kaam pehle yahan |
-| `website` | Dashboard website (Vercel isi se banata hai) |
+| `main` | Bot ka code + SETUP_GUIDE. Naya kaam yahan |
+| `bot` | `main` jaisi hi copy |
 | `idea` | Idea v4, audit, tech faisle, strategy, roadmap, research |
-| `main` | `bot` jaisa hi code (PR se update hota hai). Website ka code yahan nahi |
+
 Poora idea (v4), audit, tech faisle, strategy plan aur roadmap **branch `idea`** par hain:
 `docs/01_Bot_Idea_v4.md`, `docs/02_Tech_Decisions.md`, `docs/03_Strategy_Edge_Plan.md`, `docs/04_Build_Roadmap.md`.
 
 ## Abhi kahan hain
-- M0 (Neev) ho gaya. **M1 shuru:** auto-login module (TOTP). Website ab branch `website` mein. Status: `PROGRESS.md`.
+- M0 (Neev) ho gaya. **M1 shuru:** auto-login module (TOTP). Website ab alag repo `Bot-trading-website-` mein. Status: `PROGRESS.md`.
 - **Abhi kisi broker (Upstox) ya Telegram se koi asli connection nahi.** Login ka code hai, par asli login nahi kiya gaya. Koi order code nahi.
 - Profit ki koi guarantee nahi. Goal: kharche ke baad positive expectancy **sabit** karna; sabit na ho toh live nahi.
 
@@ -21,8 +21,8 @@ Poora idea (v4), audit, tech faisle, strategy plan aur roadmap **branch `idea`**
 |---|---|
 | `src/bot/niyam.py` | Niyam-file ka loader aur validation. Code koi number guess nahi karta |
 | `src/bot/login/` | Roz ka auto-login (malik ka niyam: haath se nahi). TOTP (RFC 6238), secrets sirf encrypted store se, token sirf memory mein |
-| `src/bot/dashboard_push.py` | Bot se website (branch `website`) ko signed haalat |
-| `vercel.json` | Is branch par Vercel build band (`git.deploymentEnabled: false`) |
+| `src/bot/dashboard_push.py` | Bot se website (repo `Bot-trading-website-`) ko signed haalat |
+| `vercel.json` | Is repo par Vercel build band (`git.deploymentEnabled: false`) |
 | `SETUP_GUIDE.md` / `SETUP_GUIDE.pdf` | **Malik ke liye step-by-step setup** (kya khareedna, kya settings, kis kram mein) |
 | `src/bot/dimaag/` | Feed, candles, checks, scoring (M2, M3) |
 | `src/bot/haath/` | Order manager, broker ko hukm dene wala akela hissa (M5) |
