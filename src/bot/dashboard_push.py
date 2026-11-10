@@ -3,7 +3,7 @@
 Bot khud HTTPS POST karta hai (outbound); website bot ki machine mein kabhi kuch nahi bhejti.
 Signature = hex(HMAC-SHA256(key, f"{timestamp_ms}." + body)).
 Website `Command_Max_Umar` se purana signature nahi maanti.
-Same tareeka dashboard/lib/state.mjs mein hai; dono ka golden test vector ek hi hai.
+Same tareeka branch `website` ki lib/state.mjs mein hai; dono ka golden test vector ek hi hai.
 """
 
 from __future__ import annotations

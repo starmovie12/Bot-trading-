@@ -1,4 +1,4 @@
-# PROGRESS (code, branch `main`)
+# PROGRESS (code, branch `bot` aur `main`)
 
 Docs ka progress: branch `idea`, `docs/PROGRESS.md`.
 
@@ -44,7 +44,14 @@ Docs ka progress: branch `idea`, `docs/PROGRESS.md`.
 
 - 10 Nov 2026: PR #3 ke baad Vercel build "STATIC_BUILD_NO_OUT_DIR". Vercel CLI 65.11.0 aur @vercel/static-build 26.0.1 ka code padh kar wajah samjhi (output rasta = workPath + entrypoint ka folder + outputDirectory). Fix: `dashboard/build.mjs` + dono `vercel.json` mein `outputDirectory: public`; 5 layout local par pass (static 3 files + 2 functions).
 
+- 10 Nov 2026 (malik): website aur bot alag branch mein. `website` = sirf Vercel website (repo root par, koi build nahi); `bot` = bot code (is branch par Vercel build band). Vercel ki asli galti mili: project ka **Root Directory `pehredaar`** set tha (build log: `/vercel/path0/pehredaar/build.mjs`). Malik ko 2 settings badalni hain (SETUP_GUIDE Step 1).
+
 ## Agla kadam
 1. Malik: Vercel par website lagao (`dashboard/README.md` ke steps), aur Deployment Protection chalu karo.
 2. M1 baaki: Upstox feed client (TLS ON, official .proto pin), Recorder, probe. Asli Upstox connection ke liye trial server (Lightsail Mumbai) aur malik ka "go" chahiye.
 3. Malik ke faisle baaki: `Data_Purana_Hadd` ki ek kimat, `Kul_Jeb_Nuksan_Seema`, Risk Limit ki ikai (Sawal 118).
+
+## Log (11 Nov 2026)
+- Malik ke kehne par website aur bot alag branch mein: `website` (sirf Vercel website), `bot` (sirf bot code). `idea` aur `bot` par Vercel build band.
+- `main` ab `bot` jaisa hi code (PR se). Purana `dashboard/` folder `main` se hata; website ka code branch `website` mein hai.
+- Tests: Python 38 (`bot`), Node 10 (`website`), Go pass.
