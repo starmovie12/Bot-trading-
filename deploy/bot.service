@@ -1,0 +1,33 @@
+# Bot (Python) - EK HI SERVER plan (Lightsail Mumbai). Chaabiyan sirf systemd-creds se (SETUP_GUIDE Step 7).
+# Install: sudo cp deploy/bot.service /etc/systemd/system/ && sudo systemctl daemon-reload && sudo systemctl enable --now bot
+[Unit]
+Description=Trading bot (paper/real decide bot khud Gates se karta hai)
+After=network-online.target time-sync.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=bot
+Group=bot
+WorkingDirectory=/opt/bot
+ExecStart=/opt/bot/.venv/bin/python -m bot
+Restart=on-failure
+RestartSec=5
+# SetCredentialEncrypted= lines yahan (systemd-creds encrypt se bani) - repo mein KABHI nahi
+MemoryMax=1200M
+CPUQuota=150%
+NoNewPrivileges=yes
+ProtectSystem=strict
+ProtectHome=yes
+PrivateTmp=yes
+PrivateDevices=yes
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectControlGroups=yes
+RestrictSUIDSGID=yes
+LockPersonality=yes
+ReadWritePaths=/var/lib/bot
+StateDirectory=bot
+
+[Install]
+WantedBy=multi-user.target

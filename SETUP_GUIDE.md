@@ -1,6 +1,6 @@
 # Bot Setup Guide (malik ke liye, step by step)
 
-**Tarikh:** 11 Nov 2026 · **Kisne:** Claude Code · **Website:** Vercel par, repo [`Bot-trading-website-`](https://github.com/starmovie12/Bot-trading-website-) se (pata: Vercel project → Overview → Domains)
+**Tarikh:** 11 Nov 2026 (ek-server plan) · **Kisne:** Claude Code · **Website:** Vercel par, repo [`Bot-trading-website-`](https://github.com/starmovie12/Bot-trading-website-) se (pata: Vercel project → Overview → Domains)
 
 Is guide ko upar se neeche, ek-ek step karke padho. Har step ke ant mein likha hai ki **kaise pata chalega ki step ho gaya**.
 Kuch bhi samajh na aaye toh wahi step Claude ko bata do.
@@ -17,13 +17,13 @@ Kuch bhi samajh na aaye toh wahi step Claude ko bata do.
 
 | Hissa | Kya lena hai | Mahina kharcha (andaza, GST ke saath) |
 |---|---|---|
-| **Bot ka server** | **AWS Lightsail, Mumbai, Linux $12 plan** (2 vCPU, 2 GB RAM, 60 GB SSD, static IP shaamil) | ~₹1,330 |
-| **Pehredaar ka server** | **Oracle Cloud Always Free** ki chhoti machine (`VM.Standard.E2.1.Micro`) | ₹0 |
+| **Server (EK HI)** | **AWS Lightsail, Mumbai, Linux $12 plan** (2 vCPU, 2 GB RAM, 60 GB SSD, static IP shaamil). Bot aur Pehredaar **dono isi par**, alag-alag service | ~₹1,330 |
 | **Website (Dashboard)** | **Vercel Hobby** (repo `Bot-trading-website-`) | ₹0 |
 | **Kul** | | **~₹1,330** |
 
 - Lightsail kyun: Upstox ke order aur live-data server AWS Mumbai mein hain, isliye network sabse chhota rehta hai.
-- **Asli paise se pehle (Stage2) Plan B:** Bot Lightsail $7 (~₹776) + Pehredaar Vultr Mumbai $5 (~₹554). Kul wahi ~₹1,330. Oracle Free machine idle rehne par delete ho sakti hai, isliye asli paise ke liye paid Pehredaar.
+- **Malik ka niyam (11 Nov 2026): sirf EK server, ₹1,500/mahina ke andar.** Doosra server tabhi, jab bot munafa dene lage.
+- **Ek server ka khatra:** server hi band ho jaye toh bot aur Pehredaar dono rukenge. Bachav: har entry ke turant baad **Stop-Loss broker par** (Broker Stop) laga rehta hai, server mare toh bhi. Details: `deploy/README.md`.
 - Rate ka andaza: $1 = ₹93.94 (9 Nov 2026). AWS India 18% GST lagata hai.
 
 ---
@@ -76,7 +76,7 @@ Kuch bhi samajh na aaye toh wahi step Claude ko bata do.
 
 **Ho gaya kaise pata chalega:** Upstox developer page par ek app dikhe, aur aapke password manager mein 4 cheezein hon: API key, API secret, TOTP secret, PIN.
 
-## 🟡 Step 4: Bot ka server lo (AWS Lightsail Mumbai)
+## 🟡 Step 4: Server lo (AWS Lightsail Mumbai) - sab kuch isi par
 
 1. https://aws.amazon.com par account banao (card chahiye). Root account par **MFA (2FA) chalu** karo.
 2. Lightsail kholo: https://lightsail.aws.amazon.com
@@ -86,34 +86,30 @@ Kuch bhi samajh na aaye toh wahi step Claude ko bata do.
     - Plan: **$12/month** (2 GB RAM, 2 vCPU, 60 GB SSD)
     - Naam: `bot-mumbai` → **Create instance**
 4. Left menu mein **Networking → Create static IP** dabao. Region Mumbai, resource `bot-mumbai`, naam `bot-ip` → **Create**.
-5. Yeh IP likh lo. **Yahi aapka Upstox "Primary IP" hai.**
+5. Yeh IP likh lo. **Yahi aapka Upstox "Primary IP" hai** (aur akela IP).
 6. Instance → **Networking** tab → IPv4 Firewall mein sirf **SSH (22)** rakho. HTTP (80) dikhe toh hata do; bot ko koi khula darwaza nahi chahiye.
 
 **Ho gaya kaise pata chalega:** instance "Running" dikhe, aur public IP ke paas neeli pin (static) dikhe.
 
 **Kharcha:** ~$12/mahina + GST. Static IP machine se jude rehne tak free hai; khaali pada rahe toh charge lagta hai.
 
-## 🟡 Step 5: Pehredaar ka server lo (Oracle Cloud Free)
+## 🟡 Step 5: Pehredaar ko usi server par alag service banao
 
-1. https://www.oracle.com/cloud/free/ par account banao. **Home Region: Mumbai** chuno. Yeh baad mein nahi badalta, aur free machine sirf home region mein banti hai.
-2. **Compute → Instances → Create instance:**
-    - Image: **Ubuntu 24.04**
-    - Shape: **VM.Standard.E2.1.Micro** ("Always Free" likha ho)
-    - Public IP: haan
-3. Instance ka **public IP** likh lo. **Yahi Upstox "Secondary IP" hai.**
-4. Agar "out of host capacity" aaye, toh kuch ghante baad dobara try karo.
+Alag server nahi lena. Pehredaar (Go) usi Lightsail server par **alag systemd service** chalega, taaki bot atke toh bhi woh chale.
 
-**Ho gaya kaise pata chalega:** instance "Running" dikhe aur upar "Always Free" likha ho.
+1. Yeh kaam Claude karega (Step 8 ke prompt ke saath): `deploy/pehredaar.service` aur `deploy/bot.service` server par lagana.
+2. Pehredaar ka niyam: sirf exit/cancel; naya order kabhi nahi; login kabhi nahi (ek hi token, bot ka).
+3. Memory: bot 1.2 GB tak, Pehredaar 200 MB; kernel memory kam hone par pehle bot ko rokega, Pehredaar ko nahi.
 
-**Khatra:** Oracle 7 din tak lagbhag idle machine ko delete kar sakta hai, aur machine dobara banane par IP badal sakta hai. Isliye asli paise se pehle Plan B (Vultr Mumbai $5) par jaayenge.
+**Ho gaya kaise pata chalega:** server par `systemctl status bot pehredaar` dono "active (running)" dikhayein (Claude batayega kaise dekhna hai).
 
-## 🟡 Step 6: Dono IP Upstox mein daalo
+## 🟡 Step 6: Server ka IP Upstox mein daalo
 
 1. **Kab:** market band hone ke baad (3:30 PM ke baad) ya weekend par. Kabhi market ke beech nahi.
 2. https://account.upstox.com/developer/apps → apne app par **Static IPs** dabao.
-3. **Primary IP** = Lightsail static IP (Step 4). **Secondary IP** = Oracle IP (Step 5). Save karo.
+3. **Primary IP** = Lightsail static IP (Step 4). Secondary khaali chhod sakte ho. Save karo.
 
-**Ho gaya kaise pata chalega:** Static IPs form mein dono IP dikhen.
+**Ho gaya kaise pata chalega:** Static IPs form mein IP dikhe.
 
 **Niyam:** IP hafte mein sirf ek baar badal sakte hain, aur badalte hi purane token band ho jaate hain.
 
@@ -151,7 +147,7 @@ Naye Claude Code session mein yeh prompt paste karo:
 ```
 # PHASE 2 / M1 (baaki): UPSTOX FEED CLIENT + RECORDER + PROBE + SERVER SETUP.
 Repo: starmovie12/Bot-trading- (bot code: branch main, docs: branch idea). Website alag repo starmovie12/Bot-trading-website-. Branch main ka README.md, PROGRESS.md, SETUP_GUIDE.md padho. PR main par banao.
-Malik ne SETUP_GUIDE ke Step 1-7 kar liye hain (Lightsail Mumbai bot server, Oracle Pehredaar, Static IPs, chaabiyan systemd-creds mein).
+Malik ne SETUP_GUIDE ke Step 1-7 kar liye hain (EK Lightsail Mumbai server, Static IP, chaabiyan systemd-creds mein). deploy/ ki dono service lagao.
 Kaam: (1) Upstox market feed V3 client khud likho: TLS jaanch ON, official MarketDataFeed.proto pin (sha256), reconnect,
 do timestamp. Order wala koi code nahi. (2) Recorder: har raw event append-only file mein. (3) bot.service (systemd) jo
 src/bot/login se roz subah TOTP login kare (secrets sirf $CREDENTIALS_DIRECTORY se). (4) Probe script (docs/02 D6).
@@ -196,7 +192,6 @@ Niyam: koi chaabi na maango na likho; asli order nahi; har library internet se v
 - Upstox TOTP login: https://upstox.com/developer/api-documentation/get-token/
 - Upstox ek user ek app: https://community.upstox.com/t/important-new-sebi-exchange-mandates-for-api-trading-effective-1st-april-2026/14822
 - Lightsail plans: https://aws.amazon.com/lightsail/pricing/ · static IP: https://docs.aws.amazon.com/lightsail/latest/userguide/lightsail-create-static-ip.html · https://docs.aws.amazon.com/lightsail/latest/userguide/understanding-static-ip-addresses-in-amazon-lightsail.html
-- Oracle Always Free: https://docs.oracle.com/en-us/iaas/Content/FreeTier/freetier_topic-Always_Free_Resources.htm
 - Vercel Hobby: https://vercel.com/docs/plans/hobby · vercel.json: https://vercel.com/docs/project-configuration/vercel-json
 - systemd-creds (Ubuntu 24.04): https://manpages.ubuntu.com/manpages/noble/man1/systemd-creds.1.html
 - SEBI F&O study (Aug 2026): https://www.sebi.gov.in/sebi_data/attachdocs/aug-2026/1787233506209.pdf
