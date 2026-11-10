@@ -2,8 +2,8 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "framework": null,
   "installCommand": "",
-  "buildCommand": "echo static-site-koi-build-nahi",
-  "outputDirectory": "dashboard/public",
+  "buildCommand": "if [ -f dashboard/build.mjs ]; then node dashboard/build.mjs; else node build.mjs; fi",
+  "outputDirectory": "public",
   "cleanUrls": true,
   "headers": [
     {

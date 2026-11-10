@@ -30,14 +30,16 @@ Kuch bhi samajh na aaye toh wahi step Claude ko bata do.
 
 ## 🟡 Step 1: Website theek karo (Vercel)
 
-**Kyun:** abhi website "500 FUNCTION_INVOCATION_FAILED" dikha rahi thi; har page, CSS file tak, function se ja raha tha. Sabse sambhav wajah: Vercel project repo ke root se bana, aur wahan Python ka project dekh kar Vercel ne site ko galat tareeke se chalaya (Vercel ke logs hum nahi dekh sakte, isliye yeh andaza hai). Fix: ab `vercel.json` Vercel ko saaf batati hai ki koi framework nahi, koi build nahi, aur website ki files kahan hain. Repo root aur `dashboard` dono se chalega (PR #3).
+**Kyun:** pehle website "500 FUNCTION_INVOCATION_FAILED" de rahi thi. PR #3 ke baad build "No Output Directory named public" par ruka. Vercel ka builder output folder ka rasta entrypoint ke hisaab se banata hai, aur cloud par entrypoint alag nikal sakta hai. Fix (PR #4): build ke waqt website ki files repo root ke `public/` aur `dashboard/public/` dono jagah rehti hain, isliye Root Directory khaali ho ya `dashboard`, folder milega. Yahi build Vercel CLI 65.11.0 se yahan har layout mein chala kar pass kiya gaya.
 
-1. GitHub par **PR #3 kholo → "Merge pull request" → "Confirm merge"** dabao.
+1. GitHub par **PR #4 kholo → "Merge pull request" → "Confirm merge"** dabao. (PR #3 pehle merge ho chuka hai; usse "No Output Directory named public" error aaya tha, PR #4 use theek karta hai.)
 2. Vercel par apna project `bot-trading` kholo → **Deployments**. 1-2 minute mein naya deployment "Ready" ho jaayega. Na ho toh sabse upar wale deployment par **⋯ → Redeploy**.
 3. **Settings → Build and Deployment** mein dekho:
     - Framework Preset: **Other** (hamari `vercel.json` khud yahi set karti hai).
     - Root Directory: **khaali (repo root)** ya **`dashboard`**. Dono chalenge.
     - Build Command aur Install Command mein kuch bhi likha ho, hamari `vercel.json` use badal deti hai.
+
+**Agar build phir fail ho:** Vercel → Deployments → fail wala deployment → Build Logs mein `[bot-dashboard]` se shuru hone wali lines aur aakhri error ki lines copy karke Claude ko bhejo. Unme koi secret nahi hota.
 
 **Ho gaya kaise pata chalega:**
 

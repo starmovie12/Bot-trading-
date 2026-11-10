@@ -1,6 +1,9 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { readFileSync } from "node:fs";
+import { cpSync, existsSync, mkdtempSync, readFileSync } from "node:fs";
+import { execFileSync } from "node:child_process";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
 import { demoState, sign, validateState, verifyPush } from "../lib/state.mjs";
 import { handle } from "../api/state.mjs";
 
@@ -93,7 +96,15 @@ test("dono vercel.json: framework Other, koi install nahi, sahi output folder, s
     assert.equal(cfg.framework, null);
     assert.equal(cfg.installCommand, "");
   }
-  assert.equal(rootCfg.outputDirectory, "dashboard/public");
+  assert.equal(rootCfg.outputDirectory, "public");
   assert.equal(dashCfg.outputDirectory, "public");
+  assert.equal(rootCfg.buildCommand, dashCfg.buildCommand);
   assert.deepEqual(rootCfg.headers, dashCfg.headers);
+});
+
+test("build.mjs: website files repo root ke public/ mein bhi aati hain (Vercel kisi bhi layout mein dhoondhe)", () => {
+  const dir = mkdtempSync(join(tmpdir(), "vb-"));
+  cpSync(new URL("..", import.meta.url), join(dir, "dashboard"), { recursive: true });
+  execFileSync(process.execPath, [join(dir, "dashboard", "build.mjs")], { cwd: dir, stdio: "pipe" });
+  for (const f of ["index.html", "app.js", "style.css"]) assert.ok(existsSync(join(dir, "public", f)), f);
 });

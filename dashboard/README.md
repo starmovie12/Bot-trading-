@@ -21,6 +21,9 @@ Vercel production `main` branch se banata hai. Isliye yeh PR merge hone ke baad 
 ## 500 FUNCTION_INVOCATION_FAILED wali galti (10 Nov 2026)
 Website par har page function se ja raha tha. Sabse sambhav wajah: project repo root se bana aur Vercel ne Python project dekh kar galat tareeke se chalaya. Fix: root `vercel.json` (`framework: null`, `installCommand: ""`, `outputDirectory: "dashboard/public"`), root `api/` jo `dashboard/api` ko hi chalata hai, aur `.vercelignore`.
 
+## STATIC_BUILD_NO_OUT_DIR wali galti (10 Nov 2026, dusra fix)
+Vercel build ne "No Output Directory named public" diya. Vercel CLI 65.11.0 se yahi build local par har layout mein chalaya; builder output ka rasta `workPath + entrypoint ka folder + outputDirectory` se banata hai, aur cloud par entrypoint alag ho sakta hai. Fix: `build.mjs` website ki files `dashboard/public` ke saath repo root `public/` mein bhi rakhta hai, aur dono `vercel.json` mein `outputDirectory: "public"`. Build log mein `[bot-dashboard]` wali lines cwd aur settings dikhati hain (koi secret nahi).
+
 ## Suraksha
 - Koi npm dependency nahi. Koi inline script nahi; sakht CSP aur security headers (`vercel.json`).
 - Saara text `textContent` se lagta hai (XSS se bachav).
