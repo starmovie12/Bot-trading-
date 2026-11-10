@@ -6,8 +6,11 @@ import re
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-CODE_DIRS = ("src", "tools", "pehredaar")
-TLS_OFF = re.compile(r"CERT_NONE|verify\s*=\s*False|check_hostname\s*=\s*False|InsecureSkipVerify")
+CODE_DIRS = ("src", "tools", "pehredaar", "dashboard")
+TLS_OFF = re.compile(
+    r"CERT_NONE|verify\s*=\s*False|check_hostname\s*=\s*False|InsecureSkipVerify"
+    r"|rejectUnauthorized\s*:\s*false|NODE_TLS_REJECT_UNAUTHORIZED"
+)
 SECRET_LIKE = re.compile(
     r"(api[_-]?key|secret|token|password)\s*[:=]\s*['\"][A-Za-z0-9_\-]{12,}|eyJ[A-Za-z0-9_-]{20,}|AKIA[0-9A-Z]{16}",
     re.IGNORECASE,
@@ -17,7 +20,11 @@ SECRET_LIKE = re.compile(
 def _files() -> list[Path]:
     out: list[Path] = []
     for d in CODE_DIRS:
-        out += [p for p in (ROOT / d).rglob("*") if p.is_file() and p.suffix in {".py", ".go", ".toml", ".mod"}]
+        out += [
+            p
+            for p in (ROOT / d).rglob("*")
+            if p.is_file() and p.suffix in {".py", ".go", ".toml", ".mod", ".mjs", ".js", ".json", ".html"}
+        ]
     return out
 
 
