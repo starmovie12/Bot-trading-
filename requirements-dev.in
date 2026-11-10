@@ -1,0 +1,6 @@
+# Sirf dev/CI tools. Version 10 Nov 2026 ko PyPI se dekhe (latest stable).
+ruff==0.17.4
+mypy==2.4.1
+pytest==9.2.0
+hypothesis==6.170.15
+pip-audit==2.10.1

@@ -1,6 +1,0 @@
-data/
-out/
-rust/target/
-cpp/build/
-go/bin/
-__pycache__/

@@ -4,11 +4,16 @@
 *.key
 *.pem
 secrets/
-# Scratch build output
-scratch/**/target/
-scratch/**/build/
-scratch/**/*.o
-scratch/**/bin/
+# Python
 __pycache__/
 *.pyc
 .venv/
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+.hypothesis/
+# Go
+pehredaar/pehredaar
+# Data aur logs (asli market data kabhi git mein nahi)
+data/
+logs/
