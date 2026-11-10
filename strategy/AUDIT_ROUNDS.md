@@ -46,4 +46,4 @@ Har round mein pichhle version ki kamiyan dhoondhi, theek ki, aur nayi version b
 ## Abhi bhi khuli baatein (code ya malik ka faisla chahiye)
 - Kul_Jeb_Nuksan_Seema, din ki nuksan seema, Risk Limit ki ikai (website **Settings** form se JSON).
 - Event calendar ka source; exchange charge / stamp ka pakka rate (contract note).
-- Gap-day niyam aur regime (Parat 1) ka code: M3.
+- Gap-day niyam aur regime ka code ho gaya (Round 4). Baaki: asli data (M1 recorder) par backtest, event calendar ka source.
