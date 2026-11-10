@@ -1,13 +1,13 @@
 # Bot-trading- (code)
 
-BankNifty, Nifty50 aur Sensex options ka trading bot. **Yeh branch `bot` sirf bot ka code hai.**
+BankNifty, Nifty50 aur Sensex options ka trading bot. **Branch `bot` aur `main` mein sirf bot ka code hai (dono ek jaise).**
 
 | Branch | Kya hai |
 |---|---|
-| `bot` | Bot ka code (yeh branch) + SETUP_GUIDE |
+| `bot` | Bot ka code + SETUP_GUIDE. Naya kaam pehle yahan |
 | `website` | Dashboard website (Vercel isi se banata hai) |
 | `idea` | Idea v4, audit, tech faisle, strategy, roadmap, research |
-| `main` | Purana milajula code (10 Nov 2026 tak); aage kaam `bot` aur `website` mein |
+| `main` | `bot` jaisa hi code (PR se update hota hai). Website ka code yahan nahi |
 Poora idea (v4), audit, tech faisle, strategy plan aur roadmap **branch `idea`** par hain:
 `docs/01_Bot_Idea_v4.md`, `docs/02_Tech_Decisions.md`, `docs/03_Strategy_Edge_Plan.md`, `docs/04_Build_Roadmap.md`.
 
