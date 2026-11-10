@@ -8,8 +8,8 @@
 3. **Pehredaar Go mein** (alag runtime, ek static binary). Dashboard frontend TypeScript mein. C/C++ nahi. Rust tabhi jab measure kiya hua trigger toote.
 4. **Sabse bada design badlaav (F-76):** Upstox mein ek user ka sirf ek chalu API app hai. Isliye Bot aur Pehredaar **ek hi app ka roz ek hi token** share karenge, encrypted raste se. Shared token ka asli test Real Money se pehle zaroori hai.
 5. **Architecture:** Bot machine par 3 process hain: Dimaag, Haath (akela broker ko hukm dene wala), Recorder. Har input ek event hai, aur Backtest, Paper aur Live mein ek hi code chalta hai. Bot ka broker par haq Lease se bandha hai.
-6. **VPS:** Bot = AWS Mumbai `c8g.xlarge` (Upstox ke order aur feed server AWS Mumbai mein hain). Pehredaar = GCP Mumbai `c4a-standard-2`. Dashboard = AWS `t4g.small`. Kul ~$176 (~₹16,500) mahina, GST alag.
-7. **Khareedne se pehle** 3 trial VM par 5 trading din ka probe chalega (~₹4,300). Upstox se 3 sawaal bhi confirm karne hain.
+6. **VPS (malik ka budget ₹1,500/mahina, 10 Nov 2026):** Bot = AWS Lightsail Mumbai $12 plan (2 vCPU, 2 GB, static IP shaamil; Upstox ke server bhi AWS Mumbai mein). Pehredaar aur Dashboard = Oracle Cloud Always Free. Kul ~₹1,330 GST ke saath (D8). Asli paise se pehle Pehredaar paid server par (Plan B, wahi ~₹1,330). Badi machine wali D7 salah ab sirf budget badhne par.
+7. **Khareedne se pehle:** sasti machines par ek hafte ka probe (~₹330) chalega, aur Upstox se 3 sawaal confirm karne hain. Bachat ki keemat: burstable CPU, kam RAM, aur Oracle Free machine ke idle hone par delete hone ka khatra (D8).
 8. **Repos:** sirf official Upstox SDK ka REST hissa (pinned + hash-locked). Iska WebSocket feeder TLS jaanch band rakhta hai, isliye feeder khud likhenge. openalgo (AGPL) aur NseIndiaApi (GPL) nahi lenge.
 9. **Security:** chaabi sirf cloud ke secrets store mein, Dashboard par kabhi nahi. Dashboard par 2FA, signed hukm aur audit log. Har dependency hash-locked.
 10. **Compliance:** SEBI algo framework 1 Apr 2026 se lagu hai. 10 OPS se neeche registration nahi chahiye. 15 sawaal CA, vakil aur Upstox se poochne hain. Bot doosron ke liye hua toh empanelment, RA registration aur broker-hosting lagenge.
@@ -275,7 +275,7 @@ Har machine ke kharche mein compute, IPv4, disk aur ek snapshot shaamil hai (`R_
 - **Pass kasauti (andaza, pehle hafte ke baad final):** Bot VM par TCP connect p50 ≤ 2 ms, p99 ≤ 5 ms, p99.9 ≤ 20 ms; TLS p99 ≤ 15 ms; error ≤ 0.1%; ghadi offset p99 ≤ 1 ms (PHC ke saath ≤ 100 µs); steal p99 ≤ 1%.
 - Probe chalane se pehle Upstox se pooch lo ki 10 second ka TLS handshake theek hai (verify nahi hua).
 
-### D7. Final: "Yeh khareedo, yeh wajah, yeh plan B"
+### D7. Bada budget hota toh: "Yeh khareedo, yeh wajah, yeh plan B" (ab D8 dekho)
 
 | Machine | **Yeh khareedo** | Wajah | Plan B |
 |---|---|---|---|
@@ -284,6 +284,48 @@ Har machine ke kharche mein compute, IPv4, disk aur ek snapshot shaamil hai (`R_
 | **Dashboard** | AWS `t4g.small` teesre AZ mein, **token ke bina**, sirf 443, malik login + 2FA | Latency zaroori nahi; sasta; Bot se alag | GCP `e2-small` |
 
 **Dhyan rahe:** AWS Mumbai poora band ho, toh Upstox ke order server bhi wahin hain, toh shayad woh bhi band honge (andaza). Isliye alag provider ka asli faayda account aur ops ki galti se bachav hai, region outage se nahi. Bot aur Pehredaar dono **ARM (Graviton/Axion)** hain; har dependency ka ARM build Phase 2 ke pehle din jaanchna hai.
+
+### D8. Malik ka niyam (10 Nov 2026): teeno server ₹1,500 mahina ke andar
+
+**Malik ki baat:** pehle ek Mumbai server (Bot) khareedo, baaki hisse free ya ~₹500 wale server par. **Yeh theek hai**, aur hamara apna benchmark bhi kehta hai ki D7 wali badi machine zaroori nahi thi: Python ne sabse busy second mein bhi ek core ka sirf 9-22% liya (`R_e`). D7 ki salah ab sirf tab hai jab budget badhe.
+
+**Ganit:** $1 = ₹93.94 (ECB, 9 Nov 2026; andaza). AWS India par 18% GST lagta hai (`R_a` S61). Doosre providers par GST verify nahi hua, isliye 18% maan kar likha (conservative).
+
+**Plan A (salah; Paper Stage ke liye):**
+
+| Machine | Kya khareedo | $/mahina | ₹/mahina (18% GST ke saath, andaza) |
+|---|---|---|---|
+| Bot | **AWS Lightsail Mumbai, Linux $12 plan:** 2 vCPU, 2 GB RAM, 60 GB SSD, CPU baseline 20% prati vCPU; **static IP plan mein shaamil** | 12 | ~₹1,330 |
+| Pehredaar | **Oracle Cloud Always Free** AMD micro (`VM.Standard.E2.1.Micro`: 1/8 OCPU + burst, 1 GB, 1 public IP, 50 Mbps), home region Mumbai | 0 | ₹0 |
+| Dashboard | Oracle Always Free, doosra AMD micro (token ke bina) | 0 | ₹0 |
+| **Kul** | | **12** | **~₹1,330** (₹170 bachat) |
+
+**Plan B (asli paise / Stage2 se pehle; agar Paper mein Bot 1 GB aur 10% CPU mein fit ho):**
+
+| Machine | Kya khareedo | $/mahina | ₹/mahina (andaza) |
+|---|---|---|---|
+| Bot | Lightsail Mumbai Linux $7: 2 vCPU, 1 GB, 40 GB, baseline 10% prati vCPU, static IP shaamil | 7 | ~₹776 |
+| Pehredaar | Vultr Mumbai `vc2-1c-1gb` (1 vCPU, 1 GB, 25 GB) | 5 | ~₹554 (GST maan kar) |
+| Dashboard | Oracle Always Free AMD micro | 0 | ₹0 |
+| **Kul** | | **12** | **~₹1,330** |
+
+**Plan C (sabse sasta):** Bot Lightsail $7 + Pehredaar aur Dashboard Oracle Free = ~₹776.
+
+**Sources (dekha: 10 Nov 2026):** [Lightsail pricing](https://aws.amazon.com/lightsail/pricing/) (bundle, static IP "Included in all Lightsail plans", Mumbai region), [Lightsail baseline CPU](https://docs.aws.amazon.com/lightsail/latest/userguide/baseline-cpu-performance.html) ($7 = 10%, $12 = 20% prati vCPU), [OCI Always Free](https://docs.oracle.com/en-us/iaas/Content/FreeTier/freetier_topic-Always_Free_Resources.htm), [Vultr plans API](https://api.vultr.com/v2/plans) (`bom` = Mumbai; $5 aur $10 plan), [Akamai types API](https://api.linode.com/v4/linode/types) (Nanode 1 GB $5, Plan B ka vikalp). AWS EC2 ka sabse sasta vikalp `t4g.micro` $0.0056/ghanta (Mumbai price file, 7 Nov 2026) + public IPv4 $3.65 + disk se ~$8.65 banta hai, isliye Lightsail (IP shaamil) sasta pada.
+
+**Kyun Lightsail:** yeh usi AWS Mumbai region mein hai jahan Upstox ke order aur feed server hain (D1), isliye network hop wahi rehta hai. Static IP shaamil hai. Bot ka server badalna pade, toh **wahi static IP nayi Lightsail machine par le jao**, Upstox par IP mat badlo; badalne se saare token band hote hain aur hafte mein ek hi baar badal sakte hain (F-65). Static IP ko doosri machine par le jaane ka exact tareeka Lightsail docs se pakka karna baaki hai (verify nahi hua).
+
+**Is bachat ki keemat (saaf-saaf):**
+
+| Kya gaya | Khatra | Bachav |
+|---|---|---|
+| Dedicated core (ab burstable CPU) | Burst khatam hone par CPU baseline par dabta hai; p99.9 latency bigad sakti hai, khaas kar expiry din | Lightsail ke burst capacity metric par alarm. Prastaav: burst capacity bahut kam ho toh naye entry band. Paper mein roz ka CPU aur burst record karo |
+| 4 GB+ RAM (ab 1-2 GB) | Python process badhe toh memory khatam ho sakti hai (benchmark mein RAM naapi nahi gayi) | Plan A (2 GB) se shuru; Paper mein RAM naapo; swap band, memory alarm |
+| PHC precise ghadi | Lightsail par PHC aur Amazon Time Sync chalta hai ya nahi, verify nahi hua | Chrony se offset naapo; `Ghadi_Skew_Sakht_Hadd` (50 ms) ke liye NTP kaafi hona chahiye (andaza) |
+| Pehredaar ki pakki machine (Plan A mein) | Oracle Free: 7 din tak CPU p95, network (aur A1 par memory) 20% se kam ho toh machine **delete** ho sakti hai; Pehredaar aksar idle rehta hai. Home region zaroori; "out of host capacity" bhi aata hai | Bot Pehredaar ki dhadkan dekhta hai aur na mile toh naye entry band karta hai (F-16, F-79). Pehredaar ka IP badle toh Upstox par Secondary IP sirf market ke baad. **Asli paise se pehle Plan B** (paid Pehredaar). Pay-As-You-Go upgrade se delete se bachne ki baat sirf community post mein mili, official verify nahi hua |
+| Vultr/Oracle ke IPv4 aur GST | Vultr plan mein IPv4 shaamil hai ya nahi; Oracle ka public IP machine dobara banane par badalta hai ya nahi | Khareedne se pehle unke page par pakka karo (verify nahi hua) |
+
+**Probe:** D6 wala probe ab sirf chuni hui sasti machines par, ek hafta. Lightsail $12 ka ek hafta ~$3 (~₹330 GST ke saath) hai, Oracle free hai. Lightsail par pinning ke kernel settings (D5) bekaar hain, kyunki 2 burstable vCPU hain; baaki hardening wahi rahegi.
 
 ---
 

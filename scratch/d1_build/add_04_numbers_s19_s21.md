@@ -26,11 +26,9 @@
 | Trailing_Kasi_Doori `[PRASTAAVIT-CC]` | Premium ke sabse oonche bhav se 0.5 ATR neeche | Prastaavit | 11. Exit | 1 Lot par "Trailing Stop-Loss kasna" ki doori `[F-46]` |
 | Stop_Pushti_Ginti `[PRASTAAVIT-CC]` | Lagatar 2 depth updates | Prastaavit | 11. Exit | Ek galat bhav par Stop-Loss na chale `[F-21]` |
 | Worst_Case_Nuksan_Guna `[PRASTAAVIT-CC]` | Entry premium ka 40 percent (Andaza; Stage2 ke asli gap-fill se sudhaar) | Prastaavit | 9. Risk aur Lot ginti | Risk ke hisaab mein ek trade ka sabse bura nuksan `[F-15]` |
-| Fractional_Stake_Hissa `[PRASTAAVIT-CC]` | Vikalp A: Deposit-Adjusted Equity ka 25 percent, aur Backtest ke Kelly Hissa ke aadhe se zyada nahi | Prastaavit | 9. Risk aur Lot ginti | Poore balance ki jagah hisse wala vikalp (H-09) `[F-03]` |
 | Stop_Unit_Din_Seema `[PRASTAAVIT-CC]` | Vikalp B: 1 Stop-Unit | Prastaavit | 9. Risk aur Lot ginti | Din ki seema ek Stop-Loss ke size se mel khaye (H-10) `[F-03]` |
 | Stop_Unit_Hafta_Seema `[PRASTAAVIT-CC]` | Vikalp B: 2 Stop-Unit | Prastaavit | 9. Risk aur Lot ginti | Hafte ki seema Stop-Unit mein `[F-03]` |
 | Stop_Unit_Mahina_Seema `[PRASTAAVIT-CC]` | Vikalp B: 4 Stop-Unit | Prastaavit | 9. Risk aur Lot ginti | Mahine ki seema Stop-Unit mein `[F-03]` |
-| Prati_Trade_Max_Nuksan_Rupaye `[PRASTAAVIT-CC]` | Vikalp C: Tay nahi (malik rupaye mein tay kare) | Tay nahi | 9. Risk aur Lot ginti | Ek trade ka zyada se zyada Worst-Case Nuksan `[F-03]` |
 | Data_Family_Max_Score_Hissa `[PRASTAAVIT-CC]` | Us waqt ke zaroori score ka 40 percent (sirf Ablation ke baad lagu) | Prastaavit | 8. Score, Gate aur Confidence ka hisaab | Ek hi data ke checks nakli bharosa na dein (H-11) `[F-43]` |
 | Shadow_Se_Active_Min_Signal `[PRASTAAVIT-CC]` | 100 signal | Prastaavit | 15. Report, Record aur Niyam badalna | Shadow Mode se Active hone se pehle kam se kam data |
 | Entry_Fill_Dar_Min `[PRASTAAVIT-CC]` | 80 percent | Prastaavit | 10. Entry | Spread-aware entry ka fill kitna ho toh theek (H-02) |
@@ -52,7 +50,7 @@
 Yeh sawal 10 Nov 2026 ke audit se aaye hain (dekho: `01b_Audit_Findings.md`). Purane sawal dobara nahi likhe; jahan purana sawal ab zyada zaroori hai, wahan sirf uska number likha hai.
 
 - Sawal 117 (Pehredaar ka haq): kya Pehredaar ka alag Upstox app bot ke app ke order cancel aur position band kar sakta hai? Kyun zaroori: poora Pehredaar isi par tika hai; Real Money Mode se pehle asli test chahiye `[F-06]`.
-- Sawal 118 (Lot ka niyam): poora balance wala niyam rakhna hai ya Vikalp A, B ya C? Kyun zaroori: abhi ek Stop-Loss se din, hafte aur mahine ki teeno seemayein toot-ti hain `[F-03]`.
+- Sawal 118 (Risk Limit ki ikai): Lot ka niyam malik ne 10 Nov 2026 ko pakka kiya (poora balance, quality pehle). Ab `Daily_Loss_Risk_Limit`, `Weekly_Loss_Risk_Limit` aur `Monthly_Loss_Risk_Limit` percent mein rahein (ek Stop-Loss se mahina band) ya Stop-Unit mein (Vikalp B)? Aur jeb ka kul nuksan kitne rupaye par bot poori tarah ruke (`Kul_Jeb_Nuksan_Seema`)? Kyun zaroori: chhote balance mein asli khatra baar-baar paisa daalna hai (`03_Strategy_Edge_Plan.md` Section 5.4) `[F-03]`.
 - Sawal 119 (NA ke do roop): NA-Data aur NA-Lagu-Nahi manzoor? Kyun zaroori: iske bina aam din par manipulation Gates har trade rokte hain `[F-01]`.
 - Sawal 16 ab Critical hai: Nifty50 aur Sensex ki stocks suchi ke bina Index_Breadth_Check Gate un index ko band rakhta hai. Jawab tak `Breadth_Top_Stocks_Ginti` wala prastaav aur sirf Paper Mode `[F-02]`.
 - Sawal 120 (Kill Latch): Kill-Switch ke baad us din bot band, aur agle din Start Control se hi khule? Kyun zaroori: abhi Kill-Switch ke baad bot phir entry le sakta hai `[F-04]`.
@@ -74,7 +72,7 @@ Yeh sawal 10 Nov 2026 ke audit se aaye hain (dekho: `01b_Audit_Findings.md`). Pu
 @@AFTER_LINE - **[TAKRAAV #25]
 - **[TAKRAAV #26] `[PRASTAAVIT-CC]` Gate ka NA RED banam sirf expiry din wale manipulation Gates:** Aam din par Manipulation_Cash_Volume_Check aur Manipulation_Settlement_Check lagu nahi, isliye NA aur RED hokar har trade rokte hain. `[PRASTAAVIT-CC HAL]` NA ke do roop: NA-Data (Gate RED) aur NA-Lagu-Nahi (Gate par asar nahi) `[F-01]`.
 - **[TAKRAAV #27] `[PRASTAAVIT-CC]` `Ghadi_Skew_Hadd` banam `Data_Purana_Hadd`:** Ghadi ki chhoot data ki taazgi ki seema jitni badi hai. `[PRASTAAVIT-CC HAL]` `Ghadi_Skew_Sakht_Hadd` aur data ki umar apne paane ke samay se bhi `[F-07]`.
-- **[TAKRAAV #28] `[PRASTAAVIT-CC]` Poore balance ka Lot banam hafte aur mahine ki Risk Limit:** Ek Stop-Loss `Monthly_Loss_Risk_Limit` se bhi bada ho sakta hai, isliye pehle nuksan par bot mahine bhar rukta hai. `[PRASTAAVIT-CC HAL]` malik Vikalp A, B ya C chune; tab tak Monte Carlo ka nateeja malik ko dikhe `[F-03]`.
+- **[TAKRAAV #28] `[PRASTAAVIT-CC]` Poore balance ka Lot banam hafte aur mahine ki Risk Limit:** Ek Stop-Loss `Monthly_Loss_Risk_Limit` se bhi bada ho sakta hai, isliye pehle nuksan par bot mahine bhar rukta hai. Malik ka faisla (10 Nov 2026): Lot ka niyam poora balance aur quality pehle hi rahega. `[PRASTAAVIT-CC HAL]` Risk Limit Stop-Unit mein (Vikalp B) aur `Kul_Jeb_Nuksan_Seema`; malik chune (Sawal 118) `[F-03]`.
 - **[TAKRAAV #29] `[PRASTAAVIT-CC]` Kill-Switch "sab kuch rokta hai" banam hukm sirf Pehredaar ko:** Bot ko Kill-Switch ka pata nahi chalta. `[PRASTAAVIT-CC HAL]` Kill Latch jise bot aur Pehredaar dono padhte hain `[F-04]`.
 - **[TAKRAAV #30] `[PRASTAAVIT-CC]` `Trailing_Stop_Doori` banam `ATR_Stop_Guna`:** Trailing ki doori pehle stop se chhoti hai aur shuru hone ka samay likha nahi. `[PRASTAAVIT-CC HAL]` trailing breakeven ke baad shuru `[F-20]`.
 - **[TAKRAAV #31] `[PRASTAAVIT-CC]` Har khiskaav par Broker Stop badalna banam broker ki din ki modify seema:** `[PRASTAAVIT-CC HAL]` `Broker_Stop_Min_Khiskaav` aur `Broker_Stop_Modify_Bajat` `[F-08]`.
@@ -90,7 +88,7 @@ Yeh sawal 10 Nov 2026 ke audit se aaye hain (dekho: `01b_Audit_Findings.md`). Pu
 - 4.0: Naam-Suchi mein 29 naye naam jode (`[PRASTAAVIT-CC]`, Audit bindu, Hypothesis, ATM, Moneyness Khaana, Opening Range, Swing Low/High, Pullback, Mazboot/Kamzor Breakout, Breakout Candle, NA-Data, NA-Lagu-Nahi, Lease, Kill Latch, Khula Trade, Stop-Unit, Worst-Case Nuksan, Net Expectancy, Confidence Interval, Profit Factor, Risk of Ruin, Kelly Hissa, Walk-Forward/Out-of-Sample, Ablation, Data Family, Shadow Trade, Replay Record, Monte Carlo).
 - 4.0: F-01 (Critical) NA ke do roop, Section 6 aur dono manipulation checks mein; `[TAKRAAV #26]`.
 - 4.0: F-02 (Critical) Nifty50/Sensex ki suchi ke bina Breadth Gate; `Breadth_Top_Stocks_Ginti`; `[TAKRAAV #32]`; Sawal 16 Critical.
-- 4.0: F-03 (Critical) poore balance ka Lot banam Risk Limit; Vikalp A/B/C, H-09, H-10; `[TAKRAAV #28]`; Sawal 118.
+- 4.0: F-03 (Critical) poore balance ka Lot banam Risk Limit; Vikalp B, H-10; `[TAKRAAV #28]`; Sawal 118.
 - 4.0: F-04 (Critical) Kill Latch; `[TAKRAAV #29]`; Sawal 120.
 - 4.0: F-05 (Critical) Lease aur "Pehredaar ne control liya" nishan; `Bot_Lease_Samay`; Sawal 121.
 - 4.0: F-06 (Critical) Pehredaar ke app ka haq verify karna; Sawal 117.

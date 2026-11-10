@@ -118,7 +118,7 @@ Ek hi scenario file (YAML jaisa data) jismein broker ki taraf se events aur umee
 | # | Jokhim | Sambhavna | Asar | Bachav | Trigger | Maalik |
 |---|---|---|---|---|---|---|
 | R1 | Strategy mein asli edge nahi | Zyada (SEBI data) | Bahut bada | Backtest Gate, OOS lock, multiple-testing | Gate fail | Malik + Claude |
-| R2 | Poore balance sizing se ruin | Zyada (`03` §5) | Bahut bada | Vikalp A/B/C | Malik ka faisla (Sawal 118) | Malik |
+| R2 | Poore balance ka Lot (malik ka faisla, 10 Nov 2026): bure daur mein baar-baar paisa daalna | Zyada (`03` §5.4) | Bada | `Kul_Jeb_Nuksan_Seema`, Stop-Unit seema (Vikalp B), roz "kul daala vs nikala" report | Malik ka jawab (Sawal 118) | Malik |
 | R3 | Shared token do IP se na chale / Pehredaar cancel na kar sake | Madhyam | Bada | M9 se pehle test; design B (Pehredaar sirf Kill Switch + alert) | Upstox jawab | Claude |
 | R4 | NSE A.4 / single-app niyam ka galat arth | Madhyam | Bada (account rok) | Upstox + vakil likhit | Jawab | Malik |
 | R5 | Slippage model se zyada | Madhyam | Bada | Grid, khud ka depth record, Stage2 | Kill criteria 3 | Claude |

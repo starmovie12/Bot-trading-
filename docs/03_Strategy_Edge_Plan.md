@@ -8,7 +8,7 @@
 3. **Kharcha:** Nifty50 1 Lot round-trip ~Rs 80.5 (Rs 20/order brokerage, STT 0.15% 1 Apr 2026 se). Iske upar Slippage. 1 Lot par sabse bada kharcha brokerage hai.
 4. **Data:** core data Nov 2024 ke baad ka hai (naya lot, BankNifty weekly band, Sep 2025 se naye expiry din). Sabse kaam ki kharid NSE Historical Trade Data hai (~Rs 2.6 lakh, 2 saal, licence ki pushti ke baad). Depth ka itihas sasta nahi milta, isliye khud record karna hai.
 5. **Backtest:** event-driven, live wala hi code, depth/trade se realistic fill, latency injection, Walk-Forward, Out-of-Sample, parameter stability, multiple-testing correction, Monte Carlo, aur regime-wise nateeje.
-6. **Risk ka sach (Monte Carlo):** "poora balance = Lot" niyam mein achhe edge (+7.3%/trade) ke saath bhi Rs 52,000 se 250 trade mein **~60% Risk of Ruin** aata hai. Hisse wale niyam (Vikalp A, 25%) mein lagbhag 0% hai. Ek Stop-Loss = equity ka 21 se 25%, jabki `Daily_Loss_Risk_Limit` 3% hai.
+6. **Risk ka sach (Monte Carlo):** poore balance ka Lot ek Stop-Loss mein equity ka 17-25% le jaata hai. Malik ka faisla (10 Nov 2026): premium ki quality pehle, poora balance bhi chalega, warna skip. Isse account ek baar nahi doobta, par **baar-baar paisa daalna** padta hai. Edge na ho toh bure 5% case mein saal mein ~₹1 lakh tak jeb se jaa sakta hai (§5.4). Malik ke ₹10-15k balance mein **Nifty50 ka achha strike lagbhag kabhi nahi aata**, isliye trade zyada tar Sensex mein hoga.
 7. **Ganit:** ek trade ka sigma ~37% hai. Isliye +3.6% edge sabit karne ke liye ~300 trade chahiye, aur +7.3% ke liye ~74.
 8. **Ablation:** har check aur har Data Family ko hata kar dekhna ki kaun sach mein edge deta hai. Shadow se Active sirf data se.
 9. **Stage Gates** Confidence Interval par hain, sirf ausat par nahi. Live band karne ki 4 kasauti hain.
@@ -166,11 +166,56 @@ Nifty50 premium Rs 200, Lot 65 → 1 Lot = Rs 13,000. Stop-Loss 25-30% → ek nu
 3. **Malik ke Fund Request model mein "ruin" ka matlab** hai: har nuksan ke baad naya paisa daalna padta hai. Asli jokhim kul daala hua paisa hai. Report mein "kul daala paisa vs kul nikla paisa" alag dikhna chahiye.
 4. **`Ulta_Palat_Aur_Drawdown_Lot_Cut` 1 Lot par nahi lagta**, aur poore balance mein aksar 1 Lot hi hota hai. Isliye drawdown par Lot cut asal mein kabhi chalta hi nahi (F-74).
 
-### 5.3 Behtar sizing ke Prastaav (malik ka niyam overwrite nahi; Idea v4 §9)
+### 5.3 Behtar sizing ke Prastaav (malik ka niyam overwrite nahi; Idea v4 §9). **10 Nov 2026: malik ne A aur C nahi maane; B aur `Kul_Jeb_Nuksan_Seema` sawal mein (§5.4)**
 - **Vikalp A (H-09):** stake ≤ `Fractional_Stake_Hissa` (25%) aur Backtest ke Kelly Hissa ka aadha. Jo Lot isse bada ho, woh trade skip.
 - **Vikalp B (H-10):** seemayein Stop-Unit mein: din 1, hafta 2, mahina 4. Isse seema aur Lot ek ikai mein aate hain.
 - **Vikalp C:** ek trade ka Worst-Case Nuksan ≤ malik ki rupaye wali seema (`Prati_Trade_Max_Nuksan_Rupaye`).
 - **Test:** wahi Monte Carlo, par Backtest ke **asli** trade distribution par (bootstrap), na ki upar ke andaze par. Malik ke saamne table: Risk of Ruin, p95 girawat, median badhotri, aur "kitna paisa chahiye".
+
+### 5.4 Malik ka faisla (10 Nov 2026) aur asli case
+**Malik ka niyam:** balance zyada se zyada ₹10,000-15,000. Premium ki quality pehle: achhe (ITM/ATM) strike ka 1 Lot poore balance se bhi lo; sasta/OTM kabhi nahi; achhe strike ka 1 Lot na aaye toh chupchaap skip. Isliye Vikalp A (hissa) aur C (rupaye ki hadd) hata diye gaye; inke saath malik ke balance par trade hota hi nahi (§5.2 ki seekh 2). **Yeh faisla ganit se bhi theek baithta hai.** Idea ka Delta band (0.45-0.65, Pakka) pehle se OTM strike ko rokta hai, aur koi bhi Vikalp strike ko sasta nahi karta tha; woh sirf skip karte the.
+
+**1 Lot ka kharcha (premium × Lot; saath mein 10% buffer aur ₹250 buffer):**
+
+| Index | Lot | Premium 400 | Premium 450 | Premium 500 |
+|---|---|---|---|---|
+| Nifty50 | 65 | Rs 26,000 (+10%: 28,600; +250: 26,250) | Rs 29,250 (+10%: 32,175; +250: 29,500) | Rs 32,500 (+10%: 35,750; +250: 32,750) |
+| BankNifty | 30 | Rs 12,000 (+10%: 13,200; +250: 12,250) | Rs 13,500 (+10%: 14,850; +250: 13,750) | Rs 15,000 (+10%: 16,500; +250: 15,250) |
+| Sensex (20) | 20 | Rs 8,000 (+10%: 8,800; +250: 8,250) | Rs 9,000 (+10%: 9,900; +250: 9,250) | Rs 10,000 (+10%: 11,000; +250: 10,250) |
+| Sensex (25, Jan 2027) | 25 | Rs 10,000 (+10%: 11,000; +250: 10,250) | Rs 11,250 (+10%: 12,375; +250: 11,500) | Rs 12,500 (+10%: 13,750; +250: 12,750) |
+
+**Kis balance par sabse mehenga kaunsa premium chal sakta hai (1 Lot; 10% buffer / ₹250 buffer):**
+
+| Index | Balance 10,000 (10% buffer / Rs 250 buffer) | Balance 15,000 (10% / Rs 250) |
+|---|---|---|
+| Nifty50 | Rs 140 / Rs 150 | Rs 210 / Rs 227 |
+| BankNifty | Rs 303 / Rs 325 | Rs 455 / Rs 492 |
+| Sensex (20) | Rs 455 / Rs 488 | Rs 682 / Rs 738 |
+| Sensex (25, Jan 2027) | Rs 364 / Rs 390 | Rs 545 / Rs 590 |
+
+Lot: Nifty50 65, BankNifty 30, Sensex 20 (NSE/Upstox file, 10 Nov 2026); Sensex 25 Jan 2027 contracts se (verify nahi hua). Premium 400-500 malik ka andaza hai.
+
+**Nateeja:**
+1. **Nifty50 ka achha strike malik ke balance mein lagbhag kabhi nahi aayega.** ₹15,000 mein Nifty50 ka sabse mehenga chal sakne wala premium ~₹210-227 hai. Malik ke niyam se Nifty50 mein zyada tar din trade nahi hoga (F-77).
+2. **Sensex sabse zyada chalega**, aur BankNifty sirf ₹15,000 aur ~₹455-490 tak ke premium par.
+3. **10% buffer achha strike rokta hai.** Asli round-trip kharcha ₹58-81 hai (§1). ₹250 ka buffer kaafi hai, broker ki margin shart Stage2 mein jaanch kar (`Balance_Extra_Buffer_CC`, `[TAKRAAV #39]`).
+
+**Simulation (`scratch/risk_sim/owner_case.py`):** malik ka niyam + Fund Request. Balance 1 Lot se kam ho toh malik wapas ₹15,000 tak bharta hai; ₹15,000 se upar ka munafa nikaal leta hai. 250 trade, 20,000 path, outcome ke wahi andaze jo §5.2 mein hain. "Sabse neeche" ka matlab hai saal mein kisi bhi waqt jeb se sabse zyada kitna gaya.
+
+| Index @ premium | Jeet-dar (edge) | 1 SL = balance ka | Median refill | Median net (250 trade) | P(net nuksan) | p10 net | p90 net | Sabse neeche (median) | Sabse neeche (bura 5%) |
+|---|---|---|---|---|---|---|---|---|---|
+| Sensex (20) @ 450 | 40% (barabar) | 17% | 33 | Rs 1,872 | 49% | Rs -64,855 | Rs 70,054 | Rs -33,364 | Rs -99,145 |
+| Sensex (20) @ 450 | 45% (thoda edge) | 17% | 28 | Rs 86,212 | 5% | Rs 17,407 | Rs 153,817 | Rs -9,802 | Rs -45,654 |
+| Sensex (20) @ 450 | 50% (achha edge) | 17% | 23 | Rs 169,084 | 0% | Rs 100,277 | Rs 237,002 | Rs -4,626 | Rs -23,975 |
+| BankNifty @ 400 | 40% (barabar) | 22% | 149 | Rs 2,548 | 49% | Rs -86,422 | Rs 93,457 | Rs -44,455 | Rs -132,170 |
+| BankNifty @ 400 | 45% (thoda edge) | 22% | 137 | Rs 115,001 | 5% | Rs 23,261 | Rs 205,141 | Rs -13,063 | Rs -60,861 |
+| BankNifty @ 400 | 50% (achha edge) | 22% | 124 | Rs 225,497 | 0% | Rs 133,754 | Rs 316,055 | Rs -6,168 | Rs -31,946 |
+
+**Seekh:**
+1. Is tareeke mein account "ek baar doobta" nahi. Asli khatra hai **baar-baar paisa daalna**. Edge na ho toh 49% sambhavna hai ki saal ke ant mein jeb se paisa gaya ho. Bure 5% case mein kisi waqt **₹1 lakh (Sensex) se ₹1.3 lakh (BankNifty)** tak neeche ja sakte hain.
+2. Thoda edge ho tab bhi median case mein kisi waqt ₹10-13 hazaar neeche jaana aam hai. Isliye roz ki report mein "kul daala vs kul nikala" dikhna chahiye.
+3. **Malik ke niyam se mel khane wala bachav:** `Kul_Jeb_Nuksan_Seema`. Jeb ka kul nuksan is seema par pahunche, toh bot poori tarah ruke aur likhit jaanch ke bina na chale. Saath mein Risk Limit Stop-Unit mein ho (Vikalp B). Dono Lot ya premium ko nahi chhoote (Sawal 118).
+4. Yeh sab andaze par hai. Asli faisla Backtest ke asli trade distribution par yahi simulation dobara chala kar hoga.
 
 ---
 
@@ -186,7 +231,7 @@ Nifty50 premium Rs 200, Lot 65 → 1 Lot = Rs 13,000. Stop-Loss 25-30% → ek nu
 | H-06 | Cap se door stop par trade skip karna behtar | "Cap par stop" vs "skip" | Skip mein Net Expectancy/trade zyada, kul P&L kam na ho |
 | H-07 | Theta-aware Time-Stop behtar | Time-Stop ko expiry tak ke din ke hisaab se | Time-Stop wale trades ka nuksan kam |
 | H-08 | Shock mein munafe wale trade ko trail karna behtar | Shock events par dono | Shock trades ki Net Expectancy zyada, Slippage kam |
-| H-09 | Vikalp A Risk of Ruin ko bahut ghatata hai | §5 Monte Carlo, asli trades par | Ruin < 1%, p95 girawat malik ki seema ke andar |
+| H-09 | ~~Vikalp A Risk of Ruin ko bahut ghatata hai~~ **Malik ne 10 Nov 2026 ko Vikalp A nahi maana (§5.4); test band** | — | — |
 | H-10 | Stop-Unit wali Risk Limit seemaon ko asal mein lagu karti hai | Monte Carlo | Seema toote toh sirf utni hi, jitni tay |
 | H-11 | Ablation se kuch checks bekaar niklenge; family cap nakli signal ghatata hai | §4 | Hatane par Net Expectancy na gire; family cap par Out-of-Sample sudhre |
 | H-12 | "Trending" tag agle ghante ki ek-disha chaal pehchanta hai | Tag vs baad mein data se nikla regime | Tag ke baad trend ki sambhavna base rate se saaf zyada |
@@ -222,7 +267,7 @@ Nifty50 premium Rs 200, Lot 65 → 1 Lot = Rs 13,000. Stop-Loss 25-30% → ek nu
 | # | Kaise fail hoga | Bachav |
 |---|---|---|
 | 1 | **Asli edge hai hi nahi**; backtest mein dikha kyunki 100 config aazmaaye | Config register, Holm/Reality Check, locked OOS, Stage Gates CI par |
-| 2 | **Poore balance ka Lot** ek bure hafte mein account khatam karta hai | Vikalp A/B/C (H-09, H-10); Monte Carlo malik ko dikhana |
+| 2 | **Poore balance ka Lot**: bure daur mein baar-baar paisa daalna padta hai (malik ka chuna hua jokhim) | `Kul_Jeb_Nuksan_Seema`, Stop-Unit seema (Vikalp B, H-10), roz "kul daala vs nikala" report |
 | 3 | **Slippage model se zyada**; kaagaz par munafa, asli mein nuksan | Slippage grid; khud ka depth record; Stage2 calibration; kill criteria 3 |
 | 4 | **Bot aur Pehredaar ek saath exit**, account net short | Lease, "Pehredaar ne control liya", invariant tests, fault injection |
 | 5 | **Shared token kaam nahi karta** (F-76) ya Pehredaar order cancel nahi kar sakta | Real Money se pehle asli test; fail par design badlo |
