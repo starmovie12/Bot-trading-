@@ -24,7 +24,7 @@
 | R-d | Research: kharche aur data sources (subagent) | ho gaya (`R_d_Costs_Data.md`) |
 | R-e | Benchmark: Python vs Rust vs C++ synthetic tick replay (subagent) | ho gaya (`R_e_Benchmark.md`, code `scratch/bench/`) |
 | D1 | `docs/01_Bot_Idea_v4.md` + `docs/01b_Audit_Findings.md` | ho gaya (76 bindu; verify PASS; lint PASS) |
-| D2 | `docs/02_Tech_Decisions.md` | baaki |
+| D2 | `docs/02_Tech_Decisions.md` | ho gaya (latency budget, language table, architecture, VPS, repos, security, compliance) |
 | D3 | `docs/03_Strategy_Edge_Plan.md` | baaki |
 | D4 | `docs/04_Build_Roadmap.md` | baaki |
 | FR | Aakhri chhoti report (chat mein), phir ruk jaana | baaki |
@@ -36,4 +36,5 @@
 - 10 Nov 2026: Malik ke kehne par abhi tak ka kaam (WIP) GitHub par push karke PR banaya. Baaki kaam isi branch par aage jaayega.
 - 10 Nov 2026: 4 research agents usage limit se ruke; limit reset ke baad R-b, R-c, R-d ki files poori mili, R-a resume karke poora hua.
 - 10 Nov 2026: D1 poora. Research se naye bindu F-62 se F-76. Sabse bada: Upstox ka "ek user, ek chalu API app" niyam (F-76, khud verify kiya: community.upstox.com post 27 Mar 2026) Pehredaar ke alag app ko rokta hai.
-- Agla: D2 (Tech Decisions), phir D3, D4.
+- 10 Nov 2026: D2 poora. Faisla: Dimaag Python, Pehredaar Go; Bot AWS Mumbai c8g.xlarge, Pehredaar GCP Mumbai c4a-standard-2, Dashboard AWS t4g.small; shared token (F-76).
+- Agla: D3 (Strategy Edge Plan, risk-of-ruin Monte Carlo), phir D4.
