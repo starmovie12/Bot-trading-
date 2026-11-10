@@ -121,7 +121,9 @@ def test_journal_to_backtest_end_to_end(tmp_path: Path) -> None:
     assert len(cs) == 375 and math.isclose(cs[10].c, c1[10].c)
     book = RecordedBook(read_journal(f), keymap)
     d = DayData(date(2026, 11, 11), "Nifty50", cs, cs[0].o - 5, 40.0, lambda _m: (8, 10), lambda _m: 0.5, book)
-    trades = run_day(d, BtConfig(capital=15000, daily_loss_limit=1500, kul_jeb_limit=4000), 15000)
+    trades = run_day(
+        d, BtConfig(capital=15000, daily_loss_limit=1500, kul_jeb_limit=4000, max_capital_use_pct=90), 15000
+    )
     assert trades, "poore raaste se kam se kam ek trade (warna test bekaar)"
     for t in trades:
         assert t.entry_t >= t.signal_t + 5

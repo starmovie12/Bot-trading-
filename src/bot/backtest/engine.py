@@ -17,7 +17,7 @@ from bot.dimaag.candles import OPEN_MIN, Candle, resample
 from bot.dimaag.regime import RegimeParams, RegimeTracker, classify, gap_blocks_entry, gap_pct
 from bot.dimaag.setups import SetupParams, Signal, first_signal
 from bot.strategy.costs import CostModel, round_trip
-from bot.strategy.instruments import SPECS, is_expiry_day
+from bot.strategy.instruments import SPECS, expiry_rules_apply
 from bot.strategy.rules import (
     DayState,
     OpenTrade,
@@ -58,6 +58,7 @@ class BtConfig:
     setup: SetupParams = field(default_factory=SetupParams)
     costs: CostModel = field(default_factory=CostModel)
     slippage: float = 0.05  # ek tick
+    max_capital_use_pct: float = 30.0
 
 
 @dataclass(frozen=True, slots=True)
@@ -85,7 +86,7 @@ def _hhmm(minute: int) -> time:
 
 def run_day(d: DayData, cfg: BtConfig, equity: float) -> list[Trade]:
     spec = SPECS[d.index]
-    expiry = is_expiry_day(d.index, d.day)
+    expiry = expiry_rules_apply(d.index, d.day)
     gap = gap_pct(d.c1[0].o, d.prev_close) if d.c1 else 0.0
     day = DayState(daily_loss_limit=cfg.daily_loss_limit)
     tracker = RegimeTracker(cfg.regime)
@@ -120,7 +121,7 @@ def run_day(d: DayData, cfg: BtConfig, equity: float) -> list[Trade]:
                 reason,
             )
         )
-        after_exit(day, pnl)
+        after_exit(day, pnl, minute=minute)
         equity += pnl
         open_ = None
 
@@ -134,6 +135,7 @@ def run_day(d: DayData, cfg: BtConfig, equity: float) -> list[Trade]:
                 capital=equity,
                 max_risk_rupees=risk_per_trade(cfg.capital, cfg.daily_loss_limit),
                 sl_pct=cfg.rules.sl_pct,
+                max_capital_use_pct=cfg.max_capital_use_pct,
             )
             pick = choose_strike(
                 d.index, c.o, sig.side, d.book.chain(m, c.o), lim, cfg.costs, underlying_sl_points=sl_points

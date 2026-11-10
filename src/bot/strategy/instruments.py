@@ -57,3 +57,20 @@ def is_expiry_day(name: str, today: date) -> bool:
 
 def days_to_expiry(name: str, today: date) -> int:
     return (next_expiry(name, today) - today).days
+
+
+def expiry_rules_apply(name: str, today: date, known_expiries: frozenset[date] | None = None) -> bool:
+    """Expiry-din ke sakht niyam aaj lagu hon ya nahi.
+
+    `known_expiries` broker ki instrument list se (pakka). Na mile toh SURAKSHIT andaza: ganit wali expiry
+    ka din AUR uska pichla kaam ka din bhi (chhutti par expiry ek din pehle khisakti hai; verify nahi hua).
+    """
+    if known_expiries is not None:
+        return today in known_expiries
+    exp = next_expiry(name, today)
+    if exp == today:
+        return True
+    prev = exp - timedelta(days=1)
+    while prev.weekday() >= 5:
+        prev -= timedelta(days=1)
+    return prev == today

@@ -19,6 +19,7 @@ class Params:
     breakeven_at_r: float = 1.0  # +1R par SL entry par
     trail_giveback_pct: float = 35.0  # sabse uchi kamai ka itna % wapas jaaye toh exit
     vix_spike_pct: float = 8.0  # India VIX din mein itna uchhle toh naya entry nahi
+    loss_cooldown_min: int = 20  # niyam Loss_Cooldown_Samay: nuksan ke baad 20 min koi entry nahi (badla-trade nahi)
 
 
 @dataclass(slots=True)
@@ -28,6 +29,7 @@ class DayState:
     realised: float = 0.0
     daily_loss_limit: float = 0.0  # rupaye; 0 = tay nahi -> entry band
     halted: bool = False
+    last_loss_minute: int | None = None
     notes: list[str] = field(default_factory=list)
 
 
@@ -48,6 +50,9 @@ def can_enter(
         return False, "din ki nuksan seema poori"
     if vix_change_pct >= p.vix_spike_pct:
         return False, f"India VIX {vix_change_pct:.1f}% uchhla: dar ka mahaul"
+    minute = now.hour * 60 + now.minute
+    if day.last_loss_minute is not None and minute - day.last_loss_minute < p.loss_cooldown_min:
+        return False, f"nuksan ke baad {p.loss_cooldown_min} min ruko (cooldown)"
     if expiry_day and now >= p.expiry_day_last_entry:
         return False, "expiry din dopahar baad naya entry nahi"
     if not any(a <= now < b for a, b in p.entry_windows):
@@ -86,7 +91,9 @@ def on_tick(t: OpenTrade, price: float, minute: int, now: time, p: Params, *, st
     return None
 
 
-def after_exit(day: DayState, pnl: float) -> None:
+def after_exit(day: DayState, pnl: float, *, minute: int | None = None) -> None:
+    if pnl < 0 and minute is not None:
+        day.last_loss_minute = minute
     day.entries += 1
     day.realised += pnl
     day.losses_in_row = day.losses_in_row + 1 if pnl < 0 else 0

@@ -72,7 +72,8 @@ def day_data(kind: str, seed: int, d: date = date(2026, 11, 11)) -> DayData:
     return DayData(d, "Nifty50", c1, c1[0].o - 5, 40.0, lambda _m: up, lambda _m: 0.5, Book(c1))
 
 
-CFG = BtConfig(capital=15000, daily_loss_limit=1500, kul_jeb_limit=4000)
+# Nakli din Nifty (lot 65) par hain; 30% cap Nifty ko rok deta (alag test). Yahan engine ka logic jaanchna hai.
+CFG = BtConfig(capital=15000, daily_loss_limit=1500, kul_jeb_limit=4000, max_capital_use_pct=90)
 
 
 def test_indicators_basic() -> None:

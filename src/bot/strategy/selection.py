@@ -30,7 +30,12 @@ class Limits:
     capital: float
     max_risk_rupees: float  # ek trade mein SL lagne par max nuksan (kharche samet)
     sl_pct: float = 25.0  # premium par hard SL (%)
-    max_capital_use_pct: float = 90.0
+    # 1 lot ka kharcha capital ke 30% tak (Monte Carlo: gap/SL-fail ka tail nuksan = lot ka ~40%;
+    # 30% par tail ~12% capital, 61% wale Nifty lot par ~24%). Isse ₹15k par Nifty (lot 65) aksar bahar.
+    max_capital_use_pct: float = 30.0
+    win_r: float = 2.0  # target = 2R (setup ka andaza)
+    infra_per_trade: float = 111.0  # [ASSUMPTION] VPS ₹1,330/mahina / 12 trade
+    kharcha_fayda_guna: float = 4.0  # niyam Kharcha_Fayda_Guna "3 se 4 guna": munafa ka target >= 4 x kharcha
     max_spread_pct: float = 1.0  # (ask-bid)/ask
     min_oi: int = 50_000
 
@@ -75,6 +80,9 @@ def _check(q: Quote, qty: int, lim: Limits, costs: CostModel, sl_price: float) -
     risk = (q.ask - sl_price) * qty + fees
     if risk > lim.max_risk_rupees:
         return f"SL par nuksan ₹{risk:,.0f} > seema ₹{lim.max_risk_rupees:,.0f}"
+    burden = fees + lim.infra_per_trade
+    if lim.win_r * (q.ask - sl_price) * qty < lim.kharcha_fayda_guna * burden:
+        return f"kharcha ₹{burden:,.0f} target ke mukable bahut bhaari (COST-FIRST)"
     return None
 
 
@@ -98,16 +106,16 @@ def choose_strike(
     opt: Literal["CE", "PE"] = "CE" if side == "CALL" else "PE"
     itm = atm - spec.strike_step if side == "CALL" else atm + spec.strike_step
     book = {(q.strike, q.opt): q for q in chain}
-    first_reason = None
+    reasons: list[str] = []
     for strike, kind in ((itm, "itm"), (atm, "atm")):  # premium quality: pehle ITM, phir ATM; OTM kabhi nahi
         q = book.get((strike, opt))
         if q is None:
-            first_reason = first_reason or f"{strike} {opt} ka quote nahi"
+            reasons.append(f"{strike} {opt} ka quote nahi")
             continue
         sl_price = _sl_price(q.ask, lim, underlying_sl_points, DELTA_GUESS[kind])
         bad = _check(q, spec.lot, lim, costs, sl_price)
         if bad:
-            first_reason = first_reason or f"{strike} {opt}: {bad}"
+            reasons.append(f"{strike} {opt}: {bad}")
             continue
         fees = round_trip(q.ask, sl_price, spec.lot, costs).total
         return Pick(
@@ -121,4 +129,4 @@ def choose_strike(
             risk_rupees=round((q.ask - sl_price) * spec.lot + fees, 2),
             sl_price=round(sl_price, 2),
         )
-    return Pick(False, f"SKIP: {first_reason}")
+    return Pick(False, "SKIP: " + "; ".join(reasons))
