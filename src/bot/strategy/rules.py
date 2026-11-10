@@ -105,3 +105,20 @@ def risk_per_trade(
     if capital <= 0 or daily_loss_limit <= 0:
         return 0.0
     return round(min(daily_loss_limit * daily_share_pct / 100, capital * capital_pct / 100), 2)
+
+
+def account_allows_trading(start_capital: float, equity: float, kul_jeb_limit: float) -> tuple[bool, str]:
+    """Kul jeb seema ka taala (malik ka last-chance paisa bachane ke liye).
+
+    Shuru ke capital se kul nuksan `kul_jeb_limit` tak pahunche toh bot HAMESHA ke liye band.
+    Yeh din badalne par apne-aap nahi khulta; sirf malik khud seema badal kar khol sakta hai.
+    Seema tay nahi (0) = koi trade nahi.
+    """
+    if kul_jeb_limit <= 0:
+        return False, "Kul jeb nuksan seema tay nahi (website Settings): trade band"
+    if kul_jeb_limit >= start_capital:
+        return False, "Kul jeb seema poore capital ke barabar ya zyada: yeh taala nahi, galat seema"
+    lost = start_capital - equity
+    if lost >= kul_jeb_limit:
+        return False, f"Kul nuksan ₹{lost:,.0f} seema ₹{kul_jeb_limit:,.0f} tak pahuncha: bot hamesha ke liye band"
+    return True, f"₹{kul_jeb_limit - lost:,.0f} aur nuksan ki gunjaish"

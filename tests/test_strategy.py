@@ -110,3 +110,15 @@ def test_risk_per_trade_small_capital() -> None:
     q = chain(25000, 50, {24950: 140.0, 25000: 110.0}, {})
     p = choose_strike("Nifty50", 25000.0, "CALL", q, Limits(capital=15000, max_risk_rupees=risk_per_trade(15000, 1500)))
     assert not p.ok and "SL par nuksan" in p.reason
+
+
+def test_kul_jeb_lock_protects_last_capital() -> None:
+    from bot.strategy.rules import account_allows_trading
+
+    assert account_allows_trading(15000, 15000, 0)[0] is False  # seema tay nahi = trade nahi
+    assert account_allows_trading(15000, 15000, 15000)[0] is False  # poora capital seema = galat
+    ok, msg = account_allows_trading(15000, 13000, 4000)
+    assert ok and "2,000" in msg
+    stop, msg2 = account_allows_trading(15000, 11000, 4000)
+    assert not stop and "hamesha ke liye band" in msg2
+    assert account_allows_trading(15000, 10500, 4000)[0] is False  # seema ke paar bhi band hi rahe

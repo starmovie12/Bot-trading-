@@ -80,6 +80,10 @@ Har 5 min par: (a) opening range (9:15-9:30) ki chaudai vs pichhle 10 din ka ave
 - **Isliye bahut din trade nahi hoga. Yeh theek hai.**
 - Sensex misaal: premium ₹300 × 20 = ₹6,000. 25% SL par ₹1,500. Yahan bhi tight underlying SL chahiye.
 - Din: max 2 entry, lagatar 2 haar par band, din ki seema par halt. Kul_Jeb_Nuksan_Seema par bot poori tarah band (malik ka faisla baaki).
+- **Kul jeb ka taala (11 Nov 2026, malik: "₹15,000 = ek mahine ki salary, aakhri mauka"):** shuru ke ₹15,000 se kul nuksan
+  `Kul_Jeb_Nuksan_Seema` tak pahunche toh bot **hamesha ke liye band**. Din badalne par apne-aap nahi khulta; sirf malik khud kholega.
+  Seema tay nahi = koi trade nahi (code: `account_allows_trading`). Claude ka prastaav: **₹4,000** (tab kam se kam ~₹11,000 bachega).
+  Faisla malik ka.
 
 ## 4. Ganit (kitna jeetna zaroori)
 Round-trip kharcha (Nifty, ₹140 premium, 65 qty): ~₹60-75 (andaza; exchange charge verify nahi hua).
