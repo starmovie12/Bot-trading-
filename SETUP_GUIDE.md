@@ -30,16 +30,14 @@ Kuch bhi samajh na aaye toh wahi step Claude ko bata do.
 
 ## 🟡 Step 1: Website theek karo (Vercel)
 
-**Kyun:** pehle website "500 FUNCTION_INVOCATION_FAILED" de rahi thi. PR #3 ke baad build "No Output Directory named public" par ruka. Vercel ka builder output folder ka rasta entrypoint ke hisaab se banata hai, aur cloud par entrypoint alag nikal sakta hai. Fix (PR #4): build ke waqt website ki files repo root ke `public/` aur `dashboard/public/` dono jagah rehti hain, isliye Root Directory khaali ho ya `dashboard`, folder milega. Yahi build Vercel CLI 65.11.0 se yahan har layout mein chala kar pass kiya gaya.
+**Asli wajah mil gayi:** aapke Vercel project ka **Root Directory `pehredaar`** set hai (build log mein `/vercel/path0/pehredaar/...`). Wahan Pehredaar ka code hai, website nahi. Isi se teeno errors aaye (500, "No Output Directory", "Cannot find module"). Ab website alag branch **`website`** mein hai, bilkul akeli, bina build ke.
 
-1. GitHub par **PR #4 kholo → "Merge pull request" → "Confirm merge"** dabao. (PR #3 pehle merge ho chuka hai; usse "No Output Directory named public" error aaya tha, PR #4 use theek karta hai.)
-2. Vercel par apna project `bot-trading` kholo → **Deployments**. 1-2 minute mein naya deployment "Ready" ho jaayega. Na ho toh sabse upar wale deployment par **⋯ → Redeploy**.
-3. **Settings → Build and Deployment** mein dekho:
-    - Framework Preset: **Other** (hamari `vercel.json` khud yahi set karti hai).
-    - Root Directory: **khaali (repo root)** ya **`dashboard`**. Dono chalenge.
-    - Build Command aur Install Command mein kuch bhi likha ho, hamari `vercel.json` use badal deti hai.
+1. Vercel par apna project kholo → **Settings → Build and Deployment → Root Directory:** jo likha hai (`pehredaar`) **mitao, khaali chhodo** → **Save**.
+2. **Settings → Environments → Production → Branch Tracking:** `website` likho → **Save**.
+3. **Deployments** → sabse upar wale deployment par **⋯ → Redeploy**. (Ya kuch der baad `website` branch par naya commit aate hi khud banega.)
+4. Agar Settings mein Framework Preset, Build Command ya Output Directory par "Override" laga ho, toh use band kar do. Hamari `vercel.json` sab khud batati hai.
 
-**Agar build phir fail ho:** Vercel → Deployments → fail wala deployment → Build Logs mein `[bot-dashboard]` se shuru hone wali lines aur aakhri error ki lines copy karke Claude ko bhejo. Unme koi secret nahi hota.
+**Agar build phir fail ho:** Vercel → Deployments → fail wala deployment → Build Logs ki aakhri 20 lines copy karke Claude ko bhejo. Unme koi secret nahi hota.
 
 **Ho gaya kaise pata chalega:**
 
@@ -150,7 +148,7 @@ sudo chmod 600 /etc/systemd/system/bot.service.d/50-secrets.conf
 Naye Claude Code session mein yeh prompt paste karo:
 ```
 # PHASE 2 / M1 (baaki): UPSTOX FEED CLIENT + RECORDER + PROBE + SERVER SETUP.
-Repo: starmovie12/Bot-trading- (code: main, docs: branch idea). Pehle README.md, PROGRESS.md, SETUP_GUIDE.md padho.
+Repo: starmovie12/Bot-trading- (bot code: branch bot, website: branch website, docs: branch idea). Branch bot ka README.md, PROGRESS.md, SETUP_GUIDE.md padho. PR branch bot mein banao.
 Malik ne SETUP_GUIDE ke Step 1-7 kar liye hain (Lightsail Mumbai bot server, Oracle Pehredaar, Static IPs, chaabiyan systemd-creds mein).
 Kaam: (1) Upstox market feed V3 client khud likho: TLS jaanch ON, official MarketDataFeed.proto pin (sha256), reconnect,
 do timestamp. Order wala koi code nahi. (2) Recorder: har raw event append-only file mein. (3) bot.service (systemd) jo
@@ -186,8 +184,8 @@ Niyam: koi chaabi na maango na likho; asli order nahi; har library internet se v
 
 ## Kahan kya hai
 
-- Code: GitHub `main` branch. Idea aur saari research: branch `idea` (`docs/01_Bot_Idea_v4.md` aur aage).
-- Website ka code: `dashboard/` folder. Website ki setting: `vercel.json` (root aur `dashboard/` dono mein).
+- Bot ka code: branch **`bot`** (yeh guide bhi yahin). Website: branch **`website`**. Idea aur research: branch **`idea`**.
+- Website ki setting: branch `website` ki `vercel.json`. Branch `bot` aur `idea` par Vercel build band hai.
 - Kaam ka haal: `PROGRESS.md`.
 
 ## Sources (sab dekhe 10 Nov 2026)

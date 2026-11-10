@@ -196,7 +196,7 @@ def test_pehredaar_can_never_login() -> None:
 
 
 def test_dashboard_push_golden_vector() -> None:
-    # Same vector dashboard/test/state.test.mjs mein bhi hai (Python aur website ek hi signature banayein).
+    # Same vector branch `website` ke test/state.test.mjs mein bhi hai (Python aur website ek hi signature banayein).
     key = Secret("test-key-not-a-real-key")
     body = b'{"mode":"paper"}'
     assert sign(key, 1731220000000, body) == "8d83640c12bb02bb89809ef3960d4d8ceb698b5baae7dbad33893701184a46fd"

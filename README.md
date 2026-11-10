@@ -1,11 +1,18 @@
 # Bot-trading- (code)
 
-BankNifty, Nifty50 aur Sensex options ka trading bot. **Yeh `main` branch sirf code ke liye hai.**
+BankNifty, Nifty50 aur Sensex options ka trading bot. **Yeh branch `bot` sirf bot ka code hai.**
+
+| Branch | Kya hai |
+|---|---|
+| `bot` | Bot ka code (yeh branch) + SETUP_GUIDE |
+| `website` | Dashboard website (Vercel isi se banata hai) |
+| `idea` | Idea v4, audit, tech faisle, strategy, roadmap, research |
+| `main` | Purana milajula code (10 Nov 2026 tak); aage kaam `bot` aur `website` mein |
 Poora idea (v4), audit, tech faisle, strategy plan aur roadmap **branch `idea`** par hain:
 `docs/01_Bot_Idea_v4.md`, `docs/02_Tech_Decisions.md`, `docs/03_Strategy_Edge_Plan.md`, `docs/04_Build_Roadmap.md`.
 
 ## Abhi kahan hain
-- M0 (Neev) ho gaya. **M1 shuru:** auto-login module (TOTP) aur Vercel website ka dhaancha. Status: `PROGRESS.md`.
+- M0 (Neev) ho gaya. **M1 shuru:** auto-login module (TOTP). Website ab branch `website` mein. Status: `PROGRESS.md`.
 - **Abhi kisi broker (Upstox) ya Telegram se koi asli connection nahi.** Login ka code hai, par asli login nahi kiya gaya. Koi order code nahi.
 - Profit ki koi guarantee nahi. Goal: kharche ke baad positive expectancy **sabit** karna; sabit na ho toh live nahi.
 
@@ -14,9 +21,8 @@ Poora idea (v4), audit, tech faisle, strategy plan aur roadmap **branch `idea`**
 |---|---|
 | `src/bot/niyam.py` | Niyam-file ka loader aur validation. Code koi number guess nahi karta |
 | `src/bot/login/` | Roz ka auto-login (malik ka niyam: haath se nahi). TOTP (RFC 6238), secrets sirf encrypted store se, token sirf memory mein |
-| `src/bot/dashboard_push.py` | Bot se website ko signed haalat |
-| `dashboard/` | Vercel website (static page + function). Lagane ke steps: `dashboard/README.md` |
-| `vercel.json`, `api/`, `.vercelignore` | Vercel project repo root se bana ho tab bhi website chale |
+| `src/bot/dashboard_push.py` | Bot se website (branch `website`) ko signed haalat |
+| `vercel.json` | Is branch par Vercel build band (`git.deploymentEnabled: false`) |
 | `SETUP_GUIDE.md` / `SETUP_GUIDE.pdf` | **Malik ke liye step-by-step setup** (kya khareedna, kya settings, kis kram mein) |
 | `src/bot/dimaag/` | Feed, candles, checks, scoring (M2, M3) |
 | `src/bot/haath/` | Order manager, broker ko hukm dene wala akela hissa (M5) |
@@ -41,9 +47,6 @@ PYTHONPATH=src python -m bot.niyam config/niyam.toml
 ```
 ```bash
 cd pehredaar && go vet ./... && go test ./...
-```
-```bash
-cd dashboard && node --test
 ```
 
 ## Niyam (har session)
