@@ -163,11 +163,16 @@ def test_reject_storm_halts() -> None:
     assert om.led.halted is not None and "reject" in om.led.halted
 
 
-def test_rate_limit_8_per_second() -> None:
-    om, b, _ = make(max_orders_per_s=2)
-    b.set_quote(SYM, 199.0, 200.0)
+def test_rate_limit_second_minute_window() -> None:
+    om, _b, c = make(max_orders_per_s=2, max_orders_per_min=3)
     assert om._rate_ok() and om._rate_ok()
-    assert not om._rate_ok()
+    assert not om._rate_ok()  # 1 second mein 3rd nahi
+    c.tick(1.1)
+    assert om._rate_ok()  # naya second
+    c.tick(1.1)
+    assert not om._rate_ok()  # minute mein 3 ho chuke
+    c.tick(60.0)
+    assert om._rate_ok()
 
 
 def test_restart_restores_state_and_reprotects(tmp_path: Path) -> None:

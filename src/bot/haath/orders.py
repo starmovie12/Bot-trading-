@@ -123,6 +123,8 @@ class Limits:
     max_rejects: int = 3
     reject_window_s: float = 300.0
     max_orders_per_s: int = 8
+    max_orders_per_min: int = 400
+    max_orders_per_30min: int = 1800
 
 
 @dataclass(slots=True)
@@ -182,10 +184,17 @@ class OrderManager:
         return f"{tag}-{self._seq}"
 
     def _rate_ok(self) -> bool:
+        """Upstox (SOURCE: rate-limiting page) 10/s, 500/min, 2000/30min; hum 8/400/1800 (niyam)."""
         now = self.clock()
-        while self._sent and now - self._sent[0] >= 1.0:
+        while self._sent and now - self._sent[0] >= 1800.0:
             self._sent.popleft()
-        if len(self._sent) >= self.lim.max_orders_per_s:
+        last_s = sum(1 for x in self._sent if now - x < 1.0)
+        last_m = sum(1 for x in self._sent if now - x < 60.0)
+        if (
+            last_s >= self.lim.max_orders_per_s
+            or last_m >= self.lim.max_orders_per_min
+            or len(self._sent) >= self.lim.max_orders_per_30min
+        ):
             return False
         self._sent.append(now)
         return True

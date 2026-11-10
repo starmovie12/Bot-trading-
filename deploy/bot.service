@@ -1,18 +1,22 @@
 # Bot (Python) - EK HI SERVER plan (Lightsail Mumbai). Chaabiyan sirf systemd-creds se (SETUP_GUIDE Step 7).
 # Install: sudo cp deploy/bot.service /etc/systemd/system/ && sudo systemctl daemon-reload && sudo systemctl enable --now bot
 [Unit]
-Description=Trading bot (paper/real decide bot khud Gates se karta hai)
+Description=Trading bot: abhi sirf DRY-RUN jaanch (paper). Live feed/paper loop M2 mein.
 After=network-online.target time-sync.target
 Wants=network-online.target
+# Restart-loop se bachav: 5 min mein 5 se zyada fail toh systemd rok deta hai
+StartLimitIntervalSec=300
+StartLimitBurst=5
 
 [Service]
-Type=simple
+# M2 tak oneshot: jaanch chalao, nateeja log mein, phir ruk jao (loop nahi)
+Type=oneshot
+RemainAfterExit=yes
+Environment=BOT_MODE=paper
 User=bot
 Group=bot
 WorkingDirectory=/opt/bot
-ExecStart=/opt/bot/.venv/bin/python -m bot
-Restart=on-failure
-RestartSec=5
+ExecStart=/opt/bot/.venv/bin/python -m bot --check
 # SetCredentialEncrypted= lines yahan (systemd-creds encrypt se bani) - repo mein KABHI nahi
 MemoryMax=1200M
 CPUQuota=150%

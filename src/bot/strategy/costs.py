@@ -1,8 +1,11 @@
-"""Ek trade (khareed + bech) ka kharcha. Option KHAREEDNE wale ke hisaab se.
+"""Ek trade (khareed + bech) ka kharcha, option KHAREEDNE wale ke hisaab se.
 
-Pakke (dekha 11 Nov 2026): Upstox brokerage ₹20/order; STT bechne par premium ka 0.15% (1 Apr 2026 se).
-Andaze (VERIFY NAHI HUA): exchange transaction charge, SEBI fee, stamp duty, GST ka aadhar.
-Andaza wale fields `unverified()` mein aate hain; Real Money se pehle inhe broker contract note se pakka karna hai.
+SOURCE: https://upstox.com/brokerage-charges/ (dekha 11 Nov 2026):
+- Brokerage ₹20 / executed order. API ka ₹10 wala offer 31 Dec 2025 tak tha (khatam), isliye ₹20.
+- STT: premium ka 0.15% bechne par (1 Apr 2026 se).
+- Exchange transaction: NSE 0.03553% (1 Mar 2026 se), BSE 0.0325%.
+- SEBI fee ₹10/crore; stamp duty 0.003% khareed par; GST 18% (brokerage + exchange + IPFT par).
+- IPFT ₹0.01/crore: bahut chhota, chhoda.
 """
 
 from __future__ import annotations
@@ -15,10 +18,14 @@ class CostModel:
     brokerage_per_order: float = 20.0
     stt_sell_pct: float = 0.15
     gst_pct: float = 18.0
-    stamp_buy_pct: float = 0.003  # andaza
-    exchange_txn_pct: float = 0.05  # andaza (jaan-boojh kar thoda zyada)
-    sebi_per_crore: float = 10.0  # andaza
-    unverified_fields: tuple[str, ...] = field(default=("stamp_buy_pct", "exchange_txn_pct", "sebi_per_crore"))
+    stamp_buy_pct: float = 0.003
+    exchange_txn_pct: float = 0.03553  # NSE; BSE ke liye `for_exchange("BSE")`
+    sebi_per_crore: float = 10.0
+    unverified_fields: tuple[str, ...] = field(default=())
+
+    @classmethod
+    def for_exchange(cls, exchange: str) -> CostModel:
+        return cls(exchange_txn_pct=0.0325 if exchange == "BSE" else 0.03553)
 
     def unverified(self) -> tuple[str, ...]:
         return self.unverified_fields

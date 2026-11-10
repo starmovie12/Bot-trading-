@@ -32,7 +32,8 @@ def test_costs_round_trip() -> None:
     assert c.stt == pytest.approx(120 * 65 * 0.0015, abs=0.01)  # 0.15% bechne par
     assert c.total > c.brokerage + c.stt
     assert breakeven_points(100.0, 65) > 0.5
-    assert "exchange_txn_pct" in CostModel().unverified()
+    assert CostModel().unverified() == ()  # sab rate Upstox charges page se (SOURCE)
+    assert CostModel.for_exchange("BSE").exchange_txn_pct == 0.0325
     with pytest.raises(ValueError):
         round_trip(-1, 1, 1)
 

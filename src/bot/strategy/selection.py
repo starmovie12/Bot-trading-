@@ -101,7 +101,7 @@ def choose_strike(
         return Pick(False, f"{spec.label} sirf signal ke liye (trade nahi)")
     if spot <= 0:
         return Pick(False, "spot galat")
-    costs = costs or CostModel()
+    costs = costs or CostModel.for_exchange(spec.exchange)
     atm = round(spot / spec.strike_step) * spec.strike_step
     opt: Literal["CE", "PE"] = "CE" if side == "CALL" else "PE"
     itm = atm - spec.strike_step if side == "CALL" else atm + spec.strike_step
