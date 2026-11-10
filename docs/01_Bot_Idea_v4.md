@@ -579,11 +579,25 @@ Jin checks ka "Pehle version mein?" "baad mein" hai, woh Shadow Mode mein chalte
 | VIX_Gati_Term_Structure_Check | Sentiment | Score | 2 (Prastaavit) | haan |
 | FII_DII_Macro_Context_Check | Sentiment | Confidence | 0 | haan |
 
+`[PRASTAAVIT-CC]` `[F-43 | Med]` Neeche ki table batati hai ki kaun se checks ek hi Data Family ke hain. Ek family ke checks aksar ek saath GREEN ya RED hote hain, isliye unke points alag saboot nahi hain. Yeh table Check Suchi ki upar wali table ko nahi badalti; sirf Ablation aur `Data_Family_Max_Score_Hissa` ke liye hai (dekho: Score, Gate aur Confidence ka hisaab).
+
+| Data Family `[PRASTAAVIT-CC]` | Checks |
+| :--- | :--- |
+| Disha (VWAP aur EMA) | EMA_Slope_Check, Timeframe_Match_Check, Teeno_Index_Disha_Check, Heavyweight_Stocks_Check, Volume_Uchhal_Check (VWAP wala hissa) |
+| Breakout Candle | Range_Breakout_Check, Trap_Detection_Check, Lambi_Wick_Check, Chase_Guard, Volatility_Squeeze_Check, Order_Block_BOS_CHoCH_FVG_Check |
+| Volume aur raftaar | Premium_Tezi_Check, Volume_Uchhal_Check, Strike_Volume_Filter, Rate_Update_Gati_Check, Iceberg_Order_Check, Pre_Breakout_Alert_Check |
+| OI | OI_Deewar_Doori_Gate, OI_Deewar_Short_Covering_Check, PCR_Trend_Check, Max_Pain_Shift_Check, GEX_Positioning_Check, Gamma_Flip_Check, Kharcha_Filter (deewar ki doori) |
+| IV | IV_Overpriced_Filter, IVP_Filter, VIX_Gati_Term_Structure_Check, IV_Skew_Check, Bade_Event_Lock (IV thanda) |
+| Index ke stocks | Index_Breadth_Check, Heavyweight_Stocks_Check, Manipulation_Cash_Volume_Check |
+| Liquidity aur kharcha | Liquidity_Filter, Kharcha_Filter, Fake_Spike_Filter |
+
 ### Din_Ka_Mausam_Gate
 
 Naam: Din_Ka_Mausam_Gate. Dekhta hai: ADX (pichle din ki candles ke saath), bhav ki chaal, pichli range, opening gap aur GIFT Nifty se Din ka Mausam. GREEN kab: Agar Din ka Mausam Trending ho ya trap ke liye Ulta-Palat ho, toh GREEN hota hai. RED kab: Agar Din ka Mausam Sideways ho, `Shuruaati_Dekhne_Ka_Samay` chal raha ho ya `Bada_Gap_Hadd` ke baad range na bane, toh RED hota hai. Dono shartein ek saath sach hon toh RED jeetta hai.
 
 Wajah: Sideways bazaar aur bade gap ki thakan mein option buyer ka paisa doobta hai. Bharosa: pakka data (ADX ke levels prastaavit hain). GIFT Nifty ka srot nahi mila, isliye woh sirf jaankari hai aur faisle mein nahi ginti `[PRASTAAVIT]`. Number: `Shuruaati_Dekhne_Ka_Samay`, `Mausam_Dobara_Jaanch_Samay`, `Mausam_Tikav_Samay`, `Bada_Gap_Hadd`, `ADX_Trending_Hadd`, `ADX_Sideways_Hadd`, `Ulta_Palat_Pehchaan_Paimana`, `ADX_Avadhi_Aur_Timeframe`.
+
+`[PRASTAAVIT-CC]` `[F-42 | Med]` "Opening range" ki lambai `Opening_Range_Samay` hai. Bade gap ke baad nayi range `Gap_Ke_Baad_Range_Samay` se banti hai (dekho: Bot ka ek poora din). Wajah: range ki lambai tay na ho toh har baar alag nateeja aayega.
 
 ### Trading_Zone_Gate
 
@@ -597,6 +611,8 @@ Naam: Bade_Event_Lock. Dekhta hai: Malik ki economic calendar file ki badi khaba
 
 Wajah: Badi khabar ke waqt premium achanak ulta bhaag sakta hai ya IV Crush ho sakta hai. Bharosa: pakka data (calendar ka srot malik ki file hai). Number: `Event_Lock_Pehle_Baad_Samay`, `IV_Thanda_Paimana`, `Calendar_Purana_Hadd`.
 
+`[PRASTAAVIT-CC]` `[F-37 | Med]` `[TAKRAAV #34]` Dikkat: `IV_Thanda_Paimana` kehta hai ki IV khabar se pehle ke level ke paas aaye. Par khabar ke baad IV aksar pehle se bhi neeche gir jaata hai (IV Crush). Tab yeh shart kabhi poori nahi hogi aur lock din bhar rahega. Agar khabar ke baad IV khabar se pehle ke level ke `IV_Thanda_Paimana` wale daayre ke andar ho ya usse neeche ho, toh IV thanda maana jaaye. Wajah: IV ka girna khareedne wale ke liye theek hai; khatra uska upar rehna hai.
+
 ### Shock_Mode
 
 Naam: Shock_Mode. Dekhta hai: Teeno indices ki ek saath tez halchal aur India VIX ka achanak uchhal. GREEN kab: Agar bazaar normal chal raha ho ya `Shock_Mode_Khatam_Paimana` poora ho chuka ho, toh GREEN hota hai. RED kab: Agar teeno indices `Shock_Mode_Move_Aur_VIX_Hadd` se hilein aur VIX uchhle, toh RED hota hai.
@@ -609,17 +625,23 @@ Naam: Delta_Filter. Dekhta hai: Option strike ka Delta (dekho: Tayyar Code (Repo
 
 Wajah: Bahut door ke saste options nahi badhte aur bahut andar ke options bahut mehenge hote hain. Bharosa: pakka data. Number: `Normal_Delta_Range`, `Expiry_Subah_Delta_Range`.
 
+`[PRASTAAVIT-CC]` `[F-41 | Med]` Dikkat: Delta aur IV nikalne ki baatein tay nahi: expiry tak ka samay kis ikai mein (din ya trading minute), byaaj dar kitni, aur underlying Spot hai ya Futures. Expiry din par samay ki ikai se Delta bahut badal jaata hai. Agar broker ka greeks data Paper Stage mein apne hisaab se mel khaye, toh wahi liya jaaye; warna ek hi tareeka Delta_Filter aur teeno IV checks mein lage (Sawal 115). Wajah: ek hi strike ka Delta do jagah alag na nikle.
+
 ### Premium_Range_Gate
 
 Naam: Premium_Range_Gate. Dekhta hai: Chune hue strike ka premium (ek unit ka bhav) aur `Target_Premium_Range`. GREEN kab: Agar premium aur ask ke upar `Entry_Order_Slippage_Buffer` milakar bana Limit Order ka bhav, dono `Target_Premium_Range` ke andar hon, toh GREEN hota hai `[PRASTAAVIT]`. RED kab: Agar premium ya Limit Order ka bhav range ke upar ya neeche ho, toh RED hota hai aur bot trade nahi leta. Range ke bahar ka Tagada Premium ho toh Range Alert jaata hai (dekho: Alerts aur insaan ki bhoomika).
 
 Wajah: Bot ne aaj ke liye yahi range tay ki hai. Bharosa: pakka data. Number: `Target_Premium_Range`, `Entry_Order_Slippage_Buffer`.
 
+`[PRASTAAVIT-CC]` `[F-24 | Med]` `[TAKRAAV #33]` Dikkat: `Target_Premium_Range` Delta band ke strikes aur free paise se banta hai. Isliye yeh Gate zyada tar Delta_Filter aur Balance_Ek_Lot_Gate ko hi dohrata hai. Range sirf `Mausam_Dobara_Jaanch_Samay` par banti hai, isliye beech mein bhav khiskne par purani range sahi strike ko rok sakti hai. Agar range ka kaam sirf paise ki seema hai, toh range har evaluation par taaze bhav se bane, aur Range Alert ka matlab ho "signal pass hua par paisa kam" (Sawal 130). Wajah: ek hi data se do Gate bina naye fayde ke trade na rokein.
+
 ### Balance_Ek_Lot_Gate
 
 Naam: Balance_Ek_Lot_Gate. Dekhta hai: Broker account ka free paisa aur 1 Lot ko poora khareedne ka kharcha (premium ko `Ek_Lot_Quantity` se guna). GREEN kab: Agar free paisa 1 Lot ke poore kharche aur `Balance_Extra_Buffer` ke barabar ya zyada ho, toh GREEN hota hai. RED kab: Agar free paisa utna na ho, toh RED hota hai aur bot trade nahi leta.
 
 Wajah: Bot balance ko percentage risk mein nahi bandhta, sirf yeh dekhta hai ki kam se kam 1 Lot ka poora paisa hai. Bharosa: pakka data. Number: `Entry_Lot_Ginti`, `Balance_Extra_Buffer`, `Ek_Lot_Quantity`.
+
+`[PRASTAAVIT-CC]` `[F-45 | Low]` Dikkat: kai Lot lene par `Balance_Extra_Buffer` har Lot par lagega ya ek baar, yeh saaf nahi. Agar bot kai Lot le, toh un sab Lot ka kharcha aur har Lot ka `Balance_Extra_Buffer` dono free paise ke andar hon; warna Lot ek-ek karke ghatein. Wajah: kharche ke baad order reject na ho.
 
 ### Expiry_Filter
 
@@ -633,17 +655,25 @@ Naam: IV_Overpriced_Filter. Dekhta hai: Call aur Put strike ka alag IV (bid aur 
 
 Wajah: Phoola hua mehenga premium khabar ke baad IV Crush mein achanak gir jaata hai. Bharosa: pakka data. Number: `IV_Overpriced_Hadd`, `IV_Spread_Hadd`.
 
+`[PRASTAAVIT-CC]` `[F-42 | Med]` Realized Volatility `Realized_Volatility_Avadhi` ki avadhi se nikalti hai. "Khabar se pehle IV phool gaya" ka matlab hai: Bade_Event_Lock ki khabar se pehle ke din IV `IV_Overpriced_Hadd` se upar ho. Wajah: avadhi tay na ho toh yeh check har baar alag nateeja dega.
+
+`[PRASTAAVIT-CC]` Hypothesis H-01: jab IV aur Realized Volatility ka anupaat kam ho aur IVP neeche ho, tab entry ki Net Expectancy zyada hoti hai. Test: Backtest mein trades ko IV-RV anupaat ke khaanon mein baant kar Net Expectancy milao. Wajah: sasta premium khareedna theta aur IV Crush ka nuksan ghatata hai.
+
 ### IVP_Filter
 
 Naam: IVP_Filter. Dekhta hai: Pichle `IVP_Lookback_Din` ke usi tarah ki expiry aur bache dino wale IV se aaj ka IVP. Jab tak bot ka apna itna lamba IV record na ho, woh usi avadhi ka India VIX ka percentile use karta hai `[PRASTAAVIT]`. GREEN kab: Agar IVP `IVP_Sasta_Hadd` se neeche ya `IVP_Medium_Range` mein ho, toh GREEN hota hai. RED kab: Agar IVP `IVP_Mehenga_Hadd` se upar ho (sivay Shock Mode ke baad bade clean breakout ke), toh RED hota hai.
 
 Wajah: Saal bhar ke mukable bahut mehenge IV mein khareedne par IV girne ka nuksan hota hai. Bharosa: pakka data (shuru mein VIX percentile andaza hai). Number: `IVP_Lookback_Din`, `IVP_Sasta_Hadd`, `IVP_Medium_Range`, `IVP_Mehenga_Hadd`.
 
+`[PRASTAAVIT-CC]` `[F-51 | Med]` Dikkat: "Shock Mode ke baad bade clean breakout" wali chhoot ka koi paimana nahi hai. Agar malik yeh paimana tay na kare, toh pehle version mein yeh chhoot band rahe aur IVP `IVP_Mehenga_Hadd` se upar hone par Gate RED hi rahe. Wajah: vague chhoot se mehenge IV mein trade ho sakta hai. Asar: kuch bade din chhoot sakte hain, par IV Crush ka nuksan bachta hai.
+
 ### Liquidity_Filter
 
 Naam: Liquidity_Filter. Dekhta hai: Broker ke `Market_Depth_Levels` data mein khareedte aur bechte waqt ke orders aur Slippage. GREEN kab: Agar khareedne aur bechne dono waqt rate ka farak `Liquidity_Slippage_Hadd` ke andar ho, toh GREEN hota hai. RED kab: Agar rate ka farak `Liquidity_Slippage_Hadd` se zyada ho, toh "Low Liquidity" RED hota hai. 1 Lot ka order tukdon mein nahi bantta; depth kam ho toh strike chhoda jaata hai `[PRASTAAVIT]`.
 
 Wajah: Kam liquidity wale strike mein trade shuru hote hi bada nuksan ho jaata hai. Bharosa: pakka data. Number: `Market_Depth_Levels`, `Liquidity_Slippage_Hadd`.
+
+`[PRASTAAVIT-CC]` `[F-60 | Med]` Dikkat: "rate ka farak" kaise naapa jaaye, yeh saaf nahi: sirf bid-ask farak se ya poore order ki quantity ko depth mein chala kar. Agar order ki quantity top level ki quantity se zyada ho, toh Slippage depth ke levels mein chal kar naapa jaaye: khareedte waqt ask taraf, bechte waqt bid taraf. Wajah: bade order mein top level ka bhav dhokha deta hai.
 
 ### Kharcha_Filter
 
@@ -657,6 +687,8 @@ Naam: Strike_Volume_Filter. Dekhta hai: Chune hue strike ka `Strike_Volume_Lookb
 
 Wajah: Index bhaag raha ho par strike mein trading na ho toh woh trap ho sakta hai. Bharosa: pakka data. Number: `Strike_Volume_Lookback_Samay`, `Strike_Volume_Average_Guna`, `Volume_Baseline_Din`.
 
+`[PRASTAAVIT-CC]` `[F-38 | Med]` Dikkat: kisi strike ka pichle dinon ka volume uske aaj ke haal se mel nahi khaata. Har din strike ki ATM se doori aur expiry tak ke bache din badal jaate hain. Agar volume ka average banana ho, toh woh usi Moneyness Khaane aur usi tarah ke bache dinon wale strike ke volume se bane, strike ke naam se nahi. Wajah: galat average se asli volume wala strike bhi RED ho sakta hai.
+
 ### Fake_Spike_Filter
 
 Naam: Fake_Spike_Filter. Dekhta hai: Chune hue strike ke saath aas-paas ke `Aas_Paas_Strikes_Ginti` ka premium, ek hi samay ke snapshot mein (`Option_Chain_Snapshot_Samay_Farak`). GREEN kab: Agar tezi ek lehar ki tarah `Aas_Paas_Strikes_Ginti` mein bhi fail rahi ho, toh GREEN hota hai. RED kab: Agar sirf ek akela strike bhaage aur baaki so rahe hon, toh "Fake Spike" RED hota hai. NA kab: Agar snapshot ek samay ke na hon.
@@ -668,6 +700,8 @@ Wajah: Asli breakout poori Option Chain mein failta hai, akela uchhal nakli hota
 Naam: Chase_Guard. Dekhta hai: Premium ki badhotri, index ki ATR se doori, agli OI Deewar aur pullback. Breakout woh candle hai jis par `Range_Breakout_Check` pehli baar GREEN hua. Premium ki badhotri us candle ke band hone par strike ke bid-ask ke beech ke bhav se naapi jaati hai `[PRASTAAVIT]`. GREEN kab: Agar premium `Chase_Guard_Premium_Badhotri_Hadd` se kam bhaaga ho ya pullback dekar chale, toh GREEN hota hai. RED kab: Agar premium `Chase_Guard_Premium_Badhotri_Hadd` se upar bhaaga ho aur pullback na aaya ho, toh RED hota hai. OI Deewar paas ho toh wajah "Late Entry" likhi jaati hai, door ho toh "Premium Bhaaga".
 
 Wajah: Bhaage hue mehenge premium ko upar khareedne par pullback mein turant Stop-Loss kat sakta hai. Bharosa: pakka data. Number: `Chase_Guard_Premium_Badhotri_Hadd`.
+
+`[PRASTAAVIT-CC]` `[F-42 | Med]` "Pullback dekar chale" ka paimana `Pullback_Paimana` hai (dekho: Naam-Suchi, Pullback). Wajah: bina paimane ke yeh shart har baar alag padhi jaayegi.
 
 ### OI_Deewar_Doori_Gate
 
@@ -681,6 +715,8 @@ Naam: Manipulation_Cash_Volume_Check. Dekhta hai: Expiry din (`Manipulation_Chec
 
 Wajah: Cash stocks ko hila kar options mein trap banane wale pattern se bachna zaroori hai. Bharosa: pakka data. Number: `Manipulation_Check1_Samay`, `Manipulation_Cash_Volume_Guna`.
 
+`[PRASTAAVIT-CC]` `[F-01 | Critical]` Yeh check sirf expiry din aur `Manipulation_Check1_Samay` mein lagu hai; baaki samay yeh NA-Lagu-Nahi hai (dekho: Faisle ka raasta). `[F-02 | Critical]` Nifty50 aur Sensex ke stocks ki suchi tay hone tak un index ke expiry din yeh check NA-Data hoga aur Gate RED karega (Sawal 16). "Ajeeb OI" ka paimana tay nahi hai (`Manipulation_Ajeeb_OI_Paimana`). Wajah: vague shart par Gate ka faisla har baar alag hoga.
+
 ### Manipulation_GEX_Mausam_Check
 
 Naam: Manipulation_GEX_Mausam_Check. Dekhta hai: Subah ke Din ka Mausam faisle aur GEX tagging (Positive banam Negative Gamma Day) ka milaan. GREEN kab: Agar subah ka mausam aur GEX dono ek hi baat bolein, toh GREEN hota hai. RED kab: Agar subah ka mausam Trending bole par GEX Positive Gamma Day bole, toh caution-flag RED hota hai. Group Directional-Bias hai par Asar sirf Confidence hai, isliye yeh Score ki ginti mein nahi aata `[PRASTAAVIT]`.
@@ -693,17 +729,23 @@ Naam: Manipulation_Settlement_Check. Dekhta hai: Expiry din `Settlement_Manipula
 
 Wajah: Expiry ke aakhri ghante mein settlement bhav ko dhakelne wale khel se bachna zaroori hai. Bharosa: pakka data. Number: `Settlement_Manipulation_Check_Samay`, `Expiry_Settlement_Ausat_Samay`.
 
+`[PRASTAAVIT-CC]` `[F-01 | Critical]` Yeh check sirf expiry din `Settlement_Manipulation_Check_Samay` ke baad lagu hai; usse pehle yeh NA-Lagu-Nahi hai. "Shant bazaar" aur "bhaari saude" ka paimana tay nahi (`Settlement_Bhaari_Saude_Paimana`). `[F-32 | Med]` SUSPICIOUS flag us index mein `SUSPICIOUS_Flag_Avadhi` tak rehta hai. Wajah: flag ka ant tay na ho toh agle din ka trade bhi bina wajah ruk sakta hai.
+
 ### Lambi_Wick_Check
 
 Naam: Lambi_Wick_Check. Dekhta hai: Breakout candle ke band hote hi uske upar ya neeche bani wick (rejection). Yeh check sirf us band candle par chalta hai, adhoori par nahi `[PRASTAAVIT]`. GREEN kab: Agar candle ki wick `Lambi_Wick_Hadd` se chhoti ho, toh GREEN hota hai. RED kab: Agar candle mein wick `Lambi_Wick_Hadd` se lambi ho, toh RED hota hai.
 
 Wajah: Lambi wick dikhati hai ki breakout level par bhaari ulta dabav maujood hai. Bharosa: pakka data. Number: `Lambi_Wick_Hadd`.
 
+`[PRASTAAVIT-CC]` `[F-42 | Med]` Breakout Candle `Breakout_Candle_Timeframe` ki hoti hai. Yahi candle Range_Breakout_Check, Chase_Guard aur Trap_Detection_Check mein bhi maani jaati hai. Wajah: chaaron check ek hi candle dekhein, warna aapas mein takraayenge.
+
 ### Tick_Heartbeat_Check
 
 Naam: Tick_Heartbeat_Check. Dekhta hai: Spot Price, Futures aur Option Chain ke tick data ka Heartbeat Timestamp aur backup stream. Bot ghadi ke farak ko bhi dekhta hai (`Ghadi_Skew_Hadd`). Aam taur par kam chalne wale strike ka data apni aam gap se aanka jaata hai, feed ke gap se nahi `[PRASTAAVIT]`. GREEN kab: Agar index, Futures, ATM strikes aur chune hue strike ka data `Data_Purana_Hadd` ke andar ho, toh GREEN hota hai. RED kab: Agar inmein se koi bhi purana ya atka ho, ya connection judne ke baad abhi `Reconnect_Taza_Tick_Ginti` taaza tick na aaye hon, toh RED hota hai.
 
 Wajah: Broker ka data atakne par purane bhav par calculation karne se galat trade lag sakta hai. Bharosa: pakka data. Number: `Data_Purana_Hadd`, `Ghadi_Skew_Hadd`, `Reconnect_Taza_Tick_Ginti`.
+
+`[PRASTAAVIT-CC]` `[F-07 | High]` Data ki umar do tarah se naapi jaaye: exchange ki chhap se, aur bot ke apne data paane ke samay se. Agar dono mein se koi bhi `Data_Purana_Hadd` se purana ho, toh RED. Ghadi ki jaanch `Ghadi_Skew_Sakht_Hadd` se ho (dekho: Bot ka ek poora din). Wajah: ghadi ki galti data ki taazgi ka naap bigaad deti hai.
 
 ### Broker_Exchange_Gadbad_Check
 
@@ -729,6 +771,8 @@ Naam: Volume_Uchhal_Check. Dekhta hai: Option va Futures volume ka uchhal, VWAP 
 
 Wajah: Spot index mein volume nahi hota, isliye asli khareedari Futures volume aur VWAP se dikhti hai. Bharosa: pakka data. Number: `Volume_Uchhal_Guna`, `Volume_Baseline_Din`.
 
+`[PRASTAAVIT-CC]` `[F-39 | Med]` Dikkat: GREEN aur RED ki shart sirf Call ke hisaab se likhi hai. Agar trade Put ka ho, toh shartein ulti padhi jaayein: bhav VWAP se neeche ho aur Futures premium mein na uchhle. Yahi ulta niyam Iceberg_Order_Check par bhi lage. "Futures discount mein phisalna" ka paimana `Futures_Discount_Hadd` hai. Wajah: Put ke liye PRD wala AI ulta niyam na bana de.
+
 ### Rate_Update_Gati_Check
 
 Naam: Rate_Update_Gati_Check. Dekhta hai: Broker feed mein ek second mein bhav update hone ki ginti banam normal gati. GREEN kab: Agar rate update ki gati feed ki normal gati se `Rate_Update_Gati_Guna` badh jaaye, toh GREEN hota hai. RED kab: Agar rate update ki gati normal hi rahe, toh RED hota hai. NA kab: Agar feed sirf thodi der ka sanket deta ho aur ginti bharose ki na ho.
@@ -747,11 +791,17 @@ Naam: Trap_Detection_Check. Dekhta hai: Support ya resistance tootne ke baad bre
 
 Wajah: Retail Stop-Loss udane wale trap se bachna aur asli tez move ko bhi na chhodna. Bharosa: pakka data. Number: `Mazboot_Breakout_Tikav_Samay`, `Kamzor_Breakout_Tikav_Samay`.
 
+`[PRASTAAVIT-CC]` `[F-42 | Med]` Mazboot Breakout aur Kamzor Breakout ka farak `Mazboot_Breakout_Paribhasha` se hai. `[F-57 | Low]` Band candle ke intezaar mein tikav ka samay aksar apne aap poora ho jaata hai. Isliye yeh check Range_Breakout_Check ki hi Data Family mein hai. Wajah: ek hi baat do baar points na de.
+
 ### Range_Breakout_Check
 
 Naam: Range_Breakout_Check. Dekhta hai: Pichle `Chart_Range_Breakout_Samay` ki range (aur subah pichle din va opening range) ka breakout, poori band candle par. GREEN kab: Agar band candle tay range ko Call ke liye upar ya Put ke liye neeche tode, toh GREEN hota hai. RED kab: Agar bhav abhi range ke andar hi atka ho, toh RED hota hai.
 
 Wajah: Sirf premium nahi balki index ka chart bhi breakout ka samarthan karna chahiye. Bharosa: pakka data. Number: `Chart_Range_Breakout_Samay`.
+
+`[PRASTAAVIT-CC]` `[F-42 | Med]` Breakout `Breakout_Candle_Timeframe` ki band candle par dekha jaata hai, aur "opening range" `Opening_Range_Samay` ki hai. `[F-55 | Low]` `Chart_Range_Breakout_Samay` ek range hai; bot ek hi kimat chune (Sawal 133). Wajah: do kimat par do alag breakout banenge.
+
+`[PRASTAAVIT-CC]` Hypothesis H-14: Spot index mein asli saude nahi hote, isliye breakout Futures ke bhav par jaldi aur saaf dikh sakta hai. Test: Backtest mein Spot wale aur Futures wale breakout ki Net Expectancy aur deri milao. Wajah: jaldi aur saaf signal Slippage aur Chase ka nuksan ghatata hai.
 
 ### Timeframe_Match_Check
 
@@ -764,6 +814,8 @@ Wajah: Bade trend ki disha mein chhote timeframe par entry lene se safalta badht
 Naam: EMA_Slope_Check. Dekhta hai: Chart par `EMA_Periods` lines ka jhukaav (slope) (dekho: Tayyar Code (Repo)). GREEN kab: Agar `EMA_Periods` ka slope Call ke liye upar ya Put ke liye neeche sharp ho, toh GREEN hota hai. RED kab: Agar `EMA_Periods` flat hon ya ulti disha mein hon, toh RED hota hai.
 
 Wajah: Sharp EMA slope batata hai ki trend mein tez raftaar hai. Bharosa: pakka data. Number: `EMA_Periods`.
+
+`[PRASTAAVIT-CC]` `[F-42 | Med]` "Sharp" slope ka paimana `EMA_Slope_Hadd` hai, jo abhi Tay nahi. Agar yeh Backtest se tay na ho, toh yeh check score mein na gine aur Shadow Mode mein chale. Wajah: bina paimane ka GREEN bharose ka nahi.
 
 ### RSI_Momentum_Check
 
@@ -819,6 +871,8 @@ Naam: OI_Deewar_Short_Covering_Check. Dekhta hai: Major strikes par naya OI bann
 
 Wajah: Option writers jab dar kar bhagte hain toh sabse tez move aata hai. Bharosa: pakka data. Number: `Option_Chain_Snapshot_Samay_Farak`.
 
+`[PRASTAAVIT-CC]` `[F-44 | Med]` Dikkat: OI exchange se der-der mein badalta hai, isliye yeh sabse dheema sanket hai, par iska vazan sabse bade mein se hai. "Bhaari matra mein naya OI" ka paimana bhi tay nahi (`OI_Bhaari_Badlaav_Paimana`). Hypothesis H-11: Ablation mein dekho ki is check ka vazan sach mein utna faayda deta hai ya nahi. Wajah: purane data par bada vazan galat breakout ko pass kar sakta hai.
+
 ### Pre_Breakout_Alert_Check
 
 Naam: Pre_Breakout_Alert_Check. Dekhta hai: Shant index aur bina news ke kam se kam do paas ke strikes ka premium aur OI ek saath achanak badhna `[PRASTAAVIT]`. GREEN kab: Agar shant index mein bina khabar aur `IVP_Mehenga_Hadd` ke andar premium va OI uchhle, toh GREEN hota hai. RED kab: Agar uchhal sirf ek akele strike mein ho ya IVP `IVP_Mehenga_Hadd` se upar ho, toh RED hota hai.
@@ -837,11 +891,17 @@ Naam: Teeno_Index_Disha_Check. Dekhta hai: BankNifty, Nifty50 aur Sensex teeno k
 
 Wajah: Teeno indices ek saath ek disha mein hon tabhi chaal pakki maani jaati hai. Bharosa: pakka data. Number: `Index_Ginti`, `Disha_Paribhasha`.
 
+`[PRASTAAVIT-CC]` `[F-40 | Med]` Dikkat: "teeno alag Disha" ka matlab saaf nahi, jaise jab do ek Disha mein hon aur ek FLAT. Agar teeno trade ki Disha mein hon, toh GREEN. Agar koi ek bhi ulti Disha mein ho, toh RED. Baaki haal mein 0 point aur confidence par asar nahi. Wajah: beech ki haalat ka faisla PRD wala AI na kare. "Ek bada daon" ka matlab Expiry ke din ke niyam ke `[F-31]` wale niyam jaisa hai.
+
 ### Index_Breadth_Check
 
 Naam: Index_Breadth_Check. Dekhta hai: BankNifty ke `BankNifty_Kul_Banks_Ginti` (aur Nifty50 va Sensex ke top stocks) ka Advance/Decline, vazan ke saath. GREEN kab: Agar vazan ke hisaab se zyada-tar stocks breakout ki disha mein hon, toh GREEN hota hai. RED kab: Agar vazan ke hisaab se `Khokhla_Breadth_Hadd` ya zyada hissa ulti disha mein ho, toh RED hokar Gate se trade block karta hai. Ruka hua (halt) stock hata kar baaki ke vazan naye sire se baante jaate hain `[PRASTAAVIT]`. Gate RED hone par yeh Sentiment ke GREEN mein nahi ginta.
 
 Wajah: Sirf ek-do stocks ke dam par bana breakout andar se khokhla operator-trap hota hai. Bharosa: pakka data. Number: `BankNifty_Kul_Banks_Ginti`, `Khokhla_Breadth_Hadd`.
+
+`[PRASTAAVIT-CC]` `[F-02 | Critical]` `[TAKRAAV #32]` Dikkat: yeh check Gate bhi hai, aur Nifty50 va Sensex ke stocks ki suchi Tay nahi hai. Data na hone se yeh NA-Data hoga aur Gate RED karega, yaani Nifty50 aur Sensex mein kabhi trade nahi hoga. Agar malik suchi tay na kare, toh suchi index ke official vazan wale page se har mahine bane, aur sabse bade vazan ke `Breadth_Top_Stocks_Ginti` stocks liye jaayein. Jab tak suchi pakki na ho, Nifty50 aur Sensex sirf Paper Mode mein chalein. Wajah: Gate ka data hi na ho toh Gate poore index ko band kar deta hai.
+
+`[PRASTAAVIT-CC]` `[F-58 | Low]` BankNifty ke banks ki ginti exchange badal sakta hai. Agar index ki official suchi mein ginti badle, toh check usi suchi se chale, aur `BankNifty_Kul_Banks_Ginti` ka farak malik ko dikhaya jaaye (dekho: Tarikh wali baatein). Wajah: purani suchi par Breadth galat niklega.
 
 ### Heavyweight_Stocks_Check
 
@@ -860,6 +920,8 @@ Wajah: Dollar aur bond yield ka uchhalna banks ke girne se kuch second pehle dik
 Naam: VIX_Gati_Term_Structure_Check. Dekhta hai: India VIX ka level, uske badhne ki speed aur Term-Structure. GREEN kab: Put ke liye VIX `VIX_Medium_Level` se tezi se badhe aur index gire; Call ke liye VIX na badhe ya gire aur index chadhe `[PRASTAAVIT]`. RED kab: Call ke liye VIX tezi se badh raha ho, ya Put ke liye VIX ooncha hokar gir raha ho (jo Theta Decay ke haq mein hai), toh RED hota hai.
 
 Wajah: Option buyer ko tezi se badhta hua VIX hi directional move deta hai. Bharosa: pakka data. Number: `VIX_Medium_Level`.
+
+`[PRASTAAVIT-CC]` `[F-42 | Med]` "Tezi se badhe" aur Term-Structure ki shart ka paimana tay nahi (`VIX_Tezi_Paimana`). Wajah: pehle version ke check ki shart number ke bina test nahi ho sakti.
 
 ### FII_DII_Macro_Context_Check
 
@@ -881,6 +943,10 @@ Kuch sthitiyan bot ka confidence kam karti hain, aur har ek alag kaaran ginti ha
 
 Agar zaroori score `Maximum_Score_Threshold_Cap` se upar chala jaaye, toh bot us index mein aaj trade nahi leta `[TAKRAAV #10]`. Wajah: jab bahut saare khatre ek saath hon toh trade lena galti hogi. Cap badhotri ke kul jod se chhota rakha gaya hai, taaki yeh shart sach mein lag sake `[PRASTAAVIT]`.
 
+`[PRASTAAVIT-CC]` `[F-43 | Med]` Dikkat: kai checks ek hi data se bante hain, isliye "bahut saare GREEN" asal mein kam alag saboot hain. EMA_Slope_Check, Timeframe_Match_Check, Teeno_Index_Disha_Check aur Heavyweight_Stocks_Check sab Disha par tike hain (dekho: Check Suchi ki Data Family table). Group cap sirf Group dekhta hai, data ka dohraav nahi. Agar Ablation dikhaye ki ek Data Family ke checks ek saath chalte hain, toh us family ke kul points `Data_Family_Max_Score_Hissa` se zyada na ginein. Wajah: ek hi baat ke kai GREEN nakli bharosa dete hain.
+
+`[PRASTAAVIT-CC]` Hypothesis H-11: har check ka asli faayda Ablation se naapa jaaye. Jo check kharche ke baad Net Expectancy na badhaye, uska vazan malik ki manzoori se ghatana ya use Shadow Mode mein bhejna socha jaaye. Test: `03_Strategy_Edge_Plan.md` ka Ablation plan. Wajah: vazan andaze se hain, data se nahi.
+
 ## 9. Risk aur Lot ginti
 
 Ek Lot ki quantity exchange tay karta hai (dekho: Tarikh wali baatein). Ek Lot ka kharcha chune hue premium ko `Ek_Lot_Quantity` se guna karke nikalta hai `[PRASTAAVIT]`. Wajah: Target_Premium_Range ek unit ka bhav hai, Lot ka kul kharcha nahi.
@@ -901,6 +967,18 @@ Agar band hue trades ka kul nuksan `Daily_Loss_Risk_Limit` paar kare, toh bot na
 
 Kamai bachane ke liye bot mein Daily Profit Lock hota hai. Agar subah ke trades se `Daily_Profit_Lock_Trigger` kamai ho jaaye, toh bot `Daily_Profit_Lock_Hissa` kamai lock kar leta hai. Uske baad bot sirf wahi trade leta hai jiska poora Stop-Loss nuksan bache hue (lock se upar ke) munafe ke andar aaye `[PRASTAAVIT]`. Agar aisa trade na ban sake, toh us din naye entry band rehte hain. Agar kamai ghat kar lock level ko chhoo le, toh bot us din trading band kar deta hai. Wajah: subah ka bada munafa dopahar ke whipsaw mein wapas bazar ko na jaaye.
 
+`[PRASTAAVIT-CC]` `[F-03 | Critical]` `[TAKRAAV #28]` Dikkat: poore balance se Lot lene par ek hi Stop-Loss ka nuksan `Daily_Loss_Risk_Limit`, `Weekly_Loss_Risk_Limit` aur `Monthly_Loss_Risk_Limit` teeno se bada ho sakta hai. Tab pehle hi nuksan ke baad bot poore mahine ruk jaata hai, jab tak malik haath se Start na de. Ganit yeh bhi dikhata hai ki har trade mein poora balance lagane par, ausat fayda positive hone par bhi, lambe samay mein balance ghat sakta hai (dekho: `03_Strategy_Edge_Plan.md`, Risk of Ruin). Malik ka niyam waisa hi hai; neeche ke vikalp sirf Prastaav hain. Wajah: risk ki seemayein aur Lot ka niyam ek doosre se mel nahi khaate.
+
+`[PRASTAAVIT-CC]` Vikalp A (Hissa): ek trade mein Deposit-Adjusted Equity ka zyada se zyada `Fractional_Stake_Hissa` premium mein lage; 1 Lot usse mehenga ho toh trade skip. Vikalp B (Stop-Unit seema): Risk Limit percent ke bajay Stop-Unit mein gine jaayein: `Stop_Unit_Din_Seema`, `Stop_Unit_Hafta_Seema` aur `Stop_Unit_Mahina_Seema`. Vikalp C (Rupaye ki hadd): malik ek trade ka zyada se zyada Worst-Case Nuksan rupaye mein tay kare (`Prati_Trade_Max_Nuksan_Rupaye`); usse bada trade skip. Wajah: risk ki seema aur Lot ka niyam ek hi ikai mein hon.
+
+`[PRASTAAVIT-CC]` Hypothesis H-09 aur H-10: Monte Carlo aur Backtest mein malik ka niyam aur teeno vikalp milaye jaayein: Risk of Ruin, sabse badi girawat aur lambe samay ki badhotri. Agar malik ke niyam ki Risk of Ruin vikalp se bahut zyada nikle, toh malik se dobara faisla liya jaaye (Sawal 118). Wajah: faisla ganit aur data se ho, andaze se nahi.
+
+`[PRASTAAVIT-CC]` `[F-15 | High]` Dikkat: "ek trade ka nuksan `Premium_Max_Stop_Loss_Percent` se bandha hai" gap ya tez girawat mein sach nahi. Bhav Stop-Loss ko kood sakta hai, Broker Stop aur door hota hai, aur MPP Order ka bhav aur neeche ja sakta hai. Agar risk ka koi bhi hisaab ho (Risk Limit, Lot ginti, Daily Profit Lock), toh ek trade ka nuksan Worst-Case Nuksan se gina jaaye. Wajah: kaagaz par chhota dikhta nuksan asal mein bada ho sakta hai. Asar: kam Lot ya kam trade, par seema sach mein bachti hai.
+
+`[PRASTAAVIT-CC]` `[F-14 | High]` Dikkat: din ka nuksan sirf band trade se gina jaata hai, isliye ek khula trade gehre nuksan mein ho tab bhi doosra trade khul sakta hai. Agar naya entry lena ho, toh band trades ka nuksan aur har Khule Trade ka Worst-Case Nuksan milakar `Daily_Loss_Risk_Limit` ke andar ho. Wajah: do trade ek saath girein toh din ki seema ek hi jhatke mein toot sakti hai. Asar: doosra trade kam baar khulega.
+
+`[PRASTAAVIT-CC]` `[F-50 | Low]` Daily Profit Lock "subah ke trades" par likha hai. Agar kamai dopahar mein `Daily_Profit_Lock_Trigger` tak pahunche, toh bhi lock lage ya nahi, yeh malik se pushti ho (Sawal 132). Poore balance wale Lot mein lock ke baad bacha munafa ek Stop-Loss ke liye kam padta hai, isliye lock lagte hi din lagbhag band ho jaata hai. Wajah: niyam ka asli asar malik ko pata ho.
+
 ## 10. Entry
 
 Jab scorecard ki teeno shartein aur saare Gates pass hon, toh bot khud BUY order lagata hai `[TAKRAAV #1]`. Wajah: tez chaal pakadne ke liye turant automatic entry zaroori hai. Bot sirf Start Control dabane ke baad entry leta hai `[TAKRAAV #1]`. Start se pehle bot sirf dekhta hai aur Fund Request bhejta hai `[TAKRAAV #16]`. Wajah: Start malik ki us din ki poori ijaazat hai.
@@ -919,6 +997,10 @@ Trade band hone ke baad cooldown lagta hai. Agar pichla trade nuksan mein band h
 
 Agar ek din mein `Lagatar_Loss_Din_Band_Ginti` trades nuksan mein band hon, toh us din naye entry band ho jaate hain `[TAKRAAV #4]`. Nuksan matlab kharche ke baad net nuksan; breakeven ya chhote fayde mein kata trade is ginti ko todta hai `[PRASTAAVIT]`. Wajah: lagatar nuksan batata hai ki aaj bazaar anukool nahi hai. `Lagatar_Ulte_Auto_Entries_Ginti` mein woh entry ginti hain jo `Time_Stop_Samay` ke andar Stop-Loss ya breakeven par kat gayi. Yeh ginti din badalne par bhi chalti hai aur pehle fayde wale trade par ruk jaati hai `[PRASTAAVIT]`. Wajah: do nuksan par din band ho jaata hai, isliye yeh ginti din ke bheetar poori nahi ho sakti.
 
+`[PRASTAAVIT-CC]` `[F-13 | High]` Dikkat: Khule Trade ki ginti mein pending entry order aur chal raha exit gine jaate hain ya nahi, yeh likha nahi. Isse `Prati_Index_Max_Open_Trade` aur `Kul_Max_Open_Trades` toot sakte hain. Agar kisi index mein position, pending entry order ya chal raha exit ho, toh woh us index ka Khula Trade gina jaaye (dekho: Naam-Suchi). Wajah: order ke beech ke samay mein doosra entry na ghuse. Asar: dohre jokhim ka rasta band.
+
+`[PRASTAAVIT-CC]` Hypothesis H-02: ask se upar `Entry_Order_Slippage_Buffer` wala Limit Order har baar poora spread deta hai. Test: Paper Stage aur Stage2 mein "bid aur ask ke beech se shuru karke ek baar sudhaar" wale order ka fill-dar aur Slippage milao. Agar fill-dar `Entry_Fill_Dar_Min` se upar rahe aur Slippage ghate, toh malik ki manzoori se badlaav socha jaaye. Wajah: har trade ka chhota Slippage saal bhar mein bada kharcha banta hai.
+
 ## 11. Exit
 
 Har khule trade ka Stop-Loss entry ke saath hi tay ho jaata hai (dekho: Pehredaar aur Suraksha). Pehla Stop-Loss premium ke ATR (dekho: Tayyar Code (Repo)) aur swing low ke hisaab se lagta hai. ATR `ATR_Avadhi` ki avadhi ka aur Stop-Loss ki doori `ATR_Stop_Guna` guna hoti hai `[PRASTAAVIT]`. Ismein entry bhav se `Premium_Max_Stop_Loss_Percent` ki girawat ek aakhri upari hadd hoti hai. Wajah: shant bazaar mein chhota Stop-Loss lage aur tez bazaar mein normal halchal se stop na ude.
@@ -934,6 +1016,20 @@ Waqt aur entry ki wajah se bhi exit hota hai. Agar `Time_Stop_Samay` mein bhi pr
 Har samay aur khatre ke exit mein khule trade ko band hi kiya jaata hai, Stop-Loss tight karke nahi rakha jaata `[TAKRAAV #9]` `[PRASTAAVIT]`. Event se `Event_Exit_Pehle_Samay` pehle, Shock_Mode lagte hi, aur `Expiry_Shift_Aur_Exit_Samay` par expiry wala current trade band hota hai. `Auto_Square_Off_Samay` par saare trades band hote hain. `Daily_Loss_Risk_Limit` toote ya Kill-Switch dabe, toh bhi khule trades nikaale jaate hain. `Tight_Stop_Doori` ab kisi exit mein nahi lagta. Wajah: koi bhi trade khatre mein ya raat ko khula na rahe.
 
 Exit ke waqt bot intezaar nahi karta. Agar trade band karna ho, toh bot pehle Broker Stop cancel karke uska confirm leta hai (dekho: Pehredaar aur Suraksha). Phir woh chalte bid bhav se `Aggressive_Exit_Bid_Offset` neeche Aggressive Limit Order lagata hai. Agar woh `Exit_Order_Update_Samay` mein fill na ho, toh bot bhav badal kar dobara bhejta hai, aur `Exit_Reprice_Max_Ginti` ke baad MPP Order se nikalta hai `[PRASTAAVIT]`. Wajah: nikalte waqt har haal mein turant fill zaroori hai. `Auto_Square_Off_Samay` ek hi samay hai aur broker ke apne square-off se pehle rakha jaata hai `[PRASTAAVIT]`.
+
+`[PRASTAAVIT-CC]` `[F-22 | High]` Dikkat: pehla Stop-Loss ATR aur swing low dono se banta hai, par dono alag hon toh kaunsa chune, yeh likha nahi. Agar dono alag hon, toh jo entry se zyada door ho woh liya jaaye, kyunki Swing Low ke upar ka stop aam halchal mein kat-ta hai. Malik ke niyam mein yeh doori `Premium_Max_Stop_Loss_Percent` par ruk jaati hai. Wajah: PRD wala AI do stop mein se apni marzi se na chune.
+
+`[PRASTAAVIT-CC]` Hypothesis H-06 (vikalp): agar sahi jagah ka stop `Premium_Max_Stop_Loss_Percent` se door ho, toh stop ko paas khinchne ke bajay trade liya hi na jaaye. Test: Backtest mein "cap par stop" banam "trade skip" ki Net Expectancy milao. Malik ka niyam test hone tak waisa hi rahega. Wajah: jabardasti paas rakha stop aam halchal mein kat kar nuksan ki ginti badhata hai.
+
+`[PRASTAAVIT-CC]` `[F-20 | High]` `[TAKRAAV #30]` Dikkat: `Trailing_Stop_Doori` pehle Stop-Loss ki doori (`ATR_Stop_Guna`) se chhoti hai, aur trailing kab shuru ho, yeh likha nahi. Agar trailing entry se hi chale, toh pehla Stop-Loss turant paas aa jaayega. Agar Stop-Loss breakeven par aa chuka ho, tabhi Trailing Stop-Loss shuru ho. Wajah: trade ko pehle saans lene ki jagah mile. Asar: jaldi kate trade kam.
+
+`[PRASTAAVIT-CC]` `[F-21 | High]` Dikkat: bot ka Stop-Loss kis bhav par chale (aakhri saude ka bhav, bid ya beech ka bhav), yeh tay nahi. Ek akela galat saude ka bhav ya pal bhar ka chauda spread stop ko chala sakta hai. Agar best bid lagatar `Stop_Pushti_Ginti` updates tak Stop-Loss par ya usse neeche rahe, toh Stop-Loss chale. Broker Stop exchange ke apne niyam se chalta hai. Wajah: bot wahi bhav dekhe jis par woh asal mein bech sakta hai.
+
+`[PRASTAAVIT-CC]` `[F-46 | Med]` "Trailing Stop-Loss kas deta hai" ki nayi doori `Trailing_Kasi_Doori` hai. Wajah: bina number ke yeh niyam test nahi ho sakta.
+
+`[PRASTAAVIT-CC]` `[F-61 | Med]` Agar exit ka Aggressive Limit Order aadha fill ho, toh bacha hissa usi kram mein bhav badal kar dobara bheja jaaye. Har fill ke baad Broker Stop ki quantity bache Lot ke barabar ki jaaye. Wajah: aadha band trade bina Stop ke na rahe.
+
+`[PRASTAAVIT-CC]` Hypothesis H-05: munafa percent ke bajay Stop-Unit ke guna par liya jaaye (jaise pehla hissa ek Stop-Unit ke barabar munafe par). Hypothesis H-07: Time-Stop expiry tak ke bache din aur theta ke hisaab se badle. Test: Backtest mein dono ki Net Expectancy aur girawat malik ke niyam se milao. Wajah: nikalne ke niyam hi asli kamai tay karte hain.
 
 ## 12. Ek udaharan
 
@@ -954,6 +1050,12 @@ ATR Stop-Loss 160 rupaye par tay hota hai. Balance mein bas 1 Lot ka paisa hai, 
 10:28 baje premium 35 percent badh kar 271 rupaye hota hai. Bot apna Stop-Loss aur Broker Stop khiskakar breakeven (203 rupaye) par le aata hai, aur har khiskaav ka broker se confirm leta hai. 10:36 baje premium 55 percent badh kar 311 rupaye hota hai, toh bot Trailing Stop-Loss kas deta hai, kyunki trade mein sirf 1 Lot hai. 10:48 baje exit ke waqt bot pehle Broker Stop cancel karta hai aur broker ka confirm leta hai. Phir woh trade 295 rupaye par Aggressive Limit Order se bechta hai aur net quantity zero milti hai.
 
 Phir bot 5 minute Profit Cooldown lagata hai aur kundali Dashboard par dikhata hai. Usi din BankNifty mein 310 rupaye ka tagada premium dikha jo range ke bahar tha. Bot ne use nahi kharida (`Premium_Range_Gate` RED) aur Telegram par Range Alert bheja.
+
+`[PRASTAAVIT-CC]` **Doosra nakli udaharan (galti wala din).** Nakli udaharan. Number sirf samjhane ke liye, niyam nahi.
+
+`[PRASTAAVIT-CC]` 11:05 baje BankNifty mein bot ka 2 Lot ka Put khula hai, Broker Stop laga hai. Bot ke machine par 5 second ka atkaav aata hai. 4 second par bot ka Lease khatam hota hai, toh bot broker ko koi hukm nahi bhejta. 6 second par Pehredaar "Pehredaar ne control liya" nishan likhta hai, Broker Stop cancel karta hai, confirm leta hai, aur broker ki net quantity padhta hai. Broker 1 Lot dikhata hai, kyunki Broker Stop pehle hi 1 Lot par fill ho chuka tha; Pehredaar sirf 1 Lot bechta hai aur net quantity zero milti hai.
+
+`[PRASTAAVIT-CC]` Bot wapas chalta hai, nishan padhta hai aur us din broker ko koi hukm nahi bhejta. Malik ko Critical Alert Pehredaar ke apne rasta se jaata hai. Shaam ko malik Kill-Switch dabata hai toh Kill Latch lagta hai; agle din malik ke Start Control tak bot naya entry nahi leta.
 
 ## 13. Dashboard
 
@@ -981,6 +1083,12 @@ Dashboard par Fund Request bhi dikhti hai: aaj kitna paisa chahiye. Dashboard pa
 
 Dashboard par reject hue strikes aur unki wajah ("Low Liquidity", "Fake Spike", "Late Entry", "OI Wall Too Close", "SUSPICIOUS") bhi dikhti hai. Order reject ho ya aadha fill ho, toh woh bhi Dashboard par dikhta hai. Bot se Dashboard ko live haalat, checks status, khule-band trades, kundali, reject strikes aur order alerts ka data jaata hai. Dashboard se bot ko Mode Chunav, Start Control, Stop Control aur Emergency Pause ka hukm jaata hai. Kill-Switch ka hukm Pehredaar ke Exit Hissa ko jaata hai.
 
+`[PRASTAAVIT-CC]` `[F-17 | High]` Dikkat: Dashboard internet par khula hai, aur usse bot aur Pehredaar ko hukm jaate hain. Dashboard par kabza ho jaaye toh nakli hukm ja sakta hai. Har hukm par malik ki pehchaan, hukm ka samay aur ek baar ka alag number ho; `Command_Max_Umar` se purana ya dohraya hukm bot aur Pehredaar na maanein. Bot aur Pehredaar Dashboard ke liye koi khula darwaza nahi rakhte; woh hukm khud lene jaate hain, aur Pehredaar Dashboard se sirf Kill-Switch maanta hai. Wajah: Dashboard ki galti asli paise tak na pahunche.
+
+`[PRASTAAVIT-CC]` `[F-17 | High]` Har hukm ka record rahe: kisne, kab, kis jagah se, aur bot ne kya kiya. Wajah: baad mein dikhe ki kaun sa hukm asli tha.
+
+`[PRASTAAVIT-CC]` `[F-47 | Med]` Dikkat: Dashboard band ho jaaye toh malik Start, Stop ya Kill-Switch kaise dabaye, yeh tay nahi. Agar bot `Dashboard_Band_Hadd` tak Dashboard se jud na paaye, toh naye entry band hon, khule trade apne Exit niyam se chalein, aur malik ko Zaroori Alert jaaye. Aapat haalat mein malik Upstox app se trade kaat sakta hai; doosra aapat rasta Sawal 129 mein hai. Wajah: malik ke control ke bina bot ko naya jokhim nahi lena chahiye.
+
 ## 14. Alerts aur insaan ki bhoomika
 
 Bot kuch khaas mauko par malik ke phone par turant alert bhejta hai. Agar taiyari kharab ho, order fail ho, bot pause ho, Pehredaar chale ya Risk Limit toote, toh phone alert jaata hai. Wajah: har gambhir sthiti ki khabar malik ko turant milni chahiye. Phone alert Telegram par aata hai. Telegram par sirf alert aata hai aur poori detail Dashboard par dikhti hai. Wajah: user ne kaha Telegram par khali alert aur website par achhe se.
@@ -999,6 +1107,8 @@ Range Alert ke beech `Alert_Cooldown_Samay` ka gap rehta hai, din mein zyada se 
 
 Critical Alert par malik Emergency Pause ya Kill-Switch daba sakta hai ya Upstox app se trade kaat sakta hai. Agar `Alert_Jawab_Samay` tak jawab na aaye, toh bot aur Pehredaar apne suraksha niyam aur exit khud chalate rehte hain `[PRASTAAVIT]`. Wajah: malik na ho tab bhi suraksha na ruke. Malik khaas din par manzoori de sakta hai `[TAKRAAV #1]` aur `Ooncha_IV_Avadhi` tak ooncha IV rehne par limit soch sakta hai.
 
+`[PRASTAAVIT-CC]` `[F-16 | High]` Dikkat: alert bot bhejta hai, par bot hi ruk jaaye toh "Pehredaar chale" jaisa alert kaun bhejega? Pehredaar ka apna alert rasta ho (apna Telegram aur email), bot se alag, aur uski chaabi sirf Pehredaar ki machine ke surakshit store mein ho. Bot Pehredaar ki dhadkan dekhe; agar Pehredaar `Pehredaar_Dhadkan_Chhoot_Ginti` tak chup rahe, toh bot naye entry band kare aur Critical Alert bheje. Agar dono chup hon, toh Dashboard par laal nishan aur email alert jaaye. Wajah: chaukidar ki bhi nigrani zaroori hai.
+
 ## 15. Report, Record aur Niyam badalna
 
 Bot har din ke ant mein apni ek poori report banata hai. Ismein kul signals, reject strikes va unki wajah, kul trades, Slippage, kharcha aur har check ka sahi-galat nateeja hota hai. Wajah: roz ke kaam ka saaf hisaab saamne rahe. Shadow Mode ke checks aur "Sideways Din" tag wale din bhi report mein alag dikhte hain `[PRASTAAVIT]`. Wajah: Shadow Mode ke checks ka asar jaanch ke baad hi tay hoga.
@@ -1009,6 +1119,14 @@ Checks ke vazan aur limits (jaise IVP ya Delta range) bot kabhi apne aap nahi ba
 
 Report, trades aur niyam-badlaav ka record `Record_Rakhne_Avadhi` tak rakha jaata hai `[PRASTAAVIT]`. Tax ke liye roz ki alag file bhi banti hai. Wajah: record kitne saal rakhna hai, yeh tax salahkaar se pushti hona baaki hai.
 
+`[PRASTAAVIT-CC]` `[F-49 | Med]` Bot har din ka Replay Record rakhe: har aaya data (tick, Option Chain, depth, order ka jawab) apne samay ke saath, aur har faisla. Agar wahi din dobara chalaya jaaye, toh wahi faisle nikalne chahiye; na niklein toh yeh galti maani jaaye. Backtest, Paper Mode aur Real Money Mode mein faisle ka ek hi niyam chale. Wajah: galti dobara dekhi ja sake aur kaagaz ka nateeja asli se mel khaye.
+
+`[PRASTAAVIT-CC]` `[F-48 | Med]` Reject hue signal ka nateeja `Reject_Signal_Nateeja_Samay` par naapne ke saath, Shadow Trade se bhi naapa jaaye: wahi Limit Order, wahi Stop-Loss, wahi exit niyam aur wahi kharcha. Wajah: ek pal ka bhav reject ko sahi ya galat dikha sakta hai; Shadow Trade asli trade jaisa hisaab deta hai. Asar: Gate aur vazan badalne ka faisla behtar data par hoga.
+
+`[PRASTAAVIT-CC]` Agar koi niyam ya vazan badalna ho, toh naya niyam Backtest ke Out-of-Sample hisse aur Paper Mode dono mein parkha jaaye. Har badlaav ke saath likha jaaye ki kitne vikalp aazmaaye gaye the. Wajah: bahut vikalp aazmaane par koi ek kismat se achha dikh sakta hai.
+
+`[PRASTAAVIT-CC]` Agar Shadow Mode ka check `Shadow_Se_Active_Min_Signal` signals tak chale, aur Ablation mein uske jodne se Net Expectancy ka nichla Confidence Interval upar khiske, tabhi malik use Active kare. Wajah: check data se apni jagah kamaaye, umeed se nahi.
+
 ## 16. Test aur Live par jaane ka plan
 
 Bot ko live paise par chalane se pehle teen Stage mein uski kadi parakh hoti hai: Paper Stage, Stage2 aur Poora Lot Stage. Pehle, Paper Mode se pehle, bot purane bazaar data par Backtest se parakha jaata hai `[PRASTAAVIT]`. Dashboard par malik Paper Mode ya Real Money Mode koi bhi chun sakta hai, isliye Stage aur Mode Chunav kaise milenge, yeh tay nahi hua `[TAKRAAV #12]`. Agar malik Paper Stage se pehle Real Money Mode chune, toh bot Stage2 ke Lot par chalta hai aur Dashboard par Stage Override dikhta hai `[PRASTAAVIT]`.
@@ -1018,6 +1136,18 @@ Paper Stage mein bot `Paper_Mode_Avadhi` tak Paper Mode mein bina asli paise ke 
 Stage2 mein bot asli bazaar mein `Test_Stage2_Live_Lot` se `Stage2_Avadhi` tak chalta hai aur kaagaz ko asli fill se milata hai `[PRASTAAVIT]`. Wajah: asli order par Slippage ki sacchai saamne aati hai. Agar Paper aur asli fill ka farak `Paper_Asli_Fill_Farak_Hadd` se zyada ho, toh Stage badalne ka paimana poora nahi maana jaata. Teesre Stage mein nateeje bharose ke hone par bot poore Lot size par aata hai.
 
 Agle Stage par jaane ka paimana `Stage_Badlaav_Paimana` hai `[PRASTAAVIT]`. Paper Stage mein kam se kam `Paper_Mode_Trade_Ginti` trades hone chahiye. Agar `Trade_Kam_Din_Ginti` wale din bahut kam trades hon, toh bot ki trade ginti jaanchi jaati hai. Niyam ya limit badalne par Stage dobara shuru nahi hota.
+
+`[PRASTAAVIT-CC]` `[F-19 | High]` Dikkat: Stage badalne ka paimana "kul nateeja nuksan mein nahi" hai, aur trade ginti kam hai. Itne kam trade mein kismat aur hunar alag nahi dikhte. Har Stage ka paimana Net Expectancy ke Confidence Interval se ho, sirf ausat se nahi (`Backtest_Min_Trade_Ginti`, `Paper_Gate_CC`, `Stage2_Gate_CC`). Wajah: ausat positive hona sabit karna nahi hai.
+
+`[PRASTAAVIT-CC]` Backtest Gate: Backtest Walk-Forward ho, kam se kam `Backtest_Min_Avadhi` ka, aur aakhri hissa Out-of-Sample ho. Agar Out-of-Sample mein `Backtest_Min_Trade_Ginti` trade na hon, `Expectancy_CI_Star` poora na ho, `Profit_Factor_Min` na mile ya `Parameter_Stability_Paimana` fail ho, toh Paper Stage shuru nahi hota. Wajah: jo purane data par kharche ke baad nahi kamata, woh asli bazaar mein bhi shayad nahi kamayega.
+
+`[PRASTAAVIT-CC]` `[F-18 | High]` `[TAKRAAV #35]` Dikkat: malik Paper Stage se pehle Real Money Mode chun sakta hai, isliye poori parakh ek click se chhoot sakti hai. Agar Backtest Gate pass na hua ho, toh Real Money Mode ka Start Control na chale. Agar malik Stage Override chune, toh bot sirf `Stage_Override_Max_Lot` par chale aur malik likh kar pushti de. Wajah: parakh ka niyam ek galti se na toote. Asar: shuruaati nuksan ka sabse bada rasta band.
+
+`[PRASTAAVIT-CC]` Live band karne ki kasauti: agar Real Money Mode mein `Live_Kill_Paimana` ki koi bhi shart sach ho, toh bot naye entry band kare. Malik ki jaanch aur likhit pushti tak Real Money Mode wapas na chale. Shartein: girawat Backtest ki sabse buri girawat se bahut zyada, haal ki Net Expectancy Backtest ke nichle daayre se neeche, asli Slippage model se bahut zyada, ya koi Critical niyam toota (net short, bina Broker Stop trade, dohra order). Wajah: bura daur aur toota bot, dono jaldi pakde jaayein.
+
+`[PRASTAAVIT-CC]` `[F-52 | Med]` Paper Mode ka fill niyam tay nahi. Agar Paper Mode ka Limit Order lage, toh fill tabhi maana jaaye jab saamne ki depth mein us bhav par poori quantity ho. Fill ka bhav depth mein chal kar nikle, aur order aur fill ke beech `Paper_Deri_Model` jitni deri jode. Wajah: kaagaz ke fill asli se achhe dikhenge toh Stage ka paimana dhokha dega.
+
+`[PRASTAAVIT-CC]` Stage2 se pehle yeh fault test pass hon: Pehredaar ka control lena, Broker Stop ka aadha fill, Kill-Switch aur Kill Latch, token band, feed atakna, aadha fill aur dohra order (dekho: `04_Build_Roadmap.md`). `Stage_Badlaav_Paimana` mein "Broker Stop va Pehredaar ke saare test paas" ka matlab yahi suchi ho. Wajah: suraksha ke niyam asli paise se pehle sabit hon.
 
 ## 17. Tayyar Code (Repo)
 
@@ -1221,6 +1351,51 @@ Status ke chaar roop hain: Pakka (user ne final kaha), Andaza (user ne "jaise" l
 | Stage2_Avadhi | 10 trading din | Prastaavit | 16. Test aur Live par jaane ka plan | Asli fill ka farak dekhne ke liye |
 | Paper_Asli_Fill_Farak_Hadd | 1 percent | Prastaavit | 16. Test aur Live par jaane ka plan | Paper aur asli fill ka farak kitna theek maana jaaye |
 | Ruka_Stock_Hadd | Check ke stocks ka aadha ya zyada halt ya suspend ho toh check NA; kam ruke toh baaki stocks se hisaab | Prastaavit | 7. Check Suchi | Ruke hue stock ka bhav bharose ka nahi hota |
+| Ghadi_Skew_Sakht_Hadd `[PRASTAAVIT-CC]` | 50 milliseconds (hamesha `Data_Purana_Hadd` ke paanchve hisse se kam) `[TAKRAAV #27]` | Prastaavit | 3. Bot ka ek poora din, 7. Check Suchi | Ghadi ki galti data ki taazgi ke naap se bahut chhoti ho `[F-07]` |
+| Bot_Lease_Samay `[PRASTAAVIT-CC]` | 4 second (hamesha Pehredaar ke control lene ke samay, yaani `Pehredaar_Dhadkan_Samay` guna `Pehredaar_Dhadkan_Chhoot_Ginti`, se kam) | Prastaavit | 5. Pehredaar aur Suraksha | Pehredaar ke control lene se pehle bot khud ruk jaaye `[F-05]` |
+| Pehredaar_Swatantra_Milaan_Samay `[PRASTAAVIT-CC]` | 10 second | Prastaavit | 5. Pehredaar aur Suraksha | Pehredaar khud broker se bina Stop ke trade pakde `[F-16]` |
+| Pehredaar_Token_Jaanch_Samay `[PRASTAAVIT-CC]` | 60 second | Prastaavit | 5. Pehredaar aur Suraksha | Pehredaar ka token kharab ho toh jaldi pata chale `[F-35]` |
+| Broker_Stop_Min_Khiskaav `[PRASTAAVIT-CC]` | Premium ATR ka 0.5 guna, par kam se kam 2 Tick Size | Prastaavit | 5. Pehredaar aur Suraksha, 11. Exit | Har chhote khiskaav par Broker Stop badal kar broker ki modify seema na khatam ho `[F-08]` |
+| Broker_Stop_Modify_Bajat `[PRASTAAVIT-CC]` | Broker ki ek order ki din ki modify seema ka 80 percent (seema: Tarikh wali baatein) | Prastaavit | 5. Pehredaar aur Suraksha | Seema se pehle cancel aur naya Broker Stop `[F-08]` |
+| Feed_Stale_REST_Gati `[PRASTAAVIT-CC]` | Har 1 second, broker ki request seema ke andar | Prastaavit | 5. Pehredaar aur Suraksha | Feed atakne par broker se bhav maangne ki raftaar (H-15) `[F-33]` |
+| Command_Max_Umar `[PRASTAAVIT-CC]` | 5 second | Prastaavit | 13. Dashboard | Purana ya dohraya Dashboard hukm na maana jaaye `[F-17]` |
+| Dashboard_Band_Hadd `[PRASTAAVIT-CC]` | 60 second | Prastaavit | 13. Dashboard | Dashboard se judaav toote toh naye entry band `[F-47]` |
+| Liquidity_Exit_Tikav_Samay `[PRASTAAVIT-CC]` | 10 second | Prastaavit | 3. Bot ka ek poora din | Pal bhar ke chaude spread par exit na ho `[F-29]` |
+| Opening_Range_Samay `[PRASTAAVIT-CC]` | 9:15 se 9:30 (`Shuruaati_Dekhne_Ka_Samay` ke barabar) | Prastaavit | 2. Naam-Suchi, 3. Bot ka ek poora din, 7. Check Suchi | Opening Range ki ek hi lambai `[F-42]` |
+| Gap_Ke_Baad_Range_Samay `[PRASTAAVIT-CC]` | 30 minute (9:15 se 9:45) | Prastaavit | 3. Bot ka ek poora din, 7. Check Suchi | Bade gap ke baad nayi range ki paribhasha `[F-25]` |
+| Breakout_Candle_Timeframe `[PRASTAAVIT-CC]` | `Chart_Chhota_Timeframe` (3 minute) | Prastaavit | 2. Naam-Suchi, 7. Check Suchi | Saare breakout checks ek hi candle dekhein `[F-42]` |
+| Realized_Volatility_Avadhi `[PRASTAAVIT-CC]` | Pichle 20 trading din (Backtest se pakka karna) | Prastaavit | 7. Check Suchi | IV ki tulna wali Realized Volatility ki avadhi `[F-42]` |
+| Mazboot_Breakout_Paribhasha `[PRASTAAVIT-CC]` | Breakout Candle par Futures volume `Volume_Uchhal_Guna` ya zyada, aur agli OI Deewar `OI_Deewar_Stop_Guna` se door; baaki Kamzor Breakout | Prastaavit | 2. Naam-Suchi, 4. Expiry ke din ke niyam, 7. Check Suchi | Mazboot aur Kamzor Breakout ka saaf farak `[F-30]` `[F-42]` |
+| Pullback_Paimana `[PRASTAAVIT-CC]` | Premium breakout ke baad ke sabse oonche bhav se kam se kam 0.5 premium-ATR neeche aaye, phir breakout disha mein ek band candle bane | Prastaavit | 2. Naam-Suchi, 7. Check Suchi | Chase_Guard ke pullback ka paimana `[F-42]` |
+| Swing_Pushti_Candle_Ginti `[PRASTAAVIT-CC]` | Dono taraf 2 band candle | Prastaavit | 2. Naam-Suchi, 11. Exit | Swing Low aur Swing High ki pushti `[F-22]` |
+| EMA_Slope_Hadd `[PRASTAAVIT-CC]` | Tay nahi (Backtest se tay ho; tab tak check Shadow Mode mein) | Tay nahi | 7. Check Suchi | "Sharp" slope ka number `[F-42]` |
+| Futures_Discount_Hadd `[PRASTAAVIT-CC]` | Tay nahi | Tay nahi | 7. Check Suchi | "Futures discount mein phisalna" ka number `[F-39]` |
+| Manipulation_Ajeeb_OI_Paimana `[PRASTAAVIT-CC]` | Tay nahi | Tay nahi | 7. Check Suchi | "Ajeeb OI" ka number |
+| Settlement_Bhaari_Saude_Paimana `[PRASTAAVIT-CC]` | Tay nahi | Tay nahi | 7. Check Suchi | "Shant bazaar" aur "bhaari saude" ka number |
+| OI_Bhaari_Badlaav_Paimana `[PRASTAAVIT-CC]` | Tay nahi | Tay nahi | 7. Check Suchi | "Bhaari matra mein naya OI" ka number `[F-44]` |
+| VIX_Tezi_Paimana `[PRASTAAVIT-CC]` | Tay nahi | Tay nahi | 7. Check Suchi | VIX "tezi se badhe" aur Term-Structure ki shart ka number |
+| SUSPICIOUS_Flag_Avadhi `[PRASTAAVIT-CC]` | Us index mein us trading din ke ant tak | Prastaavit | 4. Expiry ke din ke niyam, 7. Check Suchi | SUSPICIOUS flag ka ant tay ho `[F-32]` |
+| Trailing_Kasi_Doori `[PRASTAAVIT-CC]` | Premium ke sabse oonche bhav se 0.5 ATR neeche | Prastaavit | 11. Exit | 1 Lot par "Trailing Stop-Loss kasna" ki doori `[F-46]` |
+| Stop_Pushti_Ginti `[PRASTAAVIT-CC]` | Lagatar 2 depth updates | Prastaavit | 11. Exit | Ek galat bhav par Stop-Loss na chale `[F-21]` |
+| Worst_Case_Nuksan_Guna `[PRASTAAVIT-CC]` | Entry premium ka 40 percent (Andaza; Stage2 ke asli gap-fill se sudhaar) | Prastaavit | 9. Risk aur Lot ginti | Risk ke hisaab mein ek trade ka sabse bura nuksan `[F-15]` |
+| Fractional_Stake_Hissa `[PRASTAAVIT-CC]` | Vikalp A: Deposit-Adjusted Equity ka 25 percent, aur Backtest ke Kelly Hissa ke aadhe se zyada nahi | Prastaavit | 9. Risk aur Lot ginti | Poore balance ki jagah hisse wala vikalp (H-09) `[F-03]` |
+| Stop_Unit_Din_Seema `[PRASTAAVIT-CC]` | Vikalp B: 1 Stop-Unit | Prastaavit | 9. Risk aur Lot ginti | Din ki seema ek Stop-Loss ke size se mel khaye (H-10) `[F-03]` |
+| Stop_Unit_Hafta_Seema `[PRASTAAVIT-CC]` | Vikalp B: 2 Stop-Unit | Prastaavit | 9. Risk aur Lot ginti | Hafte ki seema Stop-Unit mein `[F-03]` |
+| Stop_Unit_Mahina_Seema `[PRASTAAVIT-CC]` | Vikalp B: 4 Stop-Unit | Prastaavit | 9. Risk aur Lot ginti | Mahine ki seema Stop-Unit mein `[F-03]` |
+| Prati_Trade_Max_Nuksan_Rupaye `[PRASTAAVIT-CC]` | Vikalp C: Tay nahi (malik rupaye mein tay kare) | Tay nahi | 9. Risk aur Lot ginti | Ek trade ka zyada se zyada Worst-Case Nuksan `[F-03]` |
+| Data_Family_Max_Score_Hissa `[PRASTAAVIT-CC]` | Us waqt ke zaroori score ka 40 percent (sirf Ablation ke baad lagu) | Prastaavit | 8. Score, Gate aur Confidence ka hisaab | Ek hi data ke checks nakli bharosa na dein (H-11) `[F-43]` |
+| Shadow_Se_Active_Min_Signal `[PRASTAAVIT-CC]` | 100 signal | Prastaavit | 15. Report, Record aur Niyam badalna | Shadow Mode se Active hone se pehle kam se kam data |
+| Entry_Fill_Dar_Min `[PRASTAAVIT-CC]` | 80 percent | Prastaavit | 10. Entry | Spread-aware entry ka fill kitna ho toh theek (H-02) |
+| Backtest_Min_Avadhi `[PRASTAAVIT-CC]` | 18 mahine Walk-Forward; aakhri 6 mahine Out-of-Sample (expiry weekday badalne wale dino ka alag nateeja) | Prastaavit | 16. Test aur Live par jaane ka plan | Backtest kitne lambe data par ho `[F-19]` |
+| Backtest_Min_Trade_Ginti `[PRASTAAVIT-CC]` | Kul 300 trade, jismein Out-of-Sample mein kam se kam 100 | Prastaavit | 16. Test aur Live par jaane ka plan | Kam trade par kismat aur hunar alag nahi dikhte `[F-19]` |
+| Expectancy_CI_Star `[PRASTAAVIT-CC]` | Out-of-Sample Net Expectancy ka ek-taraf 95 percent nichla Confidence Interval 0 se upar | Prastaavit | 16. Test aur Live par jaane ka plan | Ausat nahi, bharose ka daayra positive ho `[F-19]` |
+| Profit_Factor_Min `[PRASTAAVIT-CC]` | Kharche ke baad 1.3 | Prastaavit | 16. Test aur Live par jaane ka plan | Munafa nuksan se saaf bada ho |
+| Parameter_Stability_Paimana `[PRASTAAVIT-CC]` | Har mukhya number ko 20 percent upar-neeche karne par bhi Out-of-Sample Net Expectancy 0 se upar | Prastaavit | 16. Test aur Live par jaane ka plan | Ek hi number par tika nateeja kismat ho sakta hai |
+| Paper_Gate_CC `[PRASTAAVIT-CC]` | Kam se kam 40 trading din aur 60 trade; Net Expectancy Backtest ke 90 percent daayre ke andar; koi Critical niyam nahi toota `[TAKRAAV #35]` | Prastaavit | 16. Test aur Live par jaane ka plan | Paper Stage ka data-based paimana `[F-19]` |
+| Stage2_Gate_CC `[PRASTAAVIT-CC]` | Kam se kam 60 asli trade; asli Net Expectancy ka ek-taraf 90 percent nichla Confidence Interval 0 se upar; 120 trade tak sabit na ho toh ruk kar dobara design `[TAKRAAV #35]` | Prastaavit | 16. Test aur Live par jaane ka plan | Stage2 ka data-based paimana `[F-19]` |
+| Stage_Override_Max_Lot `[PRASTAAVIT-CC]` | `Test_Stage2_Live_Lot` | Prastaavit | 16. Test aur Live par jaane ka plan | Override mein bhi chhota hi jokhim `[F-18]` |
+| Live_Kill_Paimana `[PRASTAAVIT-CC]` | Koi ek: Deposit-Adjusted girawat Backtest ki 95 percent wali sabse buri girawat ke 1.5 guna se zyada; pichle 30 trade ki Net Expectancy Backtest ke 5 percent wale nichle daayre se neeche; pichle 20 trade ka median Slippage model ke 2 guna se zyada; koi bhi Critical niyam toota | Prastaavit | 16. Test aur Live par jaane ka plan | Live band karne ki saaf kasauti |
+| Paper_Deri_Model `[PRASTAAVIT-CC]` | Stage2 mein naapi order-se-fill deri ka median; tab tak 300 milliseconds (Andaza) | Prastaavit | 16. Test aur Live par jaane ka plan | Paper fill asli se achha na dikhe `[F-52]` |
 
 ### Teeno Index ke Alag Numbers ki Suchi
 
@@ -1233,10 +1408,36 @@ Status ke chaar roop hain: Pakka (user ne final kaha), Andaza (user ne "jaise" l
 | Heavyweight_Stocks_Suchi | HDFC Bank, ICICI Bank | Reliance, HDFC Bank, ICICI Bank, Infosys | Tay nahi ("bade stocks") | Pakka / Tay nahi | Index ke sabse bade vazan wale stocks ki disha dekhna |
 | Manipulation_Check_Stocks_Suchi | 5 banks (HDFC Bank, ICICI Bank, SBI, Axis Bank, Kotak Bank) | Tay nahi ("bade stocks ka group") | Tay nahi ("bade stocks ka group") | Pakka / Tay nahi | Expiry din cash-market volume manipulation pakadna |
 | Breadth_Kul_Stocks_Ginti | 12 banks | Tay nahi ("top stocks ka group") | Tay nahi ("top stocks ka group") | Pakka / Tay nahi | Khokhla breakout (operator trap) pakadne ke liye kul stocks ki ginti |
+| Breadth_Top_Stocks_Ginti `[PRASTAAVIT-CC]` | Index ki official suchi ke saare banks | Vazan mein top 10 stocks (har mahine official index page se) | Vazan mein top 10 stocks (har mahine official index page se) | Prastaavit | Nifty50 aur Sensex ka Index_Breadth_Check Gate bina suchi ke hamesha RED na ho `[F-02]` |
 
 ## 19. Abhi tay nahi hua
 
 Is section ke teen hisse hain. Pehle hisse mein woh sawal hain jinka prastaavit jawab file mein likh diya gaya hai; malik ko sirf haan ya nahi kehna hai. Doosre hisse mein woh sawal hain jo malik ya asli data par tike hain. Teesre hisse mein takraav hain. Jawab milte hi sawal yahan se hat jaata hai aur jawab sahi ghar mein likha jaata hai.
+
+### [PRASTAAVIT-CC] Naye sawal (10 Nov 2026), sabse zaroori upar
+
+Yeh sawal 10 Nov 2026 ke audit se aaye hain (dekho: `01b_Audit_Findings.md`). Purane sawal dobara nahi likhe; jahan purana sawal ab zyada zaroori hai, wahan sirf uska number likha hai.
+
+- Sawal 117 (Pehredaar ka haq): kya Pehredaar ka alag Upstox app bot ke app ke order cancel aur position band kar sakta hai? Kyun zaroori: poora Pehredaar isi par tika hai; Real Money Mode se pehle asli test chahiye `[F-06]`.
+- Sawal 118 (Lot ka niyam): poora balance wala niyam rakhna hai ya Vikalp A, B ya C? Kyun zaroori: abhi ek Stop-Loss se din, hafte aur mahine ki teeno seemayein toot-ti hain `[F-03]`.
+- Sawal 119 (NA ke do roop): NA-Data aur NA-Lagu-Nahi manzoor? Kyun zaroori: iske bina aam din par manipulation Gates har trade rokte hain `[F-01]`.
+- Sawal 16 ab Critical hai: Nifty50 aur Sensex ki stocks suchi ke bina Index_Breadth_Check Gate un index ko band rakhta hai. Jawab tak `Breadth_Top_Stocks_Ginti` wala prastaav aur sirf Paper Mode `[F-02]`.
+- Sawal 120 (Kill Latch): Kill-Switch ke baad us din bot band, aur agle din Start Control se hi khule? Kyun zaroori: abhi Kill-Switch ke baad bot phir entry le sakta hai `[F-04]`.
+- Sawal 121 (Lease): Pehredaar ke control lene par us din bot broker ko koi hukm na bheje? Kyun zaroori: dono ek saath chale toh net short ho sakta hai `[F-05]`.
+- Sawal 122 (Real Money ka taala): Backtest Gate pass hone tak Real Money Mode band, aur Stage Override sirf `Stage_Override_Max_Lot`? Kyun zaroori: abhi parakh ek click se chhoot sakti hai `[F-18]`.
+- Sawal 123 (Stage ke paimane): `Backtest_Min_Avadhi`, `Paper_Gate_CC`, `Stage2_Gate_CC` aur `Live_Kill_Paimana` manzoor? Kyun zaroori: abhi ke paimane kismat aur hunar ko alag nahi karte `[F-19]`.
+- Sawal 124 (stop ka chunav): ATR aur swing low mein se door wala stop, aur cap se door ho toh trade skip (H-06) ya cap par stop? Kyun zaroori: yeh har trade ka nuksan tay karta hai `[F-22]`.
+- Sawal 125 (stop ka bhav): bot ka Stop-Loss best bid par `Stop_Pushti_Ginti` ke saath chale? Kyun zaroori: galat bhav par stop chalna seedha nuksan hai `[F-21]`.
+- Sawal 126 (haath ka trade): Foreign Position wale instrument mein bot trade na kare? Kyun zaroori: warna bot malik ke Lot bech sakta hai `[F-11]`.
+- Sawal 127 (din ki seema): naye entry se pehle khule trade ka Worst-Case Nuksan bhi din ki seema mein gina jaaye? Kyun zaroori: warna do trade milkar seema tod dete hain `[F-14]`.
+- Sawal 128 (feed atakna): `Blind_Position_Hadd` par pehle broker se bhav maang kar chalna (H-15), ya turant MPP exit? Kyun zaroori: chhote atkaav par mehenga exit bachta hai `[F-33]`.
+- Sawal 129 (aapat rasta): Dashboard band ho toh Kill-Switch ka doosra rasta kya ho? Kyun zaroori: abhi sirf Upstox app bachta hai `[F-47]`.
+- Sawal 130 (range ka kaam): `Target_Premium_Range` sirf paise ki seema hai ya malik ki premium pasand bhi? Kyun zaroori: isi se Premium_Range_Gate aur Range Alert ka matlab tay hota hai `[F-24]`.
+- Sawal 131 (expiry subah): expiry ki subah Kamzor Breakout par koi trade nahi, ya agli expiry? Kyun zaroori: abhi niyam chup hai `[F-30]`.
+- Sawal 132 (Profit Lock): dopahar ki kamai par bhi Daily Profit Lock lage? Kyun zaroori: niyam mein sirf "subah ke trades" likha hai `[F-50]`.
+- Sawal 133 (range wale Pakka numbers): `Aas_Paas_Strikes_Ginti`, `Chart_Range_Breakout_Samay`, `Mazboot_Breakout_Tikav_Samay`, `Kamzor_Breakout_Tikav_Samay`, `Daily_Max_Auto_Entries` aur `Premium_Max_Stop_Loss_Percent` mein se har ek ki ek hi kimat kya ho? Kyun zaroori: code ek hi number par chalta hai `[F-55]`.
+- Sawal 134 (BankNifty ki suchi): BankNifty ke banks ki ginti index ki official suchi se roz li jaaye? Kyun zaroori: exchange ginti badal sakta hai `[F-58]`.
+- Sawal 135 (data kharid): Backtest ke liye kaunsa purana data aur kitne budget mein kharidna hai (dekho: `03_Strategy_Edge_Plan.md`)? Kyun zaroori: data ki quality niyam se zyada nateeja badalti hai.
 
 ### Malik ki pushti ki suchi (prastaavit jawab, haan ya nahi)
 
@@ -1398,6 +1599,16 @@ Har takraav ke saath `[PRASTAAVIT HAL]` ek line mein likha hai. Jab tak malik pu
 - **[TAKRAAV #23] Expiry din 1:30 PM ke baad agli expiry mein trade (§4) banam Manipulation Settlement Check (§7):** `[PRASTAAVIT HAL]` SUSPICIOUS flag us index mein agli expiry ke trade ko bhi rokta hai.
 - **[TAKRAAV #24] Repo `bukosabino/ta` ka rolling VWAP aur `smart-money-concepts` ka swing lookahead banam Idea ke niyam (§17):** `[PRASTAAVIT HAL]` din-bhar ka VWAP aur confirmed candles ka alag hisaab lagega, repo ka window wala VWAP nahi.
 - **[TAKRAAV #25] Zone ka lagbhag 1:30 PM (Andaza) banam `Expiry_Shift_Aur_Exit_Samay` 1:30 PM (Pakka):** `[PRASTAAVIT HAL]` zone ki seema aur expiry ka shift ek hi pakka samay, 1:30 PM.
+- **[TAKRAAV #26] `[PRASTAAVIT-CC]` Gate ka NA RED banam sirf expiry din wale manipulation Gates:** Aam din par Manipulation_Cash_Volume_Check aur Manipulation_Settlement_Check lagu nahi, isliye NA aur RED hokar har trade rokte hain. `[PRASTAAVIT-CC HAL]` NA ke do roop: NA-Data (Gate RED) aur NA-Lagu-Nahi (Gate par asar nahi) `[F-01]`.
+- **[TAKRAAV #27] `[PRASTAAVIT-CC]` `Ghadi_Skew_Hadd` banam `Data_Purana_Hadd`:** Ghadi ki chhoot data ki taazgi ki seema jitni badi hai. `[PRASTAAVIT-CC HAL]` `Ghadi_Skew_Sakht_Hadd` aur data ki umar apne paane ke samay se bhi `[F-07]`.
+- **[TAKRAAV #28] `[PRASTAAVIT-CC]` Poore balance ka Lot banam hafte aur mahine ki Risk Limit:** Ek Stop-Loss `Monthly_Loss_Risk_Limit` se bhi bada ho sakta hai, isliye pehle nuksan par bot mahine bhar rukta hai. `[PRASTAAVIT-CC HAL]` malik Vikalp A, B ya C chune; tab tak Monte Carlo ka nateeja malik ko dikhe `[F-03]`.
+- **[TAKRAAV #29] `[PRASTAAVIT-CC]` Kill-Switch "sab kuch rokta hai" banam hukm sirf Pehredaar ko:** Bot ko Kill-Switch ka pata nahi chalta. `[PRASTAAVIT-CC HAL]` Kill Latch jise bot aur Pehredaar dono padhte hain `[F-04]`.
+- **[TAKRAAV #30] `[PRASTAAVIT-CC]` `Trailing_Stop_Doori` banam `ATR_Stop_Guna`:** Trailing ki doori pehle stop se chhoti hai aur shuru hone ka samay likha nahi. `[PRASTAAVIT-CC HAL]` trailing breakeven ke baad shuru `[F-20]`.
+- **[TAKRAAV #31] `[PRASTAAVIT-CC]` Har khiskaav par Broker Stop badalna banam broker ki din ki modify seema:** `[PRASTAAVIT-CC HAL]` `Broker_Stop_Min_Khiskaav` aur `Broker_Stop_Modify_Bajat` `[F-08]`.
+- **[TAKRAAV #32] `[PRASTAAVIT-CC]` Index_Breadth_Check ka Gate banam Nifty50 aur Sensex ki suchi Tay nahi:** `[PRASTAAVIT-CC HAL]` `Breadth_Top_Stocks_Ginti`; tab tak Nifty50 aur Sensex sirf Paper Mode `[F-02]`.
+- **[TAKRAAV #33] `[PRASTAAVIT-CC]` Premium_Range_Gate banam Delta_Filter aur Balance_Ek_Lot_Gate:** Range unhi do se banti hai, isliye Gate dohraav hai aur purani range sahi strike rok sakti hai. `[PRASTAAVIT-CC HAL]` range har evaluation par bane; Range Alert ka matlab "paisa kam" `[F-24]`.
+- **[TAKRAAV #34] `[PRASTAAVIT-CC]` `IV_Thanda_Paimana` banam IV Crush:** IV gir kar pehle se neeche aaye toh shart kabhi poori nahi hoti. `[PRASTAAVIT-CC HAL]` shart ek-taraf: IV daayre ke andar ya neeche `[F-37]`.
+- **[TAKRAAV #35] `[PRASTAAVIT-CC]` 9 Nov ke Stage numbers aur Stage Override banam CC ke data-based Stage Gates:** `Paper_Mode_Avadhi`, `Paper_Mode_Trade_Ginti` aur `Stage2_Avadhi` chhote hain, aur Override se parakh chhoot sakti hai `[TAKRAAV #12]`. `[PRASTAAVIT-CC HAL]` `Paper_Gate_CC`, `Stage2_Gate_CC` aur Backtest Gate se pehle Real Money band `[F-18]` `[F-19]`.
 
 ## 20. Tarikh wali baatein
 
@@ -1414,6 +1625,39 @@ Paanchvi baat (Jane Street Case): SEBI ne 3 July 2025 ke order mein 4,843.57 cro
 Chhathi baat (Upstox API ki Seemayein, Token aur Square-Off): Upstox API mein standard order API ki seema 10 request prati second, 500 prati minute aur 2,000 prati 30 minute hai (multi-order API 4 prati second). Ek din mein ek order zyada se zyada 25 baar modify ho sakta hai. Upstox ka access token har din agle din subah 3:30 AM par khatam ho jaata hai aur koi refresh token nahi hota. Ek app ke liye naya token banate hi purana token band ho jaata hai, par ek account mein kai apps banaye ja sakte hain. Lambe samay wala extended token sirf padhne (read-only) ke kaam aata hai, usse order nahi lagte. Har order ke headers mein Algo Name bhejna hota hai. Upstox ke Intraday (MIS) auto square-off ke samay par do alag baatein mili: ek help page par 3:20 PM aur naye update page par Equity F&O ke liye 3:25 PM `[Sawal 114]`. Kis tarikh tak sahi: 9 Nov 2026 (kisne batayi: Upstox developer documentation, Upstox community forum aur Upstox help center).
 
 ## 21. Badlaav-suchi
+
+- **10 Nov 2026 (Version 3.1 → 4.0) `[PRASTAAVIT-CC]`:** Claude Code ne poori file ka section-wise audit kiya. Malik ka ek bhi purana shabd nahi badla ya hataya; har nayi baat `[PRASTAAVIT-CC]` tag ke saath, status Prastaavit. Original file ka sha256 `c8770e6791923dcb9f03786371a3dbe9ae91a92f00164f90fc982239df0dabb1` hai. Neeche har badlaav ki ek line hai.
+- 4.0: Header mein Version 3.1 → 4.0, Tarikh 9 Nov → 10 Nov 2026, aur "Version 4.0 ka saar" joda.
+- 4.0: Daayra mein Net Expectancy wala lakshya aur "kya nahi karega" ke 3 naye bindu jode.
+- 4.0: Naam-Suchi mein 29 naye naam jode (`[PRASTAAVIT-CC]`, Audit bindu, Hypothesis, ATM, Moneyness Khaana, Opening Range, Swing Low/High, Pullback, Mazboot/Kamzor Breakout, Breakout Candle, NA-Data, NA-Lagu-Nahi, Lease, Kill Latch, Khula Trade, Stop-Unit, Worst-Case Nuksan, Net Expectancy, Confidence Interval, Profit Factor, Risk of Ruin, Kelly Hissa, Walk-Forward/Out-of-Sample, Ablation, Data Family, Shadow Trade, Replay Record, Monte Carlo).
+- 4.0: F-01 (Critical) NA ke do roop, Section 6 aur dono manipulation checks mein; `[TAKRAAV #26]`.
+- 4.0: F-02 (Critical) Nifty50/Sensex ki suchi ke bina Breadth Gate; `Breadth_Top_Stocks_Ginti`; `[TAKRAAV #32]`; Sawal 16 Critical.
+- 4.0: F-03 (Critical) poore balance ka Lot banam Risk Limit; Vikalp A/B/C, H-09, H-10; `[TAKRAAV #28]`; Sawal 118.
+- 4.0: F-04 (Critical) Kill Latch; `[TAKRAAV #29]`; Sawal 120.
+- 4.0: F-05 (Critical) Lease aur "Pehredaar ne control liya" nishan; `Bot_Lease_Samay`; Sawal 121.
+- 4.0: F-06 (Critical) Pehredaar ke app ka haq verify karna; Sawal 117.
+- 4.0: F-07 (High) ghadi banam data ki taazgi; `Ghadi_Skew_Sakht_Hadd`; `[TAKRAAV #27]`.
+- 4.0: F-08 (High) Broker Stop ki modify seema; `Broker_Stop_Min_Khiskaav`, `Broker_Stop_Modify_Bajat`; `[TAKRAAV #31]`.
+- 4.0: F-09 (High) Broker Stop aadha fill par exit ki quantity broker se.
+- 4.0: F-10 (High) entry kabhi bina pushti dobara nahi; Order Tag kabhi dohraya nahi.
+- 4.0: F-11 (High) Foreign Position wale instrument mein bot trade nahi; Sawal 126.
+- 4.0: F-12 (High) expiry shift par exit fill ke baad hi entry.
+- 4.0: F-13 (High) Khula Trade ki paribhasha mein pending order.
+- 4.0: F-14 (High) din ki seema mein khule trade ka Worst-Case Nuksan; Sawal 127.
+- 4.0: F-15 (High) Worst-Case Nuksan aur `Worst_Case_Nuksan_Guna`.
+- 4.0: F-16 (High) Pehredaar ki haalat wali dhadkan, apna milaan, apna alert rasta.
+- 4.0: F-17 (High) Dashboard hukm ki suraksha; `Command_Max_Umar`.
+- 4.0: F-18 (High) Backtest Gate se pehle Real Money band; `Stage_Override_Max_Lot`; `[TAKRAAV #35]`; Sawal 122.
+- 4.0: F-19 (High) Confidence Interval wale Stage Gates aur `Live_Kill_Paimana`; Sawal 123.
+- 4.0: F-20 (High) trailing breakeven ke baad; `[TAKRAAV #30]`.
+- 4.0: F-21 (High) Stop-Loss best bid par; `Stop_Pushti_Ginti`; Sawal 125.
+- 4.0: F-22 (High) do stop mein se chunav; H-06; Sawal 124.
+- 4.0: F-23 se F-61 (Med/Low) apne sections mein jode: Start ke paise, gap ki range, mausam ka badlaav, ADX ki deri (H-12), Shock exit (H-08), liquidity exit, token band, expiry subah, bada daon, SUSPICIOUS ki avadhi, feed atakna (H-15), reject suchi, restart milaan, IV thanda, strike volume baseline, Put ke ulte niyam, Teeno Disha, greeks ke tareeke, vague paimane, Data Family (H-11), OI ki deri, Lot ka buffer, trailing kasna, Dashboard band, Shadow Trade, Replay Record, Profit Lock, IVP chhoot, Paper fill, BankNifty suchi, liquidity naap, exit aadha fill.
+- 4.0: Section 7 mein Data Family table joda (Check Suchi ki table nahi badli).
+- 4.0: Section 12 mein doosra nakli udaharan (galti wala din) joda; pehla udaharan waisa hi hai.
+- 4.0: Section 18 mein 44 naye number rows aur Teeno Index table mein 1 row; sab `[PRASTAAVIT-CC]`, status Prastaavit ya Tay nahi.
+- 4.0: Section 19 mein Sawal 117 se 135 aur `[TAKRAAV #26]` se `[TAKRAAV #35]` jode.
+- 4.0: Strategy Hypothesis H-01 se H-15 apne ghar mein jode; test `03_Strategy_Edge_Plan.md` mein.
 
 - **9 Nov 2026 (Version 3.0 → 3.1):** Broker "Angel One (pushti baaki)" → "Upstox (user ne kaha)". Section 17 mein `angel-one/smartapi-python` hata kar `upstox/upstox-python` aur `marketcalls/openalgo` ke `broker/upstox/` ki 9 Nov 2026 ki jaanch jodi. Section 20 mein Upstox ki order seema, subah 3:30 AM token expiry, alag app token niyam, Algo Name aur square-off samay joda. Audit Report ki saari bachi khaali jagahon ke liye `[PRASTAAVIT]` niyam, Check Suchi ke vazan va Shadow Mode, aur Section 18 mein 28 naye `Prastaavit` numbers va khaali rows ke prastaavit maan bhare. Section 2 mein 17 naye shabd jode. Section 19 ko teen hisson mein baanta: malik ki pushti ki suchi (Sawal 2 se 108 ke prastaavit jawab), ab bhi khule sawal (Sawal 1, 3, 12, 16, 17, 20, 29, 40, 41, 60, 76, 92 aur Upstox ke naye Sawal 109 se 116; Sawal 47 broker badalne se hataya), aur 24 `[TAKRAAV]` ke saath `[PRASTAAVIT HAL]`. Koi purana idea, niyam ya number bina user ke kahe hataya nahi.
 - **9 Nov 2026 (Version 2.9 → 3.0):** Section 17 ke bache hue repos ki files ki talaash ki aur nateeja likha (`ta/volume.py`, `smc.py` ka farak sahi nikla). Telegram repo ka license saaf nikla, isliye use liya gaya; Sawal 60 chhota kiya. Section 20 ki baatein web par dobara jaanchi: Freeze Limit 2 Nov 2026 se badli hai, Lot aur November ki expiry tarikhein jodi, SEBI niyam ke details jode, Jane Street ka October 2026 ka order saaf kiya. Sawal 109 aur 110 jode, Sawal 20 chhota kiya. Koi niyam, number ya idea hataya ya naya joda nahi.
