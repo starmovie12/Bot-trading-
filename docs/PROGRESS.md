@@ -26,8 +26,8 @@
 | D1 | `docs/01_Bot_Idea_v4.md` + `docs/01b_Audit_Findings.md` | ho gaya (76 bindu; verify PASS; lint PASS) |
 | D2 | `docs/02_Tech_Decisions.md` | ho gaya (latency budget, language table, architecture, VPS, repos, security, compliance) |
 | D3 | `docs/03_Strategy_Edge_Plan.md` | ho gaya (cost model, data plan, backtest, ablation, risk-of-ruin Monte Carlo, hypotheses, stage gates, pre-mortem) |
-| D4 | `docs/04_Build_Roadmap.md` | baaki |
-| FR | Aakhri chhoti report (chat mein), phir ruk jaana | baaki |
+| D4 | `docs/04_Build_Roadmap.md` | ho gaya (M0-M10, tests, 12 invariants, risk register, runbook, 8 prompts) |
+| FR | Aakhri chhoti report (chat mein), phir ruk jaana | ho gaya; malik ke "go" ka intezaar |
 
 ## Log
 - 10 Nov 2026: Environment bana. Upload ki file `docs/00_input/bot_idea_final.md` mein copy hui (byte-for-byte `cmp` se same). File read-only (chmod 444). sha256 upar likha.
@@ -38,4 +38,4 @@
 - 10 Nov 2026: D1 poora. Research se naye bindu F-62 se F-76. Sabse bada: Upstox ka "ek user, ek chalu API app" niyam (F-76, khud verify kiya: community.upstox.com post 27 Mar 2026) Pehredaar ke alag app ko rokta hai.
 - 10 Nov 2026: D2 poora. Faisla: Dimaag Python, Pehredaar Go; Bot AWS Mumbai c8g.xlarge, Pehredaar GCP Mumbai c4a-standard-2, Dashboard AWS t4g.small; shared token (F-76).
 - 10 Nov 2026: D3 poora. Monte Carlo (`scratch/risk_sim/`): poore balance ke niyam mein achhe edge par bhi Rs 52k se ~60% Risk of Ruin; Vikalp A mein ~0%. D2/D3 ke saare URL research notes se mile (yaad se link nahi).
-- Agla: D4 (Build Roadmap), phir aakhri report.
+- 10 Nov 2026: D4 poora. Phase 1 khatam. Phase 2 sirf malik ke "go" ke baad (04 ke prompts se).
