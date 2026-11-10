@@ -1,4 +1,4 @@
-# PROGRESS (code, branch `bot` aur `main`)
+# PROGRESS (code, branch `main`)
 
 Docs ka progress: branch `idea`, `docs/PROGRESS.md`.
 
@@ -47,7 +47,7 @@ Docs ka progress: branch `idea`, `docs/PROGRESS.md`.
 - 10 Nov 2026 (malik): website aur bot alag branch mein. `website` = sirf Vercel website (repo root par, koi build nahi); `bot` = bot code (is branch par Vercel build band). Vercel ki asli galti mili: project ka **Root Directory `pehredaar`** set tha (build log: `/vercel/path0/pehredaar/build.mjs`). Malik ko 2 settings badalni hain (SETUP_GUIDE Step 1).
 
 ## Agla kadam
-1. Malik: Vercel par website lagao (`dashboard/README.md` ke steps), aur Deployment Protection chalu karo.
+1. Malik: Vercel par naya project repo `Bot-trading-website-` se banao (SETUP_GUIDE Step 1), aur Deployment Protection chalu karo.
 2. M1 baaki: Upstox feed client (TLS ON, official .proto pin), Recorder, probe. Asli Upstox connection ke liye trial server (Lightsail Mumbai) aur malik ka "go" chahiye.
 3. Malik ke faisle baaki: `Data_Purana_Hadd` ki ek kimat, `Kul_Jeb_Nuksan_Seema`, Risk Limit ki ikai (Sawal 118).
 
@@ -55,3 +55,5 @@ Docs ka progress: branch `idea`, `docs/PROGRESS.md`.
 - Malik ke kehne par website aur bot alag branch mein: `website` (sirf Vercel website), `bot` (sirf bot code). `idea` aur `bot` par Vercel build band.
 - `main` ab `bot` jaisa hi code (PR se). Purana `dashboard/` folder `main` se hata; website ka code branch `website` mein hai.
 - Tests: Python 38 (`bot`), Node 10 (`website`), Go pass.
+- Malik ke kehne par website alag **repo** mein: https://github.com/starmovie12/Bot-trading-website- (branch `main`). Is repo se branch `website` delete. Bot ka code is repo ki `main` mein.
+- SETUP_GUIDE Step 1 badla: Vercel par naya project naye repo se (Root Directory khaali, production branch `main`); purana project delete.
