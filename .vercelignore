@@ -1,0 +1,11 @@
+# Vercel par sirf website jaaye; bot ka Python/Go code wahan nahi chahiye (aur galat framework detection na ho).
+src/
+tests/
+tools/
+config/
+pehredaar/
+.github/
+pyproject.toml
+requirements-dev.in
+requirements-dev.lock
+dashboard/test/

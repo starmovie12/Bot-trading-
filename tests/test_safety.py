@@ -6,7 +6,7 @@ import re
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-CODE_DIRS = ("src", "tools", "pehredaar", "dashboard")
+CODE_DIRS = ("src", "tools", "pehredaar", "dashboard", "api")
 TLS_OFF = re.compile(
     r"CERT_NONE|verify\s*=\s*False|check_hostname\s*=\s*False|InsecureSkipVerify"
     r"|rejectUnauthorized\s*:\s*false|NODE_TLS_REJECT_UNAUTHORIZED"

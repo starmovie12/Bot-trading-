@@ -38,6 +38,10 @@ Docs ka progress: branch `idea`, `docs/PROGRESS.md`.
 - `config/niyam.toml` idea v4 ke naye version se dobara bani (203 numbers; naya `Dashboard_Push_Samay`).
 - Tests: Python 38, Node 8, Go 2.
 
+## Log (10 Nov 2026, website fix + setup guide)
+- Vercel par `bot-trading-pi.vercel.app` har path par 500 FUNCTION_INVOCATION_FAILED de raha tha. Fix: root `vercel.json` + root `api/` + `.vercelignore`; dono layout (root aur `dashboard`) local Vercel-jaise server par jaanche (har path 200), phone dark mode screenshot theek.
+- `SETUP_GUIDE.md` + `SETUP_GUIDE.pdf`: 9 step, peeli Step headings (PDF), kya khareedna (Lightsail $12 + Oracle Free + Vercel = ~₹1,330), chaabiyan systemd-creds se.
+
 ## Agla kadam
 1. Malik: Vercel par website lagao (`dashboard/README.md` ke steps), aur Deployment Protection chalu karo.
 2. M1 baaki: Upstox feed client (TLS ON, official .proto pin), Recorder, probe. Asli Upstox connection ke liye trial server (Lightsail Mumbai) aur malik ka "go" chahiye.
