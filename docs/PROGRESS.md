@@ -18,12 +18,12 @@
 | # | Kaam | Status |
 |---|---|---|
 | 0 | Environment: input copy, sha256, folders, PROGRESS | ho gaya |
-| R-a | Research: VPS aur network (subagent) | chal raha |
-| R-b | Research: repo aur licence jaanch (subagent) | chal raha |
-| R-c | Research: SEBI/NSE/Upstox niyam (subagent) | chal raha |
-| R-d | Research: kharche aur data sources (subagent) | chal raha |
-| R-e | Benchmark: Python vs Rust vs C++ synthetic tick replay (subagent) | chal raha |
-| D1 | `docs/01_Bot_Idea_v4.md` + `docs/01b_Audit_Findings.md` | chal raha (v4 mein header se Section 6 tak ke additions ho gaye; Section 7 se aage baaki; 01b baaki) |
+| R-a | Research: VPS aur network (subagent) | ho gaya (`docs/research/R_a_VPS_Network.md`) |
+| R-b | Research: repo aur licence jaanch (subagent) | ho gaya (`R_b_Repos_Licence.md`) |
+| R-c | Research: SEBI/NSE/Upstox niyam (subagent) | ho gaya (`R_c_Compliance.md`) |
+| R-d | Research: kharche aur data sources (subagent) | ho gaya (`R_d_Costs_Data.md`) |
+| R-e | Benchmark: Python vs Rust vs C++ synthetic tick replay (subagent) | ho gaya (`R_e_Benchmark.md`, code `scratch/bench/`) |
+| D1 | `docs/01_Bot_Idea_v4.md` + `docs/01b_Audit_Findings.md` | ho gaya (76 bindu; verify PASS; lint PASS) |
 | D2 | `docs/02_Tech_Decisions.md` | baaki |
 | D3 | `docs/03_Strategy_Edge_Plan.md` | baaki |
 | D4 | `docs/04_Build_Roadmap.md` | baaki |
@@ -34,3 +34,6 @@
 - 10 Nov 2026: 5 research subagents shuru (VPS, repo/licence, SEBI/NSE/Upstox, kharche/data, benchmark). Unki files `docs/research/` mein aayengi.
 - 10 Nov 2026: D1 ka tareeka: `scratch/d1_build/build_v4.py` original + `add_*.md` se v4 banata hai aur verify karta hai ki original ki har line usi kram mein maujood hai. Abhi tak: VERIFY PASS, 0 lines missing, instruction block same.
 - 10 Nov 2026: Malik ke kehne par abhi tak ka kaam (WIP) GitHub par push karke PR banaya. Baaki kaam isi branch par aage jaayega.
+- 10 Nov 2026: 4 research agents usage limit se ruke; limit reset ke baad R-b, R-c, R-d ki files poori mili, R-a resume karke poora hua.
+- 10 Nov 2026: D1 poora. Research se naye bindu F-62 se F-76. Sabse bada: Upstox ka "ek user, ek chalu API app" niyam (F-76, khud verify kiya: community.upstox.com post 27 Mar 2026) Pehredaar ke alag app ko rokta hai.
+- Agla: D2 (Tech Decisions), phir D3, D4.
