@@ -1,4 +1,4 @@
-"""Recorder: har event ka append-only record (replay ke liye).
+"""Recorder: market data ka append-only journal (hash-chain ke saath) aur usse backtest ke liye candles/option book.
 
-Abhi khaali (M1 mein banega). Dekho: branch `idea`, docs/02 Section C5.
+Raasta: live feed (M2) -> JournalWriter -> din ki file -> read_journal -> candles_from_ticks / RecordedBook -> backtest.
 """

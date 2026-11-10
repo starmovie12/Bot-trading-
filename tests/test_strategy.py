@@ -32,7 +32,8 @@ def test_costs_round_trip() -> None:
     assert c.stt == pytest.approx(120 * 65 * 0.0015, abs=0.01)  # 0.15% bechne par
     assert c.total > c.brokerage + c.stt
     assert breakeven_points(100.0, 65) > 0.5
-    assert "exchange_txn_pct" in CostModel().unverified()
+    assert CostModel().unverified() == ()  # sab rate Upstox charges page se (SOURCE)
+    assert CostModel.for_exchange("BSE").exchange_txn_pct == 0.0325
     with pytest.raises(ValueError):
         round_trip(-1, 1, 1)
 
@@ -47,7 +48,7 @@ def chain(
 
 def test_choose_prefers_itm_never_otm() -> None:
     q = chain(25000, 50, {24950: 140.0, 25000: 110.0, 25050: 85.0}, {25000: 105.0, 25050: 135.0, 24950: 80.0})
-    lim = Limits(capital=15000, max_risk_rupees=3000)
+    lim = Limits(capital=15000, max_risk_rupees=3000, max_capital_use_pct=90)  # sirf ITM/ATM kram ka test
     p = choose_strike("Nifty50", 25010.0, "CALL", q, lim)
     assert p.ok and p.strike == 24950 and p.opt == "CE" and p.qty == 65
     p2 = choose_strike("Nifty50", 25010.0, "PUT", q, lim)
@@ -59,7 +60,7 @@ def test_skip_when_unaffordable_or_risky() -> None:
     tiny = Limits(capital=10000, max_risk_rupees=5000)
     p = choose_strike("Nifty50", 25000.0, "CALL", q, tiny)
     assert not p.ok and p.reason.startswith("SKIP") and "capital" in p.reason
-    strict = Limits(capital=50000, max_risk_rupees=1000)
+    strict = Limits(capital=50000, max_risk_rupees=1000, max_capital_use_pct=90)
     assert "SL par nuksan" in choose_strike("Nifty50", 25000.0, "CALL", q, strict).reason
     wide = chain(25000, 50, {24950: 140.0, 25000: 110.0}, {}, spread=5.0)
     assert "spread" in choose_strike("Nifty50", 25000.0, "CALL", wide, Limits(15000, 3000)).reason
@@ -108,7 +109,8 @@ def test_risk_per_trade_small_capital() -> None:
     assert risk_per_trade(15000, 0) == 0.0
     # ₹15k par Nifty ITM ₹140 ka 25% SL (~₹2,275) is seema se upar: trade SKIP hona chahiye
     q = chain(25000, 50, {24950: 140.0, 25000: 110.0}, {})
-    p = choose_strike("Nifty50", 25000.0, "CALL", q, Limits(capital=15000, max_risk_rupees=risk_per_trade(15000, 1500)))
+    lim = Limits(capital=15000, max_risk_rupees=risk_per_trade(15000, 1500), max_capital_use_pct=90)
+    p = choose_strike("Nifty50", 25000.0, "CALL", q, lim)
     assert not p.ok and "SL par nuksan" in p.reason
 
 
@@ -122,3 +124,44 @@ def test_kul_jeb_lock_protects_last_capital() -> None:
     stop, msg2 = account_allows_trading(15000, 11000, 4000)
     assert not stop and "hamesha ke liye band" in msg2
     assert account_allows_trading(15000, 10500, 4000)[0] is False  # seema ke paar bhi band hi rahe
+
+
+def test_chart_sl_makes_small_capital_tradable() -> None:
+    """₹15k par: Sensex (lot 20) ATM 30% seema mein; risk chart SL x delta se; bahut paas SL = kharcha bhaari."""
+    from bot.strategy.rules import risk_per_trade
+
+    q = chain(82000, 100, {81900: 260.0, 82000: 210.0}, {})
+    lim = Limits(capital=15000, max_risk_rupees=risk_per_trade(15000, 1500))  # ₹900, cap 30% = ₹4,500
+    assert not choose_strike("Sensex", 82000.0, "CALL", q, lim).ok  # sirf 25% SL: risk ₹1,050+ (purani kami)
+    p = choose_strike("Sensex", 82000.0, "CALL", q, lim, underlying_sl_points=40.0)
+    assert p.ok and p.strike == 82000  # ITM 260 x 20 = ₹5,200 > ₹4,500, isliye ATM
+    assert p.sl_price == pytest.approx(210.0 - 40.0 * 0.5)
+    assert p.risk_rupees <= 900 and p.cost_rupees <= 4500
+    far = choose_strike("Sensex", 82000.0, "CALL", q, lim, underlying_sl_points=100.0)
+    assert not far.ok and "SL par nuksan" in far.reason
+    tight = choose_strike("Sensex", 82000.0, "CALL", q, lim, underlying_sl_points=10.0)
+    assert not tight.ok and "COST-FIRST" in tight.reason  # target kharche ke 4 guna se kam
+
+
+def test_thirty_pct_cap_keeps_nifty_out_on_15k() -> None:
+    q = chain(25000, 50, {24950: 140.0, 25000: 110.0}, {})
+    p = choose_strike(
+        "Nifty50", 25000.0, "CALL", q, Limits(capital=15000, max_risk_rupees=900), underlying_sl_points=10.0
+    )
+    assert not p.ok and "capital ke 30%" in p.reason  # 110 x 65 = ₹7,150 > ₹4,500
+
+
+def test_loss_cooldown_and_safe_expiry() -> None:
+    from bot.strategy.instruments import expiry_rules_apply
+
+    p = Params()
+    day = DayState(daily_loss_limit=1500)
+    after_exit(day, -300, minute=10 * 60)
+    assert "cooldown" in can_enter(time(10, 10), day, p, expiry_day=False, vix_change_pct=0, open_position=False)[1]
+    assert can_enter(time(10, 21), day, p, expiry_day=False, vix_change_pct=0, open_position=False)[0]
+    # Nifty: Tuesday expiry; Monday bhi sakht (chhutti par expiry khisak sakti hai)
+    assert expiry_rules_apply("Nifty50", date(2026, 11, 17)) and expiry_rules_apply("Nifty50", date(2026, 11, 16))
+    assert not expiry_rules_apply("Nifty50", date(2026, 11, 18))
+    assert (
+        expiry_rules_apply("Nifty50", date(2026, 11, 16), frozenset({date(2026, 11, 17)})) is False
+    )  # broker list pakki

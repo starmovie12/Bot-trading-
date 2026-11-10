@@ -35,7 +35,15 @@ Har round mein pichhle version ki kamiyan dhoondhi, theek ki, aur nayi version b
 | R3-6 | Historical intraday option data muft nahi | Med | Pehle apna recorder (M1) data jama kare; Upstox expired-instrument history verify karna |
 | R3-7 | "Sabse badhiya strategy" ka dava | Low | Hata diya. Saare setup hypothesis hain; data hi faisla karega |
 
+## Round 4 (code banate waqt mili): v2.3 → v2.3.1
+| # | Kami | Kitni gambhir | Sudhaar |
+|---|---|---|---|
+| R4-1 | Strike chunne mein risk sirf 25% premium SL se gina ja raha tha. ₹15k par Nifty (₹140 × 65 → ₹2,275) aur Sensex (₹300 × 20 → ₹1,500) dono ₹900 ki seema se upar, yani **bot kabhi ek bhi trade nahi leta** | Critical | Risk ab chart (underlying) SL × delta (ITM 0.6, ATM 0.5; andaza) se: dono mein jo **paas** ho. Chart SL door ho toh SKIP (`selection.py`, test `test_chart_sl_makes_small_capital_tradable`) |
+| R4-2 | Regime, gap-day aur setups sirf doc mein the | High | Code: `bot/dimaag/` (candles, regime + tracker, gap niyam, S1/S2/S3) |
+| R4-3 | Backtest Gate jaanchne ka koi tool nahi tha | High | `bot/backtest/` (engine: lookahead nahi, entry agli minute ke ask par, exit bid par, kharcha, kul jeb taala; metrics + gate). NAKLI data par Gate sahi taur par FAIL (sirf 9 trade) |
+| R4-4 | Trade ke daam mein float kachra (133.66000000000003) | Low | 2 decimal par round |
+
 ## Abhi bhi khuli baatein (code ya malik ka faisla chahiye)
 - Kul_Jeb_Nuksan_Seema, din ki nuksan seema, Risk Limit ki ikai (website **Settings** form se JSON).
 - Event calendar ka source; exchange charge / stamp ka pakka rate (contract note).
-- Gap-day niyam aur regime (Parat 1) ka code: M3.
+- Gap-day niyam aur regime ka code ho gaya (Round 4). Baaki: asli data (M1 recorder) par backtest, event calendar ka source.

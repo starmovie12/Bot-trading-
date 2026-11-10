@@ -1,17 +1,21 @@
 # Pehredaar (Go) - USI server par ALAG service. Bot ruk/atak jaye toh bhi yeh chalta hai.
 # Iske paas sirf "exit/cancel" ka kaam; naya order KABHI nahi. Login KABHI nahi (F-76: ek hi token, bot ka).
 [Unit]
-Description=Pehredaar (watchdog): lease dekhta hai, bot atke toh positions band karwata hai
+Description=Pehredaar (watchdog): abhi M0 (sirf lease niyam ki jaanch, phir band). Asli kaam M6.
 After=network-online.target
 Wants=network-online.target
+StartLimitIntervalSec=300
+StartLimitBurst=5
 
 [Service]
 Type=simple
 User=pehredaar
 Group=pehredaar
+# M0 binary jaanch karke turant band hota hai: Restart=always se har 2 s mein loop banta (BUG, theek kiya).
+# M6 mein lambi chalne wali service banegi, tab Type=simple + Restart=on-failure.
+Type=oneshot
+RemainAfterExit=yes
 ExecStart=/opt/pehredaar/pehredaar
-Restart=always
-RestartSec=2
 MemoryMax=200M
 # Bot se pehle pakdi jaaye: bot ki memory zyada ho toh kernel bot ko maare, Pehredaar ko nahi
 OOMScoreAdjust=-500
