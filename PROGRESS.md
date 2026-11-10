@@ -66,4 +66,4 @@ Docs ka progress: branch `idea`, `docs/PROGRESS.md`.
 - Malik: ₹15,000 = ek mahine ki salary, "aakhri mauka". Isliye **kul jeb ka taala** (`account_allows_trading`): seema par bot hamesha ke liye band. Prastaav ₹4,000; faisla malik ka.
 - `bot/dimaag/` (regime, setups) aur `bot/backtest/` (engine + gate) bane. Round 4: risk sirf 25% SL se ginne par bot kabhi trade nahi leta tha; ab chart SL × delta.
 - NAKLI data par backtest: Gate FAIL (sirf 9 trade < 200). Yeh number asli market ke nahi.
-
+- `bot/recorder/`: journal (hash-chain, crash-safe, gzip) + candles/option book. Test: nakli ticks -> journal -> backtest, poora raasta chala. Andaza: ~135 byte/line; 60 instrument x 1 tick/s ≈ 1.3M line ≈ 180MB/din, gzip ke baad kaafi kam (60GB disk).
