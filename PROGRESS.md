@@ -40,7 +40,7 @@ Docs ka progress: branch `idea`, `docs/PROGRESS.md`.
 
 ## Log (10 Nov 2026, website fix + setup guide)
 - Vercel par `bot-trading-pi.vercel.app` har path par 500 FUNCTION_INVOCATION_FAILED de raha tha. Fix: root `vercel.json` + root `api/` + `.vercelignore`; dono layout (root aur `dashboard`) local Vercel-jaise server par jaanche (har path 200), phone dark mode screenshot theek.
-- `SETUP_GUIDE.md` + `SETUP_GUIDE.pdf`: 9 step, peeli Step headings (PDF), kya khareedna (Lightsail $12 + Oracle Free + Vercel = ~₹1,330), chaabiyan systemd-creds se.
+- `SETUP_GUIDE.md` + `SETUP_GUIDE.pdf`: 9 step, peeli Step headings (PDF), kya khareedna (ek hi Lightsail $12 server + Vercel = ~₹1,330), chaabiyan systemd-creds se.
 
 - 10 Nov 2026: PR #3 ke baad Vercel build "STATIC_BUILD_NO_OUT_DIR". Vercel CLI 65.11.0 aur @vercel/static-build 26.0.1 ka code padh kar wajah samjhi (output rasta = workPath + entrypoint ka folder + outputDirectory). Fix: `dashboard/build.mjs` + dono `vercel.json` mein `outputDirectory: public`; 5 layout local par pass (static 3 files + 2 functions).
 
@@ -57,3 +57,9 @@ Docs ka progress: branch `idea`, `docs/PROGRESS.md`.
 - Tests: Python 38 (`bot`), Node 10 (`website`), Go pass.
 - Malik ke kehne par website alag **repo** mein: https://github.com/starmovie12/Bot-trading-website- (branch `main`). Is repo se branch `website` delete. Bot ka code is repo ki `main` mein.
 - SETUP_GUIDE Step 1 badla: Vercel par naya project naye repo se (Root Directory khaali, production branch `main`); purana project delete.
+
+## Log (11 Nov 2026, strategy v2 + ek server)
+- Malik ka niyam: **sirf EK Amazon Lightsail Mumbai server** (~₹1,330/mahina, ₹1,500 ke andar). Koi free/doosra server nahi. Pehredaar usi par alag systemd service (`deploy/`).
+- Internet research (expiry Tue/Thu, Bank Nifty weekly band, lot 65/30/20, STT 0.15%, SEBI FY25 ~91% nuksan, VRP) se `strategy/STRATEGY_v2.md` (v2.3) aur 3 audit round `strategy/AUDIT_ROUNDS.md`.
+- Naya code `src/bot/strategy/`: instruments (expiry calendar), costs (kharcha, andaza fields alag), selection (ITM→ATM, OTM kabhi nahi, affordability + risk seema par SKIP), rules (entry/exit, time-stop, trailing, halt, risk per trade). Tests: `tests/test_strategy.py`.
+- Poori audit report: `AUDIT_REPORT.md`.

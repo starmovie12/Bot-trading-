@@ -21,6 +21,10 @@ Poora idea (v4), audit, tech faisle, strategy plan aur roadmap **branch `idea`**
 |---|---|
 | `src/bot/niyam.py` | Niyam-file ka loader aur validation. Code koi number guess nahi karta |
 | `src/bot/login/` | Roz ka auto-login (malik ka niyam: haath se nahi). TOTP (RFC 6238), secrets sirf encrypted store se, token sirf memory mein |
+| `src/bot/strategy/` | Strategy v2.3 ke niyam: expiry calendar, kharcha, strike chunna (1 lot, OTM nahi, skip), entry/exit |
+| `strategy/` | Strategy v2.3 + 3 audit round (`AUDIT_ROUNDS.md`) |
+| `deploy/` | Ek hi server (Lightsail): `bot.service`, `pehredaar.service` |
+| `AUDIT_REPORT.md` | Website + bot + plan ki audit |
 | `src/bot/dashboard_push.py` | Bot se website (repo `Bot-trading-website-`) ko signed haalat |
 | `vercel.json` | Is repo par Vercel build band (`git.deploymentEnabled: false`) |
 | `SETUP_GUIDE.md` / `SETUP_GUIDE.pdf` | **Malik ke liye step-by-step setup** (kya khareedna, kya settings, kis kram mein) |

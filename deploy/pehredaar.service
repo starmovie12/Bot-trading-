@@ -1,0 +1,27 @@
+# Pehredaar (Go) - USI server par ALAG service. Bot ruk/atak jaye toh bhi yeh chalta hai.
+# Iske paas sirf "exit/cancel" ka kaam; naya order KABHI nahi. Login KABHI nahi (F-76: ek hi token, bot ka).
+[Unit]
+Description=Pehredaar (watchdog): lease dekhta hai, bot atke toh positions band karwata hai
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=pehredaar
+Group=pehredaar
+ExecStart=/opt/pehredaar/pehredaar
+Restart=always
+RestartSec=2
+MemoryMax=200M
+# Bot se pehle pakdi jaaye: bot ki memory zyada ho toh kernel bot ko maare, Pehredaar ko nahi
+OOMScoreAdjust=-500
+NoNewPrivileges=yes
+ProtectSystem=strict
+ProtectHome=yes
+PrivateTmp=yes
+PrivateDevices=yes
+ReadOnlyPaths=/var/lib/bot
+StateDirectory=pehredaar
+
+[Install]
+WantedBy=multi-user.target
