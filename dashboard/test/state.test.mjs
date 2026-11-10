@@ -76,3 +76,24 @@ test("page par inline script ya innerHTML nahi (XSS se bachav)", () => {
   assert.doesNotMatch(html, /<script(?![^>]*\bsrc=)[^>]*>/);
   assert.doesNotMatch(js, /innerHTML|eval\(|new Function/);
 });
+
+test("repo ROOT se bana Vercel project bhi wahi functions chalaye", async () => {
+  const root = await import("../../api/state.mjs");
+  const r = await root.default.fetch(new Request("https://x.vercel.app/api/state"));
+  assert.equal(r.status, 200);
+  assert.equal((await r.json()).demo, true);
+  const health = await import("../../api/health.mjs");
+  assert.equal((await (await health.default.fetch(new Request("https://x.vercel.app/api/health"))).json()).ok, true);
+});
+
+test("dono vercel.json: framework Other, koi install nahi, sahi output folder, same headers", () => {
+  const rootCfg = JSON.parse(readFileSync(new URL("../../vercel.json", import.meta.url)));
+  const dashCfg = JSON.parse(readFileSync(new URL("../vercel.json", import.meta.url)));
+  for (const cfg of [rootCfg, dashCfg]) {
+    assert.equal(cfg.framework, null);
+    assert.equal(cfg.installCommand, "");
+  }
+  assert.equal(rootCfg.outputDirectory, "dashboard/public");
+  assert.equal(dashCfg.outputDirectory, "public");
+  assert.deepEqual(rootCfg.headers, dashCfg.headers);
+});

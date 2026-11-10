@@ -16,6 +16,8 @@ Poora idea (v4), audit, tech faisle, strategy plan aur roadmap **branch `idea`**
 | `src/bot/login/` | Roz ka auto-login (malik ka niyam: haath se nahi). TOTP (RFC 6238), secrets sirf encrypted store se, token sirf memory mein |
 | `src/bot/dashboard_push.py` | Bot se website ko signed haalat |
 | `dashboard/` | Vercel website (static page + function). Lagane ke steps: `dashboard/README.md` |
+| `vercel.json`, `api/`, `.vercelignore` | Vercel project repo root se bana ho tab bhi website chale |
+| `SETUP_GUIDE.md` / `SETUP_GUIDE.pdf` | **Malik ke liye step-by-step setup** (kya khareedna, kya settings, kis kram mein) |
 | `src/bot/dimaag/` | Feed, candles, checks, scoring (M2, M3) |
 | `src/bot/haath/` | Order manager, broker ko hukm dene wala akela hissa (M5) |
 | `src/bot/recorder/` | Har event ka record, replay ke liye (M1) |

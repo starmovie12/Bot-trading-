@@ -73,6 +73,9 @@ function renderTrades(trades) {
 
 function render(s) {
   $("demo").hidden = !s.demo;
+  const pill = $("pill");
+  pill.textContent = s.demo ? "Bot juda nahi" : s.running ? "Bot chalu" : "Bot band";
+  pill.className = `pill ${s.running && !s.demo ? "pill-on" : "pill-off"}`;
   text("mode", s.mode === "real" ? "Real Money" : "Paper");
   text("running", s.running ? "Chalu" : "Band");
   text("mausam", s.mausam);

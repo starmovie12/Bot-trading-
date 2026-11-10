@@ -34,7 +34,7 @@ jobs:
         run: PYTHONPATH=src python -m bot.niyam config/niyam.toml
       - name: TLS jaanch band karne wala code nahi
         run: |
-          if grep -rnE "CERT_NONE|verify\s*=\s*False|check_hostname\s*=\s*False|InsecureSkipVerify|rejectUnauthorized\s*:\s*false|NODE_TLS_REJECT_UNAUTHORIZED" src tools pehredaar dashboard; then
+          if grep -rnE "CERT_NONE|verify\s*=\s*False|check_hostname\s*=\s*False|InsecureSkipVerify|rejectUnauthorized\s*:\s*false|NODE_TLS_REJECT_UNAUTHORIZED" src tools pehredaar dashboard api; then
             echo "TLS-off code mila"; exit 1
           fi
       - name: Dependency audit
