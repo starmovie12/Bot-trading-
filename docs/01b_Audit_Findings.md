@@ -194,4 +194,6 @@ Asar ka matlab profit/loss par andaza hai, number nahi. "v4 mein" column batata 
 | Version 4.0, tarikh, Badlaav-suchi mein har badlaav ki line | PASS |
 | Koi key, token, password nahi | PASS |
 | "Profit pakka" / "100% safe" jaise shabd nahi | PASS |
-| Kuch hataya? | Kuch nahi hataya |
+| Cross-reference jaanch (`scratch/d1_build/xref_check.py`): har naam Numbers list ya Check Suchi mein, har F/TAKRAAV/Sawal/H ka asli entry | PASS (bache naam sirf Badlaav-suchi ke itihaas mein: purane hataye niyam, TAKRAAV #14, Sawal 24/47) |
+| Numbers list: 202 rows, har row 5 column, status sirf Pakka/Andaza/Prastaavit/Tay nahi | PASS (Pakka 35, Andaza 36, Prastaavit 123, Tay nahi 8) |
+| Kuch hataya? | Malik ka kuch nahi hataya. Malik ke 10 Nov 2026 ke jawab par mere 2 prastaav (Vikalp A, C) hataye, Badlaav-suchi mein likha |

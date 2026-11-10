@@ -40,3 +40,4 @@
 - 10 Nov 2026: D3 poora. Monte Carlo (`scratch/risk_sim/`): poore balance ke niyam mein achhe edge par bhi Rs 52k se ~60% Risk of Ruin; Vikalp A mein ~0%. D2/D3 ke saare URL research notes se mile (yaad se link nahi).
 - 10 Nov 2026: D4 poora. Phase 1 khatam. Phase 2 sirf malik ke "go" ke baad (04 ke prompts se).
 - 10 Nov 2026 (malik ka naya jawab): (1) server budget ₹1,500/mahina → `02` D8: Bot Lightsail Mumbai $12 + Pehredaar/Dashboard Oracle Always Free (~₹1,330); Plan B paid Pehredaar (asli paise se pehle). Sources `docs/research/R_f_Budget_VPS.md`. (2) Balance ₹10-15k, premium quality pehle → v4 §9 mein malik ka niyam; Vikalp A/C hataye; Sawal 118 chhota; F-77/78/79; `03` §5.4 simulation (`scratch/risk_sim/owner_case.py`). Nifty50 ka achha strike balance mein lagbhag kabhi nahi aata.
+- 10 Nov 2026: v4 ki final jaanch: verify PASS, lint PASS, cross-reference PASS, Numbers list 202 rows sahi. File malik ko download ke liye di.
