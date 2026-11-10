@@ -5,14 +5,17 @@ Poora idea (v4), audit, tech faisle, strategy plan aur roadmap **branch `idea`**
 `docs/01_Bot_Idea_v4.md`, `docs/02_Tech_Decisions.md`, `docs/03_Strategy_Edge_Plan.md`, `docs/04_Build_Roadmap.md`.
 
 ## Abhi kahan hain
-- Milestone **M0 (Neev)**: project ka dhaancha, niyam-file, tests aur CI. Status: `PROGRESS.md`.
-- **Kisi broker (Upstox) ya Telegram se koi connection nahi.** Koi order code nahi.
+- M0 (Neev) ho gaya. **M1 shuru:** auto-login module (TOTP) aur Vercel website ka dhaancha. Status: `PROGRESS.md`.
+- **Abhi kisi broker (Upstox) ya Telegram se koi asli connection nahi.** Login ka code hai, par asli login nahi kiya gaya. Koi order code nahi.
 - Profit ki koi guarantee nahi. Goal: kharche ke baad positive expectancy **sabit** karna; sabit na ho toh live nahi.
 
 ## Dhaancha
 | Folder | Kya hai |
 |---|---|
 | `src/bot/niyam.py` | Niyam-file ka loader aur validation. Code koi number guess nahi karta |
+| `src/bot/login/` | Roz ka auto-login (malik ka niyam: haath se nahi). TOTP (RFC 6238), secrets sirf encrypted store se, token sirf memory mein |
+| `src/bot/dashboard_push.py` | Bot se website ko signed haalat |
+| `dashboard/` | Vercel website (static page + function). Lagane ke steps: `dashboard/README.md` |
 | `src/bot/dimaag/` | Feed, candles, checks, scoring (M2, M3) |
 | `src/bot/haath/` | Order manager, broker ko hukm dene wala akela hissa (M5) |
 | `src/bot/recorder/` | Har event ka record, replay ke liye (M1) |
@@ -36,6 +39,9 @@ PYTHONPATH=src python -m bot.niyam config/niyam.toml
 ```
 ```bash
 cd pehredaar && go vet ./... && go test ./...
+```
+```bash
+cd dashboard && node --test
 ```
 
 ## Niyam (har session)

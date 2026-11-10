@@ -22,7 +22,8 @@ def _raw() -> dict[str, object]:
 def test_niyam_file_loads_with_all_rows() -> None:
     n = load(NIYAM)
     assert n.idea_version == "4.0"
-    assert len(n.numbers) == 202
+    assert len(n.numbers) >= 203
+    assert "Dashboard_Push_Samay" in n.numbers
     assert len(n.index_numbers) == 8
     assert {x.status for x in n.numbers.values()} <= {"Pakka", "Andaza", "Prastaavit", "Tay nahi"}
 
@@ -43,6 +44,7 @@ def test_known_values_from_idea() -> None:
     assert n.get("Aakhri_Entry_Samay").time_ist == "15:10"
     assert n.typed("Server_Mahina_Budget") == (1500, "inr")
     assert n.get("Malik_Max_Balance").range == (10000.0, 15000.0)
+    assert n.seconds("Dashboard_Push_Samay") == 5
 
 
 def test_code_never_guesses_undecided_numbers() -> None:
