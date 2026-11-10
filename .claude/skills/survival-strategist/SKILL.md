@@ -11,3 +11,8 @@ description: Use when designing, updating, testing or red-teaming an options tra
 6. BREAK-FIX LOOP: Strategy banao -> khud todo (5 holes) -> fix -> dobara test -> dobara todo. Tab ruko jab ek poora round critical hole na nikaale (min 3 rounds).
 7. OVERFIT GUARD: In-sample jeet ko jeet mat maano. Walk-forward ya out-of-sample check zaroori. Look-ahead bias dhundho.
 8. HONESTY: Jo nahi mila wo "nahi mila" likho. Chhupana = maut.
+9. PREREGISTER: criteria pehle commit, result baad mein.
+10. NULL FIRST: strategy ko pehle random-entry se haraao.
+11. LEDGER: har claim ka tag (CODE/DATA/SOURCE/SIM), bina tag claim nahi.
+12. PARAMETER BUDGET: live max 10-12.
+13. NEGATIVE RESULT = SUCCESS agar saboot ke saath ho.
