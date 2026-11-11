@@ -159,3 +159,4 @@
 {"path": "EVIDENCE/SESSION2/preflight.txt", "sha256": "271c49d617b3c38109625e17e85dbf346655692ef55f2b71deb73caaca671b84", "cmd": "tools/preflight.sh", "time": "2026-11-11T12:35:44Z", "exit": 20}
 {"path": "EVIDENCE/T04/g0_run.txt", "sha256": "44989e51c0aad2f3351271e98fb581775426e2a1ace35dd4b0268687a7cc2735", "cmd": "python3 tools/economics.py", "time": "2026-11-11T12:36:22Z", "exit": 0}
 {"path": "EVIDENCE/T04/g0_run.txt", "sha256": "44989e51c0aad2f3351271e98fb581775426e2a1ace35dd4b0268687a7cc2735", "cmd": "python3 tools/economics.py", "time": "2026-11-11T12:39:29Z", "exit": 0}
+{"path": "EVIDENCE/T04/verify.txt", "sha256": "74cd31db27f15cfa2d12a0e07b77a463071880929c7f64b7e98b7042bf0e861b", "cmd": "tools/verify/T04.sh", "time": "2026-11-11T12:41:13Z", "exit": 0}

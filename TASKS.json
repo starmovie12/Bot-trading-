@@ -66,12 +66,16 @@
   ],
   "timebox_min": 45,
   "cap_min": 135,
-  "minutes_used": 25,
+  "minutes_used": 32,
   "retries": 0,
   "verify": "tools/verify/T04.sh",
   "verify_sha256": "99784eae8c28d3d6e931bc6e168ed11aad384ba9a1685eaadb1bd73d2a6ebcaa",
-  "status": "IN_PROGRESS",
-  "evidence": []
+  "status": "PASS",
+  "evidence": [
+   "EVIDENCE/T04/verify.txt",
+   "EVIDENCE/T04/g0.json",
+   "EVIDENCE/T04/g0_run.txt"
+  ]
  },
  {
   "id": "T02b",

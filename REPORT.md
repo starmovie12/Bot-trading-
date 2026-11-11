@@ -12,7 +12,7 @@ SAWAL F-REMOTE (code 2350): default na (sirf local commit) | ₹ asar seedha nah
 PAISA KAMANE KA RAASTA: tested set mein abhi koi pakka raasta nahi mila (G0 adhoora). Sabse sasta agla raasta: pehle INCIDENT #1 theek karke kharche official page se pakke karna; phir MANUAL mode mein Recorder se asli data (server ka kharcha nahi); saboot bahut lamba lagega
 MANZOORI (is session): koi nahi
 BHAROSA: alag jaanch: nahi hui | khuli badi galtiyan: koi nahi (alag jaanch abhi nahi hui) | kya verify NAHI hua: koi bhi bahari tathya (web band: INCIDENT #1); chhote kharche (internet, bijli, CA) sirf maanyata | final check laal: final check abhi nahi chala (T18 mein)
-SAMAY: session 2 · 5 min chala · baad mein: CP1: tumhare jawab; phir T02b, T05 (Recorder), T09 · SEAL: 588b53dd · TRIALS: khaali · push: local only (F-REMOTE ki manzoori nahi; INCIDENT #1 khula) · baaki: 21 kaam, 13 sawal (OWNER_TODO.md)
+SAMAY: session 2 · 5 min chala · baad mein: CP1: tumhare jawab; phir T02b, T05 (Recorder), T09 · SEAL: 588b53dd · TRIALS: khaali · push: local only (F-REMOTE ki manzoori nahi; INCIDENT #1 khula) · baaki: 20 kaam, 13 sawal (OWNER_TODO.md)
 
 ---
 Technical sections below are in English (MISSION V11 §14). Numbers carry English tags and evidence paths.
@@ -26,7 +26,7 @@ NOT_YET(NO_DATA, G0_CONDITIONAL, DATA_RIGHTS_OPEN) · report INTERIM · push: lo
 | T01 | LITE | PASS | 20 / 40 | 6 |
 | T02a | LITE | PASS | 18 / 45 | 1 |
 | T03 | LITE | PASS | 16 / 45 | 2 |
-| T04 | LITE | IN_PROGRESS | 25 / 45 | 0 |
+| T04 | LITE | PASS | 32 / 45 | 3 |
 | T02b | FULL | TODO | 0 / 90 | 0 |
 | T05 | FULL | TODO | 0 / 60 | 0 |
 | T09 | FULL | TODO | 0 / 45 | 0 |

@@ -1,0 +1,10 @@
+$ tools/verify/T04.sh 
+PASS two runs byte-identical
+PASS committed G0 output equals a fresh run
+PASS schema, outcomes, sensitivity table and negative controls (a)-(e)
+PASS tests/invariants/test_i12_money.py
+PASS STATE.md TRACK = FULL
+PASS CP1 memo present
+PASS no mission-v11 temp dir left
+T04 verify: 0 failure(s)
+[exit 0]

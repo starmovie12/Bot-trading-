@@ -7,15 +7,16 @@ BUDGET_MIN: 240
 PAUSE_AFTER_G0: yes
 TRACK: FULL (G0 CONDITIONAL for U1-U6: EVIDENCE/T04/g0.json; FULL-A next, FULL-B CLOSED)
 FULL-B gate: CLOSED (tools/fullb_gate.py arrives in T10; no REAL market data)
-IN_PROGRESS: T04 G0_ECONOMICS · sub-step: G0 computed, CP1 memo written; next: checkpoint, seal/T04, verify · minutes_used: 25
+IN_PROGRESS: none · CHECKPOINT CP1 reached (PAUSE_AFTER_G0 = yes): waiting for the owner's answers, then `continue`
 
 ## DONE (V11)
 - T01 SYNC_SAFE: PASS (verify on 36acdef: EVIDENCE/T01/verify.txt; 20 min)
 - T02a GUARDS_CORE: PASS (verify on 3a05345: EVIDENCE/T02a/verify.txt; 8 canaries caught; seal/T02a)
 - T03 REGULATORY_DATA_RIGHTS: PASS offline (EVIDENCE/T03/verify.txt; constants.toml all UNVERIFIED; DATA_RIGHTS UNVERIFIED)
+- T04 G0_ECONOMICS: PASS (EVIDENCE/T04/verify.txt; G0 CONDITIONAL for U1-U6, TRACK FULL; seal/T04; CP1 memo docs/MEMO_CP1.md)
 
 ## NEXT
-T04 verify → CP1 pause (owner answers) → next session: T02b, T05, T09, T06, T07, T08, T10
+CP1 pause (owner answers in chat) → next session (RUN ORDER): T02b, T05, T09, T06, T07, T08, T10, then FULL-A T11, T12; FULL-B stays CLOSED (no REAL data)
 
 ## OPEN INCIDENTS (INCIDENT.md)
 - #1 sandbox_breach: env name CLOUDSDK_AUTH_ACCESS_TOKEN → no push, no web fetch this session (closes: haan F-INC-1 be92)
@@ -36,13 +37,13 @@ limits.toml (one source of limits) · constants.toml (T03) · assumptions: DECIS
 
 ## OWNER_TODO top 3 (full list: OWNER_TODO.md)
 0. INCIDENT #1: sandbox theek karo, phir haan F-INC-1 be92
-1. F-REMOTE: container mit sakta hai; haan F-REMOTE 2350 (repo Private ho)
-2. INCIDENT #3 (LIVE_TRADING_ENABLED naam): haan F-INC-3 d9e1
+1. INCIDENT #3 + #2 (sirf jaankari): haan F-INC-3 d9e1 · haan F-INC-2 fc8c
+2. DATA_RIGHTS: Upstox se likhit jawab; CP1 sawal docs/MEMO_CP1.md (F-MAXLOSS bca1, F-H2PCT be04, ...); F-REMOTE 2350
 
 ## HASHES
 SHA256SUMS: sha256 20ab86987b20971e (file; covers docs/00_input and MISSION.md)
 MISSION.md: 5eb4f9899b59b43a21d753bcd9123922ac82cbb0c2232f151be24a14b1611462
-SEAL: bc4d856a (seal/T02a, 27 files; log EVIDENCE/seal_log.jsonl)
+SEAL: 588b53dd (seal/T04; earlier bc4d856a at seal/T02a; log EVIDENCE/seal_log.jsonl)
 TRIALS_HEAD: none (trials.jsonl empty)
 gates.toml: not written (T10) · STRATEGY.md: not written (T12)
 
