@@ -1,7 +1,7 @@
 # PROTECTED.toml (MISSION V11 §5.2): written by tools/seal.py. Never edit by hand.
-seal = "bc4d856a"
-task = "T02a"
-session = "1"
+seal = "588b53dd"
+task = "T04"
+session = "2"
 
 [[file]]
 path = ".githooks/pre-commit"
@@ -41,13 +41,13 @@ owner_tasks = []
 
 [[file]]
 path = "OWNER_QUESTIONS.md"
-sha256 = "206015dbf2f7b99d738849a2009a79fc7234e90b43d983d90fbc0d68e65ad844"
+sha256 = "e8c50b96001bdfbe212df2a7f84b0bf112bbe44d280c208d445b1e580f8ff451"
 rule = "append_only"
 owner_tasks = []
 
 [[file]]
 path = "constants.toml"
-sha256 = "23f4584af3da61ceb0e6e8cdf54ae75a1b67dc7ded447b6f5a811d44edc6d07f"
+sha256 = "a97bf19296b85cc54141bcf6fe24fdcc5c46d0a88d438fe994e3f675516fe4d8"
 rule = "evidence"
 owner_tasks = ["T03"]
 
@@ -94,6 +94,12 @@ rule = "exact"
 owner_tasks = ["T01"]
 
 [[file]]
+path = "tools/economics.py"
+sha256 = "ff8b7a53734c683c629dc3ef525ddf59b5ae14e8f78df6b4d11f0c4d96edd660"
+rule = "exact"
+owner_tasks = ["T04"]
+
+[[file]]
 path = "tools/env_allowlist.txt"
 sha256 = "af08f2ccfbc6963b3b2026336ccd8f901802727ec48620326353ab6bc6fabf35"
 rule = "exact"
@@ -107,7 +113,7 @@ owner_tasks = ["T01", "T02a"]
 
 [[file]]
 path = "tools/make_report.py"
-sha256 = "c6e8f5fdabb79c5cb937f230d06a8b9c2a8c99fb34f7231407a6810b75029996"
+sha256 = "32f19f101f0f0ba661000f898984fdd559f0c8c86a66996f36dc1abd1975dca7"
 rule = "exact"
 owner_tasks = ["T02a", "T02b", "T04", "T09", "T11", "T18"]
 
@@ -116,6 +122,12 @@ path = "tools/mission_check.py"
 sha256 = "aa5c87f525d5422893b2b94de4ba14767fdfbd4136221388b5fed12515b643e9"
 rule = "exact"
 owner_tasks = ["T02a", "T02b"]
+
+[[file]]
+path = "tools/power.py"
+sha256 = "bdfda375c56706656d69fe4339a8b96517c522c31d3f0e87caa2c8df1869d4f8"
+rule = "exact"
+owner_tasks = ["T04", "T10"]
 
 [[file]]
 path = "tools/preflight.sh"
@@ -164,3 +176,15 @@ path = "tools/verify/T02a.sh"
 sha256 = "b2491c9f822028bb43485f49d0217bcbfbf51bfcefde4d933ceeccf27ccb8ca9"
 rule = "exact"
 owner_tasks = ["T02a"]
+
+[[file]]
+path = "tools/verify/T03.sh"
+sha256 = "dd656d35a344745240dd17fd8dff391a81c0f11d7d3d03e2210a6f318045055f"
+rule = "exact"
+owner_tasks = ["T03"]
+
+[[file]]
+path = "tools/verify/T04.sh"
+sha256 = "99784eae8c28d3d6e931bc6e168ed11aad384ba9a1685eaadb1bd73d2a6ebcaa"
+rule = "exact"
+owner_tasks = ["T04"]
