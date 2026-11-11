@@ -26,7 +26,7 @@ done
 git check-ignore -q data/recorder/2026-11-12.jsonl && pass "recorded data is gitignored" || fail "recorder data not ignored"
 grep -q '^scope = "LIGHT"' recorder.toml && pass "LIGHT scope by default" || fail "scope is not LIGHT"
 
-out=$(python3 -m pytest -v -p no:cacheprovider tests/test_recorder_mvp.py tests/invariants/test_i04_feed_stale_gap.py \
+out=$(python3 -m pytest -o addopts= -v -p no:cacheprovider tests/test_recorder_mvp.py tests/invariants/test_i04_feed_stale_gap.py \
   tests/invariants/test_i11_time.py tests/invariants/test_i13_feed_schema.py 2>&1)
 for t in test_one_synthetic_day_journals_and_replays_identically test_five_simulated_days_soak_without_gaps \
   test_kill_9_mid_write_leaves_a_recoverable_journal test_full_disk_stops_cleanly_and_the_journal_stays_readable \
