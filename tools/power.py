@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Statistical power (MISSION V11 §8.2). First version (T04); T10 makes SE_block come from data.
+"""Statistical power (MISSION V11 §8.2). T04 first version; T10 adds SE_block from REAL trades (day blocks).
 
 MDE = (z(1 - a*/2) + z(power)) * SE_block, with a* = family alpha / TRIALS_MAX.
 Before REAL data, SE_block = sigma / sqrt(N) * sqrt(design_effect), where sigma (the standard
@@ -11,6 +11,8 @@ deviation of net P&L per trade) is an ESTIMATE shown as a sensitivity table.
 from __future__ import annotations
 
 import math
+import random
+import statistics
 import sys
 from statistics import NormalDist
 
@@ -35,6 +37,20 @@ def se_block(sigma: float, n: int, design_effect: float = 1.0) -> float:
 def mde(sigma: float, n: int, trials_max: int = TRIALS_MAX, design_effect: float = 1.0) -> float:
     """Minimum detectable mean net P&L per trade (same unit as sigma)."""
     return factor(trials_max) * se_block(sigma, n, design_effect)
+
+
+def se_block_from_trades(trades_by_day: list[list[float]], n_boot: int = 2000, seed: int = 7) -> float:
+    """Final form (T10): SE_block = the standard deviation of day-block bootstrap means of net per trade."""
+    rng = random.Random(seed)  # noqa: S311 (statistics, not security)
+    means = []
+    for _ in range(n_boot):
+        sample = [x for _ in trades_by_day for x in trades_by_day[rng.randrange(len(trades_by_day))]]
+        means.append(statistics.fmean(sample))
+    return statistics.pstdev(means)
+
+
+def mde_from_trades(trades_by_day: list[list[float]], trials_max: int = TRIALS_MAX) -> float:
+    return factor(trials_max) * se_block_from_trades(trades_by_day)
 
 
 def main(argv: list[str]) -> int:

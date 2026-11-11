@@ -12,7 +12,7 @@ SAWAL F-REMOTE (code 2350): default na (sirf local commit) | ₹ asar seedha nah
 PAISA KAMANE KA RAASTA: tested set mein abhi koi pakka raasta nahi mila (G0 adhoora). Sabse sasta agla raasta: pehle INCIDENT #1 theek karke kharche official page se pakke karna; phir MANUAL mode mein Recorder se asli data (server ka kharcha nahi); saboot bahut lamba lagega
 MANZOORI (is session): koi nahi
 BHAROSA: alag jaanch: nahi hui | khuli badi galtiyan: koi nahi (alag jaanch abhi nahi hui) | kya verify NAHI hua: koi bhi bahari tathya (web band: INCIDENT #1); chhote kharche (internet, bijli, CA) sirf maanyata | final check laal: ek safety test laal (purana order-endpoint wala test; jhootha alarm, galti meri): fix ke liye F-PROT-1 manzoori
-SAMAY: session 3 · 42 min chala · baad mein: T10 (faisla niyam aur truth tests), phir T11, T12 · SEAL: 8ad3471a · TRIALS: khaali · push: local only (F-REMOTE ki manzoori nahi; INCIDENT #1 khula) · baaki: 14 kaam, 18 sawal (OWNER_TODO.md)
+SAMAY: session 3 · 45 min chala · baad mein: T10 (faisla niyam aur truth tests), phir T11, T12 · SEAL: 8ad3471a · TRIALS: khaali · push: local only (F-REMOTE ki manzoori nahi; INCIDENT #1 khula) · baaki: 14 kaam, 18 sawal (OWNER_TODO.md)
 
 RECORDER CARD:
 abhi asli recording nahi: Upstox feed ka adapter nahi bana (format verify nahi hua) aur data rakhne ki ijazat saaf nahi
@@ -38,7 +38,7 @@ NOT_YET(NO_DATA, G0_CONDITIONAL, DATA_RIGHTS_OPEN) · report INTERIM · push: lo
 | T06 | BOTH | PASS | 45 / 30 | 2 |
 | T07 | BOTH | PASS | 35 / 45 | 4 |
 | T08 | BOTH | PASS | 20 / 20 | 2 |
-| T10 | BOTH | IN_PROGRESS | 0 / 60 | 0 |
+| T10 | BOTH | IN_PROGRESS | 30 / 60 | 0 |
 | T11 | FULL-A | TODO | 0 / 45 | 0 |
 | T12 | FULL-A | TODO | 0 / 30 | 0 |
 | T13a | FULL-B | TODO | 0 / 60 | 0 |
@@ -146,7 +146,8 @@ Validation (power factor 4.132 at TRIALS_MAX 50), EVIDENCE/T04/g0.json:
 | limits.MAX_TRADE_LOSS_RS | ₹450 [CODE(HISTORY)] | limits.toml |
 
 ## PROTECTED_CHANGES (since the last seal)
-none
+- gates.toml (rule per_value)
+- tools/power.py (rule exact)
 
 ## Allowlists
 Env allowlist names (tools/env_allowlist.txt): GH_TOKEN, GITHUB_TOKEN, GIT_ASKPASS, GIT_CONFIG_KEY_*, GIT_CONFIG_VALUE_*, CLAUDE_CODE_*, CLAUDE_SESSION_INGRESS_TOKEN_FILE, CCR_*, MAX_THINKING_TOKENS, BUN_TLS_EXTRA_DISTRUSTED_KEYS

@@ -205,10 +205,10 @@
   ],
   "timebox_min": 60,
   "cap_min": 180,
-  "minutes_used": 0,
+  "minutes_used": 30,
   "retries": 0,
   "verify": "tools/verify/T10.sh",
-  "verify_sha256": "",
+  "verify_sha256": "562f140d1c6dd5923fe5d2234b67116ff254e787f17ce6100f24e1f6a2b90a22",
   "status": "IN_PROGRESS",
   "evidence": []
  },

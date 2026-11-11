@@ -7,7 +7,7 @@ BUDGET_MIN: 240
 PAUSE_AFTER_G0: yes
 TRACK: FULL (G0 CONDITIONAL for U1-U6: EVIDENCE/T04/g0.json; FULL-A next, FULL-B CLOSED)
 FULL-B gate: CLOSED (tools/fullb_gate.py arrives in T10; no REAL market data)
-IN_PROGRESS: T10 VERDICT_CORE · sub-step: start · minutes_used: 0
+IN_PROGRESS: T10 VERDICT_CORE · sub-step: gates, floors, harness, verdict, fullb gate written; next: checkpoint, seal, verify · minutes_used: 30
 
 ## DONE (V11)
 - T01 SYNC_SAFE: PASS (verify on 36acdef: EVIDENCE/T01/verify.txt; 20 min)
@@ -51,7 +51,7 @@ SHA256SUMS: sha256 20ab86987b20971e (file; covers docs/00_input and MISSION.md)
 MISSION.md: 5eb4f9899b59b43a21d753bcd9123922ac82cbb0c2232f151be24a14b1611462
 SEAL: cf5bb14b (seal/T02b-2; earlier 588b53dd seal/T04, bc4d856a seal/T02a; log EVIDENCE/seal_log.jsonl)
 TRIALS_HEAD: none (trials.jsonl empty)
-gates.toml: not written (T10) · STRATEGY.md: not written (T12)
+gates.toml: written in T10 (sealed at seal/T10) · STRATEGY.md: not written (T12)
 
 ## OLD DONE [HISTORY] (archive/CHECKPOINT_v5.md, archive/PROGRESS_v5.md; the owning V11 task re-verifies)
 - M0 base: Python package, CI (ruff, mypy strict, pytest, hash-locked dev deps), niyam.toml + loader → T06 / T07

@@ -1,2 +1,198 @@
-# gates.toml: every gate number (MISSION V11 §8), never weaker than tools/floors_baseline.toml.
-# Written in T10 (floors, TRIALS_MAX, holdout window, R-stage gates) before the first trial.
+# gates.toml: every gate number (MISSION V11 §8), never weaker than tools/floors_baseline.toml (T10).
+# Rule per_value: each [name] has value + direction; tightening = DECISIONS entry, loosening = owner approval.
+# Written BEFORE any trial: trials.jsonl is still empty. PREREGISTER_v2.md holds the narrative and the rule.
+
+[family_alpha]
+value = 0.05
+direction = "lower_is_tighter"
+source = "floor (§8.2)"
+
+[trials_max]
+value = 50
+direction = "lower_is_tighter"
+source = "floor (§8.2)"
+
+[ci_level]
+value = 0.95
+direction = "higher_is_tighter"
+source = "floor (§8.2)"
+
+[power]
+value = 0.8
+direction = "higher_is_tighter"
+source = "floor (§8.2)"
+
+[min_trades]
+value = 150
+direction = "higher_is_tighter"
+source = "floor (§8.2)"
+
+[min_trading_days]
+value = 125
+direction = "higher_is_tighter"
+source = "floor (§8.2)"
+
+[null_runs]
+value = 1000
+direction = "higher_is_tighter"
+source = "floor (§8.2)"
+
+[null_p_max]
+value = 0.05
+direction = "lower_is_tighter"
+source = "floor (§8.2)"
+
+[cost_stress_charges_mult]
+value = 1.5
+direction = "higher_is_tighter"
+source = "floor (§8.2)"
+
+[cost_stress_slippage_mult]
+value = 2.0
+direction = "higher_is_tighter"
+source = "floor (§8.2)"
+
+[cost_stress_spread_mult]
+value = 2.0
+direction = "higher_is_tighter"
+source = "floor (§8.2)"
+
+[mc_paths]
+value = 10000
+direction = "higher_is_tighter"
+source = "floor (§8.2)"
+
+[mc_months]
+value = 12
+direction = "higher_is_tighter"
+source = "floor (§8.2)"
+
+[mc_p_touch_equity_floor_max]
+value = 0.05
+direction = "lower_is_tighter"
+source = "floor (§8.2)"
+
+[holdout_span_fraction]
+value = 0.2
+direction = "higher_is_tighter"
+source = "floor (§8.2)"
+
+[holdout_min_trades]
+value = 30
+direction = "higher_is_tighter"
+source = "floor (§8.2)"
+
+[holdout_min_trading_days]
+value = 25
+direction = "higher_is_tighter"
+source = "floor (§8.2)"
+
+[wf_folds]
+value = 4
+direction = "higher_is_tighter"
+source = "floor (§8.2)"
+
+[wf_positive_folds_min]
+value = 3
+direction = "higher_is_tighter"
+source = "floor (§8.2)"
+
+[stability_perturb_pct]
+value = 20
+direction = "higher_is_tighter"
+source = "floor (§8.2)"
+
+[stability_positive_share_min]
+value = 0.8
+direction = "higher_is_tighter"
+source = "floor (§8.2)"
+
+[live_parameters_max]
+value = 12
+direction = "lower_is_tighter"
+source = "floor (§8.2)"
+
+[peeking_max_looks]
+value = 3
+direction = "lower_is_tighter"
+source = "floor (§8.2)"
+
+[regime_max_binary_splits]
+value = 3
+direction = "lower_is_tighter"
+source = "floor (§8.2)"
+
+[regime_trend_abs_20d_return]
+value = 0.03
+direction = "exact"
+source = "floor (§8.2)"
+
+[regime_min_bucket_n]
+value = 30
+direction = "higher_is_tighter"
+source = "floor (§8.2)"
+
+[drift_agreement_min]
+value = 0.95
+direction = "higher_is_tighter"
+source = "floor (§8.2)"
+
+[drift_window_days]
+value = 20
+direction = "higher_is_tighter"
+source = "floor (§8.2)"
+
+[holdout_planned_span_trading_days]
+value = 160
+direction = "higher_is_tighter"
+note = "planned REAL data span; the holdout is its last 20%"
+
+[holdout_last_trading_days]
+value = 32
+direction = "higher_is_tighter"
+note = "the last 32 trading days of the planned span (sealed by hash and date cutoff at the first REAL data)"
+
+[g1_min_snapshot_coverage]
+value = 0.99
+direction = "higher_is_tighter"
+note = "G1: share of expected 1-minute snapshots on a counted day"
+
+[fullb_min_real_trading_days]
+value = 20
+direction = "higher_is_tighter"
+note = "FULL-B opens only with this much REAL data for the member"
+
+[g4_forward_trades_min]
+value = 30
+direction = "higher_is_tighter"
+note = "G4 forward confirmation"
+
+[g4_forward_days_min]
+value = 20
+direction = "higher_is_tighter"
+note = "G4 forward confirmation"
+
+[hard_kill_reconciliation_failures]
+value = 2
+direction = "lower_is_tighter"
+note = "HARD KILL: this many reconciliation failures within 5 days"
+
+[hard_kill_reconciliation_window_days]
+value = 5
+direction = "higher_is_tighter"
+note = "window for the reconciliation-failure kill"
+
+[review_slippage_gap_mult]
+value = 2.0
+direction = "lower_is_tighter"
+note = "REVIEW: live minus paper slippage above this multiple of the model"
+
+[review_min_live_trades]
+value = 30
+direction = "lower_is_tighter"
+note = "REVIEW is judged over at least this many live trades"
+
+[early_review_first_trades]
+value = 5
+direction = "higher_is_tighter"
+note = "EARLY REVIEW window (EARLY_SLIP_RS lives in limits.toml)"
