@@ -2,7 +2,8 @@
 # .githooks/pre-push (MISSION V11 T02a). A push is allowed only when ALL hold:
 #   - no OPEN secret or sandbox_breach incident in INCIDENT.md;
 #   - OWNER_APPROVALS.md holds the owner's `haan F-REMOTE <code>` with the code of OWNER_QUESTIONS.md;
-#   - the only ref pushed is refs/heads/mission/v11; no delete; no non-fast-forward (force) update.
+#   - the only ref pushed is refs/heads/mission/v11; no delete; no non-fast-forward (force) update;
+#   - mission_check with the git-history secrets scan (#6h) is GREEN (T02b).
 root=$(git rev-parse --show-toplevel) || exit 1
 if ! python3 - "$root" <<'PY'
 import hashlib, re, sys
@@ -21,6 +22,11 @@ if not ok:
     print("pre-push: no owner approval `haan F-REMOTE <code>`: push is disabled", file=sys.stderr); sys.exit(1)
 PY
 then
+  exit 1
+fi
+if ! out=$(python3 "$root/tools/mission_check.py" --history 2>&1); then
+  printf '%s\n' "$out" >&2
+  echo "pre-push: mission_check (tree + git history) is RED: push refused" >&2
   exit 1
 fi
 zero=0000000000000000000000000000000000000000

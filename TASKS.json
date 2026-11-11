@@ -86,11 +86,11 @@
   ],
   "timebox_min": 90,
   "cap_min": 270,
-  "minutes_used": 0,
+  "minutes_used": 25,
   "retries": 0,
   "verify": "tools/verify/T02b.sh",
-  "verify_sha256": "",
-  "status": "TODO",
+  "verify_sha256": "4105f382526672847b738b57d591d53f8cab4bdfe29cec54284813ee85191a35",
+  "status": "IN_PROGRESS",
   "evidence": []
  },
  {

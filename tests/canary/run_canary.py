@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""CORE canaries (MISSION V11 §5.5): build each violation at runtime in a temp copy of the repo
+"""CORE + FULL canaries (MISSION V11 §5.5): build each violation at runtime in a temp copy of the repo
 (${TMPDIR:-/tmp}/mission-v11-canary-*) and require tools/mission_check.py to turn the named check RED.
 Nothing violating is ever written to the real repository. Exit 0 only when the clean copy is GREEN
 and every canary is caught. Fake secrets are assembled from fragments and never stored whole.
@@ -8,6 +8,7 @@ and every canary is caught. Fake secrets are assembled from fragments and never 
 from __future__ import annotations
 
 import json
+import os
 import re
 import shutil
 import subprocess
@@ -25,7 +26,7 @@ IGNORE = shutil.ignore_patterns(
 
 def run_check(copy: Path) -> str:
     r = subprocess.run(  # noqa: S603
-        [sys.executable, str(copy / "tools/mission_check.py"), "--root", str(copy)],
+        [sys.executable, str(copy / "tools/mission_check.py"), "--root", str(copy), "--history"],
         cwd=copy,
         capture_output=True,
         check=False,
@@ -114,6 +115,49 @@ def fullb_pass_gate_closed(c: Path) -> None:
     (c / "TASKS.json").write_text(json.dumps(tasks, indent=1) + "\n")
 
 
+# ---------------------------------------------------------------- FULL canaries (T02b)
+
+
+def second_order_call_site(c: Path) -> None:
+    endpoint = "/v2/" + "order/place"
+    (c / "src/bot/rogue_orders.py").write_text(f'def send() -> str:\n    return "{endpoint}"\n')
+
+
+def go_names_broker_host(c: Path) -> None:
+    host = "api." + "up" + "stox.com"
+    (c / "pehredaar/rogue.go").write_text(f'package main\n\nconst brokerHost = "{host}"\n')
+
+
+def class_cd_pattern(c: Path) -> None:
+    word = "martin" + "gale"
+    (c / "src/bot/strategy/rogue.py").write_text(f"def {word}_size(lots: int) -> int:\n    return lots * 2\n")
+
+
+def hidden_trial(c: Path) -> None:
+    first = json.dumps({"trial": "a", "prev_hash": "0" * 64})
+    second = json.dumps({"trial": "c", "prev_hash": "f" * 64})  # trial "b" was hidden: the chain breaks
+    (c / "trials.jsonl").write_text(first + "\n" + second + "\n")
+
+
+def secret_in_history(c: Path) -> None:
+    """Commit a fake token and remove it again, with git plumbing inside the throw-away copy only."""
+    token = "ey" + "J" + "Zm9v" * 6 + "Q1"
+    ident = {"GIT_AUTHOR_NAME": "canary", "GIT_AUTHOR_EMAIL": "canary@local"}
+    ident |= {"GIT_COMMITTER_NAME": "canary", "GIT_COMMITTER_EMAIL": "canary@local"}
+    env = dict(os.environ, GIT_INDEX_FILE=str(c / ".git" / "canary-index"), **ident)
+
+    def git(*args: str, data: bytes | None = None) -> str:
+        r = subprocess.run(["git", *args], cwd=c, env=env, input=data, capture_output=True, check=True)  # noqa: S603, S607
+        return r.stdout.decode().strip()
+
+    git("read-tree", "HEAD")
+    blob = git("hash-object", "-w", "--stdin", data=("Authorization: Bear" + "er " + token + "\n").encode())
+    git("update-index", "--add", "--cacheinfo", f"100644,{blob},canary_note.md")
+    with_secret = git("commit-tree", git("write-tree"), "-p", "HEAD", "-m", "canary: secret")
+    without = git("commit-tree", git("rev-parse", "HEAD^{tree}"), "-p", with_secret, "-m", "canary: removed")
+    git("update-ref", "HEAD", without)
+
+
 CANARIES: list[tuple[str, str, Callable[[Path], None]]] = [
     ("untagged number", "1", untagged_number),
     ("fake secret (from fragments)", "6", fake_secret),
@@ -123,6 +167,11 @@ CANARIES: list[tuple[str, str, Callable[[Path], None]]] = [
     ("digit in report_fields.json", "2", digit_in_fields),
     ("constants value missing from its extract", "18", constants_missing_extract),
     ("FULL-B task PASS while the gate is CLOSED", "19", fullb_pass_gate_closed),
+    ("second order call site", "8", second_order_call_site),
+    ("Go file naming the broker host", "8", go_names_broker_host),
+    ("Class C/D pattern", "4", class_cd_pattern),
+    ("hidden trial", "13", hidden_trial),
+    ("secret in git history", "6h", secret_in_history),
 ]
 
 

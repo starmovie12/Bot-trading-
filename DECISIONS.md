@@ -154,3 +154,24 @@ WHY: §5.2 append_only; the memo must show the G0 numbers
 ₹ IMPACT: none
 REVERSE BY: git revert
 CLASS CHECK: A (tooling) · PROTECTED: make_report.py (owner tasks include T04)
+
+## D-023 | T02b | 2026-11-11
+OLD → NEW: `tools/scan_allowlist.toml` created with two entries: (1) PII scan: the exchange's public institutional address in `docs/00_input/research/R_d_Costs_Data.md` (read-only input, not personal data); (2) git-history scan: the fake test token literal in pre-V11 commit 8dfea02fae0984123e90dac514f35730a5161874 (`tests/test_login.py`), never a real credential, now built from fragments in the tree (D-011).
+WHY: §5.2 scan allowlist (path + pattern + reason; counted under REPORT line 15; listed for the adversary); both found by the new FULL scans (#10, #6h)
+₹ IMPACT: none
+REVERSE BY: delete the entry (the scans then turn RED until the source changes)
+CLASS CHECK: C guard (PII / secrets) · PROTECTED: no (listed for the adversary)
+
+## D-024 | T02b | 2026-11-11
+OLD → NEW: `tools/param_scan.py` finds 123 numeric literals in the v3 strategy and risk code (`src/bot/strategy`, `src/bot/dimaag`, `src/bot/haath`) and an empty params.toml: far above the floor of 12 live parameters (§8.2). Finding for T06 (S4 over-engineering) and T12 (SPEC_LOCK), not a red check now: the v3 code is HISTORY, not the live strategy. Output: EVIDENCE/T02b/param_scan.txt.
+WHY: §8.2 "Live parameters ≤ 12, counted from params.toml and by tools/param_scan.py"
+₹ IMPACT: none now; many hidden knobs raise the risk of an overfit backtest
+REVERSE BY: T12 moves the live parameters into params.toml and freezes or exempts the rest
+CLASS CHECK: B (statistics: multiple testing) · PROTECTED: no
+
+## D-025 | T02b | 2026-11-11
+OLD → NEW: FULL checks added to `tools/mission_check.py`: #4 Class C/D static lint over code (a line may carry `classcd-ok: <reason>`, visible to the adversary); #8 broker order call sites found by order endpoints and SDK names (not by generic method names such as the paper broker's `submit`), only the three gateway sites of `tools/callsite_allowlist.toml` allowed, Go code may not name the broker, the mode switch must default to paper; #10 PII scan with the allowlist; #13 trials hash chain; #16 adversary manifest; #6h git-history secrets scan (`--history`, run by the pre-push hook and CI, which now fetches full history). The history canary builds its two commits with git plumbing inside the throw-away copy only, so no real commit ever bypasses a hook.
+WHY: §5.5, §7 I10, T02b
+₹ IMPACT: none
+REVERSE BY: owner approval (all protected from seal/T02b)
+CLASS CHECK: C/D guard · PROTECTED: yes

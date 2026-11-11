@@ -10,3 +10,6 @@ message, including its push rule. No command lines (§15) were in the message.
 
 ## session 2, 2026-11-11 (start message)
 The owner wrote one line: `Continue` → the `continue` command (§15): a new session, no `seal`, no `budget`, no `data`. No answers to open questions.
+
+## session 3, 2026-11-11 (start message)
+The owner wrote one line: `Continue` → the `continue` command (§15) after CP1. No answers to the CP1 questions, so every default stays.

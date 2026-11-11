@@ -1,13 +1,13 @@
 # STATE (MISSION V11) · keep ≤ 120 lines · BOOT: resume card + this file + the task section
 
-SESSION_N: 2
+SESSION_N: 3
 CYCLE_N: 1
-SESSION_START: 1794400544
+SESSION_START: 1794401358
 BUDGET_MIN: 240
 PAUSE_AFTER_G0: yes
 TRACK: FULL (G0 CONDITIONAL for U1-U6: EVIDENCE/T04/g0.json; FULL-A next, FULL-B CLOSED)
 FULL-B gate: CLOSED (tools/fullb_gate.py arrives in T10; no REAL market data)
-IN_PROGRESS: none · CHECKPOINT CP1 reached (PAUSE_AFTER_G0 = yes): waiting for the owner's answers, then `continue`
+IN_PROGRESS: T02b GUARDS_FULL · sub-step: FULL checks, canaries, CI built; next: checkpoint, seal/T02b, verify · minutes_used: 25
 
 ## DONE (V11)
 - T01 SYNC_SAFE: PASS (verify on 36acdef: EVIDENCE/T01/verify.txt; 20 min)
@@ -57,6 +57,7 @@ gates.toml: not written (T10) · STRATEGY.md: not written (T12)
 - Website (separate repo Bot-trading-website-): practice-mode admin panel; not part of this mission
 
 ## NOTES
+- Session 3: owner wrote `continue` after CP1 without answers → all defaults stay; RUN ORDER resumes at T02b.
 - Session 1 ended by a forced stop (worker restart) during T04, after T03 PASS; owner wrote `continue` → session 2 (no seal, no budget, no answers).
 - Tools on PATH (pytest, mypy) lack the project's dev deps; always use python3 -m (D-009).
 - Temp files only in ${TMPDIR:-/tmp}/mission-v11-* (D-012). Commit cycle: STATE → make_report → mission_check → safe_add → commit.

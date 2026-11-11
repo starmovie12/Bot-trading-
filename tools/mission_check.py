@@ -2,16 +2,17 @@
 """MISSION V11 guard (§5.5). One file, standard library only, no local imports.
 
 Tier 1 (default; pre-commit hook, after every task and checkpoint): the CORE checks
-#1 #2 #3 #5 #6 #7 #9 #11 #12 #14 #15 #17 #18 #19. The FULL checks (#4, #6 history, #8, #10,
-#13, #16) arrive with T02b.
+#1 #2 #3 #5 #6 #7 #9 #11 #12 #14 #15 #17 #18 #19 and the FULL checks #4 #8 #10 #13 #16 (T02b).
+--history adds #6h, the secrets scan of the git history (pre-push hook and CI only).
 Tier 2 (--final): Tier 1 plus constants TTL, the holdout open-counter and gate-input eligibility.
 
-usage: mission_check.py [--root PATH] [--final] [--record-tests]
+usage: mission_check.py [--root PATH] [--final] [--record-tests] [--history]
 Exit 0 = green, 1 = red. One line per check. A red line names path:line, never a value.
 """
 
 from __future__ import annotations
 
+import ast
 import datetime as dt
 import fnmatch
 import hashlib
@@ -551,6 +552,180 @@ def check_19(repo: Repo) -> list[str]:
     return problems
 
 
+# ---------------------------------------------------------------- FULL checks (T02b)
+
+CLASS_CD = [
+    ("D1 martingale / double-down", r"(?i)martingale|double[_ ]?down|doubling[_ ]?down"),
+    ("D2 averaging into a loser", r"(?i)average[_ ]?down|averag(e|ing)[_ ]?(into|on)[_ ]?(a[_ ]?)?los"),
+    ("D3 stop moved away or removed", r"(?i)(remove|widen|loosen)[_ ]?(the[_ ]?)?stop"),
+    ("D6 revenge trade", r"(?i)revenge"),
+    ("D7 refill / top-up", r"(?i)\brefill|\btop[_ -]?up"),
+    ("D8 raise a limit to continue", r"(?i)(raise|increase|bump)[_ ]?(the[_ ]?)?(loss[_ ]?)?limit"),
+    ("D9 bet bigger", r"(?i)bet[_ ]?bigger|(size|lots?|qty)\s*\*=\s*[2-9]"),
+    (
+        "C spoof / layering / wash / ramp / insider",
+        r"(?i)spoof|layering|wash[_ ]?trade|circular[_ ]?trade|\bramping\b|insider|front[_ ]?run",
+    ),
+]
+ORDER_API = re.compile(
+    r"(?i)/v[23]/order/|/order/(place|modify|cancel|multi)|/positions/exit|/v[23]/gtt|place_order|modify_order"
+    r"|cancel_order|exit_all_positions|\bOrderApi(V3)?\b|\bGTTApi\b"
+)
+BROKER_NAME = re.compile(r"(?i)upstox|api-hft")
+
+
+def check_4(repo: Repo) -> list[str]:
+    problems = []
+    compiled = [(n, re.compile(p)) for n, p in CLASS_CD]
+    for rel in candidate_files(repo):
+        if not rel.startswith(("src/", "tools/", "pehredaar/")) or rel == "tools/mission_check.py":
+            continue
+        if not rel.endswith((".py", ".go", ".sh", ".toml")) or not repo.path(rel).is_file():
+            continue
+        for n, line in enumerate(repo.text(rel).splitlines(), start=1):
+            if "classcd-ok:" in line:
+                continue
+            problems += [f"{rel}:{n}: {name}" for name, rx in compiled if rx.search(line)]
+    return problems
+
+
+def _sites(tree: ast.AST) -> Iterator[tuple[str, int, str]]:
+    """(enclosing function, line, text) for every string, name, attribute and import in the tree."""
+
+    def visit(node: ast.AST, func: str) -> Iterator[tuple[str, int, str]]:
+        if isinstance(node, ast.FunctionDef | ast.AsyncFunctionDef):
+            func = node.name
+        text = ""
+        if isinstance(node, ast.Constant) and isinstance(node.value, str):
+            text = node.value
+        elif isinstance(node, ast.Attribute):
+            text = node.attr
+        elif isinstance(node, ast.Name):
+            text = node.id
+        elif isinstance(node, ast.Import | ast.ImportFrom):
+            text = " ".join(a.name for a in node.names) + " " + str(getattr(node, "module", "") or "")
+        if text:
+            yield func, int(getattr(node, "lineno", 0)), text
+        for child in ast.iter_child_nodes(node):
+            yield from visit(child, func)
+
+    yield from visit(tree, "")
+
+
+def check_8(repo: Repo) -> list[str]:
+    sites = repo.toml("tools/callsite_allowlist.toml").get("site", [])
+    allowed = {(str(x.get("file")), str(x.get("function"))) for x in sites}
+    problems = [] if len(allowed) <= 3 else ["tools/callsite_allowlist.toml lists more than three sites"]
+    for rel in candidate_files(repo):
+        if not repo.path(rel).is_file():
+            continue
+        if rel.startswith("src/") and rel.endswith(".py"):
+            try:
+                tree = ast.parse(repo.text(rel))
+            except SyntaxError:
+                problems.append(f"{rel}: does not parse")
+                continue
+            for func, line, text in _sites(tree):
+                if ORDER_API.search(text) and (rel, func) not in allowed:
+                    problems.append(f"{rel}:{line}: broker order API outside the allowlist ({func or 'module level'})")
+            for n, raw in enumerate(repo.text(rel).splitlines(), start=1):
+                if re.search(r"\bLIVE[A-Z_]*\s*(:\s*[A-Za-z_]+\s*)?=\s*True\b", raw):
+                    problems.append(f"{rel}:{n}: a live flag defaults to True")
+        elif rel.startswith("pehredaar/") and rel.endswith(".go"):
+            for n, raw in enumerate(repo.text(rel).splitlines(), start=1):
+                if BROKER_NAME.search(raw) or ORDER_API.search(raw):
+                    problems.append(f"{rel}:{n}: Go code names the broker (the watchdog may only call reduce_only)")
+    if 'os.environ.get("BOT_MODE", "paper")' not in repo.text("src/bot/__main__.py"):
+        problems.append("src/bot/__main__.py: the mode switch does not default to paper (live flag OFF)")
+    return problems
+
+
+def check_10(repo: Repo) -> list[str]:
+    rules = load_rules(repo)
+    entries = repo.toml("tools/scan_allowlist.toml").get("entry", [])
+    problems = [
+        f"tools/scan_allowlist.toml: entry {n} has no reason" for n, e in enumerate(entries) if not e.get("reason")
+    ]
+    for rel in candidate_files(repo):
+        if rel.startswith("EVIDENCE/") or secret_named(rel, rules) is not None or not repo.path(rel).is_file():
+            continue
+        for ln, name in scan_lines(repo.text(rel), rules, ("pii",)):
+            ok = any(e.get("path") == rel and e.get("pattern") == f"pii/{name}" for e in entries)
+            if not ok:
+                problems.append(f"{rel}:{ln}: pii/{name}")
+    return problems
+
+
+def check_13(repo: Repo) -> list[str]:
+    prev, problems = "0" * 64, []
+    for n, line in enumerate([x for x in repo.text("trials.jsonl").splitlines() if x.strip()], start=1):
+        try:
+            row = json.loads(line)
+        except json.JSONDecodeError:
+            return [f"trials.jsonl:{n}: not JSON"]
+        if row.get("prev_hash") != prev:
+            problems.append(f"trials.jsonl:{n}: prev_hash breaks the chain (a hidden or edited trial)")
+        prev = hashlib.sha256(line.encode()).hexdigest()
+    return problems
+
+
+def check_16(repo: Repo) -> list[str]:
+    folder = repo.path("tests/adversary")
+    if not folder.is_dir():
+        return []
+    manifest = repo.text("tests/adversary/MANIFEST.sha256")
+    if not manifest:
+        return ["tests/adversary exists without MANIFEST.sha256"]
+    listed: dict[str, str] = {
+        m.group(2): m.group(1) for m in re.finditer(r"^([0-9a-f]{64})  (\S+)$", manifest, re.MULTILINE)
+    }
+    problems = []
+    for p in sorted(folder.rglob("*")):
+        rel = str(p.relative_to(repo.root))
+        if p.is_file() and p.name != "MANIFEST.sha256" and "__pycache__" not in rel:
+            if rel not in listed:
+                problems.append(f"{rel}: not in MANIFEST.sha256")
+            elif repo.sha(rel) != listed[rel]:
+                problems.append(f"{rel}: changed since the adversary wrote it")
+    report = repo.text("tests/adversary/ADVERSARY_REPORT.md")
+    if report:
+        problems += [
+            f"{rel}: hash missing from the adversary's own report" for rel, h in listed.items() if h not in report
+        ]
+    return problems
+
+
+def check_6_history(repo: Repo) -> list[str]:
+    rules = load_rules(repo)
+    entries = repo.toml("tools/scan_allowlist.toml").get("entry", [])
+    content = [(n, re.compile(p)) for k, n, p in rules if k == "content"]
+    rc, out = repo.git("log", "--no-color", "-p", "--format=commit %H", "HEAD")
+    if rc != 0:
+        return ["git log failed"]
+    problems: set[str] = set()
+    commit, path = "", ""
+    for line in out.splitlines():
+        if line.startswith("commit "):
+            commit = line[7:47]
+        elif line.startswith("+++ "):
+            path = line[6:] if line.startswith("+++ b/") else ""
+            if path and secret_named(path, rules) is not None:
+                problems.add(f"{commit[:12]}: {path}: secret-named file in history (not opened)")
+        elif line.startswith("+") and path:
+            for name, rx in content:
+                if rx.search(line[1:]):
+                    ok = any(
+                        e.get("kind") == "history"
+                        and e.get("commit") == commit
+                        and e.get("path") == path
+                        and e.get("pattern") == f"content/{name}"
+                        for e in entries
+                    )
+                    if not ok:
+                        problems.add(f"{commit[:12]}: {path}: content/{name}")
+    return sorted(problems)
+
+
 def tier2(repo: Repo) -> list[str]:
     problems = []
     today = dt.datetime.now(dt.UTC).date()
@@ -579,22 +754,30 @@ def main(argv: list[str]) -> int:
         root = Path(argv[argv.index("--root") + 1]).resolve()
     repo = Repo(root)
     record = "--record-tests" in argv
+    history = "--history" in argv
     checks: list[tuple[str, str, Callable[[], list[str]]]] = [
         ("1", "numbers tagged + linked", lambda: check_1(repo)),
         ("2", "REPORT from numbers.json + templates", lambda: check_2(repo)),
         ("3", "protected files vs seal", lambda: check_3(repo)),
+        ("4", "Class C/D static lint", lambda: check_4(repo)),
         ("5", "tests: count, no skip, baseline", lambda: check_5(repo, record)),
         ("6", "secrets scan (tree)", lambda: check_6(repo)),
         ("7", "OWNER_TODO ranked", lambda: check_7(repo)),
+        ("8", "order call sites + live flag OFF", lambda: check_8(repo)),
         ("9", "verify-script hashes", lambda: check_9(repo)),
+        ("10", "PII scan", lambda: check_10(repo)),
         ("11", "docs/00_input vs SHA256SUMS", lambda: check_11(repo)),
         ("12", "STATE.md <= 120 lines", lambda: check_12(repo)),
+        ("13", "trials.jsonl hash chain", lambda: check_13(repo)),
         ("14", "invariant coverage", lambda: check_14(repo)),
         ("15", "EVIDENCE has no secret", lambda: check_15(repo)),
+        ("16", "adversary manifest", lambda: check_16(repo)),
         ("17", "approvals", lambda: check_17(repo)),
         ("18", "constants vs extracts", lambda: check_18(repo)),
         ("19", "track gates", lambda: check_19(repo)),
     ]
+    if history:
+        checks.insert(6, ("6h", "secrets scan (git history)", lambda: check_6_history(repo)))
     if "--final" in argv:
         checks.append(("T2", "tier 2: TTL, holdout, gate inputs", lambda: tier2(repo)))
     red = []

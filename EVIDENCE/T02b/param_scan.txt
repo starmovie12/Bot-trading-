@@ -1,0 +1,14 @@
+$ python3 tools/param_scan.py 
+src/bot/dimaag/__init__.py: 0 literal(s) counted, 0 exempt
+src/bot/dimaag/candles.py: 7 literal(s) counted, 0 exempt
+src/bot/dimaag/regime.py: 11 literal(s) counted, 0 exempt
+src/bot/dimaag/setups.py: 17 literal(s) counted, 0 exempt
+src/bot/haath/__init__.py: 0 literal(s) counted, 0 exempt
+src/bot/haath/orders.py: 26 literal(s) counted, 0 exempt
+src/bot/strategy/__init__.py: 0 literal(s) counted, 0 exempt
+src/bot/strategy/costs.py: 18 literal(s) counted, 0 exempt
+src/bot/strategy/instruments.py: 9 literal(s) counted, 0 exempt
+src/bot/strategy/rules.py: 24 literal(s) counted, 0 exempt
+src/bot/strategy/selection.py: 11 literal(s) counted, 0 exempt
+params.toml entries: 0 · literals counted: 123 · live parameters: 123 (max 12)
+[exit 1]

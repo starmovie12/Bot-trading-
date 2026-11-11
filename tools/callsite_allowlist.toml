@@ -1,0 +1,15 @@
+# tools/callsite_allowlist.toml (MISSION V11 I10): the ONLY places allowed to call the broker order API.
+# Exactly three, all inside the gateway module, which is built only on FULL-B (T13b). Until then the code
+# has no broker order call site at all, and mission_check #8 fails on any it finds.
+
+[[site]]
+file = "src/bot/gateway.py"
+function = "submit"
+
+[[site]]
+file = "src/bot/gateway.py"
+function = "reduce_only"
+
+[[site]]
+file = "src/bot/gateway.py"
+function = "tighten_stop"

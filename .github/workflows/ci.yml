@@ -19,6 +19,7 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
+          fetch-depth: 0 # full history: the seal check and the git-history secrets scan need it
       - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
         with:
           python-version: ${{ matrix.python-version }}
@@ -30,6 +31,10 @@ jobs:
         run: mypy
       - name: Tests
         run: pytest
+      - name: Mission check (Tier 1 + FULL + git history), MISSION V11 §5.5
+        run: python tools/mission_check.py --history
+      - name: Canaries (every built violation must turn mission_check RED)
+        run: python tests/canary/run_canary.py
       - name: Niyam-file jaanch
         run: PYTHONPATH=src python -m bot.niyam config/niyam.toml
       - name: TLS jaanch band karne wala code nahi

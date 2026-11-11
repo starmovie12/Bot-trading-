@@ -14,6 +14,7 @@ MALIK KO KYA KARNA HAI (ek raasta chuno):
   (c) Ya agent ko aisi jagah chalao jahan ye variable na ho.
   Uske baad: `haan F-INC-1 be92`.
 SESSION 2 (2026-11-11 18:05 IST): preflight found the same name again (`EVIDENCE/SESSION2/preflight.txt`) → web fetch and push stay off in session 2.
+SESSION 3: same result (`EVIDENCE/SESSION3/preflight.txt`) → web fetch and push stay off in session 3.
 CLOSES WITH: `haan F-INC-1 be92`
 
 ## #2 · env_warn · OPEN

@@ -1,0 +1,16 @@
+# tools/scan_allowlist.toml (MISSION V11 §5.2): exemptions for the PII scan (mission_check #10) and for
+# the git-history secrets scan (#6h). Each entry: path + pattern + reason (+ commit for history).
+# Every addition needs a DECISIONS line, is counted below REPORT line 15 and is listed for the adversary.
+
+[[entry]]
+kind = "pii"
+path = "docs/00_input/research/R_d_Costs_Data.md"
+pattern = "pii/email"
+reason = "a stock exchange's public institutional sales address in the owner's input research (not personal data); input files are read-only (DECISIONS D-005, D-023)"
+
+[[entry]]
+kind = "history"
+commit = "8dfea02fae0984123e90dac514f35730a5161874"
+path = "tests/test_login.py"
+pattern = "content/kv_secret_quoted"
+reason = "a fake test token literal in a pre-V11 commit (2026-11-10); never a real credential; the tree now builds it from fragments (DECISIONS D-011, D-023)"
