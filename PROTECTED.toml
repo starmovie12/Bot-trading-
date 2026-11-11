@@ -1,1 +1,166 @@
-# PROTECTED.toml (MISSION V11 §5.2). Written by tools/seal.py from T02a on; empty until the first seal.
+# PROTECTED.toml (MISSION V11 §5.2): written by tools/seal.py. Never edit by hand.
+seal = "bc4d856a"
+task = "T02a"
+session = "1"
+
+[[file]]
+path = ".githooks/pre-commit"
+sha256 = "edf516214691f1bc47fd089bf5e2c95552a72f5eb5b77a11bc46ceca35c14501"
+rule = "exact"
+owner_tasks = ["T01", "T02a", "T02b"]
+
+[[file]]
+path = ".githooks/pre-push"
+sha256 = "60d0ffbf5688d869eba9c2588461279125a6ec7a427e8f823140b8a352464577"
+rule = "exact"
+owner_tasks = ["T01", "T02a", "T02b"]
+
+[[file]]
+path = ".github/workflows/ci.yml"
+sha256 = "9a50b107473a27c789a2fbc19d3a167770362452d1ab714a8a72167ef7159344"
+rule = "exact"
+owner_tasks = ["T02b"]
+
+[[file]]
+path = "MISSION.md"
+sha256 = "5eb4f9899b59b43a21d753bcd9123922ac82cbb0c2232f151be24a14b1611462"
+rule = "exact"
+owner_tasks = []
+
+[[file]]
+path = "OWNER_APPROVALS.md"
+sha256 = "67482c6c1ab86240503e793435d97cd27df9745e5236c17433b982bf22e55837"
+rule = "append_only"
+owner_tasks = []
+
+[[file]]
+path = "OWNER_CONFIG.md"
+sha256 = "0cf23f24c56514beef41d15578ca6246e5548147fc82a480d6f611e508ad2575"
+rule = "append_only"
+owner_tasks = []
+
+[[file]]
+path = "OWNER_QUESTIONS.md"
+sha256 = "206015dbf2f7b99d738849a2009a79fc7234e90b43d983d90fbc0d68e65ad844"
+rule = "append_only"
+owner_tasks = []
+
+[[file]]
+path = "constants.toml"
+sha256 = "23f4584af3da61ceb0e6e8cdf54ae75a1b67dc7ded447b6f5a811d44edc6d07f"
+rule = "evidence"
+owner_tasks = ["T03"]
+
+[[file]]
+path = "gates.toml"
+sha256 = "ceeff2086158b08902722a68776008e63c6105e98e2b3a3233b648b2b882bdcf"
+rule = "per_value"
+owner_tasks = ["T10", "T12"]
+
+[[file]]
+path = "limits.toml"
+sha256 = "fb1845086b666b1aa6e8643f11dd6b1a99da61d087838d809d0f0816569f8051"
+rule = "per_value"
+owner_tasks = ["T01", "T06"]
+
+[[file]]
+path = "report_templates/memo.md"
+sha256 = "eb442844e0413bc1f077d8d59792bf135d76afb9bf9b5fc3bcff8dee98facbc0"
+rule = "exact"
+owner_tasks = ["T02a", "T02b", "T04", "T09", "T11", "T18"]
+
+[[file]]
+path = "report_templates/recorder_card.md"
+sha256 = "480b6d869002c692df29ede376f5ddfa48a7649982e6e896c4c379aa1bf5cc89"
+rule = "exact"
+owner_tasks = ["T02a", "T02b", "T04", "T09", "T11", "T18"]
+
+[[file]]
+path = "report_templates/report.md"
+sha256 = "89b67c8a99eea64363b76ca61893474d17a5bc578e3bf9ddc9205897a7de2f64"
+rule = "exact"
+owner_tasks = ["T02a", "T02b", "T04", "T09", "T11", "T18"]
+
+[[file]]
+path = "tests/canary/run_canary.py"
+sha256 = "7c179503eef6aa5dea3c8c6fb605e08f6ea54c0c6ae49d6869e0eeb7e3322ff8"
+rule = "exact"
+owner_tasks = ["T02a", "T02b"]
+
+[[file]]
+path = "tools/clock.sh"
+sha256 = "25fc16b4b57fff6ce32ecbcd58193a40ac4c67a69b357c97c0002f53d58f7b65"
+rule = "exact"
+owner_tasks = ["T01"]
+
+[[file]]
+path = "tools/env_allowlist.txt"
+sha256 = "af08f2ccfbc6963b3b2026336ccd8f901802727ec48620326353ab6bc6fabf35"
+rule = "exact"
+owner_tasks = ["T01"]
+
+[[file]]
+path = "tools/ev.sh"
+sha256 = "085ff100e88f79123f41b3ba3f6be17fb17dc3dd0a34d77c01e9c5fc20bf72cd"
+rule = "exact"
+owner_tasks = ["T01", "T02a"]
+
+[[file]]
+path = "tools/make_report.py"
+sha256 = "c6e8f5fdabb79c5cb937f230d06a8b9c2a8c99fb34f7231407a6810b75029996"
+rule = "exact"
+owner_tasks = ["T02a", "T02b", "T04", "T09", "T11", "T18"]
+
+[[file]]
+path = "tools/mission_check.py"
+sha256 = "aa5c87f525d5422893b2b94de4ba14767fdfbd4136221388b5fed12515b643e9"
+rule = "exact"
+owner_tasks = ["T02a", "T02b"]
+
+[[file]]
+path = "tools/preflight.sh"
+sha256 = "94bc7f2ccfb0caec41907b443b9dd16c86aefc4f3c0a5aae3f9c32a482dd24ed"
+rule = "exact"
+owner_tasks = ["T01"]
+
+[[file]]
+path = "tools/redact.py"
+sha256 = "9b518773208a86be582c39e6a434648c564424b4dad629c6fb5a265f724cdd56"
+rule = "exact"
+owner_tasks = ["T01", "T02a"]
+
+[[file]]
+path = "tools/safe_add.sh"
+sha256 = "7b9410e851cb2df07c9792404611aafbbf37188ce5d521e3e3afe7e6dd076aa2"
+rule = "exact"
+owner_tasks = ["T01"]
+
+[[file]]
+path = "tools/seal.py"
+sha256 = "fd069fea4be6607a429ad61183d247ecdb07b42d5c2f6ff52caab17091cce0c2"
+rule = "exact"
+owner_tasks = ["T02a"]
+
+[[file]]
+path = "tools/secret_patterns.txt"
+sha256 = "69d88063a283efa6cb5f26ed94dbe834671ddbc4c6e4e76759ae8ab3368d3e1c"
+rule = "exact"
+owner_tasks = ["T01", "T02a", "T03"]
+
+[[file]]
+path = "tools/tag_scope.toml"
+sha256 = "a08782fb95842990480461d8ecb2687cb7b39a176719d61c2a3c6c1876b66b66"
+rule = "exact"
+owner_tasks = ["T02a"]
+
+[[file]]
+path = "tools/verify/T01.sh"
+sha256 = "012ef36438d562824e86b27b199b56f76f2a15f102e5e2c63956495adb9d242d"
+rule = "exact"
+owner_tasks = ["T01"]
+
+[[file]]
+path = "tools/verify/T02a.sh"
+sha256 = "b2491c9f822028bb43485f49d0217bcbfbf51bfcefde4d933ceeccf27ccb8ca9"
+rule = "exact"
+owner_tasks = ["T02a"]

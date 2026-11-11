@@ -12,7 +12,7 @@ SAWAL F-INC-2 (code fc8c): default khula (kuch nahi rukta) | ₹ asar koi nahi |
 PAISA KAMANE KA RAASTA: abhi nahi pata: pehle G0 (T04) ka hisaab; web band hai, isliye tathya pakke nahi
 MANZOORI (is session): koi nahi
 BHAROSA: alag jaanch: nahi hui | khuli badi galtiyan: koi nahi (alag jaanch abhi nahi hui) | kya verify NAHI hua: koi bhi bahari tathya (web band: INCIDENT #1) | final check laal: final check abhi nahi chala (T18 mein)
-SAMAY: session 1 · 37 min chala · baad mein: T03 (offline), T04 G0, phir CP1 par rukna · SEAL: abhi nahi · TRIALS: khaali · push: local only (F-REMOTE ki manzoori nahi; INCIDENT #1 khula) · baaki: 23 kaam, 10 sawal (OWNER_TODO.md)
+SAMAY: session 1 · 37 min chala · baad mein: T03 (offline), T04 G0, phir CP1 par rukna · SEAL: bc4d856a · TRIALS: khaali · push: local only (F-REMOTE ki manzoori nahi; INCIDENT #1 khula) · baaki: 23 kaam, 10 sawal (OWNER_TODO.md)
 
 ---
 Technical sections below are in English (MISSION V11 §14). Numbers carry English tags and evidence paths.
@@ -67,7 +67,7 @@ NOT_YET(NO_DATA, MISSING_INPUT) · report INTERIM · push: local only (F-REMOTE 
 | limits.MAX_TRADE_LOSS_RS | ₹1,125 [CODE(ASSUMPTION)] | EVIDENCE/T01/limits_chain.txt |
 
 ## PROTECTED_CHANGES (since the last seal)
-no seal yet
+none
 
 ## Allowlists
 Env allowlist names (tools/env_allowlist.txt): GH_TOKEN, GITHUB_TOKEN, GIT_ASKPASS, GIT_CONFIG_KEY_*, GIT_CONFIG_VALUE_*, CLAUDE_CODE_*, CLAUDE_SESSION_INGRESS_TOKEN_FILE, CCR_*, MAX_THINKING_TOKENS, BUN_TLS_EXTRA_DISTRUSTED_KEYS
