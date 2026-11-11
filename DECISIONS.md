@@ -119,3 +119,38 @@ WHY: §5.4 "costs.py never adds a component already inside a composite rate"; ex
 ₹ IMPACT: the two readings differ by a negligible amount per trade [ESTIMATE]; the composite is the higher, safer one for a FEASIBLE test
 REVERSE BY: SOURCE fetch of the NSE / Upstox charge pages
 CLASS CHECK: B · PROTECTED: no (costs.py)
+
+## D-018 | T04 | 2026-11-11
+OLD → NEW: no G0 answer → G0 = CONDITIONAL for every universe member U1-U6, TRACK = FULL (FULL-A; FULL-B stays CLOSED). No member is FAIL: a FAIL may rest only on SOURCE facts and OWNER / approved limits, and this session has neither (no web; F-MAXLOSS unanswered). Key numbers: cheapest static-IP server ₹554.25 [CODE(HISTORY)] a month = 3.70% [CODE(HISTORY)] of capital; the old plan ₹1,330.19 [CODE(HISTORY)] = 8.87% [CODE(HISTORY)]; under the default limit one Nifty lot fits only up to a ₹16.50 [CODE(ASSUMPTION)] premium.
+WHY: §8.1 outcome rules · EVIDENCE/T04/g0.json, EVIDENCE/T04/g0_run.txt
+₹ IMPACT: none spent; the owner's answers (F-MAXLOSS, F-H2PCT) and SOURCE facts decide the next G0
+REVERSE BY: re-run `python3 tools/economics.py` after the answers / a web session (the gate script re-runs at every session start)
+CLASS CHECK: B (arithmetic) · PROTECTED: economics.py, power.py sealed at seal/T04
+
+## D-019 | T04 | 2026-11-11
+OLD → NEW: the G0 placeholders live in one place, `PARAMS` of `tools/economics.py`, each with a tag and a reason: small monthly costs (internet ₹100, electricity ₹100, CA ₹250, AI share ₹0) [ASSUMPTION], tax slab 30% [ASSUMPTION], credible ceiling 2% [ESTIMATE] a month, fill cost ₹0.50 [ESTIMATE] per unit per side, sigma per trade ₹500 / ₹1,000 / ₹1,500 [ESTIMATE], a premium grid, a 20% [ASSUMPTION] price band and one-step spread widths.
+WHY: no source exists in the repo for them (verify nahi hua); §8.1 lets small items be ESTIMATE (2x for FEASIBLE, ₹0 [OWNER] for FAIL) and the ceiling be ESTIMATE (never FAIL_CREDIBILITY, 0.5x for FEASIBLE); the T04 verify (tools/verify/T04.sh) proves both; the values used are in EVIDENCE/T04/g0.json
+₹ IMPACT: the placeholders move the indicative hurdle only (S0 MANUAL fixed ₹450 [CODE(ASSUMPTION)] a month); they cannot create a FAIL
+REVERSE BY: the owner's real bills / a CA quote replace the placeholders (economics.py is protected: change with its owner task or an approval)
+CLASS CHECK: B · PROTECTED: yes
+
+## D-020 | T04 | 2026-11-11
+OLD → NEW: flag VALIDATION_INFEASIBLE (UNDERPOWERED) for the CP1 memo: at 12 [ESTIMATE] trades a month, after 24 months of data the smallest detectable edge is ₹243.49 [CODE(ESTIMATE)] per trade, while a credible edge is about ₹25.00 [CODE(ESTIMATE)] per trade (power factor 4.132 at TRIALS_MAX 50).
+WHY: §8.1 validation feasibility; tools/power.py; EVIDENCE/T04/g0.json
+₹ IMPACT: a small real edge could not be told apart from luck within two years at this trade rate; more trades per month or fewer trials help, bigger bets do not (D9)
+REVERSE BY: REAL data with a measured sigma (T10 replaces the ESTIMATE)
+CLASS CHECK: B (statistics) · PROTECTED: power.py
+
+## D-021 | T04 | 2026-11-11
+OLD → NEW: question F-H2PCT created with the proposal 4% [ASSUMPTION] of capital a month (₹600 [ASSUMPTION]) instead of 10% [OWNER] (₹1,500 [OWNER]); F-DATARIGHTS and F-RECFULL created (DATA_RIGHTS is UNVERIFIED, so F-RECFULL does not apply yet).
+WHY: §3.1 and T04; 4% [ASSUMPTION] still covers the cheapest static-IP route found (₹554.25 [CODE(HISTORY)], EVIDENCE/T04/g0.json) and blocks the ₹1,330 [CODE(HISTORY)] plan
+₹ IMPACT: at most ₹600 [ASSUMPTION] a month of new spend instead of ₹1,500 [OWNER], if the owner agrees
+REVERSE BY: `na F-H2PCT be04` (keeps ₹1,500 [OWNER])
+CLASS CHECK: OWNER limit (proposal only) · PROTECTED: limits.toml changes only after an answer
+
+## D-022 | T04 | 2026-11-11
+OLD → NEW: `make_report.py` reads `## UPDATE <F-id>` blocks appended at the end of the append-only OWNER_QUESTIONS.md, so a question's ₹ ASAR can be refreshed (here F-MAXLOSS after G0) without changing an existing line.
+WHY: §5.2 append_only; the memo must show the G0 numbers
+₹ IMPACT: none
+REVERSE BY: git revert
+CLASS CHECK: A (tooling) · PROTECTED: make_report.py (owner tasks include T04)

@@ -1,13 +1,13 @@
 # STATE (MISSION V11) · keep ≤ 120 lines · BOOT: resume card + this file + the task section
 
-SESSION_N: 1
+SESSION_N: 2
 CYCLE_N: 1
-SESSION_START: 1794384201
+SESSION_START: 1794400544
 BUDGET_MIN: 240
 PAUSE_AFTER_G0: yes
-TRACK: LITE (T01-T04; T04 sets SHORT or FULL)
+TRACK: FULL (G0 CONDITIONAL for U1-U6: EVIDENCE/T04/g0.json; FULL-A next, FULL-B CLOSED)
 FULL-B gate: CLOSED (tools/fullb_gate.py arrives in T10; no REAL market data)
-IN_PROGRESS: T04 G0_ECONOMICS · sub-step: start · minutes_used: 0
+IN_PROGRESS: T04 G0_ECONOMICS · sub-step: G0 computed, CP1 memo written; next: checkpoint, seal/T04, verify · minutes_used: 25
 
 ## DONE (V11)
 - T01 SYNC_SAFE: PASS (verify on 36acdef: EVIDENCE/T01/verify.txt; 20 min)
@@ -15,7 +15,7 @@ IN_PROGRESS: T04 G0_ECONOMICS · sub-step: start · minutes_used: 0
 - T03 REGULATORY_DATA_RIGHTS: PASS offline (EVIDENCE/T03/verify.txt; constants.toml all UNVERIFIED; DATA_RIGHTS UNVERIFIED)
 
 ## NEXT
-T04 G0 → CP1 memo → SESSION_WRAP
+T04 verify → CP1 pause (owner answers) → next session: T02b, T05, T09, T06, T07, T08, T10
 
 ## OPEN INCIDENTS (INCIDENT.md)
 - #1 sandbox_breach: env name CLOUDSDK_AUTH_ACCESS_TOKEN → no push, no web fetch this session (closes: haan F-INC-1 be92)
@@ -56,5 +56,6 @@ gates.toml: not written (T10) · STRATEGY.md: not written (T12)
 - Website (separate repo Bot-trading-website-): practice-mode admin panel; not part of this mission
 
 ## NOTES
+- Session 1 ended by a forced stop (worker restart) during T04, after T03 PASS; owner wrote `continue` → session 2 (no seal, no budget, no answers).
 - Tools on PATH (pytest, mypy) lack the project's dev deps; always use python3 -m (D-009).
 - Temp files only in ${TMPDIR:-/tmp}/mission-v11-* (D-012). Commit cycle: STATE → make_report → mission_check → safe_add → commit.

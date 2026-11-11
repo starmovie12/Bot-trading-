@@ -93,3 +93,50 @@ DEFAULT JO MAINE LIYA: LIGHT scope, jo phone aur PC dono par safe hai [maanyata]
 WAJAH: phone par sirf LIGHT scope chalta hai; PC par FULL scope tabhi jab data rakhne ki ijazat saaf ho
 ULTA KAISE KAREIN: `haan F-MACHINE 9a0b` (phone) ya `na F-MACHINE 9a0b` (PC)
 JAWAB: `haan F-MACHINE 9a0b` / `na F-MACHINE 9a0b`
+## F-H2PCT | code be04 | created session 2, 2026-11-11 (T04) | status OPEN
+SAWAL: H2 (bot ka naya kharcha har mahine) capital ke kitne % par rokein? Abhi ₹1,500 = 10% [tumhara niyam]; mera prastaav 4% (₹600) [maanyata].
+PROPOSED: 4
+DEFAULT JO MAINE LIYA: ₹1,500 = 10% [tumhara niyam] har mahine, jab tak tum jawab na do
+₹ ASAR: sabse sasta static-IP server ₹554.25 [ginti (purani baat par)] = 3.70% [ginti (purani baat par)] capital har mahine; ₹1,330 wala plan 8.87% [ginti (purani baat par)] (EVIDENCE/T04/g0.json). 4% [maanyata] par sirf sabse sasta raasta bachta hai
+WAJAH: server ka kharcha har mahine capital ko pehle hi kha jaata hai, saboot aane se pehle bhi; tight seema = kam nuksaan
+ULTA KAISE KAREIN: `set F-H2PCT <%> be04`
+JAWAB: `haan F-H2PCT be04` / `na F-H2PCT be04` / `set F-H2PCT <%> be04`
+
+## F-DATARIGHTS | code 3fa1 | created session 2, 2026-11-11 (T04) | status OPEN
+SAWAL: Kya Upstox ne likhit mein confirm kiya hai ki API ka market data apne personal backtest ke liye apni machine par store karna allowed hai?
+PROPOSED: confirmed
+DEFAULT JO MAINE LIYA: na: Recorder sirf LIGHT (derived data, personal use, kabhi share nahi) [maanyata]
+₹ ASAR: seedha ₹ nahi; par bina ijazat poora data rakhna Upstox ke niyam todna (Class C) ho sakta hai
+WAJAH: DATA_RIGHTS = UNVERIFIED (docs/REGULATORY.md): repo mein Upstox ke terms ka text nahi, aur web band tha
+ULTA KAISE KAREIN: Upstox ka likhit jawab milne par `haan F-DATARIGHTS 3fa1`
+JAWAB: `haan F-DATARIGHTS 3fa1` / `na F-DATARIGHTS 3fa1`
+
+## F-RECFULL | code 99ea | created session 2, 2026-11-11 (T04) | status OPEN
+SAWAL: PC par Recorder ka FULL scope (tick + depth) chalayein? Ye sirf tab lagu hai jab DATA_RIGHTS = OK ho.
+PROPOSED: full
+DEFAULT JO MAINE LIYA: na: LIGHT scope [maanyata]
+₹ ASAR: server ka kharcha nahi; FULL scope ka data din mein bahut bada (disk) [andaza]
+WAJAH: DATA_RIGHTS abhi UNVERIFIED hai, isliye ye sawal abhi lagu nahi hota
+ULTA KAISE KAREIN: DATA_RIGHTS OK hone ke baad `haan F-RECFULL 99ea`
+JAWAB: `haan F-RECFULL 99ea` / `na F-RECFULL 99ea`
+
+## UPDATE F-MAXLOSS | session 2, 2026-11-11 (T04, G0)
+₹ ASAR: G0 ke hisaab se is default par ek lot ka premium sirf itna: Nifty ₹16.50 [ginti (maanyata par)], Sensex ₹53.75 [ginti (maanyata par)]; Nifty ₹100 premium ke liye F-MAXLOSS ₹26,250.44 [ginti (purani baat par)] chahiye, jo H1 mein sirf sabse dheeli seema par mumkin hai (EVIDENCE/T04/g0.json)
+
+## UPDATE F-INC-1 | session 2, 2026-11-11 (T04: tagged ₹ ASAR)
+₹ ASAR: ₹0 [ginti] seedha; par jab tak khula hai, official page se koi tathya (kharcha, niyam) pakka nahi hota, isliye G0 ka jawab adhoora (CONDITIONAL) rahega
+
+## UPDATE F-I7STOP | session 2, 2026-11-11 (T04: tagged ₹ ASAR)
+₹ ASAR: by construction mein ek lot ka poora premium ek trade ki seema mein aana chahiye, isliye bahut kam strike fit hote hain (EVIDENCE/T04/g0.json)
+
+## UPDATE F-MACHINE | session 2, 2026-11-11 (T04: tagged ₹ ASAR)
+₹ ASAR: server ka ₹0 [ginti]: dono tumhari apni machine (bijli / internet ka hissa abhi maanyata)
+
+## UPDATE F-REMOTE | session 2, 2026-11-11 (T04: tagged ₹ ASAR)
+₹ ASAR: ₹0 [ginti]; par ye cloud container kuch der baad mit jaata hai, aur push ke bina saara kaam kho sakta hai
+
+## UPDATE F-INC-3 | session 2, 2026-11-11 (T04: tagged ₹ ASAR)
+₹ ASAR: ₹0 [ginti]: repo ka koi code is variable ko nahi padhta; koi bot process nahi chal raha; live raasta code mein band hai
+
+## UPDATE F-INC-2 | session 2, 2026-11-11 (T04: tagged ₹ ASAR)
+₹ ASAR: ₹0 [ginti]: agent in variables ko kabhi istemaal nahi karta

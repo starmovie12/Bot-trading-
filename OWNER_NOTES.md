@@ -7,3 +7,6 @@ from main, copy the old docs from `idea` (more on claude/busy-pascal-f7idxf) int
 `git show`, list what is missing in MISSING_INPUT.md, stage and commit nothing (T01 commits); (3) read
 MISSION.md fully and execute it from T01 without stopping or asking; (4) MISSION.md wins over the
 message, including its push rule. No command lines (§15) were in the message.
+
+## session 2, 2026-11-11 (start message)
+The owner wrote one line: `Continue` → the `continue` command (§15): a new session, no `seal`, no `budget`, no `data`. No answers to open questions.

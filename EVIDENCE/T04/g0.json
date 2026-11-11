@@ -1,0 +1,1033 @@
+{
+ "baseline_per_1pct_fd_rs_pm": {
+  "tag": "CODE(OWNER)",
+  "value": "12.50"
+ },
+ "ceiling_feasible_test_pct_pm": {
+  "tag": "CODE(ESTIMATE)",
+  "value": "1.00"
+ },
+ "ceiling_pct_pm": {
+  "tag": "CODE(ESTIMATE)",
+  "value": "2.00"
+ },
+ "g0": "CONDITIONAL",
+ "inputs_sha256": "9ef48f5e5b898276c4ca6155eb8ac0699b5a35349b5e35fbb5933574d996d554",
+ "limit_feasibility": [
+  {
+   "f_maxloss_needed_default_rule_rs": {
+    "tag": "CODE(HISTORY)",
+    "value": "4488.96"
+   },
+   "f_maxloss_needed_loosest_rs": {
+    "tag": "CODE(HISTORY)",
+    "value": "2244.48"
+   },
+   "fits_current_limit": true,
+   "index": "NIFTY",
+   "max_trade_loss_needed_rs": {
+    "tag": "CODE(HISTORY)",
+    "value": "1122.24"
+   },
+   "member": "U1",
+   "possible_under_h1": true,
+   "premium_per_unit_rs": {
+    "tag": "CODE(ASSUMPTION)",
+    "value": "16.50"
+   }
+  },
+  {
+   "f_maxloss_needed_default_rule_rs": {
+    "tag": "CODE(HISTORY)",
+    "value": "2794.96"
+   },
+   "f_maxloss_needed_loosest_rs": {
+    "tag": "CODE(HISTORY)",
+    "value": "1397.48"
+   },
+   "fits_current_limit": true,
+   "index": "NIFTY",
+   "max_trade_loss_needed_rs": {
+    "tag": "CODE(HISTORY)",
+    "value": "698.74"
+   },
+   "member": "U1",
+   "possible_under_h1": true,
+   "premium_per_unit_rs": {
+    "tag": "CODE(ASSUMPTION)",
+    "value": "10.00"
+   }
+  },
+  {
+   "f_maxloss_needed_default_rule_rs": {
+    "tag": "CODE(HISTORY)",
+    "value": "6704.20"
+   },
+   "f_maxloss_needed_loosest_rs": {
+    "tag": "CODE(HISTORY)",
+    "value": "3352.10"
+   },
+   "fits_current_limit": false,
+   "index": "NIFTY",
+   "max_trade_loss_needed_rs": {
+    "tag": "CODE(HISTORY)",
+    "value": "1676.05"
+   },
+   "member": "U1",
+   "possible_under_h1": true,
+   "premium_per_unit_rs": {
+    "tag": "CODE(ASSUMPTION)",
+    "value": "25.00"
+   }
+  },
+  {
+   "f_maxloss_needed_default_rule_rs": {
+    "tag": "CODE(HISTORY)",
+    "value": "13219.68"
+   },
+   "f_maxloss_needed_loosest_rs": {
+    "tag": "CODE(HISTORY)",
+    "value": "6609.84"
+   },
+   "fits_current_limit": false,
+   "index": "NIFTY",
+   "max_trade_loss_needed_rs": {
+    "tag": "CODE(HISTORY)",
+    "value": "3304.92"
+   },
+   "member": "U1",
+   "possible_under_h1": true,
+   "premium_per_unit_rs": {
+    "tag": "CODE(ASSUMPTION)",
+    "value": "50.00"
+   }
+  },
+  {
+   "f_maxloss_needed_default_rule_rs": {
+    "tag": "CODE(HISTORY)",
+    "value": "26250.44"
+   },
+   "f_maxloss_needed_loosest_rs": {
+    "tag": "CODE(HISTORY)",
+    "value": "13125.22"
+   },
+   "fits_current_limit": false,
+   "index": "NIFTY",
+   "max_trade_loss_needed_rs": {
+    "tag": "CODE(HISTORY)",
+    "value": "6562.61"
+   },
+   "member": "U1",
+   "possible_under_h1": true,
+   "premium_per_unit_rs": {
+    "tag": "CODE(ASSUMPTION)",
+    "value": "100.00"
+   }
+  },
+  {
+   "f_maxloss_needed_default_rule_rs": {
+    "tag": "CODE(HISTORY)",
+    "value": "52312.12"
+   },
+   "f_maxloss_needed_loosest_rs": {
+    "tag": "CODE(HISTORY)",
+    "value": "26156.06"
+   },
+   "fits_current_limit": false,
+   "index": "NIFTY",
+   "max_trade_loss_needed_rs": {
+    "tag": "CODE(HISTORY)",
+    "value": "13078.03"
+   },
+   "member": "U1",
+   "possible_under_h1": false,
+   "premium_per_unit_rs": {
+    "tag": "CODE(ASSUMPTION)",
+    "value": "200.00"
+   }
+  },
+  {
+   "f_maxloss_needed_default_rule_rs": {
+    "tag": "CODE(HISTORY)",
+    "value": "78373.76"
+   },
+   "f_maxloss_needed_loosest_rs": {
+    "tag": "CODE(HISTORY)",
+    "value": "39186.88"
+   },
+   "fits_current_limit": false,
+   "index": "NIFTY",
+   "max_trade_loss_needed_rs": {
+    "tag": "CODE(HISTORY)",
+    "value": "19593.44"
+   },
+   "member": "U1",
+   "possible_under_h1": false,
+   "premium_per_unit_rs": {
+    "tag": "CODE(ASSUMPTION)",
+    "value": "300.00"
+   }
+  },
+  {
+   "f_maxloss_needed_default_rule_rs": {
+    "tag": "CODE(HISTORY)",
+    "value": "117466.24"
+   },
+   "f_maxloss_needed_loosest_rs": {
+    "tag": "CODE(HISTORY)",
+    "value": "58733.12"
+   },
+   "fits_current_limit": false,
+   "index": "NIFTY",
+   "max_trade_loss_needed_rs": {
+    "tag": "CODE(HISTORY)",
+    "value": "29366.56"
+   },
+   "member": "U1",
+   "possible_under_h1": false,
+   "premium_per_unit_rs": {
+    "tag": "CODE(ASSUMPTION)",
+    "value": "450.00"
+   }
+  },
+  {
+   "f_maxloss_needed_default_rule_rs": {
+    "tag": "CODE(HISTORY)",
+    "value": "4494.96"
+   },
+   "f_maxloss_needed_loosest_rs": {
+    "tag": "CODE(HISTORY)",
+    "value": "2247.48"
+   },
+   "fits_current_limit": true,
+   "index": "BANKNIFTY",
+   "max_trade_loss_needed_rs": {
+    "tag": "CODE(HISTORY)",
+    "value": "1123.74"
+   },
+   "member": "U1",
+   "possible_under_h1": true,
+   "premium_per_unit_rs": {
+    "tag": "CODE(ASSUMPTION)",
+    "value": "35.80"
+   }
+  },
+  {
+   "f_maxloss_needed_default_rule_rs": {
+    "tag": "CODE(HISTORY)",
+    "value": "1391.64"
+   },
+   "f_maxloss_needed_loosest_rs": {
+    "tag": "CODE(HISTORY)",
+    "value": "695.82"
+   },
+   "fits_current_limit": true,
+   "index": "BANKNIFTY",
+   "max_trade_loss_needed_rs": {
+    "tag": "CODE(HISTORY)",
+    "value": "347.91"
+   },
+   "member": "U1",
+   "possible_under_h1": true,
+   "premium_per_unit_rs": {
+    "tag": "CODE(ASSUMPTION)",
+    "value": "10.00"
+   }
+  },
+  {
+   "f_maxloss_needed_default_rule_rs": {
+    "tag": "CODE(HISTORY)",
+    "value": "3195.92"
+   },
+   "f_maxloss_needed_loosest_rs": {
+    "tag": "CODE(HISTORY)",
+    "value": "1597.96"
+   },
+   "fits_current_limit": true,
+   "index": "BANKNIFTY",
+   "max_trade_loss_needed_rs": {
+    "tag": "CODE(HISTORY)",
+    "value": "798.98"
+   },
+   "member": "U1",
+   "possible_under_h1": true,
+   "premium_per_unit_rs": {
+    "tag": "CODE(ASSUMPTION)",
+    "value": "25.00"
+   }
+  },
+  {
+   "f_maxloss_needed_default_rule_rs": {
+    "tag": "CODE(HISTORY)",
+    "value": "6203.04"
+   },
+   "f_maxloss_needed_loosest_rs": {
+    "tag": "CODE(HISTORY)",
+    "value": "3101.52"
+   },
+   "fits_current_limit": false,
+   "index": "BANKNIFTY",
+   "max_trade_loss_needed_rs": {
+    "tag": "CODE(HISTORY)",
+    "value": "1550.76"
+   },
+   "member": "U1",
+   "possible_under_h1": true,
+   "premium_per_unit_rs": {
+    "tag": "CODE(ASSUMPTION)",
+    "value": "50.00"
+   }
+  },
+  {
+   "f_maxloss_needed_default_rule_rs": {
+    "tag": "CODE(HISTORY)",
+    "value": "12217.28"
+   },
+   "f_maxloss_needed_loosest_rs": {
+    "tag": "CODE(HISTORY)",
+    "value": "6108.64"
+   },
+   "fits_current_limit": false,
+   "index": "BANKNIFTY",
+   "max_trade_loss_needed_rs": {
+    "tag": "CODE(HISTORY)",
+    "value": "3054.32"
+   },
+   "member": "U1",
+   "possible_under_h1": true,
+   "premium_per_unit_rs": {
+    "tag": "CODE(ASSUMPTION)",
+    "value": "100.00"
+   }
+  },
+  {
+   "f_maxloss_needed_default_rule_rs": {
+    "tag": "CODE(HISTORY)",
+    "value": "24245.68"
+   },
+   "f_maxloss_needed_loosest_rs": {
+    "tag": "CODE(HISTORY)",
+    "value": "12122.84"
+   },
+   "fits_current_limit": false,
+   "index": "BANKNIFTY",
+   "max_trade_loss_needed_rs": {
+    "tag": "CODE(HISTORY)",
+    "value": "6061.42"
+   },
+   "member": "U1",
+   "possible_under_h1": true,
+   "premium_per_unit_rs": {
+    "tag": "CODE(ASSUMPTION)",
+    "value": "200.00"
+   }
+  },
+  {
+   "f_maxloss_needed_default_rule_rs": {
+    "tag": "CODE(HISTORY)",
+    "value": "36274.20"
+   },
+   "f_maxloss_needed_loosest_rs": {
+    "tag": "CODE(HISTORY)",
+    "value": "18137.10"
+   },
+   "fits_current_limit": false,
+   "index": "BANKNIFTY",
+   "max_trade_loss_needed_rs": {
+    "tag": "CODE(HISTORY)",
+    "value": "9068.55"
+   },
+   "member": "U1",
+   "possible_under_h1": false,
+   "premium_per_unit_rs": {
+    "tag": "CODE(ASSUMPTION)",
+    "value": "300.00"
+   }
+  },
+  {
+   "f_maxloss_needed_default_rule_rs": {
+    "tag": "CODE(HISTORY)",
+    "value": "54316.84"
+   },
+   "f_maxloss_needed_loosest_rs": {
+    "tag": "CODE(HISTORY)",
+    "value": "27158.42"
+   },
+   "fits_current_limit": false,
+   "index": "BANKNIFTY",
+   "max_trade_loss_needed_rs": {
+    "tag": "CODE(HISTORY)",
+    "value": "13579.21"
+   },
+   "member": "U1",
+   "possible_under_h1": false,
+   "premium_per_unit_rs": {
+    "tag": "CODE(ASSUMPTION)",
+    "value": "450.00"
+   }
+  },
+  {
+   "f_maxloss_needed_default_rule_rs": {
+    "tag": "CODE(HISTORY)",
+    "value": "4498.68"
+   },
+   "f_maxloss_needed_loosest_rs": {
+    "tag": "CODE(HISTORY)",
+    "value": "2249.34"
+   },
+   "fits_current_limit": true,
+   "index": "SENSEX",
+   "max_trade_loss_needed_rs": {
+    "tag": "CODE(HISTORY)",
+    "value": "1124.67"
+   },
+   "member": "U1",
+   "possible_under_h1": true,
+   "premium_per_unit_rs": {
+    "tag": "CODE(ASSUMPTION)",
+    "value": "53.75"
+   }
+  },
+  {
+   "f_maxloss_needed_default_rule_rs": {
+    "tag": "CODE(HISTORY)",
+    "value": "990.64"
+   },
+   "f_maxloss_needed_loosest_rs": {
+    "tag": "CODE(HISTORY)",
+    "value": "495.32"
+   },
+   "fits_current_limit": true,
+   "index": "SENSEX",
+   "max_trade_loss_needed_rs": {
+    "tag": "CODE(HISTORY)",
+    "value": "247.66"
+   },
+   "member": "U1",
+   "possible_under_h1": true,
+   "premium_per_unit_rs": {
+    "tag": "CODE(ASSUMPTION)",
+    "value": "10.00"
+   }
+  },
+  {
+   "f_maxloss_needed_default_rule_rs": {
+    "tag": "CODE(HISTORY)",
+    "value": "2193.44"
+   },
+   "f_maxloss_needed_loosest_rs": {
+    "tag": "CODE(HISTORY)",
+    "value": "1096.72"
+   },
+   "fits_current_limit": true,
+   "index": "SENSEX",
+   "max_trade_loss_needed_rs": {
+    "tag": "CODE(HISTORY)",
+    "value": "548.36"
+   },
+   "member": "U1",
+   "possible_under_h1": true,
+   "premium_per_unit_rs": {
+    "tag": "CODE(ASSUMPTION)",
+    "value": "25.00"
+   }
+  },
+  {
+   "f_maxloss_needed_default_rule_rs": {
+    "tag": "CODE(HISTORY)",
+    "value": "4198.00"
+   },
+   "f_maxloss_needed_loosest_rs": {
+    "tag": "CODE(HISTORY)",
+    "value": "2099.00"
+   },
+   "fits_current_limit": true,
+   "index": "SENSEX",
+   "max_trade_loss_needed_rs": {
+    "tag": "CODE(HISTORY)",
+    "value": "1049.50"
+   },
+   "member": "U1",
+   "possible_under_h1": true,
+   "premium_per_unit_rs": {
+    "tag": "CODE(ASSUMPTION)",
+    "value": "50.00"
+   }
+  },
+  {
+   "f_maxloss_needed_default_rule_rs": {
+    "tag": "CODE(HISTORY)",
+    "value": "8207.16"
+   },
+   "f_maxloss_needed_loosest_rs": {
+    "tag": "CODE(HISTORY)",
+    "value": "4103.58"
+   },
+   "fits_current_limit": false,
+   "index": "SENSEX",
+   "max_trade_loss_needed_rs": {
+    "tag": "CODE(HISTORY)",
+    "value": "2051.79"
+   },
+   "member": "U1",
+   "possible_under_h1": true,
+   "premium_per_unit_rs": {
+    "tag": "CODE(ASSUMPTION)",
+    "value": "100.00"
+   }
+  },
+  {
+   "f_maxloss_needed_default_rule_rs": {
+    "tag": "CODE(HISTORY)",
+    "value": "16225.60"
+   },
+   "f_maxloss_needed_loosest_rs": {
+    "tag": "CODE(HISTORY)",
+    "value": "8112.80"
+   },
+   "fits_current_limit": false,
+   "index": "SENSEX",
+   "max_trade_loss_needed_rs": {
+    "tag": "CODE(HISTORY)",
+    "value": "4056.40"
+   },
+   "member": "U1",
+   "possible_under_h1": true,
+   "premium_per_unit_rs": {
+    "tag": "CODE(ASSUMPTION)",
+    "value": "200.00"
+   }
+  },
+  {
+   "f_maxloss_needed_default_rule_rs": {
+    "tag": "CODE(HISTORY)",
+    "value": "24243.96"
+   },
+   "f_maxloss_needed_loosest_rs": {
+    "tag": "CODE(HISTORY)",
+    "value": "12121.98"
+   },
+   "fits_current_limit": false,
+   "index": "SENSEX",
+   "max_trade_loss_needed_rs": {
+    "tag": "CODE(HISTORY)",
+    "value": "6060.99"
+   },
+   "member": "U1",
+   "possible_under_h1": true,
+   "premium_per_unit_rs": {
+    "tag": "CODE(ASSUMPTION)",
+    "value": "300.00"
+   }
+  },
+  {
+   "f_maxloss_needed_default_rule_rs": {
+    "tag": "CODE(HISTORY)",
+    "value": "36271.60"
+   },
+   "f_maxloss_needed_loosest_rs": {
+    "tag": "CODE(HISTORY)",
+    "value": "18135.80"
+   },
+   "fits_current_limit": false,
+   "index": "SENSEX",
+   "max_trade_loss_needed_rs": {
+    "tag": "CODE(HISTORY)",
+    "value": "9067.90"
+   },
+   "member": "U1",
+   "possible_under_h1": false,
+   "premium_per_unit_rs": {
+    "tag": "CODE(ASSUMPTION)",
+    "value": "450.00"
+   }
+  }
+ ],
+ "members": {
+  "U1": {
+   "outcome": "CONDITIONAL",
+   "reasons": [
+    "decisive inputs not SOURCE / REAL: ASSUMPTION, HISTORY",
+    "F-MAXLOSS default not approved"
+   ],
+   "rows": {
+    "BANKNIFTY": {
+     "fill_cost_at_fit_rs": {
+      "tag": "CODE(ESTIMATE)",
+      "value": "30.00"
+     },
+     "lot": {
+      "tag": "CODE(HISTORY)",
+      "value": "30.00"
+     },
+     "max_fit_premium_per_unit_rs": {
+      "tag": "CODE(ASSUMPTION)",
+      "value": "35.80"
+     },
+     "min_round_trip_charges_rs": {
+      "tag": "CODE(HISTORY)",
+      "value": "47.20"
+     },
+     "round_trip_charges_at_fit_rs": {
+      "tag": "CODE(HISTORY)",
+      "value": "49.74"
+     }
+    },
+    "NIFTY": {
+     "fill_cost_at_fit_rs": {
+      "tag": "CODE(ESTIMATE)",
+      "value": "65.00"
+     },
+     "lot": {
+      "tag": "CODE(HISTORY)",
+      "value": "65.00"
+     },
+     "max_fit_premium_per_unit_rs": {
+      "tag": "CODE(ASSUMPTION)",
+      "value": "16.50"
+     },
+     "min_round_trip_charges_rs": {
+      "tag": "CODE(HISTORY)",
+      "value": "47.20"
+     },
+     "round_trip_charges_at_fit_rs": {
+      "tag": "CODE(HISTORY)",
+      "value": "49.74"
+     }
+    },
+    "SENSEX": {
+     "fill_cost_at_fit_rs": {
+      "tag": "CODE(ESTIMATE)",
+      "value": "20.00"
+     },
+     "lot": {
+      "tag": "CODE(HISTORY)",
+      "value": "20.00"
+     },
+     "max_fit_premium_per_unit_rs": {
+      "tag": "CODE(ASSUMPTION)",
+      "value": "53.75"
+     },
+     "min_round_trip_charges_rs": {
+      "tag": "CODE(HISTORY)",
+      "value": "47.20"
+     },
+     "round_trip_charges_at_fit_rs": {
+      "tag": "CODE(HISTORY)",
+      "value": "49.67"
+     }
+    }
+   }
+  },
+  "U2": {
+   "outcome": "CONDITIONAL",
+   "reasons": [
+    "decisive inputs not SOURCE / REAL: ASSUMPTION, HISTORY",
+    "F-MAXLOSS default not approved"
+   ],
+   "rows": {
+    "NIFTY": {
+     "max_fit_net_debit_per_unit_rs": {
+      "tag": "CODE(ASSUMPTION)",
+      "value": "15.75"
+     },
+     "min_round_trip_charges_rs": {
+      "tag": "CODE(HISTORY)",
+      "value": "94.40"
+     }
+    },
+    "SENSEX": {
+     "max_fit_net_debit_per_unit_rs": {
+      "tag": "CODE(ASSUMPTION)",
+      "value": "51.25"
+     },
+     "min_round_trip_charges_rs": {
+      "tag": "CODE(HISTORY)",
+      "value": "94.40"
+     }
+    }
+   }
+  },
+  "U3": {
+   "outcome": "CONDITIONAL",
+   "reasons": [
+    "decisive inputs not SOURCE / REAL: ASSUMPTION, HISTORY",
+    "F-MAXLOSS default not approved"
+   ],
+   "rows": {
+    "NIFTY": {
+     "hedged_margin": "unknown",
+     "min_credit_per_unit_to_fit_rs": {
+      "tag": "CODE(ASSUMPTION)",
+      "value": "34.14"
+     },
+     "width_one_step_rs": {
+      "tag": "CODE(ASSUMPTION)",
+      "value": "50.00"
+     }
+    },
+    "SENSEX": {
+     "hedged_margin": "unknown",
+     "min_credit_per_unit_to_fit_rs": {
+      "tag": "CODE(ASSUMPTION)",
+      "value": "48.47"
+     },
+     "width_one_step_rs": {
+      "tag": "CODE(ASSUMPTION)",
+      "value": "100.00"
+     }
+    }
+   }
+  },
+  "U4": {
+   "outcome": "CONDITIONAL",
+   "reasons": [
+    "owner choice F-S16 keeps U4 to signals only (default)",
+    "decisive inputs not SOURCE / REAL: ASSUMPTION",
+    "F-MAXLOSS default not approved"
+   ],
+   "rows": {
+    "note": "F-S16 default: stock list for signals only, no U4 trading"
+   }
+  },
+  "U5": {
+   "outcome": "CONDITIONAL",
+   "reasons": [
+    "decisive inputs not SOURCE / REAL: ASSUMPTION",
+    "F-MAXLOSS default not approved"
+   ],
+   "rows": {
+    "max_notional_by_construction_rs": {
+     "tag": "CODE(ASSUMPTION)",
+     "value": "5389.00"
+    },
+    "note": "equity intraday charges are not in constants.toml (placeholder: F&O brokerage)"
+   }
+  },
+  "U6": {
+   "outcome": "CONDITIONAL",
+   "reasons": [
+    "decisive inputs not SOURCE / REAL: ASSUMPTION",
+    "F-MAXLOSS default not approved"
+   ],
+   "rows": {
+    "max_notional_by_construction_rs": {
+     "tag": "CODE(ASSUMPTION)",
+     "value": "1077.80"
+    },
+    "note": "ETF delivery charges are not in constants.toml (placeholder: F&O brokerage)"
+   }
+  }
+ },
+ "power_factor": "4.132",
+ "sensitivity": {
+  "U1": "becomes FEASIBLE-eligible only when charges, lot size and the static-IP price are SOURCE, F-MAXLOSS is answered, and REAL data gives slippage, spread and trades per month",
+  "U2": "same as U1; the debit-spread width decides how much premium fits the limit",
+  "U3": "hedged margin (unknown) decides first; then the credit needed per unit for a one-step spread",
+  "U4": "the owner's F-S16 answer decides whether U4 is traded at all; D12 bans the expiry week",
+  "U5": "equity intraday charges (not in constants) and the price band decide the notional",
+  "U6": "ETF delivery charges (not in constants); by-construction loss = notional caps size"
+ },
+ "server_plans": {
+  "lightsail_1gb_usd_pm": {
+   "pct_of_capital_pm": {
+    "tag": "CODE(HISTORY)",
+    "value": "5.17"
+   },
+   "rs_pm": {
+    "tag": "CODE(HISTORY)",
+    "value": "775.94"
+   },
+   "within_h2": true
+  },
+  "lightsail_bundle_usd_pm": {
+   "pct_of_capital_pm": {
+    "tag": "CODE(HISTORY)",
+    "value": "8.87"
+   },
+   "rs_pm": {
+    "tag": "CODE(HISTORY)",
+    "value": "1330.19"
+   },
+   "within_h2": true
+  },
+  "lightsail_small_usd_pm": {
+   "pct_of_capital_pm": {
+    "tag": "CODE(HISTORY)",
+    "value": "3.70"
+   },
+   "rs_pm": {
+    "tag": "CODE(HISTORY)",
+    "value": "554.25"
+   },
+   "within_h2": true
+  }
+ },
+ "stages": {
+  "S0_MANUAL": {
+   "baseline_rs_pm": {
+    "tag": "CODE(ASSUMPTION)",
+    "value": "0.00"
+   },
+   "cost_hurdle_per_trade_rs": {
+    "12": {
+     "tag": "CODE(ASSUMPTION)",
+     "value": "37.50"
+    },
+    "20": {
+     "tag": "CODE(ASSUMPTION)",
+     "value": "22.50"
+    },
+    "4": {
+     "tag": "CODE(ASSUMPTION)",
+     "value": "112.50"
+    },
+    "8": {
+     "tag": "CODE(ASSUMPTION)",
+     "value": "56.25"
+    }
+   },
+   "fixed_fail_test_rs_pm": {
+    "tag": "CODE(OWNER)",
+    "value": "0.00"
+   },
+   "fixed_feasible_test_rs_pm": {
+    "tag": "CODE(ASSUMPTION)",
+    "value": "900.00"
+   },
+   "fixed_indicative_rs_pm": {
+    "tag": "CODE(ASSUMPTION)",
+    "value": "450.00"
+   },
+   "hurdle_pct_pm": {
+    "tag": "CODE(ASSUMPTION)",
+    "value": "3.00"
+   },
+   "required_net_edge_pct_pm_fail_test": {
+    "tag": "CODE(OWNER)",
+    "value": "0.00"
+   },
+   "required_net_edge_pct_pm_feasible_test": {
+    "tag": "CODE(ASSUMPTION)",
+    "value": "6.00"
+   },
+   "server_rs_pm": {
+    "tag": "CODE(OWNER)",
+    "value": "0.00"
+   }
+  },
+  "S1_API": {
+   "baseline_rs_pm": {
+    "tag": "CODE(ASSUMPTION)",
+    "value": "0.00"
+   },
+   "cost_hurdle_per_trade_rs": {
+    "12": {
+     "tag": "CODE(ASSUMPTION)",
+     "value": "83.69"
+    },
+    "20": {
+     "tag": "CODE(ASSUMPTION)",
+     "value": "50.21"
+    },
+    "4": {
+     "tag": "CODE(ASSUMPTION)",
+     "value": "251.06"
+    },
+    "8": {
+     "tag": "CODE(ASSUMPTION)",
+     "value": "125.53"
+    }
+   },
+   "fixed_fail_test_rs_pm": {
+    "tag": "CODE(HISTORY)",
+    "value": "554.25"
+   },
+   "fixed_feasible_test_rs_pm": {
+    "tag": "CODE(ASSUMPTION)",
+    "value": "1454.25"
+   },
+   "fixed_indicative_rs_pm": {
+    "tag": "CODE(ASSUMPTION)",
+    "value": "1004.25"
+   },
+   "hurdle_pct_pm": {
+    "tag": "CODE(ASSUMPTION)",
+    "value": "6.70"
+   },
+   "required_net_edge_pct_pm_fail_test": {
+    "tag": "CODE(HISTORY)",
+    "value": "3.70"
+   },
+   "required_net_edge_pct_pm_feasible_test": {
+    "tag": "CODE(ASSUMPTION)",
+    "value": "9.70"
+   },
+   "server_rs_pm": {
+    "tag": "CODE(HISTORY)",
+    "value": "554.25"
+   }
+  }
+ },
+ "tax": {
+  "annual_post_tax_net_rs": {
+   "tag": "CODE(ASSUMPTION)",
+   "value": "3780.00"
+  },
+  "annual_pre_tax_net_rs": {
+   "tag": "CODE(ASSUMPTION)",
+   "value": "5400.00"
+  },
+  "example_monthly_trading_result_rs": {
+   "tag": "CODE(ASSUMPTION)",
+   "value": "900.00"
+  },
+  "tax_rs": {
+   "tag": "CODE(ASSUMPTION)",
+   "value": "1620.00"
+  }
+ },
+ "track": "FULL",
+ "validation": {
+  "12": {
+   "credible_edge_per_trade_rs": {
+    "tag": "CODE(ESTIMATE)",
+    "value": "25.00"
+   },
+   "mde_rs_sigma1000_24months": {
+    "tag": "CODE(ESTIMATE)",
+    "value": "243.49"
+   },
+   "mde_rs_sigma1000_n150": {
+    "tag": "CODE(ESTIMATE)",
+    "value": "337.39"
+   },
+   "mde_rs_sigma1500_24months": {
+    "tag": "CODE(ESTIMATE)",
+    "value": "365.23"
+   },
+   "mde_rs_sigma1500_n150": {
+    "tag": "CODE(ESTIMATE)",
+    "value": "506.08"
+   },
+   "mde_rs_sigma500_24months": {
+    "tag": "CODE(ESTIMATE)",
+    "value": "121.74"
+   },
+   "mde_rs_sigma500_n150": {
+    "tag": "CODE(ESTIMATE)",
+    "value": "168.69"
+   },
+   "months_to_150_trades": {
+    "tag": "CODE(ESTIMATE)",
+    "value": "12.50"
+   },
+   "validation_infeasible": true
+  },
+  "20": {
+   "credible_edge_per_trade_rs": {
+    "tag": "CODE(ESTIMATE)",
+    "value": "15.00"
+   },
+   "mde_rs_sigma1000_24months": {
+    "tag": "CODE(ESTIMATE)",
+    "value": "188.61"
+   },
+   "mde_rs_sigma1000_n150": {
+    "tag": "CODE(ESTIMATE)",
+    "value": "337.39"
+   },
+   "mde_rs_sigma1500_24months": {
+    "tag": "CODE(ESTIMATE)",
+    "value": "282.91"
+   },
+   "mde_rs_sigma1500_n150": {
+    "tag": "CODE(ESTIMATE)",
+    "value": "506.08"
+   },
+   "mde_rs_sigma500_24months": {
+    "tag": "CODE(ESTIMATE)",
+    "value": "94.30"
+   },
+   "mde_rs_sigma500_n150": {
+    "tag": "CODE(ESTIMATE)",
+    "value": "168.69"
+   },
+   "months_to_150_trades": {
+    "tag": "CODE(ESTIMATE)",
+    "value": "7.50"
+   },
+   "validation_infeasible": true
+  },
+  "4": {
+   "credible_edge_per_trade_rs": {
+    "tag": "CODE(ESTIMATE)",
+    "value": "75.00"
+   },
+   "mde_rs_sigma1000_24months": {
+    "tag": "CODE(ESTIMATE)",
+    "value": "421.74"
+   },
+   "mde_rs_sigma1000_n150": {
+    "tag": "CODE(ESTIMATE)",
+    "value": "337.39"
+   },
+   "mde_rs_sigma1500_24months": {
+    "tag": "CODE(ESTIMATE)",
+    "value": "632.60"
+   },
+   "mde_rs_sigma1500_n150": {
+    "tag": "CODE(ESTIMATE)",
+    "value": "506.08"
+   },
+   "mde_rs_sigma500_24months": {
+    "tag": "CODE(ESTIMATE)",
+    "value": "210.87"
+   },
+   "mde_rs_sigma500_n150": {
+    "tag": "CODE(ESTIMATE)",
+    "value": "168.69"
+   },
+   "months_to_150_trades": {
+    "tag": "CODE(ESTIMATE)",
+    "value": "37.50"
+   },
+   "validation_infeasible": true
+  },
+  "8": {
+   "credible_edge_per_trade_rs": {
+    "tag": "CODE(ESTIMATE)",
+    "value": "37.50"
+   },
+   "mde_rs_sigma1000_24months": {
+    "tag": "CODE(ESTIMATE)",
+    "value": "298.21"
+   },
+   "mde_rs_sigma1000_n150": {
+    "tag": "CODE(ESTIMATE)",
+    "value": "337.39"
+   },
+   "mde_rs_sigma1500_24months": {
+    "tag": "CODE(ESTIMATE)",
+    "value": "447.32"
+   },
+   "mde_rs_sigma1500_n150": {
+    "tag": "CODE(ESTIMATE)",
+    "value": "506.08"
+   },
+   "mde_rs_sigma500_24months": {
+    "tag": "CODE(ESTIMATE)",
+    "value": "149.11"
+   },
+   "mde_rs_sigma500_n150": {
+    "tag": "CODE(ESTIMATE)",
+    "value": "168.69"
+   },
+   "months_to_150_trades": {
+    "tag": "CODE(ESTIMATE)",
+    "value": "18.75"
+   },
+   "validation_infeasible": true
+  }
+ }
+}

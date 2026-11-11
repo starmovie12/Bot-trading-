@@ -13,6 +13,7 @@ MALIK KO KYA KARNA HAI (ek raasta chuno):
   (b) Agar ye platform ka apna hai aur hat nahi sakta: MISSION.md §1 item 9 mein khud ek line jodo ki sirf ye exact naam `CLOUDSDK_AUTH_ACCESS_TOKEN` (Google Cloud tool ka) allowlist ho sakta hai, phir chat mein `mission badla` likho.
   (c) Ya agent ko aisi jagah chalao jahan ye variable na ho.
   Uske baad: `haan F-INC-1 be92`.
+SESSION 2 (2026-11-11 18:05 IST): preflight found the same name again (`EVIDENCE/SESSION2/preflight.txt`) → web fetch and push stay off in session 2.
 CLOSES WITH: `haan F-INC-1 be92`
 
 ## #2 · env_warn · OPEN

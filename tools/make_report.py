@@ -132,6 +132,13 @@ class Ctx:
                 if sep:
                     q[k.removeprefix("UPDATE ")] = v
             out[m.group(1)] = q
+        for block in re.split(r"^(?=## )", text("OWNER_QUESTIONS.md"), flags=re.MULTILINE):
+            u = re.match(r"## UPDATE (F-[A-Z0-9-]+) \|", block)
+            if u and u.group(1) in out:
+                for line in block.splitlines()[1:]:
+                    k, sep, v = line.partition(": ")
+                    if sep:
+                        out[u.group(1)][k] = v
         return out
 
     def _approvals(self) -> list[dict[str, str]]:
@@ -188,7 +195,16 @@ class Ctx:
         return "FINAL" if self.tasks and done else "INTERIM"
 
     def verdict(self) -> tuple[str, list[str]]:
-        return str(self.fields.get("verdict", "NOT_YET")), [str(r) for r in self.fields.get("reasons", ["NO_DATA"])]
+        """NOT_YET is the default until the T10 decision rule exists; reason codes come from the files."""
+        reasons = ["NO_DATA"]  # no REAL market data in the repo yet
+        g0 = load_json("EVIDENCE/T04/g0.json", {})
+        if g0.get("g0") == "CONDITIONAL":
+            reasons.append("G0_CONDITIONAL")
+        rights = tomllib.loads(text("constants.toml")).get("data_rights", {}) if text("constants.toml") else {}
+        if rights.get("value") != "OK":
+            reasons.append("DATA_RIGHTS_OPEN")
+        reasons += [str(r) for r in self.fields.get("extra_reasons", []) if str(r) not in reasons]
+        return str(self.fields.get("verdict", "NOT_YET")), reasons
 
     def auto(self, name: str) -> str:
         fn = getattr(self, "a_" + name, None)

@@ -1,27 +1,93 @@
 {
+ "G0.credible_edge_12_rs": {
+  "value": 25.0,
+  "unit": "INR",
+  "tag": "CODE(ESTIMATE)",
+  "evidence": "EVIDENCE/T04/g0.json"
+ },
+ "G0.mde_24m_12_rs": {
+  "value": 243.49,
+  "unit": "INR",
+  "tag": "CODE(ESTIMATE)",
+  "evidence": "EVIDENCE/T04/g0.json"
+ },
+ "G0.months_to_150_at_12": {
+  "value": 12.5,
+  "unit": "months",
+  "tag": "CODE(ESTIMATE)",
+  "evidence": "EVIDENCE/T04/g0.json"
+ },
+ "G0.nifty_charges_at_fit_rs": {
+  "value": 49.74,
+  "unit": "INR",
+  "tag": "CODE(HISTORY)",
+  "evidence": "EVIDENCE/T04/g0.json"
+ },
+ "G0.nifty_fit_premium_rs": {
+  "value": 16.5,
+  "unit": "INR",
+  "tag": "CODE(ASSUMPTION)",
+  "evidence": "EVIDENCE/T04/g0.json"
+ },
+ "G0.plan12_pct": {
+  "value": 8.87,
+  "unit": "pct",
+  "tag": "CODE(HISTORY)",
+  "evidence": "EVIDENCE/T04/g0.json"
+ },
+ "G0.plan12_rs_pm": {
+  "value": 1330.19,
+  "unit": "INR/month",
+  "tag": "CODE(HISTORY)",
+  "evidence": "EVIDENCE/T04/g0.json"
+ },
+ "G0.s0_fixed_rs_pm": {
+  "value": 450.0,
+  "unit": "INR/month",
+  "tag": "CODE(ASSUMPTION)",
+  "evidence": "EVIDENCE/T04/g0.json"
+ },
+ "G0.s0_hurdle_pct": {
+  "value": 3.0,
+  "unit": "pct",
+  "tag": "CODE(ASSUMPTION)",
+  "evidence": "EVIDENCE/T04/g0.json"
+ },
+ "G0.s1_cost_hurdle_12_rs": {
+  "value": 83.69,
+  "unit": "INR",
+  "tag": "CODE(ASSUMPTION)",
+  "evidence": "EVIDENCE/T04/g0.json"
+ },
+ "G0.s1_hurdle_pct": {
+  "value": 6.7,
+  "unit": "pct",
+  "tag": "CODE(ASSUMPTION)",
+  "evidence": "EVIDENCE/T04/g0.json"
+ },
+ "G0.s1_server_pct": {
+  "value": 3.7,
+  "unit": "pct",
+  "tag": "CODE(HISTORY)",
+  "evidence": "EVIDENCE/T04/g0.json"
+ },
+ "G0.s1_server_rs_pm": {
+  "value": 554.25,
+  "unit": "INR/month",
+  "tag": "CODE(HISTORY)",
+  "evidence": "EVIDENCE/T04/g0.json"
+ },
+ "G0.sensex_fit_premium_rs": {
+  "value": 53.75,
+  "unit": "INR",
+  "tag": "CODE(ASSUMPTION)",
+  "evidence": "EVIDENCE/T04/g0.json"
+ },
  "limits.CAPITAL_RS": {
   "value": 15000,
   "unit": "INR",
   "tag": "OWNER",
   "evidence": "limits.toml"
- },
- "limits.MAX_TOTAL_LOSS_RS": {
-  "value": 4500,
-  "unit": "INR",
-  "tag": "ASSUMPTION",
-  "evidence": "EVIDENCE/T01/limits_chain.txt"
- },
- "limits.MAX_DRAWDOWN_RS": {
-  "value": 2250,
-  "unit": "INR",
-  "tag": "CODE(ASSUMPTION)",
-  "evidence": "EVIDENCE/T01/limits_chain.txt"
- },
- "limits.MAX_TRADE_LOSS_RS": {
-  "value": 1125,
-  "unit": "INR",
-  "tag": "CODE(ASSUMPTION)",
-  "evidence": "EVIDENCE/T01/limits_chain.txt"
  },
  "limits.EQUITY_FLOOR_RS": {
   "value": 10500,
@@ -34,5 +100,23 @@
   "unit": "INR/month",
   "tag": "OWNER",
   "evidence": "limits.toml"
+ },
+ "limits.MAX_DRAWDOWN_RS": {
+  "value": 2250,
+  "unit": "INR",
+  "tag": "CODE(ASSUMPTION)",
+  "evidence": "EVIDENCE/T01/limits_chain.txt"
+ },
+ "limits.MAX_TOTAL_LOSS_RS": {
+  "value": 4500,
+  "unit": "INR",
+  "tag": "ASSUMPTION",
+  "evidence": "EVIDENCE/T01/limits_chain.txt"
+ },
+ "limits.MAX_TRADE_LOSS_RS": {
+  "value": 1125,
+  "unit": "INR",
+  "tag": "CODE(ASSUMPTION)",
+  "evidence": "EVIDENCE/T01/limits_chain.txt"
  }
 }

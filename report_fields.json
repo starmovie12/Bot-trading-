@@ -1,52 +1,70 @@
 {
  "verdict": "NOT_YET",
- "reasons": [
-  "NO_DATA",
-  "MISSING_INPUT"
- ],
  "push": "local only (F-REMOTE ki manzoori nahi; INCIDENT #1 khula)",
- "seedhi_baat": "abhi sirf suraksha ka dhaancha bana hai; ₹ ka hisaab (G0) T04 mein hoga. Ek trade ka max nuksaan abhi {num:limits.MAX_TRADE_LOSS_RS}.",
- "kya_ban_gaya": "T01, T02a: secret guard, mission_check, REPORT tool, mohar (SEAL) · T03: har tathya ka official URL aur saboot (abhi UNVERIFIED)",
+ "seedhi_baat": "G0 ka nateeja: abhi har raasta adhoora (CONDITIONAL), kyunki web band tha aur koi kharcha official page se pakka nahi ho saka; sabse sasta static-IP server bhi {num:G0.s1_server_rs_pm} = {num:G0.s1_server_pct} capital har mahine khata hai.",
+ "kya_ban_gaya": "T01 se T04: guard aur mohar · har tathya ka official URL aur saboot · G0 ka hisaab (tools/economics.py) · CP1 memo docs folder mein",
  "kaam_1": "INCIDENT #1: environment mein ACCESS_TOKEN wala naam mila; INCIDENT.md #1 ka ek raasta chuno, phir haan F-INC-1 be92",
  "kaam_2": "INCIDENT #3 aur #2 (sirf jaankari): haan F-INC-3 d9e1 · haan F-INC-2 fc8c",
  "kaam_3": "Upstox se likhit mein poochho: API market data apne personal backtest ke liye store kar sakte ho? (DATA_RIGHTS)",
  "sawal_rank": [
   "F-INC-1",
-  "F-REMOTE",
+  "F-DATARIGHTS",
   "F-MAXLOSS",
-  "F-INC-3",
-  "F-INC-2"
+  "F-H2PCT",
+  "F-REMOTE"
  ],
  "sawal": {
   "F-INC-1": {
    "default": "khula (web + push band)",
-   "asar": "seedha nahi; par G0 adhoora rahega"
+   "asar": "seedha nahi; par jab tak khula hai G0 adhoora rahega"
   },
-  "F-REMOTE": {
-   "default": "na (sirf local commit)",
-   "asar": "seedha nahi; par kaam kho sakta hai"
+  "F-DATARIGHTS": {
+   "default": "na: Recorder sirf LIGHT (derived data)",
+   "asar": "seedha nahi; bina ijazat data rakhna niyam todna ho sakta hai"
   },
   "F-MAXLOSS": {
    "default": "{num:limits.MAX_TOTAL_LOSS_RS}",
-   "asar": "ek trade ka max nuksaan {num:limits.MAX_TRADE_LOSS_RS}"
+   "asar": "Nifty ka ek lot sirf {num:G0.nifty_fit_premium_rs} premium tak"
   },
-  "F-INC-3": {
-   "default": "khula (kuch nahi rukta)",
-   "asar": "koi nahi"
+  "F-H2PCT": {
+   "default": "{num:limits.H2_MONTHLY_RS}",
+   "asar": "sabse sasta server {num:G0.s1_server_rs_pm} = {num:G0.s1_server_pct}"
   },
-  "F-INC-2": {
-   "default": "khula (kuch nahi rukta)",
-   "asar": "koi nahi"
+  "F-REMOTE": {
+   "default": "na (sirf local commit)",
+   "asar": "seedha nahi; par container mitne par kaam kho sakta hai"
   }
  },
- "raasta": "abhi nahi pata: pehle G0 (T04) ka hisaab; web band hai, isliye tathya pakke nahi",
- "verify_nahi": "koi bhi bahari tathya (web band: INCIDENT #1)",
+ "raasta": "tested set mein abhi koi pakka raasta nahi mila (G0 adhoora). Sabse sasta agla raasta: pehle INCIDENT #1 theek karke kharche official page se pakke karna; phir MANUAL mode mein Recorder se asli data (server ka kharcha nahi); saboot bahut lamba lagega",
+ "verify_nahi": "koi bhi bahari tathya (web band: INCIDENT #1); chhote kharche (internet, bijli, CA) sirf maanyata",
  "check_laal": "final check abhi nahi chala (T18 mein)",
  "badi_galtiyan": "koi nahi (alag jaanch abhi nahi hui)",
- "baad_mein": "T04 G0 (offline), phir CP1 par rukna",
+ "baad_mein": "CP1: tumhare jawab; phir T02b, T05 (Recorder), T09",
  "owner_top3": [
   "F-INC-1 be92 sandbox",
-  "F-REMOTE 2350 push",
-  "F-INC-3 d9e1"
+  "F-MAXLOSS bca1 seema",
+  "F-REMOTE 2350 push"
+ ],
+ "memo_rank": [
+  "F-INC-1",
+  "F-DATARIGHTS",
+  "F-MAXLOSS",
+  "F-H2PCT",
+  "F-S118",
+  "F-I7STOP",
+  "F-DATAAGE",
+  "F-MACHINE",
+  "F-RECFULL",
+  "F-S16",
+  "F-REMOTE",
+  "F-INC-3",
+  "F-INC-2"
+ ],
+ "g0_natija": [
+  "U1 se U6: sab CONDITIONAL (adhoora). Wajah: koi kharcha ya lot size official page se pakka nahi (web band), aur F-MAXLOSS ka jawab baaki. FAIL bhi sabit nahi hua",
+  "Sabse sasta static-IP server (API order ke liye): {num:G0.s1_server_rs_pm} = {num:G0.s1_server_pct} capital har mahine; purana plan {num:G0.plan12_rs_pm} = {num:G0.plan12_pct}",
+  "MANUAL (signal bot de, order tum lagao): server ka kharcha nahi; baaki chhote kharche abhi sirf maanyata",
+  "Default seema par ek lot ka premium: Nifty {num:G0.nifty_fit_premium_rs}, Sensex {num:G0.sensex_fit_premium_rs} tak; Nifty par har round trip ka kharcha {num:G0.nifty_charges_at_fit_rs}",
+  "Saboot: mahine mein baarah trade par sau pachaas trade tak {num:G0.months_to_150_at_12}; do saal baad bhi pakadne laayak sabse chhota fayda {num:G0.mde_24m_12_rs} har trade, jabki sambhav fayda sirf {num:G0.credible_edge_12_rs} (VALIDATION_INFEASIBLE)"
  ]
 }
