@@ -175,3 +175,10 @@ WHY: §5.5, §7 I10, T02b
 ₹ IMPACT: none
 REVERSE BY: owner approval (all protected from seal/T02b)
 CLASS CHECK: C/D guard · PROTECTED: yes
+
+## D-026 | T02b | 2026-11-11
+OLD → NEW: the canary runner copied the repository folder as it is; inside a verify worktree that copy holds a `.git` FILE pointing back to the real repository, so git commands in the copy (the history canary) would have written into the real repository. Found by the first T02b verify run (EVIDENCE/T02b/verify.txt, failure in the history canary at its first git step, before anything was written). Fix: every canary copy gets its own no-checkout clone as `.git` (HEAD = the source HEAD, files untouched), and the history canary refuses to run unless `.git` is a directory.
+WHY: canaries must never touch the real repository (§5.5 "nothing violating is ever committed")
+₹ IMPACT: none
+REVERSE BY: git revert (protected: owner task T02b)
+CLASS CHECK: A (tooling safety) · PROTECTED: tests/canary/* re-sealed

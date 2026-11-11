@@ -1,0 +1,41 @@
+$ tools/verify/T02b.sh 
+PASS clean checkout GREEN (Tier 1 + FULL + history)
+  canary: PASS clean copy is GREEN
+  canary: PASS canary 'untagged number' → #1 RED
+  canary: PASS canary 'fake secret (from fragments)' → #6 RED
+  canary: PASS canary 'skipped test' → #5 RED
+  canary: PASS canary 'protected change without approval' → #3 RED
+  canary: PASS canary 'fake approval with a wrong code' → #17 RED
+  canary: PASS canary 'digit in report_fields.json' → #2 RED
+  canary: PASS canary 'constants value missing from its extract' → #18 RED
+  canary: PASS canary 'FULL-B task PASS while the gate is CLOSED' → #19 RED
+  canary: PASS canary 'second order call site' → #8 RED
+  canary: PASS canary 'Go file naming the broker host' → #8 RED
+  canary: PASS canary 'Class C/D pattern' → #4 RED
+  canary: PASS canary 'hidden trial' → #13 RED
+  canary: Traceback (most recent call last):
+  canary:   File "/tmp/mission-v11-verify-T02b/tests/canary/run_canary.py", line 208, in <module>
+  canary:     sys.exit(main())
+  canary:              ~~~~^^
+  canary:   File "/tmp/mission-v11-verify-T02b/tests/canary/run_canary.py", line 193, in main
+  canary:     mutate(copy)
+  canary:     ~~~~~~^^^^^^
+  canary:   File "/tmp/mission-v11-verify-T02b/tests/canary/run_canary.py", line 153, in secret_in_history
+  canary:     git("read-tree", "HEAD")
+  canary:     ~~~^^^^^^^^^^^^^^^^^^^^^
+  canary:   File "/tmp/mission-v11-verify-T02b/tests/canary/run_canary.py", line 150, in git
+  canary:     r = subprocess.run(["git", *args], cwd=c, env=env, input=data, capture_output=True, check=True)  # noqa: S603, S607
+  canary:   File "/usr/local/lib/python3.13/subprocess.py", line 578, in run
+  canary:     raise CalledProcessError(retcode, process.args,
+  canary:                              output=stdout, stderr=stderr)
+  canary: subprocess.CalledProcessError: Command '['git', 'read-tree', 'HEAD']' returned non-zero exit status 128.
+FAIL canaries: 12 caught
+PASS callsite_allowlist: three gateway sites
+PASS scan_allowlist entries complete
+PASS param_scan counts 2 literals
+PASS param_scan rejects 13 literals (> 12)
+PASS pre-push runs the history scan
+PASS CI runs mission_check --history and the canaries
+PASS no mission-v11 temp dir left
+T02b verify: 1 failure(s)
+[exit 1]

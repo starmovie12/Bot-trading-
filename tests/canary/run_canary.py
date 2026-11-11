@@ -38,9 +38,32 @@ def red(output: str, check: str) -> bool:
     return re.search(rf"^#{check} [^\n]*: RED", output, re.MULTILINE) is not None
 
 
+def independent_git(dst: Path) -> None:
+    """Give the copy its own repository. A copy of a git worktree carries a `.git` FILE that points back to
+    the real repository; git commands inside the copy would then write into the real one. Replace it with
+    a no-checkout clone whose HEAD is the source HEAD, without touching the copied files."""
+    if (dst / ".git").is_dir():
+        return
+    head = subprocess.run(["git", "rev-parse", "HEAD"], cwd=ROOT, capture_output=True, check=True).stdout  # noqa: S607
+    (dst / ".git").unlink()
+    clone = Path(tempfile.mkdtemp(prefix="mission-v11-canary-clone-", dir=TMP))
+    try:
+        subprocess.run(  # noqa: S603
+            ["git", "clone", "-q", "--no-checkout", "--no-hardlinks", str(ROOT), str(clone / "r")],  # noqa: S607
+            capture_output=True,
+            check=True,
+        )
+        shutil.move(str(clone / "r" / ".git"), str(dst / ".git"))
+    finally:
+        shutil.rmtree(clone, ignore_errors=True)
+    for args in (["update-ref", "--no-deref", "HEAD", head.decode().strip()], ["read-tree", "HEAD"]):
+        subprocess.run(["git", *args], cwd=dst, capture_output=True, check=True)  # noqa: S603, S607
+
+
 def make_copy() -> Path:
     dst = Path(tempfile.mkdtemp(prefix="mission-v11-canary-", dir=TMP))
     shutil.copytree(ROOT, dst, dirs_exist_ok=True, ignore=IGNORE, symlinks=True)
+    independent_git(dst)
     if not (dst / "EVIDENCE/seal_log.jsonl").read_text().strip():
         subprocess.run(  # noqa: S603
             [sys.executable, str(dst / "tools/seal.py"), "CANARY", "--no-commit"],
@@ -141,6 +164,8 @@ def hidden_trial(c: Path) -> None:
 
 def secret_in_history(c: Path) -> None:
     """Commit a fake token and remove it again, with git plumbing inside the throw-away copy only."""
+    if not (c / ".git").is_dir():
+        raise RuntimeError("canary copy is not an independent repository; refusing to write git objects")
     token = "ey" + "J" + "Zm9v" * 6 + "Q1"
     ident = {"GIT_AUTHOR_NAME": "canary", "GIT_AUTHOR_EMAIL": "canary@local"}
     ident |= {"GIT_COMMITTER_NAME": "canary", "GIT_COMMITTER_EMAIL": "canary@local"}

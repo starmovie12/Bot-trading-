@@ -12,7 +12,7 @@ SAWAL F-REMOTE (code 2350): default na (sirf local commit) | ₹ asar seedha nah
 PAISA KAMANE KA RAASTA: tested set mein abhi koi pakka raasta nahi mila (G0 adhoora). Sabse sasta agla raasta: pehle INCIDENT #1 theek karke kharche official page se pakke karna; phir MANUAL mode mein Recorder se asli data (server ka kharcha nahi); saboot bahut lamba lagega
 MANZOORI (is session): koi nahi
 BHAROSA: alag jaanch: nahi hui | khuli badi galtiyan: koi nahi (alag jaanch abhi nahi hui) | kya verify NAHI hua: koi bhi bahari tathya (web band: INCIDENT #1); chhote kharche (internet, bijli, CA) sirf maanyata | final check laal: final check abhi nahi chala (T18 mein)
-SAMAY: session 3 · 5 min chala · baad mein: CP1: tumhare jawab; phir T02b, T05 (Recorder), T09 · SEAL: 6e435143 · TRIALS: khaali · push: local only (F-REMOTE ki manzoori nahi; INCIDENT #1 khula) · baaki: 20 kaam, 13 sawal (OWNER_TODO.md)
+SAMAY: session 3 · 6 min chala · baad mein: CP1: tumhare jawab; phir T02b, T05 (Recorder), T09 · SEAL: 6e435143 · TRIALS: khaali · push: local only (F-REMOTE ki manzoori nahi; INCIDENT #1 khula) · baaki: 20 kaam, 13 sawal (OWNER_TODO.md)
 
 ---
 Technical sections below are in English (MISSION V11 §14). Numbers carry English tags and evidence paths.
@@ -140,7 +140,7 @@ Validation (power factor 4.132 at TRIALS_MAX 50), EVIDENCE/T04/g0.json:
 | limits.MAX_TRADE_LOSS_RS | ₹1,125 [CODE(ASSUMPTION)] | EVIDENCE/T01/limits_chain.txt |
 
 ## PROTECTED_CHANGES (since the last seal)
-none
+- tests/canary/run_canary.py (rule exact)
 
 ## Allowlists
 Env allowlist names (tools/env_allowlist.txt): GH_TOKEN, GITHUB_TOKEN, GIT_ASKPASS, GIT_CONFIG_KEY_*, GIT_CONFIG_VALUE_*, CLAUDE_CODE_*, CLAUDE_SESSION_INGRESS_TOKEN_FILE, CCR_*, MAX_THINKING_TOKENS, BUN_TLS_EXTRA_DISTRUSTED_KEYS
