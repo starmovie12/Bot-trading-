@@ -10,6 +10,7 @@ import os
 import sys
 
 from bot.haath.orders import Limits, LiveTradingForbidden, OrderManager, PaperBroker
+from bot.limits import InvalidLimits, load_limits
 from bot.niyam import NiyamError, consistency_issues, load
 from bot.strategy.costs import CostModel
 
@@ -19,7 +20,13 @@ def check(niyam_path: str = "config/niyam.toml") -> int:
         print("FAIL: BOT_MODE sirf 'paper' ho sakta hai (live ka raasta nahi)")
         return 1
     try:
-        OrderManager(PaperBroker(), Limits(900, 900, 4000, 15000), mode="real", clock=lambda: 0.0)
+        lim = load_limits()  # the one source of risk limits (limits.toml)
+    except (InvalidLimits, OSError) as e:
+        print(f"FAIL: limits.toml: {e}")
+        return 1
+    limits = Limits(lim.max_trade_loss_rs, lim.daily_loss_lock_rs, lim.max_total_loss_rs, lim.capital_rs)
+    try:
+        OrderManager(PaperBroker(), limits, mode="real", clock=lambda: 0.0)
         print("FAIL: real mode bana diya gaya (guard toota)")
         return 1
     except LiveTradingForbidden:

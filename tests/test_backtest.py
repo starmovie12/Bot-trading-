@@ -5,6 +5,7 @@ from __future__ import annotations
 import math
 import random
 from datetime import date
+from pathlib import Path
 
 import pytest
 
@@ -14,6 +15,7 @@ from bot.backtest.metrics import backtest_gate, summarize
 from bot.dimaag.candles import Candle, atr, ema, resample, vwap
 from bot.dimaag.regime import Regime, RegimeParams, RegimeTracker, classify, gap_blocks_entry
 from bot.dimaag.setups import SetupParams, s1_orb_retest
+from bot.strategy.instrument_master import load_lot_sizes
 from bot.strategy.selection import Quote
 
 OPEN = 9 * 60 + 15
@@ -73,7 +75,8 @@ def day_data(kind: str, seed: int, d: date = date(2026, 11, 11)) -> DayData:
 
 
 # Nakli din Nifty (lot 65) par hain; 30% cap Nifty ko rok deta (alag test). Yahan engine ka logic jaanchna hai.
-CFG = BtConfig(capital=15000, daily_loss_limit=1500, kul_jeb_limit=4000, max_capital_use_pct=90)
+LOTS = load_lot_sizes(Path(__file__).parent / "fixtures" / "instrument_master_sample.csv")
+CFG = BtConfig(capital=15000, daily_loss_limit=1500, kul_jeb_limit=4000, max_capital_use_pct=90, lots=LOTS)
 
 
 def test_indicators_basic() -> None:

@@ -18,15 +18,15 @@
   "evidence": "EVIDENCE/T04/g0.json"
  },
  "G0.nifty_charges_at_fit_rs": {
-  "value": 49.74,
+  "value": 48.14,
   "unit": "INR",
   "tag": "CODE(HISTORY)",
   "evidence": "EVIDENCE/T04/g0.json"
  },
  "G0.nifty_fit_premium_rs": {
-  "value": 16.5,
+  "value": 6.15,
   "unit": "INR",
-  "tag": "CODE(ASSUMPTION)",
+  "tag": "CODE(HISTORY)",
   "evidence": "EVIDENCE/T04/g0.json"
  },
  "G0.plan12_pct": {
@@ -78,15 +78,21 @@
   "evidence": "EVIDENCE/T04/g0.json"
  },
  "G0.sensex_fit_premium_rs": {
-  "value": 53.75,
+  "value": 20.05,
   "unit": "INR",
-  "tag": "CODE(ASSUMPTION)",
+  "tag": "CODE(HISTORY)",
   "evidence": "EVIDENCE/T04/g0.json"
  },
  "limits.CAPITAL_RS": {
   "value": 15000,
   "unit": "INR",
   "tag": "OWNER",
+  "evidence": "limits.toml"
+ },
+ "limits.DAILY_LOSS_LOCK_RS": {
+  "value": 450,
+  "unit": "INR",
+  "tag": "HISTORY",
   "evidence": "limits.toml"
  },
  "limits.EQUITY_FLOOR_RS": {
@@ -114,9 +120,9 @@
   "evidence": "EVIDENCE/T01/limits_chain.txt"
  },
  "limits.MAX_TRADE_LOSS_RS": {
-  "value": 1125,
+  "value": 450,
   "unit": "INR",
-  "tag": "CODE(ASSUMPTION)",
-  "evidence": "EVIDENCE/T01/limits_chain.txt"
+  "tag": "CODE(HISTORY)",
+  "evidence": "limits.toml"
  }
 }

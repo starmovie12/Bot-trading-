@@ -18,7 +18,7 @@ Har round mein pichhle version ki kamiyan dhoondhi, theek ki, aur nayi version b
 |---|---|---|---|
 | R2-1 | **₹15k capital, 1 full lot, 25% SL = ek trade mein ~15% capital ka risk.** Do haar = ~30% ek din mein | Critical | Risk per trade seema = min(din ki seema ka 60%, capital ka 6%) ≈ ₹900. Isse zyada risk ho toh **SKIP** (`selection.py` 4th check) |
 | R2-2 | Premium SL aur underlying SL mein kaunsa pehle, tay nahi | High | Jo pehle lage (`on_tick`: hard SL + `structure_broken`) |
-| R2-3 | Ek hi server: server mare toh SL kaun lagayega? | High | **Broker Stop:** entry ke turant baad broker par SL-M (deploy/README) |
+| R2-3 | Ek hi server: server mare toh SL kaun lagayega? | High | **Broker Stop:** entry ke turant baad broker par SL (limit) order; options par SL-M exchange reject karta hai (deploy/README) |
 | R2-4 | Expiry din dopahar ka "jua" (theta + gamma) | High | Expiry din 13:30 ke baad entry nahi; S4 sirf paper |
 | R2-5 | Din ki nuksan seema 0 (tay nahi) hone par bhi bot chal sakta tha | High | Seema tay nahi = entry band (`can_enter`) |
 | R2-6 | Bahut saare parameter = overfitting | Med | Har setup ≤ 6 parameter; walk-forward; out-of-sample girawat ≤ 30% |

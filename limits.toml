@@ -4,7 +4,8 @@
 # Chain (tested from T06): 2 × MAX_TRADE_LOSS_RS ≤ MAX_DRAWDOWN_RS ≤ MAX_TOTAL_LOSS_RS ≤ CAPITAL_RS,
 #                          EQUITY_FLOOR_RS = CAPITAL_RS − MAX_TOTAL_LOSS_RS.
 # Protected (rule per_value) from seal/T02a: tightening = DECISIONS entry; loosening = owner approval.
-# Loss locks (F-S118) and COOLOFF_MIN are migrated from niyam.toml in T06 (the lower ₹ risk wins).
+# T06: loss locks (F-S118 default `both`: rupees AND stop-loss counts) and the cool-off migrated from
+# niyam.toml / PREREGISTER v5; the lower ₹ risk wins (DECISIONS D-031, D-032).
 
 [CAPITAL_RS]
 value = 15000
@@ -37,12 +38,12 @@ derived = "0.5 * MAX_TOTAL_LOSS_RS"
 note = "HARD KILL (§11)"
 
 [MAX_TRADE_LOSS_RS]
-value = 1125
+value = 450
 unit = "INR"
-tag = "CODE(ASSUMPTION)"
+tag = "CODE(HISTORY)"
 direction = "lower_is_tighter"
-derived = "0.5 * MAX_DRAWDOWN_RS"
-note = "by construction (I7), round-trip charges included"
+derived = "min(0.5 * MAX_DRAWDOWN_RS, DAILY_LOSS_LOCK_RS)"
+note = "by construction (I7), round-trip charges included; T06: lowered from 1125 to the daily loss lock (the lower rupee risk wins, D-032); question F-DAILY-UP"
 
 [H2_MONTHLY_RS]
 value = 1500
@@ -71,3 +72,63 @@ unit = "% of LTP, k = 1, 2, 3"
 tag = "ASSUMPTION"
 direction = "exact"
 note = "I9b band ladder. Exact: a narrower band protects the price but may leave an exit unfilled, a wider band fills but at a worse price, so any change needs an owner approval"
+
+[DAILY_LOSS_LOCK_RS]
+value = 450
+unit = "INR per day"
+tag = "HISTORY"
+direction = "lower_is_tighter"
+question = "F-S118"
+note = "niyam.toml Daily_Loss_Risk_Limit 3% of balance (₹450) beats PREREGISTER v5 ₹900: the lower wins"
+
+[WEEKLY_LOSS_LOCK_RS]
+value = 900
+unit = "INR per week"
+tag = "HISTORY"
+direction = "lower_is_tighter"
+question = "F-S118"
+note = "niyam.toml Weekly 6-8% (lower end ₹900) beats PREREGISTER v5 ₹1,800"
+
+[MONTHLY_LOSS_LOCK_RS]
+value = 2250
+unit = "INR per month"
+tag = "HISTORY"
+direction = "lower_is_tighter"
+question = "F-S118"
+note = "niyam.toml Monthly 15% of balance; equals MAX_DRAWDOWN_RS"
+
+[DAILY_SL_LOCK_COUNT]
+value = 1
+unit = "stop-losses per day"
+tag = "HISTORY"
+direction = "lower_is_tighter"
+question = "F-S118"
+note = "owner's old suggestion (day 1 / week 2 / month 4 stop-losses)"
+
+[WEEKLY_SL_LOCK_COUNT]
+value = 2
+unit = "stop-losses per week"
+tag = "HISTORY"
+direction = "lower_is_tighter"
+question = "F-S118"
+
+[MONTHLY_SL_LOCK_COUNT]
+value = 4
+unit = "stop-losses per month"
+tag = "HISTORY"
+direction = "lower_is_tighter"
+question = "F-S118"
+
+[COOLOFF_MIN]
+value = 20
+unit = "minutes after a loss"
+tag = "HISTORY"
+direction = "higher_is_tighter"
+note = "niyam.toml Loss_Cooldown_Samay"
+
+[CONSECUTIVE_LOSS_DAY_STOP]
+value = 2
+unit = "losing trades in a row stop the day"
+tag = "HISTORY"
+direction = "lower_is_tighter"
+note = "niyam.toml Lagatar_Loss_Din_Band_Ginti"

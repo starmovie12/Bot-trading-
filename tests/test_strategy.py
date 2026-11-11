@@ -1,17 +1,25 @@
 from __future__ import annotations
 
 from datetime import date, time
+from pathlib import Path
 
 import pytest
 
 from bot.strategy.costs import CostModel, breakeven_points, round_trip
+from bot.strategy.instrument_master import load_lot_sizes
 from bot.strategy.instruments import SPECS, days_to_expiry, is_expiry_day, next_expiry
 from bot.strategy.rules import DayState, OpenTrade, Params, after_exit, can_enter, on_tick
 from bot.strategy.selection import Limits, Quote, choose_strike
 
+LOTS = load_lot_sizes(Path(__file__).parent / "fixtures" / "instrument_master_sample.csv")
+
 
 def test_specs_2026() -> None:
-    assert (SPECS["Nifty50"].lot, SPECS["Sensex"].lot, SPECS["BankNifty"].lot) == (65, 20, 30)
+    assert (SPECS["Nifty50"].lot_crosscheck, SPECS["Sensex"].lot_crosscheck, SPECS["BankNifty"].lot_crosscheck) == (
+        65,
+        20,
+        30,
+    )
     assert SPECS["BankNifty"].weekly is False and SPECS["BankNifty"].tradable is False
 
 
@@ -49,22 +57,22 @@ def chain(
 def test_choose_prefers_itm_never_otm() -> None:
     q = chain(25000, 50, {24950: 140.0, 25000: 110.0, 25050: 85.0}, {25000: 105.0, 25050: 135.0, 24950: 80.0})
     lim = Limits(capital=15000, max_risk_rupees=3000, max_capital_use_pct=90)  # sirf ITM/ATM kram ka test
-    p = choose_strike("Nifty50", 25010.0, "CALL", q, lim)
+    p = choose_strike("Nifty50", 25010.0, "CALL", q, lim, lot=LOTS["Nifty50"])
     assert p.ok and p.strike == 24950 and p.opt == "CE" and p.qty == 65
-    p2 = choose_strike("Nifty50", 25010.0, "PUT", q, lim)
+    p2 = choose_strike("Nifty50", 25010.0, "PUT", q, lim, lot=LOTS["Nifty50"])
     assert p2.ok and p2.strike == 25050 and p2.opt == "PE"
 
 
 def test_skip_when_unaffordable_or_risky() -> None:
     q = chain(25000, 50, {24950: 240.0, 25000: 210.0}, {})
     tiny = Limits(capital=10000, max_risk_rupees=5000)
-    p = choose_strike("Nifty50", 25000.0, "CALL", q, tiny)
+    p = choose_strike("Nifty50", 25000.0, "CALL", q, tiny, lot=LOTS["Nifty50"])
     assert not p.ok and p.reason.startswith("SKIP") and "capital" in p.reason
     strict = Limits(capital=50000, max_risk_rupees=1000, max_capital_use_pct=90)
-    assert "SL par nuksan" in choose_strike("Nifty50", 25000.0, "CALL", q, strict).reason
+    assert "SL par nuksan" in choose_strike("Nifty50", 25000.0, "CALL", q, strict, lot=LOTS["Nifty50"]).reason
     wide = chain(25000, 50, {24950: 140.0, 25000: 110.0}, {}, spread=5.0)
-    assert "spread" in choose_strike("Nifty50", 25000.0, "CALL", wide, Limits(15000, 3000)).reason
-    assert not choose_strike("BankNifty", 56000.0, "CALL", q, tiny).ok  # sirf signal
+    assert "spread" in choose_strike("Nifty50", 25000.0, "CALL", wide, Limits(15000, 3000), lot=LOTS["Nifty50"]).reason
+    assert not choose_strike("BankNifty", 56000.0, "CALL", q, tiny, lot=LOTS["BankNifty"]).ok  # sirf signal
 
 
 def test_can_enter_rules() -> None:
@@ -110,7 +118,7 @@ def test_risk_per_trade_small_capital() -> None:
     # ₹15k par Nifty ITM ₹140 ka 25% SL (~₹2,275) is seema se upar: trade SKIP hona chahiye
     q = chain(25000, 50, {24950: 140.0, 25000: 110.0}, {})
     lim = Limits(capital=15000, max_risk_rupees=risk_per_trade(15000, 1500), max_capital_use_pct=90)
-    p = choose_strike("Nifty50", 25000.0, "CALL", q, lim)
+    p = choose_strike("Nifty50", 25000.0, "CALL", q, lim, lot=LOTS["Nifty50"])
     assert not p.ok and "SL par nuksan" in p.reason
 
 
@@ -132,21 +140,29 @@ def test_chart_sl_makes_small_capital_tradable() -> None:
 
     q = chain(82000, 100, {81900: 260.0, 82000: 210.0}, {})
     lim = Limits(capital=15000, max_risk_rupees=risk_per_trade(15000, 1500))  # ₹900, cap 30% = ₹4,500
-    assert not choose_strike("Sensex", 82000.0, "CALL", q, lim).ok  # sirf 25% SL: risk ₹1,050+ (purani kami)
-    p = choose_strike("Sensex", 82000.0, "CALL", q, lim, underlying_sl_points=40.0)
+    assert not choose_strike(
+        "Sensex", 82000.0, "CALL", q, lim, lot=LOTS["Sensex"]
+    ).ok  # sirf 25% SL: risk ₹1,050+ (purani kami)
+    p = choose_strike("Sensex", 82000.0, "CALL", q, lim, underlying_sl_points=40.0, lot=LOTS["Sensex"])
     assert p.ok and p.strike == 82000  # ITM 260 x 20 = ₹5,200 > ₹4,500, isliye ATM
     assert p.sl_price == pytest.approx(210.0 - 40.0 * 0.5)
     assert p.risk_rupees <= 900 and p.cost_rupees <= 4500
-    far = choose_strike("Sensex", 82000.0, "CALL", q, lim, underlying_sl_points=100.0)
+    far = choose_strike("Sensex", 82000.0, "CALL", q, lim, underlying_sl_points=100.0, lot=LOTS["Sensex"])
     assert not far.ok and "SL par nuksan" in far.reason
-    tight = choose_strike("Sensex", 82000.0, "CALL", q, lim, underlying_sl_points=10.0)
+    tight = choose_strike("Sensex", 82000.0, "CALL", q, lim, underlying_sl_points=10.0, lot=LOTS["Sensex"])
     assert not tight.ok and "COST-FIRST" in tight.reason  # target kharche ke 4 guna se kam
 
 
 def test_thirty_pct_cap_keeps_nifty_out_on_15k() -> None:
     q = chain(25000, 50, {24950: 140.0, 25000: 110.0}, {})
     p = choose_strike(
-        "Nifty50", 25000.0, "CALL", q, Limits(capital=15000, max_risk_rupees=900), underlying_sl_points=10.0
+        "Nifty50",
+        25000.0,
+        "CALL",
+        q,
+        Limits(capital=15000, max_risk_rupees=900),
+        underlying_sl_points=10.0,
+        lot=LOTS["Nifty50"],
     )
     assert not p.ok and "capital ke 30%" in p.reason  # 110 x 65 = ₹7,150 > ₹4,500
 
@@ -165,3 +181,13 @@ def test_loss_cooldown_and_safe_expiry() -> None:
     assert (
         expiry_rules_apply("Nifty50", date(2026, 11, 16), frozenset({date(2026, 11, 17)})) is False
     )  # broker list pakki
+
+
+def test_lot_sizes_come_only_from_the_instrument_file(tmp_path: Path) -> None:
+    from bot.strategy.instrument_master import InstrumentMasterError
+
+    assert {k: SPECS[k].lot_crosscheck for k in LOTS} == LOTS  # the sample file matches the cross-check
+    bad = tmp_path / "bad.csv"
+    bad.write_text("index,lot_size\nNifty50,zero\n")
+    with pytest.raises(InstrumentMasterError):
+        load_lot_sizes(bad)

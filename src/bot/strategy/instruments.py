@@ -20,7 +20,7 @@ class IndexSpec:
     name: str
     label: str
     exchange: str
-    lot: int
+    lot_crosscheck: int  # NEVER used for sizing: only a test cross-checks the instrument file (S6)
     strike_step: int
     expiry_weekday: int  # 0 = Somvaar ... 3 = Guruvaar
     weekly: bool

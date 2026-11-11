@@ -1,9 +1,9 @@
-MEMO CP1 · session 2
+MEMO CP1 · session 3
 G0 NATIJA:
 - U1 se U6: sab CONDITIONAL (adhoora). Wajah: koi kharcha ya lot size official page se pakka nahi (web band), aur F-MAXLOSS ka jawab baaki. FAIL bhi sabit nahi hua
 - Sabse sasta static-IP server (API order ke liye): ₹554.25/mahina [ginti (purani baat par)] = 3.7% [ginti (purani baat par)] capital har mahine; purana plan ₹1,330.19/mahina [ginti (purani baat par)] = 8.87% [ginti (purani baat par)]
 - MANUAL (signal bot de, order tum lagao): server ka kharcha nahi; baaki chhote kharche abhi sirf maanyata
-- Default seema par ek lot ka premium: Nifty ₹16.50 [ginti (maanyata par)], Sensex ₹53.75 [ginti (maanyata par)] tak; Nifty par har round trip ka kharcha ₹49.74 [ginti (purani baat par)]
+- Default seema par ek lot ka premium: Nifty ₹6.15 [ginti (purani baat par)], Sensex ₹20.05 [ginti (purani baat par)] tak; Nifty par har round trip ka kharcha ₹48.14 [ginti (purani baat par)]
 - Saboot: mahine mein baarah trade par sau pachaas trade tak 12.5 months [ginti (andaza par)]; do saal baad bhi pakadne laayak sabse chhota fayda ₹243.49 [ginti (andaza par)] har trade, jabki sambhav fayda sirf ₹25 [ginti (andaza par)] (VALIDATION_INFEASIBLE)
 
 SAWAL F-INC-1 (code be92): INCIDENT #1 (sandbox_breach: is environment mein `CLOUDSDK_AUTH_ACCESS_TOKEN` naam ka variable hai) band karein? Pehle INCIDENT.md #1 ka 'MALIK KO KYA KARNA HAI' padho.
@@ -20,12 +20,33 @@ SAWAL F-DATARIGHTS (code 3fa1): Kya Upstox ne likhit mein confirm kiya hai ki AP
   ULTA KAISE KAREIN: Upstox ka likhit jawab milne par `haan F-DATARIGHTS 3fa1`
   JAWAB: `haan F-DATARIGHTS 3fa1` / `na F-DATARIGHTS 3fa1`
 
+SAWAL F-PROT-1 (code b614): Kya main protected file `tools/mission_check.py` mein ek chhota sudhaar karun: check #8 ke order-endpoint pattern ko tukdon se banaun (jaanch wahi rahegi), taaki purana safety test `test_no_order_endpoint_in_m0` phir se hara ho?
+  DEFAULT JO MAINE LIYA: na: file waisi hi; ek safety test laal rahega (jhootha alarm: code mein order ka koi raasta nahi, check #8 GREEN) [maanyata]
+  ₹ ASAR: ₹0 [ginti]; par jab tak ye nahi hota, poore tests hare nahi dikhenge (BHAROSA line)
+  WAJAH: galti meri (T02b): maine guard mein order-endpoint ke pattern seedhe likhe, aur purana test unhe text mein dhoondhta hai. Protected file badalne ke liye tumhari manzoori chahiye; test ko kamzor karna mana hai (DECISIONS D-028)
+  ULTA KAISE KAREIN: `haan F-PROT-1 b614` (main sirf yahi ek badlav karunga, phir naya SEAL)
+  JAWAB: `haan F-PROT-1 b614` / `na F-PROT-1 b614`
+
+SAWAL F-PROT-2 (code c81d): Kya main protected CI file `.github/workflows/ci.yml` mein niyam-file ka path `config/niyam.toml` se `archive/niyam_v4.toml` kar doon, taaki purani niyam.toml archive mein ja sake?
+  DEFAULT JO MAINE LIYA: na: niyam.toml abhi config/ mein hi; koi runtime code uske risk number nahi padhta [maanyata]
+  ₹ ASAR: ₹0 [ginti]
+  WAJAH: MISSION kehta hai niyam.toml archive/ mein jaaye; par CI file protected hai, badalne ke liye tumhari manzoori chahiye
+  ULTA KAISE KAREIN: `haan F-PROT-2 c81d`
+  JAWAB: `haan F-PROT-2 c81d` / `na F-PROT-2 c81d`
+
 SAWAL F-MAXLOSS (code bca1): Poore experiment mein kul kitna paisa kho sakte ho, jiske baad bot hamesha ke liye ruk jaaye (MAX_TOTAL_LOSS_RS)?
   DEFAULT JO MAINE LIYA: ₹4,500 (capital ka 30%) [maanyata]
-  ₹ ASAR: G0 ke hisaab se is default par ek lot ka premium sirf itna: Nifty ₹16.50 [ginti (maanyata par)], Sensex ₹53.75 [ginti (maanyata par)]; Nifty ₹100 premium ke liye F-MAXLOSS ₹26,250.44 [ginti (purani baat par)] chahiye, jo H1 mein sirf sabse dheeli seema par mumkin hai (EVIDENCE/T04/g0.json)
+  ₹ ASAR: T06 ke baad ek trade ka max nuksaan ₹450 [ginti (purani baat par)] (din ka taala), isliye Nifty ka ek lot sirf ₹6.15 [ginti (purani baat par)] premium tak, Sensex ₹20.05 [ginti (purani baat par)] tak; F-MAXLOSS ke saath F-DAILY-UP bhi dekho (EVIDENCE/T04/g0.json)
   WAJAH: tight aur palatne laayak default; G0 (T04) dikhayega kaunsi value kaunsa raasta kholti hai
   ULTA KAISE KAREIN: `set F-MAXLOSS <₹> bca1`
   JAWAB: `haan F-MAXLOSS bca1` / `na F-MAXLOSS bca1` / `set F-MAXLOSS <value> bca1`
+
+SAWAL F-DAILY-UP-2 (code 2516): Din ka nuksan-taala tumhare purane niyam se ₹450 [purani baat] hai, isliye ek trade ka max nuksaan bhi ₹450 [ginti] par aa gaya. Kya din ka taala ₹1,125 [maanyata] kar dein, taaki ek trade ka max bhi wahi ho sake?
+  DEFAULT JO MAINE LIYA: na: din ka taala ₹450 [purani baat], ek trade max ₹450 [ginti (purani baat par)]
+  ₹ ASAR: ₹450 par Nifty ka ek lot sirf ₹6.15 [ginti (purani baat par)] premium tak fit hota hai; ₹1,125 [maanyata] par ₹16.50 [ginti (maanyata par)] tak (EVIDENCE/T04/g0.json)
+  WAJAH: kam ₹ risk wala niyam jeet-ta hai (MISSION §3); badhana sirf tumhari manzoori se
+  ULTA KAISE KAREIN: `set F-DAILY-UP-2 <₹> 2516`
+  JAWAB: `haan F-DAILY-UP-2 2516` / `na F-DAILY-UP-2 2516` / `set F-DAILY-UP-2 <₹> 2516`
 
 SAWAL F-H2PCT (code be04): H2 (bot ka naya kharcha har mahine) capital ke kitne % par rokein? Abhi ₹1,500 = 10% [tumhara niyam]; mera prastaav 4% (₹600) [maanyata].
   DEFAULT JO MAINE LIYA: ₹1,500 = 10% [tumhara niyam] har mahine, jab tak tum jawab na do
@@ -96,3 +117,10 @@ SAWAL F-INC-2 (code fc8c): INCIDENT #2 (env_warn: is environment mein `AWS_ACCES
   WAJAH: ye naam tumhari environment settings mein nahi hain (platform khud daalta hai); value maine nahi padhi
   ULTA KAISE KAREIN: agar ye tumhari Amazon key nahi hai to seedha `haan F-INC-2 fc8c`
   JAWAB: `haan F-INC-2 fc8c` / `na F-INC-2 fc8c`
+
+SAWAL F-DAILY-UP (code 69b0): SUPERSEDED: is sawal ki jagah F-DAILY-UP-2 dekho (pehle text mein ek number par tag nahi tha); is code ka jawab koi asar nahi karega
+  DEFAULT JO MAINE LIYA: na: din ka taala ₹450 [purani baat], ek trade max ₹450 [ginti (purani baat par)]
+  ₹ ASAR: F-DAILY-UP-2 dekho
+  WAJAH: kam ₹ risk wala niyam jeet-ta hai (MISSION §3); badhana sirf tumhari manzoori se
+  ULTA KAISE KAREIN: `set F-DAILY-UP <₹> 69b0`
+  JAWAB: `haan F-DAILY-UP 69b0` / `na F-DAILY-UP 69b0` / `set F-DAILY-UP <₹> 69b0`

@@ -8,7 +8,6 @@ StartLimitIntervalSec=300
 StartLimitBurst=5
 
 [Service]
-Type=simple
 User=pehredaar
 Group=pehredaar
 # M0 binary jaanch karke turant band hota hai: Restart=always se har 2 s mein loop banta (BUG, theek kiya).

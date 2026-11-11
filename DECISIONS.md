@@ -213,3 +213,56 @@ WHY: honest record of history (§13 the adversary compares history)
 ₹ IMPACT: none
 REVERSE BY: n/a
 CLASS CHECK: process · PROTECTED: no
+
+## D-031 | T06 | 2026-11-11
+OLD → NEW: verdicts on the known suspects S1-S14 (evidence: EVIDENCE/T04/g0.json, EVIDENCE/T02b/param_scan.txt, docs/REGULATORY.md, tests/test_limits_chain.py).
+
+| S | verdict | evidence | fix |
+|---|---|---|---|
+| S1 limits contradict | SAHI | niyam daily 3% (₹450 [HISTORY]) vs PREREGISTER v5 ₹900 [HISTORY] vs "one lot = full balance" | one source `limits.toml` + `src/bot/limits.py`; the lower ₹ risk wins (D-032); the entry point no longer hard-codes limits |
+| S2 fixed cost vs capital | SAHI | cheapest static-IP server ₹554.25 [CODE(HISTORY)] = 3.70% [CODE(HISTORY)] of capital a month; old plan 8.87% [CODE(HISTORY)] | MANUAL / S0 lever (no server); F-H2PCT |
+| S3 sample size | SAHI | 150 trades at 12 [ESTIMATE] a month = 12.50 months [CODE(ESTIMATE)] | VALIDATION_INFEASIBLE flag (D-020); Recorder first |
+| S4 over-engineering | SAHI | 123 [CODE(HISTORY)] numeric literals in v3 strategy / risk code, 0 [CODE(HISTORY)] params.toml entries | T12 SPEC_LOCK keeps ≤ 12 live parameters |
+| S5 one lot ≈ capital, SL may not fill | SAHI | options SL-M rejected [HISTORY]; a limit stop can miss a gap | I7 by construction; F-I7STOP default no |
+| S6 lot size hard-coded | SAHI | `IndexSpec.lot` fed sizing | lot sizes only from the instrument file (`bot/strategy/instrument_master.py`); `lot_crosscheck` is test-only (D-034) |
+| S7 docs differ from code | SAHI | four docs said "SL-M" for the broker stop; `deploy/pehredaar.service` had two `Type=` lines | docs corrected; the duplicate removed |
+| S8 free-tier machines vanish | ADHA | the plan has no free-tier machine now (owner: one Amazon server; Recorder on the owner's machine) | nothing to fix; keep it that way |
+| S9 not fully autonomous | SAHI | token valid until 03:30 [HISTORY]; IP change once a week [HISTORY] | owner ritual ≤ 5 min; read-only Analytics Token for the Recorder (verify) |
+| S10 re-registration on strategy change | GALAT for this bot | registration only above 10 [HISTORY] orders a second | none; keep the strategy stable anyway |
+| S11 PREREGISTER gates contradict | SAHI | DD 10% (₹1,500 [HISTORY]) vs ₹900 [HISTORY] risk a trade | chain enforced in `load_limits` + tests |
+| S12 open decisions | SAHI | OWNER_QUESTIONS.md | defaults with codes; memo CP1 |
+| S13 "the prompt makes edge" | SAHI | no REAL data | verdict NOT_YET(NO_DATA) |
+| S14 limits vs the 1-lot rule | SAHI | with MAX_TRADE_LOSS_RS ₹450 [CODE(HISTORY)] one Nifty lot fits only up to ₹6.15 [CODE(HISTORY)] premium | limit-feasibility table in G0; F-MAXLOSS, F-DAILY-UP |
+
+WHY: §6 known suspects; each verdict rests on the evidence named in its row
+₹ IMPACT: see D-032
+REVERSE BY: per row
+CLASS CHECK: per row (S1, S11: D guard; S6, S7: B) · PROTECTED: limits.toml per_value
+
+## D-032 | T06 | 2026-11-11
+OLD → NEW: niyam.toml / PREREGISTER v5 risk values migrated into `limits.toml` (the lower ₹ risk wins): DAILY_LOSS_LOCK_RS ₹450 [HISTORY] (not ₹900), WEEKLY_LOSS_LOCK_RS ₹900 [HISTORY] (not ₹1,800), MONTHLY_LOSS_LOCK_RS ₹2,250 [HISTORY]; F-S118 default `both`, so also DAILY_SL_LOCK_COUNT, WEEKLY_SL_LOCK_COUNT and MONTHLY_SL_LOCK_COUNT (1 / 2 / 4 stop-losses [HISTORY]); COOLOFF_MIN 20 [HISTORY] minutes; CONSECUTIVE_LOSS_DAY_STOP 2 [HISTORY] trades. MAX_TRADE_LOSS_RS tightened from ₹1,125 [CODE(ASSUMPTION)] to ₹450 [CODE(HISTORY)]: one trade may not lose more than the whole day's lock, otherwise a single trade breaks the daily limit.
+WHY: §3 conflict rule; S1; G0 re-run (EVIDENCE/T06/g0_rerun.txt): under the new limit one Nifty lot fits only up to ₹6.15 [CODE(HISTORY)] premium, Sensex ₹20.05 [CODE(HISTORY)]
+₹ IMPACT: max loss per trade ₹450 [CODE(HISTORY)] instead of ₹1,125 [CODE(ASSUMPTION)] (tighter; raising it back needs an owner approval)
+REVERSE BY: `haan F-DAILY-UP-2 2516` or `set F-DAILY-UP-2 <₹> 2516` (daily lock ₹1,125 [ASSUMPTION], which lets MAX_TRADE_LOSS_RS return to ₹1,125 [ASSUMPTION]); F-DAILY-UP (69b0) is superseded
+CLASS CHECK: D guard (D4, D8) · PROTECTED: limits.toml per_value tightening (script-verified direction)
+
+## D-033 | T06 | 2026-11-11
+OLD → NEW: `config/niyam.toml` stays in place for now instead of moving to archive/ as T06 asks: the protected CI workflow (owner task T02b, closed) runs `python -m bot.niyam config/niyam.toml`, so a move would break CI. No runtime code reads its risk values (the bot reads `limits.toml`; `python -m bot --check` only checks a lease timing value there), so `limits.toml` is the one runtime source. The move waits for `haan F-PROT-2 c81d` (CI path change).
+WHY: §5.2 protected files; §1 item 3 (mark only the dependent part blocked)
+₹ IMPACT: none
+REVERSE BY: the owner's F-PROT-2 answer
+CLASS CHECK: A · PROTECTED: .github/workflows/ci.yml
+
+## D-034 | T06 | 2026-11-11
+OLD → NEW: lot sizes come only from the instrument file: `src/bot/strategy/instrument_master.py` reads a normalised `index,lot_size` file (the future feed adapter writes it from the broker's instrument master, whose format is UNVERIFIED); `choose_strike` takes `lot` from the caller; the backtest config carries `lots` from that file and trades nothing without it; `IndexSpec.lot_crosscheck` is used only by a test against `tests/fixtures/instrument_master_sample.csv` (65 / 20 / 30 [HISTORY]).
+WHY: S6; §5.4 "lot size is NOT read from here"; tests/test_limits_chain.py, tests/test_strategy.py
+₹ IMPACT: none
+REVERSE BY: git revert
+CLASS CHECK: B (lot size) · PROTECTED: no
+
+## D-035 | T06 | 2026-11-11
+OLD → NEW: (1) the new exception was renamed `InvalidLimits` and one comment reworded, because the Class C/D lint (#4) read Python's `raise LimitsError` as "raise a limit" (D8) and the word for a forbidden trade pattern in a comment as D6: false positives of a protected guard, handled without exemption markers; the broad D8 pattern is noted for the adversary. (2) Question F-DAILY-UP (69b0) is superseded by F-DAILY-UP-2 (2516): its fixed question text carried one untagged number, so the memo failed check #1; an append-only UPDATE block marks the old one, whose answer has no effect.
+WHY: §5.1 tags, §3.1 "a changed question gets a new id"
+₹ IMPACT: none
+REVERSE BY: n/a
+CLASS CHECK: A (tooling, questions) · PROTECTED: OWNER_QUESTIONS.md append-only respected

@@ -5,6 +5,8 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from datetime import time
 
+from bot.limits import load_limits
+
 
 @dataclass(frozen=True, slots=True)
 class Params:
@@ -12,14 +14,16 @@ class Params:
     expiry_day_last_entry: time = time(13, 30)  # expiry din dopahar baad naya entry nahi (theta/gamma jua)
     hard_exit: time = time(15, 15)
     max_entries: int = 2
-    max_losses_in_row: int = 2
+    max_losses_in_row: int = field(default_factory=lambda: load_limits().consecutive_loss_day_stop)  # limits.toml
     time_stop_min: int = 15  # itne minute mein chaal na aaye toh nikal jao (theta)
     time_stop_min_gain_pct: float = 5.0
     sl_pct: float = 25.0
     breakeven_at_r: float = 1.0  # +1R par SL entry par
     trail_giveback_pct: float = 35.0  # sabse uchi kamai ka itna % wapas jaaye toh exit
     vix_spike_pct: float = 8.0  # India VIX din mein itna uchhle toh naya entry nahi
-    loss_cooldown_min: int = 20  # niyam Loss_Cooldown_Samay: nuksan ke baad 20 min koi entry nahi (badla-trade nahi)
+    loss_cooldown_min: int = field(
+        default_factory=lambda: load_limits().cooloff_min
+    )  # limits.toml (cool-off after a loss)
 
 
 @dataclass(slots=True)

@@ -9,7 +9,7 @@
 ## Ek server ka khatra (saaf baat)
 Server hi band ho gaya (AWS outage, disk full) toh bot aur Pehredaar **dono** ruk jaate hain.
 Isliye bachav broker par hai, server par nahi:
-1. **Broker Stop:** har entry ke turant baad SL-M order broker par (server mare toh bhi SL broker par zinda).
+1. **Broker Stop:** har entry ke turant baad SL (limit) order (options par SL-M exchange reject karta hai: docs/REGULATORY.md) broker par (server mare toh bhi SL broker par zinda).
 2. Bot apni "heartbeat" website ko bhejta hai; 30 s tak na aaye toh website laal (aur M7 mein Telegram alert).
 3. Doosra server tabhi, jab bot munafa dene lage aur malik paise se kharidna chahe. Tab tak sab isi ek server par.
 

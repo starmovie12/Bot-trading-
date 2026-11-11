@@ -1,0 +1,9 @@
+$ python3 tools/economics.py 
+G0 CONDITIONAL · TRACK FULL · inputs sha256 6743399f3ddd9d4df51ca211ab26f5cd86445ba2dffe9f8653bb716a6ec207df
+U1: CONDITIONAL · decisive inputs not SOURCE / REAL: ASSUMPTION, HISTORY
+U2: CONDITIONAL · decisive inputs not SOURCE / REAL: ASSUMPTION, HISTORY
+U3: CONDITIONAL · decisive inputs not SOURCE / REAL: ASSUMPTION, HISTORY
+U4: CONDITIONAL · owner choice F-S16 keeps U4 to signals only (default)
+U5: CONDITIONAL · decisive inputs not SOURCE / REAL: ASSUMPTION
+U6: CONDITIONAL · decisive inputs not SOURCE / REAL: ASSUMPTION
+[exit 0]

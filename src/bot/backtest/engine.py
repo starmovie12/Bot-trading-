@@ -8,7 +8,7 @@ Niyam:
 
 from __future__ import annotations
 
-from collections.abc import Callable, Sequence
+from collections.abc import Callable, Mapping, Sequence
 from dataclasses import dataclass, field
 from datetime import date, time
 from typing import Protocol
@@ -17,7 +17,7 @@ from bot.dimaag.candles import OPEN_MIN, Candle, resample
 from bot.dimaag.regime import RegimeParams, RegimeTracker, classify, gap_blocks_entry, gap_pct
 from bot.dimaag.setups import SetupParams, Signal, first_signal
 from bot.strategy.costs import CostModel, round_trip
-from bot.strategy.instruments import SPECS, expiry_rules_apply
+from bot.strategy.instruments import expiry_rules_apply
 from bot.strategy.rules import (
     DayState,
     OpenTrade,
@@ -59,6 +59,7 @@ class BtConfig:
     costs: CostModel = field(default_factory=CostModel)
     slippage: float = 0.05  # ek tick
     max_capital_use_pct: float = 30.0
+    lots: Mapping[str, int] = field(default_factory=dict)  # from the instrument master only (S6); none = no trade
 
 
 @dataclass(frozen=True, slots=True)
@@ -85,7 +86,6 @@ def _hhmm(minute: int) -> time:
 
 
 def run_day(d: DayData, cfg: BtConfig, equity: float) -> list[Trade]:
-    spec = SPECS[d.index]
     expiry = expiry_rules_apply(d.index, d.day)
     gap = gap_pct(d.c1[0].o, d.prev_close) if d.c1 else 0.0
     day = DayState(daily_loss_limit=cfg.daily_loss_limit)
@@ -137,8 +137,16 @@ def run_day(d: DayData, cfg: BtConfig, equity: float) -> list[Trade]:
                 sl_pct=cfg.rules.sl_pct,
                 max_capital_use_pct=cfg.max_capital_use_pct,
             )
+            lot = cfg.lots.get(d.index, 0)
             pick = choose_strike(
-                d.index, c.o, sig.side, d.book.chain(m, c.o), lim, cfg.costs, underlying_sl_points=sl_points
+                d.index,
+                c.o,
+                sig.side,
+                d.book.chain(m, c.o),
+                lim,
+                cfg.costs,
+                underlying_sl_points=sl_points,
+                lot=lot,
             )
             if (
                 pick.ok
@@ -146,10 +154,11 @@ def run_day(d: DayData, cfg: BtConfig, equity: float) -> list[Trade]:
                 and pick.opt is not None
                 and pick.price is not None
                 and pick.sl_price is not None
+                and lot > 0
             ):
                 entry = round(pick.price + cfg.slippage, 2)
                 ot = OpenTrade(entry_price=entry, entry_minute=m, best_price=entry, sl_price=pick.sl_price)
-                open_ = (ot, sig, pick.strike, pick.opt, spec.lot, m)
+                open_ = (ot, sig, pick.strike, pick.opt, lot, m)
         if open_ is not None:
             t, sig, strike, opt, _qty, _et = open_
             q = d.book.quote(m, strike, opt)

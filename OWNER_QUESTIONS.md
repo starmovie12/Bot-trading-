@@ -149,3 +149,37 @@ DEFAULT JO MAINE LIYA: na: file waisi hi; ek safety test laal rahega (jhootha al
 WAJAH: galti meri (T02b): maine guard mein order-endpoint ke pattern seedhe likhe, aur purana test unhe text mein dhoondhta hai. Protected file badalne ke liye tumhari manzoori chahiye; test ko kamzor karna mana hai (DECISIONS D-028)
 ULTA KAISE KAREIN: `haan F-PROT-1 b614` (main sirf yahi ek badlav karunga, phir naya SEAL)
 JAWAB: `haan F-PROT-1 b614` / `na F-PROT-1 b614`
+
+## F-DAILY-UP | code 69b0 | created session 3, 2026-11-11 (T06) | status OPEN
+SAWAL: Din ka nuksan-taala tumhare purane niyam se ₹450 (3%) [purani baat] hai, isliye ek trade ka max nuksaan bhi ₹450 par aa gaya. Kya din ka taala ₹1,125 [maanyata] kar dein, taaki ek trade ka max wapas ₹1,125 ho sake?
+PROPOSED: 1125
+DEFAULT JO MAINE LIYA: na: din ka taala ₹450 [purani baat], ek trade max ₹450 [ginti (purani baat par)]
+₹ ASAR: ₹450 par Nifty ka ek lot sirf ₹6.15 [ginti (purani baat par)] premium tak fit hota hai; ₹1,125 [maanyata] par ₹16.50 [ginti (maanyata par)] tak (EVIDENCE/T04/g0.json)
+WAJAH: kam ₹ risk wala niyam jeet-ta hai (MISSION §3); badhana sirf tumhari manzoori se
+ULTA KAISE KAREIN: `set F-DAILY-UP <₹> 69b0`
+JAWAB: `haan F-DAILY-UP 69b0` / `na F-DAILY-UP 69b0` / `set F-DAILY-UP <₹> 69b0`
+
+## F-PROT-2 | code c81d | created session 3, 2026-11-11 (T06) | status OPEN
+SAWAL: Kya main protected CI file `.github/workflows/ci.yml` mein niyam-file ka path `config/niyam.toml` se `archive/niyam_v4.toml` kar doon, taaki purani niyam.toml archive mein ja sake?
+PROPOSED: apply
+DEFAULT JO MAINE LIYA: na: niyam.toml abhi config/ mein hi; koi runtime code uske risk number nahi padhta [maanyata]
+₹ ASAR: ₹0 [ginti]
+WAJAH: MISSION kehta hai niyam.toml archive/ mein jaaye; par CI file protected hai, badalne ke liye tumhari manzoori chahiye
+ULTA KAISE KAREIN: `haan F-PROT-2 c81d`
+JAWAB: `haan F-PROT-2 c81d` / `na F-PROT-2 c81d`
+
+## UPDATE F-MAXLOSS | session 3, 2026-11-11 (T06: limits migrated)
+₹ ASAR: T06 ke baad ek trade ka max nuksaan ₹450 [ginti (purani baat par)] (din ka taala), isliye Nifty ka ek lot sirf ₹6.15 [ginti (purani baat par)] premium tak, Sensex ₹20.05 [ginti (purani baat par)] tak; F-MAXLOSS ke saath F-DAILY-UP bhi dekho (EVIDENCE/T04/g0.json)
+
+## UPDATE F-DAILY-UP | session 3, 2026-11-11 (T06: superseded)
+SAWAL: SUPERSEDED: is sawal ki jagah F-DAILY-UP-2 dekho (pehle text mein ek number par tag nahi tha); is code ka jawab koi asar nahi karega
+₹ ASAR: F-DAILY-UP-2 dekho
+
+## F-DAILY-UP-2 | code 2516 | created session 3, 2026-11-11 (T06; replaces F-DAILY-UP) | status OPEN
+SAWAL: Din ka nuksan-taala tumhare purane niyam se ₹450 [purani baat] hai, isliye ek trade ka max nuksaan bhi ₹450 [ginti] par aa gaya. Kya din ka taala ₹1,125 [maanyata] kar dein, taaki ek trade ka max bhi wahi ho sake?
+PROPOSED: 1125
+DEFAULT JO MAINE LIYA: na: din ka taala ₹450 [purani baat], ek trade max ₹450 [ginti (purani baat par)]
+₹ ASAR: ₹450 par Nifty ka ek lot sirf ₹6.15 [ginti (purani baat par)] premium tak fit hota hai; ₹1,125 [maanyata] par ₹16.50 [ginti (maanyata par)] tak (EVIDENCE/T04/g0.json)
+WAJAH: kam ₹ risk wala niyam jeet-ta hai (MISSION §3); badhana sirf tumhari manzoori se
+ULTA KAISE KAREIN: `set F-DAILY-UP-2 <₹> 2516`
+JAWAB: `haan F-DAILY-UP-2 2516` / `na F-DAILY-UP-2 2516` / `set F-DAILY-UP-2 <₹> 2516`

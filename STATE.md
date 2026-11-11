@@ -7,7 +7,7 @@ BUDGET_MIN: 240
 PAUSE_AFTER_G0: yes
 TRACK: FULL (G0 CONDITIONAL for U1-U6: EVIDENCE/T04/g0.json; FULL-A next, FULL-B CLOSED)
 FULL-B gate: CLOSED (tools/fullb_gate.py arrives in T10; no REAL market data)
-IN_PROGRESS: T06 SUSPECTS · sub-step: start · minutes_used: 0
+IN_PROGRESS: T06 SUSPECTS · sub-step: S1-S14 verdicts, limits one source, lot from file, docs fixed; next: checkpoint, seal, verify · minutes_used: 35
 
 ## DONE (V11)
 - T01 SYNC_SAFE: PASS (verify on 36acdef: EVIDENCE/T01/verify.txt; 20 min)

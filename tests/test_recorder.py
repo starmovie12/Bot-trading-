@@ -10,8 +10,12 @@ import pytest
 from bot.backtest.engine import BtConfig, DayData, run_day
 from bot.recorder.journal import JournalCorrupt, JournalWriter, compress_day, read_journal
 from bot.recorder.ticks import RecordedBook, candles_from_ticks, ist_minute
+from bot.strategy.instrument_master import load_lot_sizes
 
 IST = timedelta(hours=5, minutes=30)
+
+
+LOTS = load_lot_sizes(Path(__file__).parent / "fixtures" / "instrument_master_sample.csv")
 
 
 def ns(hh: int, mm: int, ss: int = 0, day: date = date(2026, 11, 11)) -> int:
@@ -122,7 +126,9 @@ def test_journal_to_backtest_end_to_end(tmp_path: Path) -> None:
     book = RecordedBook(read_journal(f), keymap)
     d = DayData(date(2026, 11, 11), "Nifty50", cs, cs[0].o - 5, 40.0, lambda _m: (8, 10), lambda _m: 0.5, book)
     trades = run_day(
-        d, BtConfig(capital=15000, daily_loss_limit=1500, kul_jeb_limit=4000, max_capital_use_pct=90), 15000
+        d,
+        BtConfig(capital=15000, daily_loss_limit=1500, kul_jeb_limit=4000, max_capital_use_pct=90, lots=LOTS),
+        15000,
     )
     assert trades, "poore raaste se kam se kam ek trade (warna test bekaar)"
     for t in trades:

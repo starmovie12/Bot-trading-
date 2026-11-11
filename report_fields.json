@@ -2,15 +2,15 @@
  "verdict": "NOT_YET",
  "push": "local only (F-REMOTE ki manzoori nahi; INCIDENT #1 khula)",
  "seedhi_baat": "G0 ka nateeja: abhi har raasta adhoora (CONDITIONAL), kyunki web band tha aur koi kharcha official page se pakka nahi ho saka; sabse sasta static-IP server bhi {num:G0.s1_server_rs_pm} = {num:G0.s1_server_pct} capital har mahine khata hai.",
- "kya_ban_gaya": "T01 se T05 aur T09: guard aur mohar · har tathya ka URL · G0 ka hisaab · Recorder bundle (sirf dry-run) · CP1 memo docs folder mein",
+ "kya_ban_gaya": "T01 se T06 aur T09: guard aur mohar · har tathya ka URL · G0 ka hisaab · Recorder bundle (sirf dry-run) · risk limits ab ek hi jagah (limits.toml)",
  "kaam_1": "INCIDENT #1: environment mein ACCESS_TOKEN wala naam mila; INCIDENT.md #1 ka ek raasta chuno, phir haan F-INC-1 be92",
  "kaam_2": "INCIDENT #3 aur #2 (sirf jaankari): haan F-INC-3 d9e1 · haan F-INC-2 fc8c",
  "kaam_3": "Upstox se likhit mein poochho: API market data apne personal backtest ke liye store kar sakte ho? (DATA_RIGHTS)",
  "sawal_rank": [
   "F-INC-1",
   "F-DATARIGHTS",
-  "F-PROT-1",
   "F-MAXLOSS",
+  "F-DAILY-UP-2",
   "F-REMOTE"
  ],
  "sawal": {
@@ -24,7 +24,7 @@
   },
   "F-MAXLOSS": {
    "default": "{num:limits.MAX_TOTAL_LOSS_RS}",
-   "asar": "Nifty ka ek lot sirf {num:G0.nifty_fit_premium_rs} premium tak"
+   "asar": "ek trade ka max ab {num:limits.MAX_TRADE_LOSS_RS}"
   },
   "F-H2PCT": {
    "default": "{num:limits.H2_MONTHLY_RS}",
@@ -37,13 +37,17 @@
   "F-PROT-1": {
    "default": "na: file waisi hi, ek test laal",
    "asar": "seedha nahi; poore tests hare nahi dikhenge"
+  },
+  "F-DAILY-UP-2": {
+   "default": "din ka taala {num:limits.DAILY_LOSS_LOCK_RS}",
+   "asar": "Nifty ka ek lot sirf {num:G0.nifty_fit_premium_rs} premium tak"
   }
  },
  "raasta": "tested set mein abhi koi pakka raasta nahi mila (G0 adhoora). Sabse sasta agla raasta: pehle INCIDENT #1 theek karke kharche official page se pakke karna; phir MANUAL mode mein Recorder se asli data (server ka kharcha nahi); saboot bahut lamba lagega",
  "verify_nahi": "koi bhi bahari tathya (web band: INCIDENT #1); chhote kharche (internet, bijli, CA) sirf maanyata",
  "check_laal": "ek safety test laal (purana order-endpoint wala test; jhootha alarm, galti meri): fix ke liye F-PROT-1 manzoori",
  "badi_galtiyan": "koi nahi (alag jaanch abhi nahi hui)",
- "baad_mein": "T06, T07, T08, T10 (agle session ya isi mein)",
+ "baad_mein": "T07, T08, T10 (agle session ya isi mein)",
  "owner_top3": [
   "F-INC-1 be92",
   "F-MAXLOSS bca1",
@@ -53,7 +57,9 @@
   "F-INC-1",
   "F-DATARIGHTS",
   "F-PROT-1",
+  "F-PROT-2",
   "F-MAXLOSS",
+  "F-DAILY-UP-2",
   "F-H2PCT",
   "F-S118",
   "F-I7STOP",
@@ -63,7 +69,8 @@
   "F-S16",
   "F-REMOTE",
   "F-INC-3",
-  "F-INC-2"
+  "F-INC-2",
+  "F-DAILY-UP"
  ],
  "g0_natija": [
   "U1 se U6: sab CONDITIONAL (adhoora). Wajah: koi kharcha ya lot size official page se pakka nahi (web band), aur F-MAXLOSS ka jawab baaki. FAIL bhi sabit nahi hua",

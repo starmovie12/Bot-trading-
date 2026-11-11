@@ -36,7 +36,7 @@ Jaanch ke tareeke:
 | B4 | ₹15k mein 1 lot ka risk bahut zyada (25% SL par ~15% capital) | Theek: `risk_per_trade` = min(din ki seema ka 60%, capital ka 6%); upar ho toh SKIP |
 | B5 | Entry/exit ke niyam (time-stop, trailing, hard exit, halt) code mein nahi the | Theek: `rules.py` + 8 tests |
 | B6 | Plan mein 2 server (Oracle) the | Theek: **sirf ek Amazon Lightsail**. `deploy/bot.service` + `deploy/pehredaar.service` (alag service, memory seema, OOM niyam) |
-| B7 | Ek server mare toh SL? | Theek (niyam): har entry ke baad broker par SL-M. Code M5 (order manager) mein |
+| B7 | Ek server mare toh SL? | Theek (niyam): har entry ke baad broker par SL (limit) order (options par SL-M exchange reject karta hai: docs/REGULATORY.md). Code M5 (order manager) mein |
 | B8 | Bot ka chalu hone ka entrypoint (`python -m bot`) abhi nahi hai | **Baaki (M1):** server setup ke saath |
 | B9 | Regime, gap-day niyam, setups S1/S2/S3 | Theek: `bot/dimaag/` + tests. Event calendar ka source **baaki** |
 | B11 | Risk sirf 25% premium SL se: ₹15k par bot kabhi trade nahi leta | Theek: chart SL × delta (Round 4) |

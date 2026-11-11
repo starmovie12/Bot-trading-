@@ -95,8 +95,12 @@ def choose_strike(
     costs: CostModel | None = None,
     *,
     underlying_sl_points: float | None = None,
+    lot: int,
 ) -> Pick:
+    """`lot` comes from the instrument master (bot.strategy.instrument_master), never from code (S6)."""
     spec = SPECS[index]
+    if lot <= 0:
+        return Pick(False, "SKIP: lot size unknown (instrument file missing): no trade")
     if not spec.tradable:
         return Pick(False, f"{spec.label} sirf signal ke liye (trade nahi)")
     if spot <= 0:
@@ -113,20 +117,20 @@ def choose_strike(
             reasons.append(f"{strike} {opt} ka quote nahi")
             continue
         sl_price = _sl_price(q.ask, lim, underlying_sl_points, DELTA_GUESS[kind])
-        bad = _check(q, spec.lot, lim, costs, sl_price)
+        bad = _check(q, lot, lim, costs, sl_price)
         if bad:
             reasons.append(f"{strike} {opt}: {bad}")
             continue
-        fees = round_trip(q.ask, sl_price, spec.lot, costs).total
+        fees = round_trip(q.ask, sl_price, lot, costs).total
         return Pick(
             True,
             "theek",
             strike=strike,
             opt=opt,
             price=q.ask,
-            qty=spec.lot,
-            cost_rupees=round(q.ask * spec.lot + fees, 2),
-            risk_rupees=round((q.ask - sl_price) * spec.lot + fees, 2),
+            qty=lot,
+            cost_rupees=round(q.ask * lot + fees, 2),
+            risk_rupees=round((q.ask - sl_price) * lot + fees, 2),
             sl_price=round(sl_price, 2),
         )
     return Pick(False, "SKIP: " + "; ".join(reasons))

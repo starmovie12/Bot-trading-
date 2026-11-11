@@ -67,7 +67,7 @@ Har 5 min par: (a) opening range (9:15-9:30) ki chaudai vs pichhle 10 din ka ave
 - Koi bhi candidate pass na ho toh **SKIP** (wajah log mein). Yahi "premium quality pehle, paisa kam ho toh chupchaap skip" hai.
 
 ### Parat 4: Exit (code: `bot/strategy/rules.py`, `on_tick`)
-1. **Broker Stop:** entry ke turant baad broker par SL-M order. Ek hi server hai, isliye yeh zaroori hai.
+1. **Broker Stop:** entry ke turant baad broker par SL (limit) order (options par SL-M exchange reject karta hai: docs/REGULATORY.md). Ek hi server hai, isliye yeh zaroori hai.
 2. **Hard SL:** premium −25% ya underlying SL, jo pehle lage.
 3. **Time stop:** 15 minute mein +5% bhi na ho toh nikal jao (theta).
 4. **+1R par** SL ko entry par le jao. Uske baad sabse uchi kamai ka 35% wapas jaaye toh exit (trailing).

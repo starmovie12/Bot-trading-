@@ -12,28 +12,28 @@
   "value": "2.00"
  },
  "g0": "CONDITIONAL",
- "inputs_sha256": "9ef48f5e5b898276c4ca6155eb8ac0699b5a35349b5e35fbb5933574d996d554",
+ "inputs_sha256": "6743399f3ddd9d4df51ca211ab26f5cd86445ba2dffe9f8653bb716a6ec207df",
  "limit_feasibility": [
   {
    "f_maxloss_needed_default_rule_rs": {
     "tag": "CODE(HISTORY)",
-    "value": "4488.96"
+    "value": "1791.56"
    },
    "f_maxloss_needed_loosest_rs": {
     "tag": "CODE(HISTORY)",
-    "value": "2244.48"
+    "value": "895.78"
    },
    "fits_current_limit": true,
    "index": "NIFTY",
    "max_trade_loss_needed_rs": {
     "tag": "CODE(HISTORY)",
-    "value": "1122.24"
+    "value": "447.89"
    },
    "member": "U1",
    "possible_under_h1": true,
    "premium_per_unit_rs": {
     "tag": "CODE(ASSUMPTION)",
-    "value": "16.50"
+    "value": "6.15"
    }
   },
   {
@@ -45,7 +45,7 @@
     "tag": "CODE(HISTORY)",
     "value": "1397.48"
    },
-   "fits_current_limit": true,
+   "fits_current_limit": false,
    "index": "NIFTY",
    "max_trade_loss_needed_rs": {
     "tag": "CODE(HISTORY)",
@@ -193,23 +193,23 @@
   {
    "f_maxloss_needed_default_rule_rs": {
     "tag": "CODE(HISTORY)",
-    "value": "4494.96"
+    "value": "1794.56"
    },
    "f_maxloss_needed_loosest_rs": {
     "tag": "CODE(HISTORY)",
-    "value": "2247.48"
+    "value": "897.28"
    },
    "fits_current_limit": true,
    "index": "BANKNIFTY",
    "max_trade_loss_needed_rs": {
     "tag": "CODE(HISTORY)",
-    "value": "1123.74"
+    "value": "448.64"
    },
    "member": "U1",
    "possible_under_h1": true,
    "premium_per_unit_rs": {
     "tag": "CODE(ASSUMPTION)",
-    "value": "35.80"
+    "value": "13.35"
    }
   },
   {
@@ -243,7 +243,7 @@
     "tag": "CODE(HISTORY)",
     "value": "1597.96"
    },
-   "fits_current_limit": true,
+   "fits_current_limit": false,
    "index": "BANKNIFTY",
    "max_trade_loss_needed_rs": {
     "tag": "CODE(HISTORY)",
@@ -369,23 +369,23 @@
   {
    "f_maxloss_needed_default_rule_rs": {
     "tag": "CODE(HISTORY)",
-    "value": "4498.68"
+    "value": "1796.48"
    },
    "f_maxloss_needed_loosest_rs": {
     "tag": "CODE(HISTORY)",
-    "value": "2249.34"
+    "value": "898.24"
    },
    "fits_current_limit": true,
    "index": "SENSEX",
    "max_trade_loss_needed_rs": {
     "tag": "CODE(HISTORY)",
-    "value": "1124.67"
+    "value": "449.12"
    },
    "member": "U1",
    "possible_under_h1": true,
    "premium_per_unit_rs": {
     "tag": "CODE(ASSUMPTION)",
-    "value": "53.75"
+    "value": "20.05"
    }
   },
   {
@@ -419,7 +419,7 @@
     "tag": "CODE(HISTORY)",
     "value": "1096.72"
    },
-   "fits_current_limit": true,
+   "fits_current_limit": false,
    "index": "SENSEX",
    "max_trade_loss_needed_rs": {
     "tag": "CODE(HISTORY)",
@@ -441,7 +441,7 @@
     "tag": "CODE(HISTORY)",
     "value": "2099.00"
    },
-   "fits_current_limit": true,
+   "fits_current_limit": false,
    "index": "SENSEX",
    "max_trade_loss_needed_rs": {
     "tag": "CODE(HISTORY)",
@@ -561,8 +561,8 @@
       "value": "30.00"
      },
      "max_fit_premium_per_unit_rs": {
-      "tag": "CODE(ASSUMPTION)",
-      "value": "35.80"
+      "tag": "CODE(HISTORY)",
+      "value": "13.35"
      },
      "min_round_trip_charges_rs": {
       "tag": "CODE(HISTORY)",
@@ -570,7 +570,7 @@
      },
      "round_trip_charges_at_fit_rs": {
       "tag": "CODE(HISTORY)",
-      "value": "49.74"
+      "value": "48.14"
      }
     },
     "NIFTY": {
@@ -583,8 +583,8 @@
       "value": "65.00"
      },
      "max_fit_premium_per_unit_rs": {
-      "tag": "CODE(ASSUMPTION)",
-      "value": "16.50"
+      "tag": "CODE(HISTORY)",
+      "value": "6.15"
      },
      "min_round_trip_charges_rs": {
       "tag": "CODE(HISTORY)",
@@ -592,7 +592,7 @@
      },
      "round_trip_charges_at_fit_rs": {
       "tag": "CODE(HISTORY)",
-      "value": "49.74"
+      "value": "48.14"
      }
     },
     "SENSEX": {
@@ -605,8 +605,8 @@
       "value": "20.00"
      },
      "max_fit_premium_per_unit_rs": {
-      "tag": "CODE(ASSUMPTION)",
-      "value": "53.75"
+      "tag": "CODE(HISTORY)",
+      "value": "20.05"
      },
      "min_round_trip_charges_rs": {
       "tag": "CODE(HISTORY)",
@@ -614,7 +614,7 @@
      },
      "round_trip_charges_at_fit_rs": {
       "tag": "CODE(HISTORY)",
-      "value": "49.67"
+      "value": "48.12"
      }
     }
    }
@@ -629,7 +629,7 @@
     "NIFTY": {
      "max_fit_net_debit_per_unit_rs": {
       "tag": "CODE(ASSUMPTION)",
-      "value": "15.75"
+      "value": "5.40"
      },
      "min_round_trip_charges_rs": {
       "tag": "CODE(HISTORY)",
@@ -639,7 +639,7 @@
     "SENSEX": {
      "max_fit_net_debit_per_unit_rs": {
       "tag": "CODE(ASSUMPTION)",
-      "value": "51.25"
+      "value": "17.65"
      },
      "min_round_trip_charges_rs": {
       "tag": "CODE(HISTORY)",
@@ -659,7 +659,7 @@
      "hedged_margin": "unknown",
      "min_credit_per_unit_to_fit_rs": {
       "tag": "CODE(ASSUMPTION)",
-      "value": "34.14"
+      "value": "44.53"
      },
      "width_one_step_rs": {
       "tag": "CODE(ASSUMPTION)",
@@ -670,7 +670,7 @@
      "hedged_margin": "unknown",
      "min_credit_per_unit_to_fit_rs": {
       "tag": "CODE(ASSUMPTION)",
-      "value": "48.47"
+      "value": "82.22"
      },
      "width_one_step_rs": {
       "tag": "CODE(ASSUMPTION)",
@@ -699,7 +699,7 @@
    "rows": {
     "max_notional_by_construction_rs": {
      "tag": "CODE(ASSUMPTION)",
-     "value": "5389.00"
+     "value": "2014.00"
     },
     "note": "equity intraday charges are not in constants.toml (placeholder: F&O brokerage)"
    }
@@ -713,7 +713,7 @@
    "rows": {
     "max_notional_by_construction_rs": {
      "tag": "CODE(ASSUMPTION)",
-     "value": "1077.80"
+     "value": "402.80"
     },
     "note": "ETF delivery charges are not in constants.toml (placeholder: F&O brokerage)"
    }
