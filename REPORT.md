@@ -1,6 +1,6 @@
 DHYAN: INCIDENT #1 khula hai · FAISLA: ABHI NAHI · IN PROGRESS (kaam chal raha hai)
 SEEDHI BAAT: abhi sirf suraksha ka dhaancha bana hai; paise ka hisaab (G0) abhi baaki hai.
-KYA BAN GAYA: naya branch mission/v11 · purane docs docs/00_input mein (hash ke saath) · secret guard (hook, safe_add, redactor)
+KYA BAN GAYA: T01 poora (jaanch PASS) · purane docs docs/00_input mein (hash ke saath) · secret guard (hook, safe_add, redactor)
 KAAM 1: OWNER_TODO.md ka #0 padho: environment mein ACCESS_TOKEN wala ek naam mila, isliye web aur push band.
 KAAM 2: F-REMOTE ka jawab do; warna saara kaam sirf is container mein hai aur mit sakta hai.
 KAAM 3: abhi kuch aur nahi.

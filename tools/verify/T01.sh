@@ -102,6 +102,10 @@ printf '#!/bin/sh\nexit 1\n' >.githooks/pre-push
 for f in SHA256SUMS .gitignore Makefile go.sum trials.jsonl .githooks/pre-push; do
   tools/safe_add.sh "$f" >/dev/null 2>&1 && pass "safe_add.sh accepted $f" || fail "safe_add.sh refused $f"
 done
+# the same hook accepts a clean commit, so the refusal above came from the .env file
+if git -c user.name=verify -c user.email=verify@local commit -q -m "clean" >/dev/null 2>&1; then
+  pass "pre-commit hook accepted a clean commit"
+else fail "pre-commit hook refused a clean commit"; fi
 # negative control C: a fake token in a command's output never reaches EVIDENCE
 fake="ey""J$(head -c 48 /dev/urandom | base64 | tr -dc 'A-Za-z0-9' | head -c 40)"
 tools/ev.sh VT01 faketoken -- printf 'Authorization: Bearer %s\n' "$fake" >/dev/null 2>&1

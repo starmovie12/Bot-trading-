@@ -7,13 +7,13 @@ BUDGET_MIN: 240
 PAUSE_AFTER_G0: yes
 TRACK: LITE (T01-T04; T04 sets SHORT or FULL)
 FULL-B gate: CLOSED (tools/fullb_gate.py arrives in T10; no REAL market data)
-IN_PROGRESS: T01 SYNC_SAFE · sub-step: first commit, then verify · minutes_used: 25
+IN_PROGRESS: T02a GUARDS_CORE · sub-step: start · minutes_used: 0
 
 ## DONE (V11)
-- (none yet)
+- T01 SYNC_SAFE: PASS (verify on 36acdef: EVIDENCE/T01/verify.txt; 20 min)
 
 ## NEXT
-T01 verify + PASS commit → T02a GUARDS_CORE → T03 (offline: INCIDENT #1) → T04 G0 → CP1 memo → SESSION_WRAP
+T02a GUARDS_CORE → T03 (offline: INCIDENT #1) → T04 G0 → CP1 memo → SESSION_WRAP
 
 ## OPEN INCIDENTS (INCIDENT.md)
 - #1 sandbox_breach: env name CLOUDSDK_AUTH_ACCESS_TOKEN → no push, no web fetch this session (closes: haan F-INC-1 be92)

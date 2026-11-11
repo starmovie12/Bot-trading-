@@ -1,0 +1,30 @@
+$ tools/verify/T01.sh 
+PASS all T01 files exist
+PASS repo branch is mission/v11
+PASS first T01 commit 36acdefe2021 is not on main
+PASS first T01 commit is on mission/v11
+PASS core.hooksPath = .githooks
+PASS no secret-named file tracked
+PASS BUDGET_MIN 240 equals header
+PASS PAUSE_AFTER_G0 yes equals header
+PASS SESSION_START recorded
+PASS MISSION.md sha256 in SHA256SUMS
+PASS MISSION.md hash in STATE.md
+PASS every SHA256SUMS entry matches
+PASS smoke (make smoke) exits 0
+PASS EVIDENCE clean
+PASS safe_add.sh refused .env
+PASS pre-commit hook refused .env
+PASS safe_add.sh accepted SHA256SUMS
+PASS safe_add.sh accepted .gitignore
+PASS safe_add.sh accepted Makefile
+PASS safe_add.sh accepted go.sum
+PASS safe_add.sh accepted trials.jsonl
+PASS safe_add.sh accepted .githooks/pre-push
+PASS pre-commit hook accepted a clean commit
+PASS fake token redacted from EVIDENCE
+PASS redaction marker present
+PASS sha256 line kept by redactor
+PASS no mission-v11 temp dir left
+T01 verify: 0 failure(s)
+[exit 0]

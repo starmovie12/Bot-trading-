@@ -6,12 +6,19 @@
   "depends_on": [],
   "timebox_min": 40,
   "cap_min": 120,
-  "minutes_used": 0,
+  "minutes_used": 20,
   "retries": 0,
   "verify": "tools/verify/T01.sh",
-  "verify_sha256": "249433aa5d276652fc72d470c40a1a371c2523d239f3932ee473f855f675a539",
-  "status": "IN_PROGRESS",
-  "evidence": []
+  "verify_sha256": "012ef36438d562824e86b27b199b56f76f2a15f102e5e2c63956495adb9d242d",
+  "status": "PASS",
+  "evidence": [
+   "EVIDENCE/T01/limits_chain.txt",
+   "EVIDENCE/T01/live_flag_code_refs.txt",
+   "EVIDENCE/T01/live_process_check.txt",
+   "EVIDENCE/T01/preflight.txt",
+   "EVIDENCE/T01/smoke_baseline.txt",
+   "EVIDENCE/T01/verify.txt"
+  ]
  },
  {
   "id": "T02a",
