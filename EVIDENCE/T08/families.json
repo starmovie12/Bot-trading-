@@ -1,0 +1,220 @@
+[
+ {
+  "id": "a",
+  "name": "No-trade-heavy: only the best 5-12 setups a month, cash otherwise",
+  "members": [
+   "U1",
+   "U2"
+  ],
+  "kind": "unconventional",
+  "edge": "COST: fewer round trips, so less of the fixed and per-trade cost",
+  "loser": "nobody directly; it avoids paying the spread and charges on weak setups",
+  "numbers": [
+   [
+    "cost hurdle per trade at 4 trades a month (S0 MANUAL)",
+    {
+     "tag": "CODE(ASSUMPTION)",
+     "value": "112.50"
+    }
+   ]
+  ],
+  "dies_if": "the measured edge per trade stays below the hurdle per trade (REAL data)",
+  "falsify": "Recorder data: count qualifying setups a month; if fewer than 4, the hurdle per trade explodes",
+  "killed": false
+ },
+ {
+  "id": "b",
+  "name": "Defined-risk premium selling (credit spread / condor)",
+  "members": [
+   "U3"
+  ],
+  "kind": "conventional",
+  "edge": "RISK PREMIUM: option sellers are paid for carrying crash risk",
+  "loser": "buyers who overpay for options (volatility risk premium)",
+  "numbers": [
+   [
+    "minimum credit per unit for a one-step Nifty spread to fit the trade-loss limit",
+    {
+     "tag": "CODE(ASSUMPTION)",
+     "value": "44.53"
+    }
+   ]
+  ],
+  "dies_if": "hedged margin (unknown) above capital, or the credit needed per unit is never offered (REAL chain)",
+  "falsify": "one official margin figure for a one-step spread + one week of Recorder option chains",
+  "killed": false
+ },
+ {
+  "id": "c",
+  "name": "Option buying with IV-percentile, event and time-stop filters",
+  "members": [
+   "U1",
+   "U2"
+  ],
+  "kind": "conventional",
+  "edge": "weak: direction ('where price goes'); the filters only avoid the worst trades",
+  "loser": "unclear; buyers pay the volatility premium on average",
+  "numbers": [
+   [
+    "max Nifty premium per unit that fits the trade-loss limit",
+    {
+     "tag": "CODE(HISTORY)",
+     "value": "6.15"
+    }
+   ],
+   [
+    "round-trip charges at that premium",
+    {
+     "tag": "CODE(HISTORY)",
+     "value": "48.14"
+    }
+   ]
+  ],
+  "dies_if": "charges + fill cost exceed the average gain per trade (REAL data), or only far-OTM strikes fit",
+  "falsify": "random-entry null on Recorder data with the same exits (T10 harness)",
+  "killed": false
+ },
+ {
+  "id": "d",
+  "name": "Expiry-day structure (gamma / pinning on the weekly expiry)",
+  "members": [
+   "U1",
+   "U2",
+   "U3"
+  ],
+  "kind": "conventional",
+  "edge": "STRUCTURAL in part: dealer hedging near the expiry strike",
+  "loser": "late sellers / hedgers forced to adjust",
+  "numbers": [
+   [
+    "max Sensex premium per unit that fits the trade-loss limit",
+    {
+     "tag": "CODE(HISTORY)",
+     "value": "20.05"
+    }
+   ]
+  ],
+  "dies_if": "the D10 exercise-STT trap is not avoidable inside the session close; expiring contracts close 15:30",
+  "falsify": "replay the last expiry days from Recorder data; count setups and slippage near the close",
+  "killed": false
+ },
+ {
+  "id": "e",
+  "name": "Time of day (opening range, closing hour, lunch lull)",
+  "members": [
+   "U1"
+  ],
+  "kind": "conventional",
+  "edge": "weak: intraday seasonality, widely known",
+  "loser": "unclear",
+  "numbers": [
+   [
+    "Nifty fill cost per round trip at the fitting premium",
+    {
+     "tag": "CODE(ESTIMATE)",
+     "value": "65.00"
+    }
+   ]
+  ],
+  "dies_if": "the fill cost alone is a large share of the premium paid (REAL spreads)",
+  "falsify": "Recorder spreads by minute of day; the setup must clear spread + charges in the cheapest hour",
+  "killed": false
+ },
+ {
+  "id": "f",
+  "name": "Gap / event (IV crush before and after scheduled events)",
+  "members": [
+   "U1",
+   "U3"
+  ],
+  "kind": "conventional",
+  "edge": "RISK PREMIUM: implied volatility drops after events",
+  "loser": "event buyers who overpay for implied volatility",
+  "numbers": [
+   [
+    "minimum credit per unit for a one-step Sensex spread to fit the trade-loss limit",
+    {
+     "tag": "CODE(ASSUMPTION)",
+     "value": "82.22"
+    }
+   ]
+  ],
+  "dies_if": "no official event calendar (UNVERIFIED) or the post-event move exceeds the defined width",
+  "falsify": "an official event list + Recorder IV before / after the next 5 events",
+  "killed": false
+ },
+ {
+  "id": "g",
+  "name": "Breadth / heavyweight lead-lag (index heavyweights lead the index)",
+  "members": [
+   "U1"
+  ],
+  "kind": "unconventional",
+  "edge": "STRUCTURAL: index arbitrage and ETF flows lag the heavyweights by seconds",
+  "loser": "slow index-option quotes, if any lag survives costs",
+  "numbers": [
+   [
+    "max Nifty premium per unit that fits the trade-loss limit",
+    {
+     "tag": "CODE(HISTORY)",
+     "value": "6.15"
+    }
+   ]
+  ],
+  "dies_if": "the lag is shorter than the order latency or smaller than the spread (latency is no edge at this size)",
+  "falsify": "Recorder: heavyweight and index ticks with both timestamps; measure the lag distribution",
+  "killed": false
+ },
+ {
+  "id": "h",
+  "name": "Non-options: equity intraday (cash) and index ETF delivery",
+  "members": [
+   "U5",
+   "U6"
+  ],
+  "kind": "unconventional",
+  "edge": "COST: no option spread, no theta; RISK PREMIUM for the ETF (equity premium)",
+  "loser": "nobody; the ETF earns the market return",
+  "numbers": [
+   [
+    "U5 max notional by construction",
+    {
+     "tag": "CODE(ASSUMPTION)",
+     "value": "2014.00"
+    }
+   ],
+   [
+    "U6 max notional by construction (max loss = notional)",
+    {
+     "tag": "CODE(ASSUMPTION)",
+     "value": "402.80"
+    }
+   ]
+  ],
+  "dies_if": "by-construction loss (notional × band, or the notional itself) caps the size so low that charges dominate",
+  "falsify": "official equity / ETF charge rows (T03 with web) + the I7 bound at the owner's chosen limit",
+  "killed": false
+ },
+ {
+  "id": "i",
+  "name": "Own idea: MANUAL low-frequency debit spreads (no server, no static IP)",
+  "members": [
+   "U2"
+  ],
+  "kind": "unconventional",
+  "edge": "COST: MANUAL execution removes the static-IP server cost (lever 6)",
+  "loser": "as family c, with a defined and smaller premium outlay",
+  "numbers": [
+   [
+    "S0 MANUAL cost hurdle per trade at 8 trades a month",
+    {
+     "tag": "CODE(ASSUMPTION)",
+     "value": "56.25"
+    }
+   ]
+  ],
+  "dies_if": "the owner cannot place orders within minutes of the signal, or REAL spreads on two legs eat the edge",
+  "falsify": "Recorder two-leg spreads at signal time + a timed owner dry-run of placing the order by hand",
+  "killed": false
+ }
+]

@@ -176,3 +176,6 @@
 {"path": "EVIDENCE/T07/bugA_before_fix.txt", "sha256": "ab122e92e11cdcf3bae6fab477d4dcced4be58f52c9781ea54c56aa2720139d7", "cmd": "python3 -m pytest -q -o addopts= -p no:cacheprovider tests/test_recorder_autopsy.py", "time": "2026-11-11T13:25:38Z", "exit": 1}
 {"path": "EVIDENCE/T07/bugA_after_fix.txt", "sha256": "e111bf2fe14c016bc09a14947912472523a10d1b30a63884d98e713140cc2a5e", "cmd": "python3 -m pytest -q -o addopts= -p no:cacheprovider tests/test_recorder_autopsy.py tests/test_recorder_mvp.py tests/invariants", "time": "2026-11-11T13:25:53Z", "exit": 0}
 {"path": "EVIDENCE/T07/verify.txt", "sha256": "3a533f930c5535f1de33aea58f450bee8c61731ec7d22c3465d5c5d6518269e7", "cmd": "tools/verify/T07.sh", "time": "2026-11-11T13:27:59Z", "exit": 0}
+{"path": "EVIDENCE/T08/war_room.txt", "sha256": "49c33e161c6235aa11fc10b9198af882006c0810d49b6b0e8d4d33fc5dd15a54", "cmd": "python3 tools/war_room.py", "time": "2026-11-11T13:29:59Z", "exit": 0}
+{"path": "EVIDENCE/T08/war_room.txt", "sha256": "49c33e161c6235aa11fc10b9198af882006c0810d49b6b0e8d4d33fc5dd15a54", "cmd": "python3 tools/war_room.py", "time": "2026-11-11T13:30:10Z", "exit": 0}
+{"path": "EVIDENCE/T08/check.txt", "sha256": "4bc11b76b5f3a81c550a5e1ec2c9844fef4fca22a9d7a7540be0741b99925176", "cmd": "python3 tools/war_room.py --check EVIDENCE/T08/families.json", "time": "2026-11-11T13:30:11Z", "exit": 0}

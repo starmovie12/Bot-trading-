@@ -273,3 +273,10 @@ WHY: §12 T07; §7 I8; D-006 follow-up
 ₹ IMPACT: none (data integrity)
 REVERSE BY: git revert
 CLASS CHECK: B (time / data) · PROTECTED: verify/T07.sh sealed with T07
+
+## D-037 | T08 | 2026-11-11
+OLD → NEW: arithmetic war room (docs/WAR_ROOM.md, EVIDENCE/T08/families.json, `tools/war_room.py`): 9 families mapped to U1-U6, 4 unconventional (a no-trade-heavy, g heavyweight lead-lag, h non-options, i MANUAL debit spreads), each with its source of edge, the arithmetic from G0, the condition that would kill it and the cheapest falsification test. No family is killed: every fact is HISTORY this session and the trade-loss limit rests on unapproved defaults, so no kill has a valid basis (§5.1); NEGATIVE.md stays without rows until one does.
+WHY: §9 war room; §5.1 "a FAIL / STOP outcome may never rest on an ESTIMATE or on an unapproved ASSUMPTION limit"
+₹ IMPACT: none; the binding numbers are in G0 (EVIDENCE/T04/g0.json)
+REVERSE BY: re-run `python3 tools/war_room.py` after SOURCE facts / owner answers
+CLASS CHECK: B (arithmetic) · PROTECTED: verify/T08.sh sealed with T08
