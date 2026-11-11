@@ -1,0 +1,57 @@
+# STATE (MISSION V11) · keep ≤ 120 lines · BOOT: resume card + this file + the task section
+
+SESSION_N: 1
+CYCLE_N: 1
+SESSION_START: 1794384201
+BUDGET_MIN: 240
+PAUSE_AFTER_G0: yes
+TRACK: LITE (T01-T04; T04 sets SHORT or FULL)
+FULL-B gate: CLOSED (tools/fullb_gate.py arrives in T10; no REAL market data)
+IN_PROGRESS: T01 SYNC_SAFE · sub-step: first commit, then verify · minutes_used: 25
+
+## DONE (V11)
+- (none yet)
+
+## NEXT
+T01 verify + PASS commit → T02a GUARDS_CORE → T03 (offline: INCIDENT #1) → T04 G0 → CP1 memo → SESSION_WRAP
+
+## OPEN INCIDENTS (INCIDENT.md)
+- #1 sandbox_breach: env name CLOUDSDK_AUTH_ACCESS_TOKEN → no push, no web fetch this session (closes: haan F-INC-1 be92)
+- #2 env_warn: AWS_ACCESS_KEY_ID / AWS_SECRET_ACCESS_KEY names (closes: haan F-INC-2 fc8c)
+- #3 env_warn: LIVE_TRADING_ENABLED name (closes: haan F-INC-3 d9e1)
+
+## PUSH
+local only (F-REMOTE not approved; INCIDENT #1 open; .githooks/pre-push refuses every push until T02a)
+
+## STASHES
+- stash@{0} "v5 WIP truth framework (engine hooks, synthetic, truth, breakeven)" from the old branch (DECISIONS D-003)
+
+## SMOKE
+make smoke (ruff, ruff format, mypy, pytest via python3 -m; gofmt, go vet, go test) · baseline green: EVIDENCE/T01/smoke_baseline.txt
+
+## POINTERS
+limits.toml (one source of limits) · constants.toml (T03) · assumptions: DECISIONS.md D-010 and the defaults in OWNER_QUESTIONS.md · inputs: docs/00_input (MISSING_INPUT.md)
+
+## OWNER_TODO top 3 (full list: OWNER_TODO.md)
+0. INCIDENT #1: sandbox theek karo, phir haan F-INC-1 be92
+1. F-REMOTE: container mit sakta hai; haan F-REMOTE 2350 (repo Private ho)
+2. INCIDENT #3 (LIVE_TRADING_ENABLED naam): haan F-INC-3 d9e1
+
+## HASHES
+SHA256SUMS: sha256 20ab86987b20971e (file; covers docs/00_input and MISSION.md)
+MISSION.md: 5eb4f9899b59b43a21d753bcd9123922ac82cbb0c2232f151be24a14b1611462
+SEAL: none yet (first seal: seal/T02a)
+TRIALS_HEAD: none (trials.jsonl empty)
+gates.toml: not written (T10) · STRATEGY.md: not written (T12)
+
+## OLD DONE [HISTORY] (archive/CHECKPOINT_v5.md, archive/PROGRESS_v5.md; the owning V11 task re-verifies)
+- M0 base: Python package, CI (ruff, mypy strict, pytest, hash-locked dev deps), niyam.toml + loader → T06 / T07
+- Recorder: append-only hash-chained journal, ticks → candles + option book → T05
+- Cost model from the Upstox charges page (fetched 11 Nov 2026 in an earlier session) → T03 re-verifies
+- PAPER-only order manager with tests (idempotency, SL on fill, partial fills, square-off) → T07 / T13b
+- Strategy v3 code (strike selection, rules, regime, setups S1-S3) → T08 / T11
+- Backtest engine + metrics; tools/monte_carlo.py; PREREGISTER v5 (superseded by PREREGISTER_v2 in T10)
+- Website (separate repo Bot-trading-website-): practice-mode admin panel; not part of this mission
+
+## NOTES
+- Tools on PATH (pytest, mypy) lack the project's dev deps; always use python3 -m (D-009).

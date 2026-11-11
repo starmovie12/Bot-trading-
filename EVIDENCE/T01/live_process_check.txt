@@ -1,0 +1,3 @@
+$ sh -c ps\ -eo\ comm\,args\ --no-headers\ \|\ grep\ -iE\ \"python\[0-9.\]\*\ .\*-m\ bot\|pehredaar\|recorder\|upstox\"\ \|\ grep\ -v\ grep\ \|\|\ echo\ \"no\ bot\ /\ recorder\ /\ pehredaar\ process\ on\ this\ machine\" 
+no bot / recorder / pehredaar process on this machine
+[exit 0]

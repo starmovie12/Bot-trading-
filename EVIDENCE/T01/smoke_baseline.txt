@@ -1,0 +1,14 @@
+$ make smoke 
+python3 -m ruff check .
+All checks passed!
+python3 -m ruff format --check .
+86 files already formatted
+python3 -m mypy
+Success: no issues found in 40 source files
+python3 -m pytest
+........................................................................ [ 86%]
+...........                                                              [100%]
+83 passed in 1.13s
+cd pehredaar && test -z "$(gofmt -l .)" && go vet ./... && go test ./...
+ok  	pehredaar	(cached)
+[exit 0]

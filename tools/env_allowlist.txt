@@ -1,0 +1,14 @@
+# tools/env_allowlist.txt (MISSION V11 §1 item 9): environment-variable NAMES that are fine.
+# One entry per line: NAME (or PREFIX*), then "#" and the reason. Values are never read or printed.
+# Never list a name containing UPSTOX, BROKER, ACCESS_TOKEN, API_SECRET or CLIENT_ID (preflight refuses).
+# Names that are not secret-looking need no entry; this list is for secret-looking names that are fine.
+GH_TOKEN  # agent tool (cloud session): the session's own git/GitHub token
+GITHUB_TOKEN  # agent tool (cloud session): the session's own git/GitHub token
+GIT_ASKPASS  # agent tool: path of git's credential prompt helper (a program path, not a secret)
+GIT_CONFIG_KEY_*  # agent tool: git configuration passed through the environment (key names)
+GIT_CONFIG_VALUE_*  # agent tool: git configuration passed through the environment
+CLAUDE_CODE_*  # agent tool: its own settings (includes its session messaging channel)
+CLAUDE_SESSION_INGRESS_TOKEN_FILE  # agent tool: path of its own session credential file (never opened)
+CCR_*  # agent tool: cloud-runtime settings
+MAX_THINKING_TOKENS  # agent tool: a token-count setting, not a credential
+BUN_TLS_EXTRA_DISTRUSTED_KEYS  # runtime TLS trust configuration (certificate pins), not a credential

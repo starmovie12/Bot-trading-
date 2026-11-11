@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+# .githooks/pre-commit (MISSION V11 T01): minimal secret guard.
+# Path-only name check + content patterns (tools/secret_patterns.txt) on the STAGED blobs.
+# Prints path:line only, never a value. Also refuses commits on main. T02a adds mission_check Tier 1.
+root=$(git rev-parse --show-toplevel) || exit 1
+branch=$(git symbolic-ref --quiet --short HEAD 2>/dev/null || echo DETACHED)
+if [ "$branch" = "main" ]; then
+  echo "pre-commit: never commit to main (MISSION V11 §3). Commit refused." >&2
+  exit 1
+fi
+if ! python3 "$root/tools/redact.py" --staged; then
+  echo "pre-commit: secret-like file name or content staged (locations above; values never printed). Commit refused." >&2
+  exit 1
+fi
+exit 0

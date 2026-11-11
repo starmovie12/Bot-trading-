@@ -1,10 +1,31 @@
-# Secrets kabhi commit nahi
-.env
-*.env
-*.key
+# --- Secrets: kabhi commit nahi (MISSION V11 T01 0b) ---
+.env*
 *.pem
+*.key
+*.p12
+*.pfx
+id_rsa*
+id_ed25519*
+*.secret
+secrets.*
 secrets/
-# Python
+credentials*.json
+*token*.json
+*token*.txt
+access_token*
+# Code files are NOT ignored even when their name looks secret-like (e.g. src/bot/login/secrets.py,
+# a future token_manager.py): they are scanned by CONTENT (tools/redact.py, pre-commit hook).
+!*.py
+!*.go
+# --- Private recordings, market data, bundles, caches, archives ---
+recordings_private/
+data/
+dist/
+.cache/
+*.zip
+*.tar*
+*.7z
+# --- Python ---
 __pycache__/
 *.pyc
 .venv/
@@ -12,8 +33,7 @@ __pycache__/
 .ruff_cache/
 .pytest_cache/
 .hypothesis/
-# Go
+# --- Go ---
 pehredaar/pehredaar
-# Data aur logs (asli market data kabhi git mein nahi)
-data/
+# --- Logs ---
 logs/

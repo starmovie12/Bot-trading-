@@ -1,0 +1,11 @@
+$ python3 -c $'\ncap=15000; mtl=4500; floor=cap-mtl; dd=mtl*0.5; trade=dd/2\nprint(\'CAPITAL_RS\', cap, \'[OWNER]\'); print(\'MAX_TOTAL_LOSS_RS\', mtl, \'[ASSUMPTION, F-MAXLOSS default]\')\nprint(\'EQUITY_FLOOR_RS = CAPITAL_RS - MAX_TOTAL_LOSS_RS =\', floor, \'[CODE(ASSUMPTION)]\')\nprint(\'MAX_DRAWDOWN_RS = 50% x MAX_TOTAL_LOSS_RS =\', dd, \'[CODE(ASSUMPTION)]\')\nprint(\'MAX_TRADE_LOSS_RS <= MAX_DRAWDOWN_RS / 2 =\', trade, \'[CODE(ASSUMPTION)]\')\nfor n,lot in ((\'NIFTY\',65),(\'BANKNIFTY\',30),(\'SENSEX\',20)):\n    print(f\'{n}: lot {lot} [HISTORY, src/bot/strategy/instruments.py] -> max long-option premium per lot = {trade}/{lot} = {trade/lot:.2f} [CODE(ASSUMPTION)]\')\nprint(\'EARLY_SLIP_RS = 10% x MAX_DRAWDOWN_RS =\', dd*0.10, \'[CODE(ASSUMPTION)]\')\n' 
+CAPITAL_RS 15000 [OWNER]
+MAX_TOTAL_LOSS_RS 4500 [ASSUMPTION, F-MAXLOSS default]
+EQUITY_FLOOR_RS = CAPITAL_RS - MAX_TOTAL_LOSS_RS = 10500 [CODE(ASSUMPTION)]
+MAX_DRAWDOWN_RS = 50% x MAX_TOTAL_LOSS_RS = 2250.0 [CODE(ASSUMPTION)]
+MAX_TRADE_LOSS_RS <= MAX_DRAWDOWN_RS / 2 = 1125.0 [CODE(ASSUMPTION)]
+NIFTY: lot 65 [HISTORY, src/bot/strategy/instruments.py] -> max long-option premium per lot = 1125.0/65 = 17.31 [CODE(ASSUMPTION)]
+BANKNIFTY: lot 30 [HISTORY, src/bot/strategy/instruments.py] -> max long-option premium per lot = 1125.0/30 = 37.50 [CODE(ASSUMPTION)]
+SENSEX: lot 20 [HISTORY, src/bot/strategy/instruments.py] -> max long-option premium per lot = 1125.0/20 = 56.25 [CODE(ASSUMPTION)]
+EARLY_SLIP_RS = 10% x MAX_DRAWDOWN_RS = 225.0 [CODE(ASSUMPTION)]
+[exit 0]

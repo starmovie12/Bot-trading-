@@ -1,0 +1,1649 @@
+# AUTO-GENERATED: tools/niyam_from_idea.py se bana. Is file ko haath se mat badlo.
+# Badlaav: pehle idea file (branch `idea`) mein malik ki manzoori se, phir generator dobara chalao.
+
+[meta]
+idea_version = "4.0"
+source_file = "docs/01_Bot_Idea_v4.md (branch: idea)"
+source_sha256 = "bbbe0e6ee0bb903ec4d50631e06e1f10ecc331c1e6054c0c953ac114e73d157a"
+number_count = 203
+index_number_count = 8
+
+[number.Index_Ginti]
+kimat = "3 (BankNifty, Nifty50, Sensex)"
+status = "Pakka"
+prastaavit_cc = false
+kahan = "1. Daayra, 7. Check Suchi"
+wajah = "Sirf in teeno indices ke options par kaam hoga"
+
+[number.Shuruaati_Dekhne_Ka_Samay]
+kimat = "15 minute (9:15 se 9:30) `[TAKRAAV #3]` (purana: 15 se 20 minute (ek jagah seedha, doosri jagah \"jaise 15 se 20\") `[TAKRAAV #3]`)"
+status = "Prastaavit"
+prastaavit_cc = false
+kahan = "3. Bot ka ek poora din, 7. Check Suchi"
+wajah = "Market khulne ke turant baad kam data par galat faisle se bachna"
+value = 15
+unit = "min"
+
+[number.Mausam_Dobara_Jaanch_Samay]
+kimat = "Har 1 ghante aur har zone ke shuru mein"
+status = "Andaza"
+prastaavit_cc = false
+kahan = "3. Bot ka ek poora din"
+wajah = "Din mein badalte bazaar ke mausam ko pakadna"
+
+[number.Mausam_Tikav_Samay]
+kimat = "10 minute"
+status = "Prastaavit"
+prastaavit_cc = false
+kahan = "3. Bot ka ek poora din"
+wajah = "Mausam ek jhatke mein badalne se bot idhar-udhar na hile"
+value = 10
+unit = "min"
+
+[number.Bada_Gap_Hadd]
+kimat = "Pichli closing se 1 percent"
+status = "Prastaavit"
+prastaavit_cc = false
+kahan = "3. Bot ka ek poora din, 7. Check Suchi"
+wajah = "Bade gap ke baad bazaar aksar thak kar sideways ho jaata hai"
+
+[number.Momentum_Zone_Samay]
+kimat = "Subah 9:15 se lagbhag 11:45 AM tak `[TAKRAAV #2]`"
+status = "Andaza"
+prastaavit_cc = false
+kahan = "3. Bot ka ek poora din, 7. Check Suchi"
+wajah = "Subah ke tez breakout ko pakadne ka samay"
+
+[number.Theta_Trap_Zone_Samay]
+kimat = "Lagbhag 11:45 AM se 1:30 PM tak `[TAKRAAV #25]`"
+status = "Andaza"
+prastaavit_cc = false
+kahan = "3. Bot ka ek poora din, 7. Check Suchi"
+wajah = "Dopahar mein premium galne (Theta Decay) se bachna"
+
+[number.Gamma_Blast_Zone_Samay]
+kimat = "Lagbhag 1:30 PM se market band hone tak `[TAKRAAV #25]`"
+status = "Andaza"
+prastaavit_cc = false
+kahan = "3. Bot ka ek poora din, 7. Check Suchi"
+wajah = "Dopahar ke baad ke tez momentum ko pakadna"
+
+[number.Aakhri_Entry_Samay]
+kimat = "3:10 PM"
+status = "Andaza"
+prastaavit_cc = false
+kahan = "3. Bot ka ek poora din, 7. Check Suchi, 10. Entry"
+wajah = "Market band hone se bilkul pehle naya trade na lena"
+time_ist = "15:10"
+
+[number.Auto_Square_Off_Samay]
+kimat = "3:15 PM (Upstox ke apne square-off se pehle) (purana: 3:15 se 3:20 PM ke beech)"
+status = "Prastaavit"
+prastaavit_cc = false
+kahan = "3. Bot ka ek poora din, 11. Exit"
+wajah = "Koi bhi position raat bhar ke liye na bache"
+time_ist = "15:15"
+
+[number.Event_Lock_Pehle_Baad_Samay]
+kimat = "Event se 15 minute pehle se 30 minute baad tak"
+status = "Prastaavit"
+prastaavit_cc = false
+kahan = "3. Bot ka ek poora din, 7. Check Suchi"
+wajah = "Badi khabar ke waqt achanak ulte move se bachna"
+
+[number.Shock_Mode_Move_Aur_VIX_Hadd]
+kimat = "Teeno indices 5 minute mein 1 percent se zyada hilein aur India VIX 5 minute mein 8 percent se zyada badhe"
+status = "Prastaavit"
+prastaavit_cc = false
+kahan = "3. Bot ka ek poora din, 7. Check Suchi"
+wajah = "Bina bataye achanak aaye bazaar ke jhatke se bachna"
+
+[number.Expiry_Subah_Delta_Range]
+kimat = "0.55 se 0.65"
+status = "Pakka"
+prastaavit_cc = false
+kahan = "4. Expiry ke din ke niyam, 7. Check Suchi"
+wajah = "Expiry ki subah thoda andar ka strike chunna jismein theta kam gale"
+unit = "delta"
+range = [0.55, 0.65]
+
+[number.Expiry_Shift_Aur_Exit_Samay]
+kimat = "1:30 PM `[TAKRAAV #25]`"
+status = "Pakka"
+prastaavit_cc = false
+kahan = "4. Expiry ke din ke niyam, 7. Check Suchi, 11. Exit"
+wajah = "Expiry ki dopahar ke tez Theta Decay se bachna"
+time_ist = "13:30"
+
+[number.Aakhri_Mangalwar_Sakht_Samay]
+kimat = "2:30 PM ke baad"
+status = "Pakka"
+prastaavit_cc = false
+kahan = "4. Expiry ke din ke niyam"
+wajah = "Mahine ke aakhri Mangalwar ko stocks ke rollover ki nakli uchhal-kood se bachna"
+time_ist = "14:30"
+
+[number.Pehredaar_Dhadkan_Samay]
+kimat = "2 second"
+status = "Prastaavit"
+prastaavit_cc = false
+kahan = "5. Pehredaar aur Suraksha"
+wajah = "Bot ke atakne ya crash hone ko turant pakadna"
+value = 2
+unit = "s"
+
+[number.Broker_Stop_Doori_Aur_Buffer]
+kimat = "Trigger bot ke Stop-Loss se premium ka 5 percent neeche; limit bhav trigger se 3 percent neeche"
+status = "Prastaavit"
+prastaavit_cc = false
+kahan = "5. Pehredaar aur Suraksha"
+wajah = "Roz ka Stop-Loss bot khud sambhale aur Broker Stop sirf bot rukne par chale"
+
+[number.Broker_Stop_Fill_Intezaar_Samay]
+kimat = "2 second"
+status = "Prastaavit"
+prastaavit_cc = false
+kahan = "5. Pehredaar aur Suraksha"
+wajah = "Tez jhatke mein limit koodne par order naye bhav par badalna"
+value = 2
+unit = "s"
+
+[number.Broker_Record_Milaan_Samay]
+kimat = "10 second"
+status = "Prastaavit"
+prastaavit_cc = false
+kahan = "5. Pehredaar aur Suraksha"
+wajah = "Haath se band kiye trade ya record ke farak ko turant pakadna"
+value = 10
+unit = "s"
+
+[number.Record_Farak_Pause_Samay]
+kimat = "5 minute"
+status = "Prastaavit"
+prastaavit_cc = false
+kahan = "5. Pehredaar aur Suraksha"
+wajah = "Record mein farak aane par suraksha ke liye naye entry rokna"
+value = 5
+unit = "min"
+
+[number.Order_Prati_Second_Seema]
+kimat = "8 order prati second, 400 prati minute, 1,800 prati 30 minute (Upstox ki seema se neeche; modify aur cancel bhi ginti mein; dekho: Tarikh wali baatein)"
+status = "Prastaavit"
+prastaavit_cc = false
+kahan = "5. Pehredaar aur Suraksha, 20. Tarikh wali baatein"
+wajah = "Exchange ke retail algo niyam na tootein"
+
+[number.Normal_Delta_Range]
+kimat = "0.45 se 0.65 (Put mein minus hata kar)"
+status = "Pakka"
+prastaavit_cc = false
+kahan = "7. Check Suchi"
+wajah = "Bahut door ke saste aur bahut andar ke mehenge strikes se bachna"
+unit = "delta"
+range = [0.45, 0.65]
+
+[number.IVP_Lookback_Din]
+kimat = "Kareeb 252 trading din (1 saal)"
+status = "Andaza"
+prastaavit_cc = false
+kahan = "3. Bot ka ek poora din, 7. Check Suchi"
+wajah = "Aaj ke IV ki pichle ek saal ke IV se tulna karna"
+
+[number.IVP_Sasta_Hadd]
+kimat = "30 percent se neeche"
+status = "Pakka"
+prastaavit_cc = false
+kahan = "7. Check Suchi"
+wajah = "Saste premium mein normal niyam se chalna"
+
+[number.IVP_Medium_Range]
+kimat = "30 se 65 percent ke beech"
+status = "Pakka"
+prastaavit_cc = false
+kahan = "7. Check Suchi, 8. Score, Gate aur Confidence ka hisaab"
+wajah = "Bade trending din ismein aate hain, isliye sakht score aur andar ke Delta ke saath chalna"
+unit = "pct"
+range = [30.0, 65.0]
+
+[number.IVP_Mehenga_Hadd]
+kimat = "65 percent se upar"
+status = "Pakka"
+prastaavit_cc = false
+kahan = "7. Check Suchi"
+wajah = "Bahut mehenge premium mein naye buy rokna"
+
+[number.Market_Depth_Levels]
+kimat = "Top 5 bid aur ask levels"
+status = "Pakka"
+prastaavit_cc = false
+kahan = "7. Check Suchi"
+wajah = "Asli fill rate, liquidity aur Iceberg Order ka andaza lagana"
+
+[number.Liquidity_Slippage_Hadd]
+kimat = "2 se 3 percent (trade mein lagne wale paise ka)"
+status = "Andaza"
+prastaavit_cc = false
+kahan = "7. Check Suchi"
+wajah = "Bade bid-ask farak wale strike mein shuru hote hi nuksan se bachna"
+unit = "pct"
+range = [2.0, 3.0]
+
+[number.Kharcha_Fayda_Guna]
+kimat = "Kam se kam 3 se 4 guna"
+status = "Andaza"
+prastaavit_cc = false
+kahan = "7. Check Suchi"
+wajah = "Andaza hua fayda kul kharche se kaafi bada hona chahiye"
+
+[number.Strike_Volume_Lookback_Samay]
+kimat = "Pichle 5 minute"
+status = "Pakka"
+prastaavit_cc = false
+kahan = "7. Check Suchi"
+wajah = "Strike mein haal ki trading jaanchna"
+
+[number.Strike_Volume_Average_Guna]
+kimat = "Average ka 1.5 guna"
+status = "Andaza"
+prastaavit_cc = false
+kahan = "7. Check Suchi"
+wajah = "Bina volume wale trap strike se bachna"
+
+[number.Volume_Uchhal_Guna]
+kimat = "Average ka 3 guna"
+status = "Andaza"
+prastaavit_cc = false
+kahan = "7. Check Suchi"
+wajah = "Tezi wale breakout mein bada volume uchhal pakadna"
+
+[number.Premium_Tezi_Samay_Aur_Percent]
+kimat = "30 second mein 5 percent aur usi strike ki 5 minute ki ausat raftaar se 3 guna"
+status = "Prastaavit"
+prastaavit_cc = false
+kahan = "7. Check Suchi"
+wajah = "Premium ki raftaar naapna"
+value = 30
+unit = "s"
+
+[number.Aas_Paas_Strikes_Ginti]
+kimat = "4 se 5 strikes (upar-neeche 2-2)"
+status = "Pakka"
+prastaavit_cc = false
+kahan = "7. Check Suchi"
+wajah = "Dekhna ki breakout poori Option Chain mein fail raha hai ya Fake Spike hai"
+range = [4.0, 5.0]
+
+[number.Rate_Update_Gati_Guna]
+kimat = "Normal gati se 5 guna"
+status = "Prastaavit"
+prastaavit_cc = false
+kahan = "7. Check Suchi"
+wajah = "Bade khiladi wale high-frequency momentum ko pehchanna"
+
+[number.Chase_Guard_Premium_Badhotri_Hadd]
+kimat = "15 se 20 percent se upar"
+status = "Andaza"
+prastaavit_cc = false
+kahan = "7. Check Suchi"
+wajah = "Pehle se bahut bhaage hue premium ko upar khareed kar phansne se bachna"
+unit = "pct"
+range = [15.0, 20.0]
+
+[number.Mazboot_Breakout_Tikav_Samay]
+kimat = "15 se 30 second"
+status = "Pakka"
+prastaavit_cc = false
+kahan = "7. Check Suchi"
+wajah = "Mazboot breakout mein asli tez move chhootne na dena"
+unit = "s"
+range = [15.0, 30.0]
+
+[number.Kamzor_Breakout_Tikav_Samay]
+kimat = "1 se 2 minute"
+status = "Pakka"
+prastaavit_cc = false
+kahan = "7. Check Suchi"
+wajah = "Kamzor volume ya OI Deewar ke paas fake breakout trap se bachna"
+unit = "min"
+range = [1.0, 2.0]
+
+[number.Chart_Range_Breakout_Samay]
+kimat = "Pichle 30 se 45 minute"
+status = "Pakka"
+prastaavit_cc = false
+kahan = "7. Check Suchi"
+wajah = "Chart par haal ki range ka breakout dekhna"
+
+[number.Chart_Bada_Timeframe]
+kimat = "15 minute"
+status = "Pakka"
+prastaavit_cc = false
+kahan = "7. Check Suchi"
+wajah = "Bade trend ki disha dekhna"
+value = 15
+unit = "min"
+
+[number.Chart_Chhota_Timeframe]
+kimat = "3 minute"
+status = "Pakka"
+prastaavit_cc = false
+kahan = "7. Check Suchi"
+wajah = "Entry ka sahi samay milana"
+value = 3
+unit = "min"
+
+[number.EMA_Periods]
+kimat = "9 aur 21 EMA"
+status = "Andaza"
+prastaavit_cc = false
+kahan = "7. Check Suchi"
+wajah = "Trend ka sharp slope naapna"
+
+[number.RSI_Bullish_Hadd]
+kimat = "60 ke upar"
+status = "Andaza"
+prastaavit_cc = false
+kahan = "7. Check Suchi"
+wajah = "Call side mein tezi ki taakat dekhna"
+
+[number.RSI_Bearish_Hadd]
+kimat = "40 ke neeche"
+status = "Andaza"
+prastaavit_cc = false
+kahan = "7. Check Suchi"
+wajah = "Put side mein girawat ki taakat dekhna"
+
+[number.Gamma_Flip_Paas_Hadd]
+kimat = "0.1 se 0.2 percent ke andar"
+status = "Andaza"
+prastaavit_cc = false
+kahan = "7. Check Suchi, 8. Score, Gate aur Confidence ka hisaab"
+wajah = "Gamma Flip ke bahut paas bazaar ki sthiti kamzor aur badalti rehti hai"
+unit = "pct"
+range = [0.1, 0.2]
+
+[number.OI_Deewar_Stop_Guna]
+kimat = "Kam se kam 2 guna (doguni)"
+status = "Pakka"
+prastaavit_cc = false
+kahan = "7. Check Suchi"
+wajah = "Agli OI Deewar tak ki jagah Stop-Loss ki doori se kam se kam doguni ho"
+value = 2
+unit = "x"
+
+[number.Manipulation_Check1_Samay]
+kimat = "Subah 9:15 se lagbhag 11:47 AM tak `[TAKRAAV #2]` aur dopahar 1:30 PM se market close tak `[TAKRAAV #25]`"
+status = "Andaza"
+prastaavit_cc = false
+kahan = "7. Check Suchi, 20. Tarikh wali baatein"
+wajah = "Expiry din cash stocks ke zariye option manipulation pakadna"
+
+[number.Manipulation_Cash_Volume_Guna]
+kimat = "Normal daily average se 3 se 4 guna"
+status = "Andaza"
+prastaavit_cc = false
+kahan = "7. Check Suchi, 20. Tarikh wali baatein"
+wajah = "Ek-do bade stocks mein achanak bhaari cash volume pakadna"
+
+[number.Settlement_Manipulation_Check_Samay]
+kimat = "Dopahar 2:30 PM ke baad"
+status = "Pakka"
+prastaavit_cc = false
+kahan = "7. Check Suchi, 20. Tarikh wali baatein"
+wajah = "Aakhri ghante mein settlement bhav ko dhakelne wali khareed-bech pakadna"
+
+[number.Expiry_Settlement_Ausat_Samay]
+kimat = "Aakhri 30 minute (3:00 se 3:30 PM)"
+status = "Pakka"
+prastaavit_cc = false
+kahan = "7. Check Suchi, 20. Tarikh wali baatein"
+wajah = "Expiry par options ka settlement isi samay ke ausat spot bhav par hota hai"
+
+[number.BankNifty_Kul_Banks_Ginti]
+kimat = "12 banks"
+status = "Pakka"
+prastaavit_cc = false
+kahan = "7. Check Suchi"
+wajah = "BankNifty ke saare banks ka Breadth naapna"
+
+[number.Khokhla_Breadth_Hadd]
+kimat = "12 mein se 7 ya zyada banks ulte (Breadth 50 percent se kam)"
+status = "Andaza"
+prastaavit_cc = false
+kahan = "7. Check Suchi"
+wajah = "Sirf 1-2 stocks ke dam par bane khokhle move (operator trap) ko rokna"
+
+[number.Bond_Yield_Avadhi]
+kimat = "10-saal (Bharat bond yield)"
+status = "Pakka"
+prastaavit_cc = false
+kahan = "7. Check Suchi"
+wajah = "Byaaj dar ke dabav ko track karna"
+
+[number.Data_Purana_Hadd]
+kimat = "500 milliseconds se 1 second ke beech"
+status = "Andaza"
+prastaavit_cc = false
+kahan = "7. Check Suchi"
+wajah = "Atke ya purane broker data par galat calculation rokna"
+
+[number.Scorecard_Groups_Ginti]
+kimat = "4 groups (Order-Flow, Technical, Directional-Bias, Sentiment)"
+status = "Pakka"
+prastaavit_cc = false
+kahan = "8. Score, Gate aur Confidence ka hisaab"
+wajah = "Checks ko alag-alag pehluon mein baantna"
+
+[number.Prati_Group_Minimum_Green]
+kimat = "Har group mein kam se kam 1 GREEN"
+status = "Pakka"
+prastaavit_cc = false
+kahan = "8. Score, Gate aur Confidence ka hisaab"
+wajah = "Chaaron pehluon ki sahmati zaroori hai"
+
+[number.Kul_Minimum_Green_Checks]
+kimat = "Kam se kam 5 GREEN"
+status = "Pakka"
+prastaavit_cc = false
+kahan = "8. Score, Gate aur Confidence ka hisaab"
+wajah = "Thode se checks par trade na lena"
+
+[number.Minimum_Weighted_Score]
+kimat = "10 points"
+status = "Andaza"
+prastaavit_cc = false
+kahan = "8. Score, Gate aur Confidence ka hisaab"
+wajah = "Kul vazan ek tay hadd se upar hona chahiye"
+value = 10
+unit = "points"
+
+[number.Ek_Group_Maximum_Score_Hissa]
+kimat = "Us waqt ke zaroori score ka 50 percent (purana: kul score ka 50 percent)"
+status = "Prastaavit"
+prastaavit_cc = false
+kahan = "8. Score, Gate aur Confidence ka hisaab"
+wajah = "Ek hi tarah ke data wale checks akele trade pass na kar dein"
+
+[number.Confidence_Badhotri_Points]
+kimat = "Har kaaran par 2 points (purana: 10 se 15 points ek baar `[TAKRAAV #10]`)"
+status = "Prastaavit"
+prastaavit_cc = false
+kahan = "7. Check Suchi, 8. Score, Gate aur Confidence ka hisaab"
+wajah = "Kamzor sthiti mein minimum score ki shart upar karna"
+
+[number.Maximum_Score_Threshold_Cap]
+kimat = "16 points (purana: 25 points `[TAKRAAV #10]`)"
+status = "Prastaavit"
+prastaavit_cc = false
+kahan = "8. Score, Gate aur Confidence ka hisaab"
+wajah = "Isse bhi upar jaana pade toh us din us index mein trade skip karna"
+value = 16
+unit = "points"
+
+[number.Lagatar_Ulte_Auto_Entries_Ginti]
+kimat = "3 lagatar auto-entries `[TAKRAAV #4]`"
+status = "Andaza"
+prastaavit_cc = false
+kahan = "8. Score, Gate aur Confidence ka hisaab, 10. Entry"
+wajah = "Entry ke turant baad index ulta chale toh mausam check galat maan kar confidence threshold sakht karna"
+
+[number.Ulta_Palat_Aur_Drawdown_Lot_Cut]
+kimat = "Lot 50 percent (aadhe) karna"
+status = "Pakka"
+prastaavit_cc = false
+kahan = "3. Bot ka ek poora din, 9. Risk aur Lot ginti"
+wajah = "Ulta-Palat mausam ya account girne par risk ghatana"
+
+[number.Account_Peak_Drawdown_Hadd]
+kimat = "Sabse oonchi kamai se 5 percent neeche"
+status = "Andaza"
+prastaavit_cc = false
+kahan = "9. Risk aur Lot ginti"
+wajah = "Account girne par apne aap Lot aadhe karna"
+
+[number.Minimum_Trade_Lot]
+kimat = "Kam se kam 1 Lot"
+status = "Pakka"
+prastaavit_cc = false
+kahan = "9. Risk aur Lot ginti, 10. Entry, 11. Exit"
+wajah = "1 Lot se kam option trade nahi ho sakta"
+
+[number.Daily_Loss_Risk_Limit]
+kimat = "Balance ka 3 percent `[TAKRAAV #17]`"
+status = "Andaza"
+prastaavit_cc = false
+kahan = "9. Risk aur Lot ginti, 11. Exit"
+wajah = "Ek din ka kul nuksan seema paar karne par din band karna"
+
+[number.Weekly_Loss_Risk_Limit]
+kimat = "Balance ka 6 se 8 percent"
+status = "Andaza"
+prastaavit_cc = false
+kahan = "9. Risk aur Lot ginti"
+wajah = "Hafte ka kul nuksan seema paar karne par bache dino mein trading band"
+
+[number.Daily_Profit_Lock_Trigger]
+kimat = "Balance ka 4 se 5 percent munafa"
+status = "Andaza"
+prastaavit_cc = false
+kahan = "9. Risk aur Lot ginti"
+wajah = "Subah acchi kamai hone par Daily Profit Lock chalu karna"
+
+[number.Daily_Profit_Lock_Hissa]
+kimat = "Kamai ka 70 percent hissa lock"
+status = "Andaza"
+prastaavit_cc = false
+kahan = "9. Risk aur Lot ginti"
+wajah = "Subah ka bada munafa dopahar ke whipsaw mein wapas na jaaye"
+
+[number.Entry_Order_Slippage_Buffer]
+kimat = "Ask ke upar 1 percent"
+status = "Prastaavit"
+prastaavit_cc = false
+kahan = "10. Entry"
+wajah = "Chalte ask bhav ke upar Limit Order ki adhikatam kimat tay karna"
+
+[number.Entry_Order_Cancel_Samay]
+kimat = "2 se 3 seconds"
+status = "Andaza"
+prastaavit_cc = false
+kahan = "10. Entry"
+wajah = "Order turant fill na ho toh cancel karke mehenge bhav ke peeche na bhaagna"
+range = [2.0, 3.0]
+
+[number.Daily_Max_Auto_Entries]
+kimat = "3 se 4 naye auto-entries prati din (teeno indices milakar)"
+status = "Andaza"
+prastaavit_cc = false
+kahan = "10. Entry"
+wajah = "Whipsaw wale din overtrading rokna"
+range = [3.0, 4.0]
+
+[number.Prati_Index_Max_Open_Trade]
+kimat = "Ek index mein ek waqt par 1 khula trade"
+status = "Pakka"
+prastaavit_cc = false
+kahan = "10. Entry"
+wajah = "Ek hi index mein dohra jokhim na lena"
+
+[number.Kul_Max_Open_Trades]
+kimat = "Ek waqt par zyada se zyada 2 khule trades (teeno indices milakar)"
+status = "Andaza"
+prastaavit_cc = false
+kahan = "10. Entry"
+wajah = "Indices ek saath chalne ke kaaran kul khule trades seemit rakhna"
+
+[number.Loss_Cooldown_Samay]
+kimat = "20 minute (purana: 15 se 20 minute (Pakka))"
+status = "Prastaavit"
+prastaavit_cc = false
+kahan = "10. Entry"
+wajah = "Stop-Loss ke baad badla lene wali jaldbaazi (revenge trading) rokna"
+value = 20
+unit = "min"
+
+[number.Profit_Cooldown_Samay]
+kimat = "5 minute"
+status = "Andaza"
+prastaavit_cc = false
+kahan = "10. Entry"
+wajah = "Munafe ke baad chalte trend ka agla mauka na chhoote"
+value = 5
+unit = "min"
+
+[number.Lagatar_Loss_Din_Band_Ginti]
+kimat = "Ek din mein lagatar 2 nuksan wale trades `[TAKRAAV #4]`"
+status = "Pakka"
+prastaavit_cc = false
+kahan = "10. Entry"
+wajah = "Lagatar do Stop-Loss ke baad us din naye entry band karna"
+
+[number.Premium_Max_Stop_Loss_Percent]
+kimat = "Entry bhav se 25 se 30 percent ki girawat"
+status = "Pakka"
+prastaavit_cc = false
+kahan = "11. Exit"
+wajah = "ATR aur swing low wale Stop-Loss par aakhri upari hadd lagana"
+
+[number.Breakeven_Shift_Profit_Percent]
+kimat = "Premium mein 30 se 40 percent badhotri"
+status = "Andaza"
+prastaavit_cc = false
+kahan = "11. Exit"
+wajah = "Stop-Loss ko kharcha nikaal kar breakeven par laana"
+
+[number.Partial_Profit_Booking_Percent]
+kimat = "Premium mein 50 se 60 percent badhotri"
+status = "Andaza"
+prastaavit_cc = false
+kahan = "11. Exit"
+wajah = "Aadhe Lot bechkar munafa pakka karna ya Trailing Stop-Loss kasna"
+
+[number.Partial_Exit_Minimum_Lots]
+kimat = "2 ya zyada Lot (50 percent Lot bechna)"
+status = "Pakka"
+prastaavit_cc = false
+kahan = "9. Risk aur Lot ginti, 11. Exit"
+wajah = "2 ya zyada Lot hone par hi aadhe Lot bik sakte hain"
+
+[number.Time_Stop_Samay]
+kimat = "15 minute; Ulta-Palat mein 8 minute (purana: 15 se 20 minute, Ulta-Palat mein chhota)"
+status = "Prastaavit"
+prastaavit_cc = false
+kahan = "3. Bot ka ek poora din, 11. Exit"
+wajah = "Bina chaal ke atke trade mein Theta Decay se bachna"
+value = 15
+unit = "min"
+
+[number.Exit_Order_Update_Samay]
+kimat = "1 se 2 second"
+status = "Pakka"
+prastaavit_cc = false
+kahan = "11. Exit"
+wajah = "Aggressive Limit Order fill na hone par turant bhav badal kar bahar nikalna"
+unit = "s"
+range = [1.0, 2.0]
+
+[number.Test_Stage2_Live_Lot]
+kimat = "1 Lot"
+status = "Pakka"
+prastaavit_cc = false
+kahan = "16. Test aur Live par jaane ka plan"
+wajah = "Paper Mode ke baad chhote paise se asli broker fill milana"
+
+[number.ADX_Trending_Hadd]
+kimat = "25"
+status = "Prastaavit"
+prastaavit_cc = false
+kahan = "3. Bot ka ek poora din, 7. Check Suchi"
+wajah = "Din ka Mausam Trending maanne ki shart"
+
+[number.ADX_Sideways_Hadd]
+kimat = "20"
+status = "Prastaavit"
+prastaavit_cc = false
+kahan = "3. Bot ka ek poora din, 7. Check Suchi"
+wajah = "Din ka Mausam Sideways maanne ki shart"
+
+[number.Ulta_Palat_Pehchaan_Paimana]
+kimat = "ADX 20 aur 25 ke beech ho aur 30 minute ke andar bhav opening range ke upar aur neeche ek-ek baar nikal kar andar wapas aaye"
+status = "Prastaavit"
+prastaavit_cc = false
+kahan = "3. Bot ka ek poora din, 7. Check Suchi"
+wajah = "Din ka Mausam Ulta-Palat maanne ki shart"
+
+[number.IV_Overpriced_Hadd]
+kimat = "IV, Realized Volatility ke 1.5 guna se upar"
+status = "Prastaavit"
+prastaavit_cc = false
+kahan = "7. Check Suchi"
+wajah = "IV kitna ooncha ho toh premium mehenga maana jaaye"
+
+[number.Lambi_Wick_Hadd]
+kimat = "Wick candle ki poori lambai ka 50 percent se zyada"
+status = "Prastaavit"
+prastaavit_cc = false
+kahan = "7. Check Suchi"
+wajah = "Kitni badi wick ko rejection maana jaaye"
+
+[number.VIX_Medium_Level]
+kimat = "14 se 20"
+status = "Prastaavit"
+prastaavit_cc = false
+kahan = "7. Check Suchi"
+wajah = "VIX ka kaunsa level medium maana jaaye"
+range = [14.0, 20.0]
+
+[number.Max_Pain_Paas_Hadd]
+kimat = "Expiry ka din aur uske pichla trading din"
+status = "Prastaavit"
+prastaavit_cc = false
+kahan = "7. Check Suchi"
+wajah = "Max Pain ki taraf khinchav kab dekha jaaye"
+
+[number.IV_Thanda_Paimana]
+kimat = "Khabar ke 30 minute baad IV khabar se pehle ke level ke 10 percent ke andar aaye"
+status = "Prastaavit"
+prastaavit_cc = false
+kahan = "3. Bot ka ek poora din, 7. Check Suchi"
+wajah = "Khabar ke baad IV kab thanda maana jaaye"
+
+[number.Shock_Mode_Khatam_Paimana]
+kimat = "VIX apne uchhal ke peak se 5 percent neeche aaye aur 10 minute tike"
+status = "Prastaavit"
+prastaavit_cc = false
+kahan = "7. Check Suchi"
+wajah = "Shock Mode kab khatam maana jaaye"
+
+[number.Order_Reject_Ginti]
+kimat = "5 minute mein lagatar 3 reject"
+status = "Prastaavit"
+prastaavit_cc = false
+kahan = "10. Entry"
+wajah = "Kitni baar reject hone par naye order band hon"
+value = 5
+unit = "min"
+
+[number.ATR_Avadhi]
+kimat = "14 (premium ki 1 minute candles)"
+status = "Prastaavit"
+prastaavit_cc = false
+kahan = "11. Exit"
+wajah = "Premium ke ATR ki avadhi"
+
+[number.ATR_Stop_Guna]
+kimat = "1.5 guna"
+status = "Prastaavit"
+prastaavit_cc = false
+kahan = "11. Exit"
+wajah = "ATR ka kitna guna Stop-Loss ki doori ho"
+value = 1.5
+unit = "x"
+
+[number.Trailing_Stop_Doori]
+kimat = "Premium ke sabse oonche bhav se 1 ATR neeche"
+status = "Prastaavit"
+prastaavit_cc = false
+kahan = "11. Exit"
+wajah = "Trailing Stop-Loss bhav se kitni doori par chale"
+
+[number.Tight_Stop_Doori]
+kimat = "Tay nahi (ab kisi exit mein nahi lagta, dekho: `[TAKRAAV #9]`)"
+status = "Tay nahi"
+prastaavit_cc = false
+kahan = "3. Bot ka ek poora din, 4. Expiry ke din ke niyam, 11. Exit"
+wajah = "Event ya expiry par Stop-Loss kitna paas aaye"
+
+[number.Index_Stop_Tikav_Samay]
+kimat = "2 minute"
+status = "Prastaavit"
+prastaavit_cc = false
+kahan = "11. Exit"
+wajah = "Index breakout level ke andar kitni der tike toh trade band ho"
+value = 2
+unit = "min"
+
+[number.Time_Stop_Chaal_Paimana]
+kimat = "Premium entry bhav se 5 percent se kam hile"
+status = "Prastaavit"
+prastaavit_cc = false
+kahan = "11. Exit"
+wajah = "Premium mein kitni chaal ko chaal maana jaaye"
+
+[number.Mazboot_Signal_Extra_Lot]
+kimat = "Balance ki seema se upar kabhi nahi; kamzor signal par 1 Lot kam (kam se kam `Minimum_Trade_Lot`)"
+status = "Prastaavit"
+prastaavit_cc = false
+kahan = "9. Risk aur Lot ginti"
+wajah = "Mazboot signal par seema ke andar kitne extra Lot"
+
+[number.Lot_Wapasi_Paimana]
+kimat = "Account peak ke 2 percent ke andar aaye toh ek Lot wapas, phir ek-ek karke"
+status = "Prastaavit"
+prastaavit_cc = false
+kahan = "9. Risk aur Lot ginti"
+wajah = "Account sudharne par Lot kab normal hon"
+
+[number.Paper_Mode_Avadhi]
+kimat = "20 trading din"
+status = "Prastaavit"
+prastaavit_cc = false
+kahan = "16. Test aur Live par jaane ka plan"
+wajah = "Paper Mode kitne din chalega"
+value = 20
+unit = "trading_din"
+
+[number.Niyam_Badalne_Nateeje_Avadhi]
+kimat = "20 trading din"
+status = "Prastaavit"
+prastaavit_cc = false
+kahan = "15. Report, Record aur Niyam badalna"
+wajah = "Vazan ya limit badalne se pehle kitne din ke nateeje dekhe jaayen"
+value = 20
+unit = "trading_din"
+
+[number.Ooncha_IV_Avadhi]
+kimat = "15 trading din (3 hafte) lagatar `IVP_Mehenga_Hadd` se upar"
+status = "Prastaavit"
+prastaavit_cc = false
+kahan = "14. Alerts aur insaan ki bhoomika"
+wajah = "Ooncha IV kitne din rahe toh malik limit soche"
+value = 15
+unit = "trading_din"
+
+[number.Target_Premium_Range]
+kimat = "Bot roz khud tay karta hai (user ka udaharan: 200 se 300 rupaye)"
+status = "Andaza"
+prastaavit_cc = false
+kahan = "1. Daayra, 3. Bot ka ek poora din, 7. Check Suchi, 10. Entry, 14. Alerts aur insaan ki bhoomika"
+wajah = "Bot sirf aaj ki chuni range ke premium khareedta hai"
+
+[number.Range_Tay_Karne_Ka_Tarika]
+kimat = "Delta band ke strikes ka 9:15 ke baad ka asli premium; range unka sabse chhota se sabse bada, upar se free paisa ki seema se kati hui"
+status = "Prastaavit"
+prastaavit_cc = false
+kahan = "3. Bot ka ek poora din"
+wajah = "Bot range kis aadhar par tay kare"
+
+[number.Fund_Request_Udaharan]
+kimat = "12,000 rupaye (user ka udaharan)"
+status = "Andaza"
+prastaavit_cc = false
+kahan = "3. Bot ka ek poora din, 9. Risk aur Lot ginti"
+wajah = "Bot batata hai ki aaj kitna paisa chahiye"
+value = 12000
+unit = "inr"
+
+[number.Fund_Intezaar_Samay]
+kimat = "9:30 baje tak"
+status = "Prastaavit"
+prastaavit_cc = false
+kahan = "3. Bot ka ek poora din"
+wajah = "Malik der se paisa daale toh bot kitni der rukega"
+
+[number.Entry_Lot_Ginti]
+kimat = "Balance ke hisaab se: jitne poore Lot ka paisa ho utne (user ka udaharan: 7,000 mein 1 Lot ka kharcha 7,000 ho toh 1 Lot, 14,000 ho toh 2 Lot tak)"
+status = "Pakka"
+prastaavit_cc = false
+kahan = "9. Risk aur Lot ginti, 10. Entry"
+wajah = "Balance ko percentage risk mein na bandhna `[TAKRAAV #13]` `[TAKRAAV #15]`"
+
+[number.Account_Balance_Udaharan]
+kimat = "5,000, 7,000 ya 14,000 rupaye (user ke udaharan)"
+status = "Andaza"
+prastaavit_cc = false
+kahan = "1. Daayra, 9. Risk aur Lot ginti"
+wajah = "Chhote balance par bhi bot ka niyam saaf rahe"
+
+[number.Range_Alert_Upari_Premium]
+kimat = "Range ke upari kinare se 20 percent upar tak `[TAKRAAV #22]` (purana: Kareeb 300 rupaye (user ne example likha) `[TAKRAAV #22]`)"
+status = "Prastaavit"
+prastaavit_cc = false
+kahan = "14. Alerts aur insaan ki bhoomika"
+wajah = "Range ke bahar ka tagada premium kahan tak alert ke layak maana jaaye"
+
+[number.Balance_Extra_Buffer]
+kimat = "1 Lot ke kharche ka 10 percent"
+status = "Prastaavit"
+prastaavit_cc = false
+kahan = "7. Check Suchi, 9. Risk aur Lot ginti"
+wajah = "Tax aur brokerage ke baad bhi order reject na ho"
+
+[number.Alert_Cooldown_Samay]
+kimat = "10 minute"
+status = "Prastaavit"
+prastaavit_cc = false
+kahan = "14. Alerts aur insaan ki bhoomika"
+wajah = "Baar-baar Telegram alert se bachna"
+value = 10
+unit = "min"
+
+[number.Daily_Max_Alerts]
+kimat = "5 alert prati din"
+status = "Prastaavit"
+prastaavit_cc = false
+kahan = "14. Alerts aur insaan ki bhoomika"
+wajah = "Alert se overtrading ka lalach wapas na aaye"
+
+[number.Alert_Aakhri_Samay]
+kimat = "1:30 PM"
+status = "Prastaavit"
+prastaavit_cc = false
+kahan = "14. Alerts aur insaan ki bhoomika"
+wajah = "Dopahar ke baad Theta Decay se mehenge premium ke alert se bachna"
+time_ist = "13:30"
+
+[number.Evaluation_Gati_Samay]
+kimat = "1 second"
+status = "Prastaavit"
+prastaavit_cc = false
+kahan = "6. Faisle ka raasta, 7. Check Suchi"
+wajah = "Bot kitne samay mein saare checks dobara chalayega"
+value = 1
+unit = "s"
+
+[number.ADX_Avadhi_Aur_Timeframe]
+kimat = "14 avadhi, 3 minute candle, pichle din ki candles ke saath"
+status = "Prastaavit"
+prastaavit_cc = false
+kahan = "3. Bot ka ek poora din, 7. Check Suchi"
+wajah = "Din ka Mausam tay karne wale ADX ki avadhi aur candle timeframe"
+
+[number.Aggressive_Exit_Bid_Offset]
+kimat = "Bid se 2 Tick Size neeche"
+status = "Prastaavit"
+prastaavit_cc = false
+kahan = "11. Exit"
+wajah = "Exit ke waqt chalte bid bhav se kitna neeche Limit Order lagana hai"
+
+[number.Exit_Reprice_Max_Ginti]
+kimat = "3 baar, phir MPP Order"
+status = "Prastaavit"
+prastaavit_cc = false
+kahan = "11. Exit"
+wajah = "Aggressive Limit Order fill na hone par kitni baar bhav badla jayega"
+
+[number.Circuit_Paas_Hadd]
+kimat = "Option ka bhav circuit-limit ke 3 percent ke andar"
+status = "Prastaavit"
+prastaavit_cc = false
+kahan = "7. Check Suchi"
+wajah = "Index ya option circuit-limit ke kitna paas hone par trade roka jaaye"
+
+[number.Squeeze_Bands_Parameters]
+kimat = "Bollinger Bands 20 avadhi 2 guna, Keltner Channel 20 avadhi 1.5 ATR; Bollinger Keltner ke andar aaye toh Squeeze"
+status = "Prastaavit"
+prastaavit_cc = false
+kahan = "7. Check Suchi"
+wajah = "Bollinger Bands aur Keltner Channel ki avadhi, guna aur sikudne ki hadd"
+
+[number.Reject_Signal_Nateeja_Samay]
+kimat = "15 minute baad, ek baar"
+status = "Prastaavit"
+prastaavit_cc = false
+kahan = "15. Report, Record aur Niyam badalna"
+wajah = "Reject kiye signal ka nateeja kitne minute baad naapa jaaye"
+value = 15
+unit = "min"
+
+[number.Entry_Ke_Baad_Broker_Stop_Samay]
+kimat = "2 second"
+status = "Prastaavit"
+prastaavit_cc = false
+kahan = "5. Pehredaar aur Suraksha"
+wajah = "Entry fill aur Broker Stop ke beech bina bachav ka samay kam rakhna"
+value = 2
+unit = "s"
+
+[number.Signal_Dobara_Order_Roak_Samay]
+kimat = "3 minute (ek candle)"
+status = "Prastaavit"
+prastaavit_cc = false
+kahan = "10. Entry"
+wajah = "Ek hi signal par do baar trade na lagna"
+value = 3
+unit = "min"
+
+[number.Option_Chain_Snapshot_Samay_Farak]
+kimat = "1 second"
+status = "Prastaavit"
+prastaavit_cc = false
+kahan = "7. Check Suchi"
+wajah = "Kai strikes milane wale checks mein sab bhav lagbhag ek hi samay ke hon"
+value = 1
+unit = "s"
+
+[number.Blind_Position_Hadd]
+kimat = "3 second"
+status = "Prastaavit"
+prastaavit_cc = false
+kahan = "5. Pehredaar aur Suraksha"
+wajah = "Khule trade ke bhav ka data kitna purana ho toh seedha broker se bhav manga jaaye"
+value = 3
+unit = "s"
+
+[number.Broker_Stop_Cancel_Intezaar_Samay]
+kimat = "2 second"
+status = "Prastaavit"
+prastaavit_cc = false
+kahan = "5. Pehredaar aur Suraksha"
+wajah = "Exit se pehle Broker Stop cancel ka confirm kitni der dekha jaaye"
+value = 2
+unit = "s"
+
+[number.Calendar_Purana_Hadd]
+kimat = "7 din"
+status = "Prastaavit"
+prastaavit_cc = false
+kahan = "3. Bot ka ek poora din, 7. Check Suchi"
+wajah = "Economic calendar file kitni purani ho toh bharosemand na maani jaaye"
+value = 7
+unit = "din"
+
+[number.Disha_Paribhasha]
+kimat = "UP: bhav VWAP, 9 EMA aur 21 EMA ke upar aur 21 EMA ka slope upar. DOWN: ulta. Warna FLAT"
+status = "Prastaavit"
+prastaavit_cc = false
+kahan = "2. Naam-Suchi, 7. Check Suchi"
+wajah = "Teeno_Index_Disha_Check, Heavyweight_Stocks_Check aur Timeframe_Match_Check mein ek hi matlab"
+
+[number.Event_Exit_Pehle_Samay]
+kimat = "5 minute"
+status = "Prastaavit"
+prastaavit_cc = false
+kahan = "3. Bot ka ek poora din, 11. Exit"
+wajah = "Khule trade ko badi khabar se pehle band karna"
+value = 5
+unit = "min"
+
+[number.Ghadi_Skew_Hadd]
+kimat = "1 second"
+status = "Prastaavit"
+prastaavit_cc = false
+kahan = "3. Bot ka ek poora din, 7. Check Suchi"
+wajah = "Bot ki ghadi aur exchange ki ghadi ka farak seemit rakhna"
+value = 1
+unit = "s"
+
+[number.IV_Spread_Hadd]
+kimat = "Bid aur ask ke IV ka farak IV ka 10 percent"
+status = "Prastaavit"
+prastaavit_cc = false
+kahan = "7. Check Suchi"
+wajah = "Kam trading wale strike ka IV bharose ka na ho toh NA maanna"
+
+[number.Order_Path_Jaanch_Samay]
+kimat = "60 second"
+status = "Prastaavit"
+prastaavit_cc = false
+kahan = "5. Pehredaar aur Suraksha"
+wajah = "Order ke raste ki jaanch kitni der mein dohrai jaaye"
+value = 60
+unit = "s"
+
+[number.Pehredaar_Dhadkan_Chhoot_Ginti]
+kimat = "3 dhadkan lagatar"
+status = "Prastaavit"
+prastaavit_cc = false
+kahan = "5. Pehredaar aur Suraksha"
+wajah = "Ek-do dhadkan ke chhootne par Pehredaar trade na kaate"
+value = 3
+unit = "dhadkan"
+
+[number.Reconnect_Taza_Tick_Ginti]
+kimat = "5 taaza tick"
+status = "Prastaavit"
+prastaavit_cc = false
+kahan = "7. Check Suchi"
+wajah = "Connection judne ke baad pehla data bharose ka na maanna"
+
+[number.Taiyari_Dobara_Koshish_Ginti]
+kimat = "3 koshish"
+status = "Prastaavit"
+prastaavit_cc = false
+kahan = "3. Bot ka ek poora din"
+wajah = "Subah ki taiyari fail hone par malik kitni baar dobara Start dabaye"
+value = 3
+unit = "koshish"
+
+[number.Volume_Baseline_Din]
+kimat = "5 trading din"
+status = "Prastaavit"
+prastaavit_cc = false
+kahan = "7. Check Suchi"
+wajah = "Strike ke volume ka apna average kitne din ke usi samay ke volume se bane"
+value = 5
+unit = "trading_din"
+
+[number.Monthly_Loss_Risk_Limit]
+kimat = "Balance ka 15 percent"
+status = "Prastaavit"
+prastaavit_cc = false
+kahan = "9. Risk aur Lot ginti"
+wajah = "Mahine ka nuksan seema paar karne par poora bot rokna"
+
+[number.Check_Vazan_Kul_Jod]
+kimat = "35 points (Trending din, pehle-version Score checks)"
+status = "Prastaavit"
+prastaavit_cc = false
+kahan = "8. Score, Gate aur Confidence ka hisaab"
+wajah = "Scorecard ke kul sambhav points ka saaf hisaab"
+value = 35
+unit = "points"
+
+[number.Mazboot_Signal_Score_Margin]
+kimat = "Zaroori score se 5 points zyada"
+status = "Prastaavit"
+prastaavit_cc = false
+kahan = "9. Risk aur Lot ginti"
+wajah = "Kaunsa signal mazboot maana jaaye"
+
+[number.Ulta_Check_Tikav_Samay]
+kimat = "30 second"
+status = "Prastaavit"
+prastaavit_cc = false
+kahan = "11. Exit"
+wajah = "Ek pal ke jhatke par exit na ho"
+value = 30
+unit = "s"
+
+[number.Alert_Dobara_Bhejne_Ginti]
+kimat = "3 baar"
+status = "Prastaavit"
+prastaavit_cc = false
+kahan = "14. Alerts aur insaan ki bhoomika"
+wajah = "Telegram na pahunche toh dobara bhejna"
+
+[number.Alert_Jawab_Samay]
+kimat = "5 minute"
+status = "Prastaavit"
+prastaavit_cc = false
+kahan = "14. Alerts aur insaan ki bhoomika"
+wajah = "Critical alert dekha na jaaye toh bot aur Pehredaar khud suraksha chalayein"
+value = 5
+unit = "min"
+
+[number.Dashboard_Refresh_Samay]
+kimat = "1 second"
+status = "Prastaavit"
+prastaavit_cc = false
+kahan = "13. Dashboard"
+wajah = "Live bhav aur checks dekhne ki raftaar"
+value = 1
+unit = "s"
+
+[number.Paper_Mode_Balance]
+kimat = "14,000 rupaye"
+status = "Prastaavit"
+prastaavit_cc = false
+kahan = "13. Dashboard, 16. Test aur Live par jaane ka plan"
+wajah = "Paper Mode mein 1 aur 2 Lot dono ki ginti parakhna"
+value = 14000
+unit = "inr"
+
+[number.Control_Confirm_Samay]
+kimat = "10 second"
+status = "Prastaavit"
+prastaavit_cc = false
+kahan = "13. Dashboard"
+wajah = "Kill-Switch, Stop Control aur Real Money Start ka confirm step"
+value = 10
+unit = "s"
+
+[number.Record_Rakhne_Avadhi]
+kimat = "8 saal (tax salahkaar se pushti baaki)"
+status = "Prastaavit"
+prastaavit_cc = false
+kahan = "15. Report, Record aur Niyam badalna"
+wajah = "Hisaab aur tax audit ke liye purana record"
+value = 8
+unit = "saal"
+
+[number.Stage_Badlaav_Paimana]
+kimat = "Kharche ke baad kul nateeja nuksan mein nahi, girawat `Account_Peak_Drawdown_Hadd` ke andar, Broker Stop va Pehredaar ke saare test paas"
+status = "Prastaavit"
+prastaavit_cc = false
+kahan = "16. Test aur Live par jaane ka plan"
+wajah = "Agle charan par jaane ka pakka paimana"
+
+[number.Paper_Mode_Trade_Ginti]
+kimat = "30 trades"
+status = "Prastaavit"
+prastaavit_cc = false
+kahan = "16. Test aur Live par jaane ka plan"
+wajah = "Kam trades se hunar aur kismat alag nahi dikhte"
+
+[number.Trade_Kam_Din_Ginti]
+kimat = "10 trading din mein 5 se kam trade"
+status = "Prastaavit"
+prastaavit_cc = false
+kahan = "16. Test aur Live par jaane ka plan"
+wajah = "Itne kam trade aayein toh malik Gates ki jaanch kare"
+value = 10
+unit = "trading_din"
+
+[number.Stage2_Avadhi]
+kimat = "10 trading din"
+status = "Prastaavit"
+prastaavit_cc = false
+kahan = "16. Test aur Live par jaane ka plan"
+wajah = "Asli fill ka farak dekhne ke liye"
+value = 10
+unit = "trading_din"
+
+[number.Paper_Asli_Fill_Farak_Hadd]
+kimat = "1 percent"
+status = "Prastaavit"
+prastaavit_cc = false
+kahan = "16. Test aur Live par jaane ka plan"
+wajah = "Paper aur asli fill ka farak kitna theek maana jaaye"
+value = 1
+unit = "pct"
+
+[number.Ruka_Stock_Hadd]
+kimat = "Check ke stocks ka aadha ya zyada halt ya suspend ho toh check NA; kam ruke toh baaki stocks se hisaab"
+status = "Prastaavit"
+prastaavit_cc = false
+kahan = "7. Check Suchi"
+wajah = "Ruke hue stock ka bhav bharose ka nahi hota"
+
+[number.Ghadi_Skew_Sakht_Hadd]
+kimat = "50 milliseconds (hamesha `Data_Purana_Hadd` ke paanchve hisse se kam) `[TAKRAAV #27]`"
+status = "Prastaavit"
+prastaavit_cc = true
+kahan = "3. Bot ka ek poora din, 7. Check Suchi"
+wajah = "Ghadi ki galti data ki taazgi ke naap se bahut chhoti ho `[F-07]`"
+value = 50
+unit = "ms"
+
+[number.Bot_Lease_Samay]
+kimat = "4 second (hamesha Pehredaar ke control lene ke samay, yaani `Pehredaar_Dhadkan_Samay` guna `Pehredaar_Dhadkan_Chhoot_Ginti`, se kam)"
+status = "Prastaavit"
+prastaavit_cc = true
+kahan = "5. Pehredaar aur Suraksha"
+wajah = "Pehredaar ke control lene se pehle bot khud ruk jaaye `[F-05]`"
+value = 4
+unit = "s"
+
+[number.Pehredaar_Swatantra_Milaan_Samay]
+kimat = "10 second"
+status = "Prastaavit"
+prastaavit_cc = true
+kahan = "5. Pehredaar aur Suraksha"
+wajah = "Pehredaar khud broker se bina Stop ke trade pakde `[F-16]`"
+value = 10
+unit = "s"
+
+[number.Pehredaar_Token_Jaanch_Samay]
+kimat = "60 second"
+status = "Prastaavit"
+prastaavit_cc = true
+kahan = "5. Pehredaar aur Suraksha"
+wajah = "Pehredaar ka token kharab ho toh jaldi pata chale `[F-35]`"
+value = 60
+unit = "s"
+
+[number.Broker_Stop_Min_Khiskaav]
+kimat = "Premium ATR ka 0.5 guna, par kam se kam 2 Tick Size"
+status = "Prastaavit"
+prastaavit_cc = true
+kahan = "5. Pehredaar aur Suraksha, 11. Exit"
+wajah = "Har chhote khiskaav par Broker Stop badal kar broker ki modify seema na khatam ho `[F-08]`"
+
+[number.Broker_Stop_Modify_Bajat]
+kimat = "Broker ki ek order ki din ki modify seema ka 80 percent (seema: Tarikh wali baatein)"
+status = "Prastaavit"
+prastaavit_cc = true
+kahan = "5. Pehredaar aur Suraksha"
+wajah = "Seema se pehle cancel aur naya Broker Stop `[F-08]`"
+
+[number.Feed_Stale_REST_Gati]
+kimat = "Har 1 second, broker ki request seema ke andar"
+status = "Prastaavit"
+prastaavit_cc = true
+kahan = "5. Pehredaar aur Suraksha"
+wajah = "Feed atakne par broker se bhav maangne ki raftaar (H-15) `[F-33]`"
+value = 1
+unit = "s"
+
+[number.Command_Max_Umar]
+kimat = "5 second"
+status = "Prastaavit"
+prastaavit_cc = true
+kahan = "13. Dashboard"
+wajah = "Purana ya dohraya Dashboard hukm na maana jaaye `[F-17]`"
+value = 5
+unit = "s"
+
+[number.Dashboard_Band_Hadd]
+kimat = "60 second"
+status = "Prastaavit"
+prastaavit_cc = true
+kahan = "13. Dashboard"
+wajah = "Dashboard se judaav toote toh naye entry band `[F-47]`"
+value = 60
+unit = "s"
+
+[number.Liquidity_Exit_Tikav_Samay]
+kimat = "10 second"
+status = "Prastaavit"
+prastaavit_cc = true
+kahan = "3. Bot ka ek poora din"
+wajah = "Pal bhar ke chaude spread par exit na ho `[F-29]`"
+value = 10
+unit = "s"
+
+[number.Opening_Range_Samay]
+kimat = "9:15 se 9:30 (`Shuruaati_Dekhne_Ka_Samay` ke barabar)"
+status = "Prastaavit"
+prastaavit_cc = true
+kahan = "2. Naam-Suchi, 3. Bot ka ek poora din, 7. Check Suchi"
+wajah = "Opening Range ki ek hi lambai `[F-42]`"
+
+[number.Gap_Ke_Baad_Range_Samay]
+kimat = "30 minute (9:15 se 9:45)"
+status = "Prastaavit"
+prastaavit_cc = true
+kahan = "3. Bot ka ek poora din, 7. Check Suchi"
+wajah = "Bade gap ke baad nayi range ki paribhasha `[F-25]`"
+value = 30
+unit = "min"
+
+[number.Breakout_Candle_Timeframe]
+kimat = "`Chart_Chhota_Timeframe` (3 minute)"
+status = "Prastaavit"
+prastaavit_cc = true
+kahan = "2. Naam-Suchi, 7. Check Suchi"
+wajah = "Saare breakout checks ek hi candle dekhein `[F-42]`"
+
+[number.Realized_Volatility_Avadhi]
+kimat = "Pichle 20 trading din (Backtest se pakka karna)"
+status = "Prastaavit"
+prastaavit_cc = true
+kahan = "7. Check Suchi"
+wajah = "IV ki tulna wali Realized Volatility ki avadhi `[F-42]`"
+
+[number.Mazboot_Breakout_Paribhasha]
+kimat = "Breakout Candle par Futures volume `Volume_Uchhal_Guna` ya zyada, aur agli OI Deewar `OI_Deewar_Stop_Guna` se door; baaki Kamzor Breakout"
+status = "Prastaavit"
+prastaavit_cc = true
+kahan = "2. Naam-Suchi, 4. Expiry ke din ke niyam, 7. Check Suchi"
+wajah = "Mazboot aur Kamzor Breakout ka saaf farak `[F-30]` `[F-42]`"
+
+[number.Pullback_Paimana]
+kimat = "Premium breakout ke baad ke sabse oonche bhav se kam se kam 0.5 premium-ATR neeche aaye, phir breakout disha mein ek band candle bane"
+status = "Prastaavit"
+prastaavit_cc = true
+kahan = "2. Naam-Suchi, 7. Check Suchi"
+wajah = "Chase_Guard ke pullback ka paimana `[F-42]`"
+
+[number.Swing_Pushti_Candle_Ginti]
+kimat = "Dono taraf 2 band candle"
+status = "Prastaavit"
+prastaavit_cc = true
+kahan = "2. Naam-Suchi, 11. Exit"
+wajah = "Swing Low aur Swing High ki pushti `[F-22]`"
+
+[number.EMA_Slope_Hadd]
+kimat = "Tay nahi (Backtest se tay ho; tab tak check Shadow Mode mein)"
+status = "Tay nahi"
+prastaavit_cc = true
+kahan = "7. Check Suchi"
+wajah = "\"Sharp\" slope ka number `[F-42]`"
+
+[number.Futures_Discount_Hadd]
+kimat = "Tay nahi"
+status = "Tay nahi"
+prastaavit_cc = true
+kahan = "7. Check Suchi"
+wajah = "\"Futures discount mein phisalna\" ka number `[F-39]`"
+
+[number.Manipulation_Ajeeb_OI_Paimana]
+kimat = "Tay nahi"
+status = "Tay nahi"
+prastaavit_cc = true
+kahan = "7. Check Suchi"
+wajah = "\"Ajeeb OI\" ka number"
+
+[number.Settlement_Bhaari_Saude_Paimana]
+kimat = "Tay nahi"
+status = "Tay nahi"
+prastaavit_cc = true
+kahan = "7. Check Suchi"
+wajah = "\"Shant bazaar\" aur \"bhaari saude\" ka number"
+
+[number.OI_Bhaari_Badlaav_Paimana]
+kimat = "Tay nahi"
+status = "Tay nahi"
+prastaavit_cc = true
+kahan = "7. Check Suchi"
+wajah = "\"Bhaari matra mein naya OI\" ka number `[F-44]`"
+
+[number.VIX_Tezi_Paimana]
+kimat = "Tay nahi"
+status = "Tay nahi"
+prastaavit_cc = true
+kahan = "7. Check Suchi"
+wajah = "VIX \"tezi se badhe\" aur Term-Structure ki shart ka number"
+
+[number.SUSPICIOUS_Flag_Avadhi]
+kimat = "Us index mein us trading din ke ant tak"
+status = "Prastaavit"
+prastaavit_cc = true
+kahan = "4. Expiry ke din ke niyam, 7. Check Suchi"
+wajah = "SUSPICIOUS flag ka ant tay ho `[F-32]`"
+
+[number.Trailing_Kasi_Doori]
+kimat = "Premium ke sabse oonche bhav se 0.5 ATR neeche"
+status = "Prastaavit"
+prastaavit_cc = true
+kahan = "11. Exit"
+wajah = "1 Lot par \"Trailing Stop-Loss kasna\" ki doori `[F-46]`"
+
+[number.Stop_Pushti_Ginti]
+kimat = "Lagatar 2 depth updates"
+status = "Prastaavit"
+prastaavit_cc = true
+kahan = "11. Exit"
+wajah = "Ek galat bhav par Stop-Loss na chale `[F-21]`"
+
+[number.Worst_Case_Nuksan_Guna]
+kimat = "Entry premium ka 40 percent (Andaza; Stage2 ke asli gap-fill se sudhaar)"
+status = "Prastaavit"
+prastaavit_cc = true
+kahan = "9. Risk aur Lot ginti"
+wajah = "Risk ke hisaab mein ek trade ka sabse bura nuksan `[F-15]`"
+
+[number.Stop_Unit_Din_Seema]
+kimat = "Vikalp B: 1 Stop-Unit"
+status = "Prastaavit"
+prastaavit_cc = true
+kahan = "9. Risk aur Lot ginti"
+wajah = "Din ki seema ek Stop-Loss ke size se mel khaye (H-10) `[F-03]`"
+
+[number.Stop_Unit_Hafta_Seema]
+kimat = "Vikalp B: 2 Stop-Unit"
+status = "Prastaavit"
+prastaavit_cc = true
+kahan = "9. Risk aur Lot ginti"
+wajah = "Hafte ki seema Stop-Unit mein `[F-03]`"
+
+[number.Stop_Unit_Mahina_Seema]
+kimat = "Vikalp B: 4 Stop-Unit"
+status = "Prastaavit"
+prastaavit_cc = true
+kahan = "9. Risk aur Lot ginti"
+wajah = "Mahine ki seema Stop-Unit mein `[F-03]`"
+
+[number.Data_Family_Max_Score_Hissa]
+kimat = "Us waqt ke zaroori score ka 40 percent (sirf Ablation ke baad lagu)"
+status = "Prastaavit"
+prastaavit_cc = true
+kahan = "8. Score, Gate aur Confidence ka hisaab"
+wajah = "Ek hi data ke checks nakli bharosa na dein (H-11) `[F-43]`"
+
+[number.Shadow_Se_Active_Min_Signal]
+kimat = "100 signal"
+status = "Prastaavit"
+prastaavit_cc = true
+kahan = "15. Report, Record aur Niyam badalna"
+wajah = "Shadow Mode se Active hone se pehle kam se kam data"
+value = 100
+unit = "signal"
+
+[number.Entry_Fill_Dar_Min]
+kimat = "80 percent"
+status = "Prastaavit"
+prastaavit_cc = true
+kahan = "10. Entry"
+wajah = "Spread-aware entry ka fill kitna ho toh theek (H-02)"
+value = 80
+unit = "pct"
+
+[number.Backtest_Min_Avadhi]
+kimat = "18 mahine Walk-Forward; aakhri 6 mahine Out-of-Sample (expiry weekday badalne wale dino ka alag nateeja)"
+status = "Prastaavit"
+prastaavit_cc = true
+kahan = "16. Test aur Live par jaane ka plan"
+wajah = "Backtest kitne lambe data par ho `[F-19]`"
+
+[number.Backtest_Min_Trade_Ginti]
+kimat = "Kul 300 trade, jismein Out-of-Sample mein kam se kam 100"
+status = "Prastaavit"
+prastaavit_cc = true
+kahan = "16. Test aur Live par jaane ka plan"
+wajah = "Kam trade par kismat aur hunar alag nahi dikhte `[F-19]`"
+
+[number.Expectancy_CI_Star]
+kimat = "Out-of-Sample Net Expectancy ka ek-taraf 95 percent nichla Confidence Interval 0 se upar"
+status = "Prastaavit"
+prastaavit_cc = true
+kahan = "16. Test aur Live par jaane ka plan"
+wajah = "Ausat nahi, bharose ka daayra positive ho `[F-19]`"
+
+[number.Profit_Factor_Min]
+kimat = "Kharche ke baad 1.3"
+status = "Prastaavit"
+prastaavit_cc = true
+kahan = "16. Test aur Live par jaane ka plan"
+wajah = "Munafa nuksan se saaf bada ho"
+
+[number.Parameter_Stability_Paimana]
+kimat = "Har mukhya number ko 20 percent upar-neeche karne par bhi Out-of-Sample Net Expectancy 0 se upar"
+status = "Prastaavit"
+prastaavit_cc = true
+kahan = "16. Test aur Live par jaane ka plan"
+wajah = "Ek hi number par tika nateeja kismat ho sakta hai"
+
+[number.Paper_Gate_CC]
+kimat = "Kam se kam 40 trading din aur 60 trade; Net Expectancy Backtest ke 90 percent daayre ke andar; koi Critical niyam nahi toota `[TAKRAAV #35]`"
+status = "Prastaavit"
+prastaavit_cc = true
+kahan = "16. Test aur Live par jaane ka plan"
+wajah = "Paper Stage ka data-based paimana `[F-19]`"
+value = 40
+unit = "trading_din"
+
+[number.Stage2_Gate_CC]
+kimat = "Kam se kam 60 asli trade; asli Net Expectancy ka ek-taraf 90 percent nichla Confidence Interval 0 se upar; 120 trade tak sabit na ho toh ruk kar dobara design `[TAKRAAV #35]`"
+status = "Prastaavit"
+prastaavit_cc = true
+kahan = "16. Test aur Live par jaane ka plan"
+wajah = "Stage2 ka data-based paimana `[F-19]`"
+
+[number.Stage_Override_Max_Lot]
+kimat = "`Test_Stage2_Live_Lot`"
+status = "Prastaavit"
+prastaavit_cc = true
+kahan = "16. Test aur Live par jaane ka plan"
+wajah = "Override mein bhi chhota hi jokhim `[F-18]`"
+
+[number.Live_Kill_Paimana]
+kimat = "Koi ek: Deposit-Adjusted girawat Backtest ki 95 percent wali sabse buri girawat ke 1.5 guna se zyada; pichle 30 trade ki Net Expectancy Backtest ke 5 percent wale nichle daayre se neeche; pichle 20 trade ka median Slippage model ke 2 guna se zyada; koi bhi Critical niyam toota"
+status = "Prastaavit"
+prastaavit_cc = true
+kahan = "16. Test aur Live par jaane ka plan"
+wajah = "Live band karne ki saaf kasauti"
+
+[number.Paper_Deri_Model]
+kimat = "Stage2 mein naapi order-se-fill deri ka median; tab tak 300 milliseconds (Andaza)"
+status = "Prastaavit"
+prastaavit_cc = true
+kahan = "16. Test aur Live par jaane ka plan"
+wajah = "Paper fill asli se achha na dikhe `[F-52]`"
+
+[number.Malik_Max_Balance]
+kimat = "10,000 se 15,000 rupaye (malik ka zyada se zyada balance)"
+status = "Pakka"
+prastaavit_cc = false
+kahan = "9. Risk aur Lot ginti"
+wajah = "Malik ke paas bada fund nahi; Lot aur sizing isi par tike"
+unit = "inr"
+range = [10000.0, 15000.0]
+
+[number.Achha_Premium_Udaharan]
+kimat = "400 se 500 rupaye (ITM ya ATM, malik ka andaza) `[TAKRAAV #41]`"
+status = "Andaza"
+prastaavit_cc = false
+kahan = "9. Risk aur Lot ginti"
+wajah = "Malik ke hisaab se achhe aur surakshit premium is daayre mein aate hain"
+unit = "inr"
+range = [400.0, 500.0]
+
+[number.Server_Mahina_Budget]
+kimat = "1,500 rupaye prati mahina (teeno server milakar, tax ke saath)"
+status = "Pakka"
+prastaavit_cc = false
+kahan = "5. Pehredaar aur Suraksha"
+wajah = "Chhote capital ke saath server ka kharcha bhi chhota"
+value = 1500
+unit = "inr"
+
+[number.Dashboard_Push_Samay]
+kimat = "5 second (website ke free plan ki function seema ke andar) `[TAKRAAV #43]`"
+status = "Prastaavit"
+prastaavit_cc = true
+kahan = "13. Dashboard"
+wajah = "Bot apni haalat website ko kitni der mein bheje `[F-81]`"
+value = 5
+unit = "s"
+
+[number.Balance_Extra_Buffer_CC]
+kimat = "250 rupaye (round-trip kharche ka lagbhag 3 guna; broker ki margin shart Stage2 mein jaanchni) `[TAKRAAV #39]`"
+status = "Prastaavit"
+prastaavit_cc = true
+kahan = "7. Check Suchi, 9. Risk aur Lot ginti"
+wajah = "10 percent buffer chhote balance mein achha strike rokta hai `[F-77]`"
+value = 250
+unit = "inr"
+
+[number.Kul_Jeb_Nuksan_Seema]
+kimat = "Tay nahi (malik rupaye mein tay kare)"
+status = "Tay nahi"
+prastaavit_cc = true
+kahan = "9. Risk aur Lot ginti"
+wajah = "Baar-baar paisa daalne ka kul nuksan ek seema par ruke `[F-03]`"
+
+[index_number.Liquidity_Slippage_Index_Hadd]
+banknifty = "2 se 3 percent (Andaza)"
+nifty50 = "2 se 3 percent (Andaza)"
+sensex = "1.5 se 2 percent (Prastaavit; purana: Tay nahi, \"Nifty se zyada sakht\")"
+status_text = "Andaza / Prastaavit"
+prastaavit_cc = false
+wajah = "Sensex mein Nifty se kam trading hone ke kaaran liquidity limit zyada sakht chahiye"
+
+[index_number.Ek_Lot_Quantity]
+banknifty = "Tay nahi (Exchange tay karta hai; dekho: Tarikh wali baatein)"
+nifty50 = "Tay nahi (Exchange tay karta hai; dekho: Tarikh wali baatein)"
+sensex = "Tay nahi (Exchange tay karta hai; dekho: Tarikh wali baatein)"
+status_text = "Tay nahi"
+prastaavit_cc = false
+wajah = "Lot ki sankhya exchange samay-samay par badalta hai"
+
+[index_number.Exchange_Freeze_Limit]
+banknifty = "Tay nahi (Exchange tay karta hai; dekho: Tarikh wali baatein)"
+nifty50 = "Tay nahi (Exchange tay karta hai; dekho: Tarikh wali baatein)"
+sensex = "Tay nahi (Exchange tay karta hai; dekho: Tarikh wali baatein)"
+status_text = "Tay nahi"
+prastaavit_cc = false
+wajah = "Order Slicing ke liye har index ki freeze limit alag hoti hai"
+
+[index_number.Checks_Ke_Alag_Vazan]
+banknifty = "Ek jaise (Check Suchi ke vazan)"
+nifty50 = "Ek jaise (Check Suchi ke vazan)"
+sensex = "Ek jaise (Check Suchi ke vazan)"
+status_text = "Prastaavit"
+prastaavit_cc = false
+wajah = "Teeno index ke checks ka vazan alag hoga ya ek jaisa, yeh tay hona baaki tha; Paper Mode ke nateeje dekh kar badla ja sakta hai"
+
+[index_number.Heavyweight_Stocks_Suchi]
+banknifty = "HDFC Bank, ICICI Bank"
+nifty50 = "Reliance, HDFC Bank, ICICI Bank, Infosys"
+sensex = "Tay nahi (\"bade stocks\")"
+status_text = "Pakka / Tay nahi"
+prastaavit_cc = false
+wajah = "Index ke sabse bade vazan wale stocks ki disha dekhna"
+
+[index_number.Manipulation_Check_Stocks_Suchi]
+banknifty = "5 banks (HDFC Bank, ICICI Bank, SBI, Axis Bank, Kotak Bank)"
+nifty50 = "Tay nahi (\"bade stocks ka group\")"
+sensex = "Tay nahi (\"bade stocks ka group\")"
+status_text = "Pakka / Tay nahi"
+prastaavit_cc = false
+wajah = "Expiry din cash-market volume manipulation pakadna"
+
+[index_number.Breadth_Kul_Stocks_Ginti]
+banknifty = "12 banks"
+nifty50 = "Tay nahi (\"top stocks ka group\")"
+sensex = "Tay nahi (\"top stocks ka group\")"
+status_text = "Pakka / Tay nahi"
+prastaavit_cc = false
+wajah = "Khokhla breakout (operator trap) pakadne ke liye kul stocks ki ginti"
+
+[index_number.Breadth_Top_Stocks_Ginti]
+banknifty = "Index ki official suchi ke saare banks"
+nifty50 = "Vazan mein top 10 stocks (har mahine official index page se)"
+sensex = "Vazan mein top 10 stocks (har mahine official index page se)"
+status_text = "Prastaavit"
+prastaavit_cc = true
+wajah = "Nifty50 aur Sensex ka Index_Breadth_Check Gate bina suchi ke hamesha RED na ho `[F-02]`"

@@ -1,0 +1,6 @@
+$ sh -c git\ grep\ -n\ \"LIVE_TRADING_ENABLED\"\ --\ src\ tests\ pehredaar\ deploy\ config\ tools\;\ echo\ \"git\ grep\ exit\ \$\?\ \(1\ =\ no\ reference\ in\ code\)\"\;\ echo\ \"---\ mode\ gate\ in\ the\ entry\ point:\"\;\ git\ grep\ -n\ \"BOT_MODE\"\ --\ src 
+git grep exit 1 (1 = no reference in code)
+--- mode gate in the entry point:
+src/bot/__main__.py:18:    if os.environ.get("BOT_MODE", "paper") != "paper":
+src/bot/__main__.py:19:        print("FAIL: BOT_MODE sirf 'paper' ho sakta hai (live ka raasta nahi)")
+[exit 0]

@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+# .githooks/pre-push (MISSION V11 T01 placeholder): refuses every push.
+# Push is allowed only after the owner's `haan F-REMOTE <code>` and while no secret or
+# sandbox_breach incident is open. T02a replaces this with that conditional check.
+echo "pre-push: push is not allowed yet (needs haan F-REMOTE <code>; see OWNER_TODO.md). Push refused." >&2
+exit 1

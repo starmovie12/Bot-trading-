@@ -1,0 +1,3 @@
+# params.toml: every live strategy tunable (MISSION V11 §5.4). At most 12 live parameters (§8.2).
+# Empty until T12 (STRATEGY.md). The v3 code parameters in src/bot/strategy/rules.py are HISTORY,
+# not live parameters of V11.

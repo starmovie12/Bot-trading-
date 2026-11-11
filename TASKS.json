@@ -1,0 +1,410 @@
+[
+ {
+  "id": "T01",
+  "title": "SYNC_SAFE",
+  "track": "LITE",
+  "depends_on": [],
+  "timebox_min": 40,
+  "cap_min": 120,
+  "minutes_used": 0,
+  "retries": 0,
+  "verify": "tools/verify/T01.sh",
+  "verify_sha256": "249433aa5d276652fc72d470c40a1a371c2523d239f3932ee473f855f675a539",
+  "status": "IN_PROGRESS",
+  "evidence": []
+ },
+ {
+  "id": "T02a",
+  "title": "GUARDS_CORE",
+  "track": "LITE",
+  "depends_on": [
+   "T01"
+  ],
+  "timebox_min": 45,
+  "cap_min": 135,
+  "minutes_used": 0,
+  "retries": 0,
+  "verify": "tools/verify/T02a.sh",
+  "verify_sha256": "",
+  "status": "TODO",
+  "evidence": []
+ },
+ {
+  "id": "T03",
+  "title": "REGULATORY_DATA_RIGHTS",
+  "track": "LITE",
+  "depends_on": [
+   "T02a"
+  ],
+  "timebox_min": 45,
+  "cap_min": 135,
+  "minutes_used": 0,
+  "retries": 0,
+  "verify": "tools/verify/T03.sh",
+  "verify_sha256": "",
+  "status": "TODO",
+  "evidence": []
+ },
+ {
+  "id": "T04",
+  "title": "G0_ECONOMICS",
+  "track": "LITE",
+  "depends_on": [
+   "T03"
+  ],
+  "timebox_min": 45,
+  "cap_min": 135,
+  "minutes_used": 0,
+  "retries": 0,
+  "verify": "tools/verify/T04.sh",
+  "verify_sha256": "",
+  "status": "TODO",
+  "evidence": []
+ },
+ {
+  "id": "T02b",
+  "title": "GUARDS_FULL",
+  "track": "FULL",
+  "depends_on": [
+   "T04"
+  ],
+  "timebox_min": 90,
+  "cap_min": 270,
+  "minutes_used": 0,
+  "retries": 0,
+  "verify": "tools/verify/T02b.sh",
+  "verify_sha256": "",
+  "status": "TODO",
+  "evidence": []
+ },
+ {
+  "id": "T05",
+  "title": "RECORDER_MVP",
+  "track": "FULL",
+  "depends_on": [
+   "T02b",
+   "T03",
+   "T04"
+  ],
+  "timebox_min": 60,
+  "cap_min": 180,
+  "minutes_used": 0,
+  "retries": 0,
+  "verify": "tools/verify/T05.sh",
+  "verify_sha256": "",
+  "status": "TODO",
+  "evidence": []
+ },
+ {
+  "id": "T09",
+  "title": "DELIVERY_OPS",
+  "track": "FULL",
+  "depends_on": [
+   "T05"
+  ],
+  "timebox_min": 45,
+  "cap_min": 135,
+  "minutes_used": 0,
+  "retries": 0,
+  "verify": "tools/verify/T09.sh",
+  "verify_sha256": "",
+  "status": "TODO",
+  "evidence": []
+ },
+ {
+  "id": "T06",
+  "title": "SUSPECTS",
+  "track": "BOTH",
+  "depends_on": [
+   "T04",
+   "T02b"
+  ],
+  "timebox_min": 30,
+  "cap_min": 90,
+  "minutes_used": 0,
+  "retries": 0,
+  "verify": "tools/verify/T06.sh",
+  "verify_sha256": "",
+  "status": "TODO",
+  "evidence": []
+ },
+ {
+  "id": "T07",
+  "title": "AUTOPSY",
+  "track": "BOTH",
+  "depends_on": [
+   "T06"
+  ],
+  "timebox_min": 45,
+  "cap_min": 135,
+  "minutes_used": 0,
+  "retries": 0,
+  "verify": "tools/verify/T07.sh",
+  "verify_sha256": "",
+  "status": "TODO",
+  "evidence": []
+ },
+ {
+  "id": "T08",
+  "title": "ARITH_WAR_ROOM",
+  "track": "BOTH",
+  "depends_on": [
+   "T04"
+  ],
+  "timebox_min": 20,
+  "cap_min": 60,
+  "minutes_used": 0,
+  "retries": 0,
+  "verify": "tools/verify/T08.sh",
+  "verify_sha256": "",
+  "status": "TODO",
+  "evidence": []
+ },
+ {
+  "id": "T10",
+  "title": "VERDICT_CORE",
+  "track": "BOTH",
+  "depends_on": [
+   "T04",
+   "T05"
+  ],
+  "timebox_min": 60,
+  "cap_min": 180,
+  "minutes_used": 0,
+  "retries": 0,
+  "verify": "tools/verify/T10.sh",
+  "verify_sha256": "",
+  "status": "TODO",
+  "evidence": []
+ },
+ {
+  "id": "T11",
+  "title": "SIM_WAR_ROOM",
+  "track": "FULL-A",
+  "depends_on": [
+   "T08",
+   "T10"
+  ],
+  "timebox_min": 45,
+  "cap_min": 135,
+  "minutes_used": 0,
+  "retries": 0,
+  "verify": "tools/verify/T11.sh",
+  "verify_sha256": "",
+  "status": "TODO",
+  "evidence": []
+ },
+ {
+  "id": "T12",
+  "title": "SPEC_LOCK",
+  "track": "FULL-A",
+  "depends_on": [
+   "T11"
+  ],
+  "timebox_min": 30,
+  "cap_min": 90,
+  "minutes_used": 0,
+  "retries": 0,
+  "verify": "tools/verify/T12.sh",
+  "verify_sha256": "",
+  "status": "TODO",
+  "evidence": []
+ },
+ {
+  "id": "T13a",
+  "title": "ENGINE",
+  "track": "FULL-B",
+  "depends_on": [
+   "T12",
+   "T07"
+  ],
+  "timebox_min": 60,
+  "cap_min": 180,
+  "minutes_used": 0,
+  "retries": 0,
+  "verify": "tools/verify/T13a.sh",
+  "verify_sha256": "",
+  "status": "TODO",
+  "evidence": []
+ },
+ {
+  "id": "T13b",
+  "title": "GATEWAY",
+  "track": "FULL-B",
+  "depends_on": [
+   "T13a",
+   "T06"
+  ],
+  "timebox_min": 75,
+  "cap_min": 225,
+  "minutes_used": 0,
+  "retries": 0,
+  "verify": "tools/verify/T13b.sh",
+  "verify_sha256": "",
+  "status": "TODO",
+  "evidence": []
+ },
+ {
+  "id": "T14",
+  "title": "TRUTH_HARNESS",
+  "track": "FULL-B",
+  "depends_on": [
+   "T10",
+   "T13b"
+  ],
+  "timebox_min": 45,
+  "cap_min": 135,
+  "minutes_used": 0,
+  "retries": 0,
+  "verify": "tools/verify/T14.sh",
+  "verify_sha256": "",
+  "status": "TODO",
+  "evidence": []
+ },
+ {
+  "id": "T15",
+  "title": "STRESS",
+  "track": "FULL-B",
+  "depends_on": [
+   "T13b"
+  ],
+  "timebox_min": 60,
+  "cap_min": 180,
+  "minutes_used": 0,
+  "retries": 0,
+  "verify": "tools/verify/T15.sh",
+  "verify_sha256": "",
+  "status": "TODO",
+  "evidence": []
+ },
+ {
+  "id": "T16",
+  "title": "LIVE_READY",
+  "track": "FULL-B",
+  "depends_on": [
+   "T14",
+   "T15"
+  ],
+  "timebox_min": 30,
+  "cap_min": 90,
+  "minutes_used": 0,
+  "retries": 0,
+  "verify": "tools/verify/T16.sh",
+  "verify_sha256": "",
+  "status": "TODO",
+  "evidence": []
+ },
+ {
+  "id": "T17-R1",
+  "title": "ADVERSARY_REVIEW",
+  "track": "END",
+  "depends_on": [
+   "T01",
+   "T02a",
+   "T03",
+   "T04",
+   "T02b",
+   "T05",
+   "T09",
+   "T06",
+   "T07",
+   "T08",
+   "T10",
+   "T11",
+   "T12",
+   "T13a",
+   "T13b",
+   "T14",
+   "T15",
+   "T16"
+  ],
+  "timebox_min": 45,
+  "cap_min": 135,
+  "minutes_used": 0,
+  "retries": 0,
+  "verify": "tools/verify/T17-R1.sh",
+  "verify_sha256": "",
+  "status": "TODO",
+  "evidence": []
+ },
+ {
+  "id": "T17-F1",
+  "title": "ADVERSARY_FIX",
+  "track": "END",
+  "depends_on": [
+   "T17-R1"
+  ],
+  "timebox_min": 60,
+  "cap_min": 180,
+  "minutes_used": 0,
+  "retries": 0,
+  "verify": "tools/verify/T17-F1.sh",
+  "verify_sha256": "",
+  "status": "TODO",
+  "evidence": []
+ },
+ {
+  "id": "T17-R2",
+  "title": "ADVERSARY_REVIEW",
+  "track": "END",
+  "depends_on": [
+   "T17-F1"
+  ],
+  "timebox_min": 45,
+  "cap_min": 135,
+  "minutes_used": 0,
+  "retries": 0,
+  "verify": "tools/verify/T17-R2.sh",
+  "verify_sha256": "",
+  "status": "TODO",
+  "evidence": []
+ },
+ {
+  "id": "T17-F2",
+  "title": "ADVERSARY_FIX",
+  "track": "END",
+  "depends_on": [
+   "T17-R2"
+  ],
+  "timebox_min": 60,
+  "cap_min": 180,
+  "minutes_used": 0,
+  "retries": 0,
+  "verify": "tools/verify/T17-F2.sh",
+  "verify_sha256": "",
+  "status": "TODO",
+  "evidence": []
+ },
+ {
+  "id": "T17-R3",
+  "title": "ADVERSARY_REVIEW",
+  "track": "END",
+  "depends_on": [
+   "T17-F2"
+  ],
+  "timebox_min": 45,
+  "cap_min": 135,
+  "minutes_used": 0,
+  "retries": 0,
+  "verify": "tools/verify/T17-R3.sh",
+  "verify_sha256": "",
+  "status": "TODO",
+  "evidence": []
+ },
+ {
+  "id": "T18",
+  "title": "CLEAN_REPORT",
+  "track": "END",
+  "depends_on": [
+   "T17-R3"
+  ],
+  "timebox_min": 20,
+  "cap_min": 60,
+  "minutes_used": 0,
+  "retries": 0,
+  "verify": "tools/verify/T18.sh",
+  "verify_sha256": "",
+  "status": "TODO",
+  "evidence": []
+ }
+]

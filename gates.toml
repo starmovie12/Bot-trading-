@@ -1,0 +1,2 @@
+# gates.toml: every gate number (MISSION V11 §8), never weaker than tools/floors_baseline.toml.
+# Written in T10 (floors, TRIALS_MAX, holdout window, R-stage gates) before the first trial.

@@ -1,0 +1,3 @@
+# constants.toml: facts of the world (MISSION V11 §5.4). Filled in T03.
+# Row schema: [name] value, unit, tag, source_url, fetched, ttl_days, status, extract
+# A SOURCE row must match its evidence extract EVIDENCE/T03/src_<name>.txt (mission_check #18).

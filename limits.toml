@@ -1,0 +1,73 @@
+# limits.toml: the ONE source of hard limits and risk limits (MISSION V11 §5.4).
+# Each value: value, unit, tag, direction. direction ∈ exact | lower_is_tighter | higher_is_tighter.
+# derived = computed from other values, never set by hand.
+# Chain (tested from T06): 2 × MAX_TRADE_LOSS_RS ≤ MAX_DRAWDOWN_RS ≤ MAX_TOTAL_LOSS_RS ≤ CAPITAL_RS,
+#                          EQUITY_FLOOR_RS = CAPITAL_RS − MAX_TOTAL_LOSS_RS.
+# Protected (rule per_value) from seal/T02a: tightening = DECISIONS entry; loosening = owner approval.
+# Loss locks (F-S118) and COOLOFF_MIN are migrated from niyam.toml in T06 (the lower ₹ risk wins).
+
+[CAPITAL_RS]
+value = 15000
+unit = "INR"
+tag = "OWNER"
+direction = "exact"
+note = "H1: total capital at risk, no refill, no top-up"
+
+[MAX_TOTAL_LOSS_RS]
+value = 4500
+unit = "INR"
+tag = "ASSUMPTION"
+direction = "lower_is_tighter"
+question = "F-MAXLOSS"
+note = "30% of capital until the owner answers F-MAXLOSS"
+
+[EQUITY_FLOOR_RS]
+value = 10500
+unit = "INR"
+tag = "CODE(ASSUMPTION)"
+direction = "higher_is_tighter"
+derived = "CAPITAL_RS - MAX_TOTAL_LOSS_RS"
+
+[MAX_DRAWDOWN_RS]
+value = 2250
+unit = "INR"
+tag = "CODE(ASSUMPTION)"
+direction = "lower_is_tighter"
+derived = "0.5 * MAX_TOTAL_LOSS_RS"
+note = "HARD KILL (§11)"
+
+[MAX_TRADE_LOSS_RS]
+value = 1125
+unit = "INR"
+tag = "CODE(ASSUMPTION)"
+direction = "lower_is_tighter"
+derived = "0.5 * MAX_DRAWDOWN_RS"
+note = "by construction (I7), round-trip charges included"
+
+[H2_MONTHLY_RS]
+value = 1500
+unit = "INR per month"
+tag = "OWNER"
+direction = "lower_is_tighter"
+note = "H2: only NEW spend the bot causes; question F-H2PCT (created in T04) may tighten it"
+
+[EARLY_SLIP_RS]
+value = 225
+unit = "INR"
+tag = "CODE(ASSUMPTION)"
+direction = "lower_is_tighter"
+derived = "0.1 * MAX_DRAWDOWN_RS"
+
+[MAX_LOTS]
+value = 1
+unit = "lots per F&O leg"
+tag = "ASSUMPTION"
+direction = "lower_is_tighter"
+note = "the gateway also hard-codes ABS_MAX_LOTS = 1 (I9); the effective cap is the smaller"
+
+[REDUCE_ONLY_BAND_PCT]
+value = [5, 10, 20]
+unit = "% of LTP, k = 1, 2, 3"
+tag = "ASSUMPTION"
+direction = "exact"
+note = "I9b band ladder. Exact: a narrower band protects the price but may leave an exit unfilled, a wider band fills but at a worse price, so any change needs an owner approval"
