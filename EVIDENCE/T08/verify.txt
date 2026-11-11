@@ -1,0 +1,11 @@
+$ tools/verify/T08.sh 
+PASS families: >= 8, >= 3 unconventional, tagged numbers
+PASS WAR_ROOM.md and families.json reproduce byte for byte
+PASS every NEGATIVE.md data row carries a number and a tag
+PASS checker rejected two_unconventional
+PASS checker rejected sim_kill
+PASS checker rejected history_kill
+PASS checker rejected untagged
+PASS no mission-v11 temp dir left
+T08 verify: 0 failure(s)
+[exit 0]

@@ -1,6 +1,6 @@
 DHYAN: INCIDENT #1 khula hai (kul 3 khule) · FAISLA: ABHI NAHI (data kam; kharche / niyam ka hisaab adhoora; data rakhne ki ijazat saaf nahi) · INTERIM
 SEEDHI BAAT: G0 ka nateeja: abhi har raasta adhoora (CONDITIONAL), kyunki web band tha aur koi kharcha official page se pakka nahi ho saka; sabse sasta static-IP server bhi ₹554.25/mahina [ginti (purani baat par)] = 3.7% [ginti (purani baat par)] capital har mahine khata hai.
-KYA BAN GAYA: T01 se T06 aur T09: guard aur mohar · har tathya ka URL · G0 ka hisaab · Recorder bundle (sirf dry-run) · risk limits ab ek hi jagah (limits.toml)
+KYA BAN GAYA: T01 se T09: guard aur mohar · har tathya ka URL · G0 ka hisaab · Recorder bundle (sirf dry-run) · limits ek jagah · autopsy · nau strategy families ka hisaab
 KAAM 1: INCIDENT #1: tumne bataya wo naam tumhara nahi; chat mein likho: haan F-INC-1 be92 aur haan F-PROT-3 81a5 (tab internet on hoga)
 KAAM 2: INCIDENT #3 aur #2 (sirf jaankari): haan F-INC-3 d9e1 · haan F-INC-2 fc8c
 KAAM 3: Upstox se likhit mein poochho: API market data apne personal backtest ke liye store kar sakte ho? (DATA_RIGHTS)
@@ -12,7 +12,7 @@ SAWAL F-REMOTE (code 2350): default na (sirf local commit) | ₹ asar seedha nah
 PAISA KAMANE KA RAASTA: tested set mein abhi koi pakka raasta nahi mila (G0 adhoora). Sabse sasta agla raasta: pehle INCIDENT #1 theek karke kharche official page se pakke karna; phir MANUAL mode mein Recorder se asli data (server ka kharcha nahi); saboot bahut lamba lagega
 MANZOORI (is session): koi nahi
 BHAROSA: alag jaanch: nahi hui | khuli badi galtiyan: koi nahi (alag jaanch abhi nahi hui) | kya verify NAHI hua: koi bhi bahari tathya (web band: INCIDENT #1); chhote kharche (internet, bijli, CA) sirf maanyata | final check laal: ek safety test laal (purana order-endpoint wala test; jhootha alarm, galti meri): fix ke liye F-PROT-1 manzoori
-SAMAY: session 3 · 41 min chala · baad mein: T07, T08, T10 (agle session ya isi mein) · SEAL: 8ad3471a · TRIALS: khaali · push: local only (F-REMOTE ki manzoori nahi; INCIDENT #1 khula) · baaki: 15 kaam, 18 sawal (OWNER_TODO.md)
+SAMAY: session 3 · 42 min chala · baad mein: T10 (faisla niyam aur truth tests), phir T11, T12 · SEAL: 8ad3471a · TRIALS: khaali · push: local only (F-REMOTE ki manzoori nahi; INCIDENT #1 khula) · baaki: 14 kaam, 18 sawal (OWNER_TODO.md)
 
 RECORDER CARD:
 abhi asli recording nahi: Upstox feed ka adapter nahi bana (format verify nahi hua) aur data rakhne ki ijazat saaf nahi
@@ -37,8 +37,8 @@ NOT_YET(NO_DATA, G0_CONDITIONAL, DATA_RIGHTS_OPEN) · report INTERIM · push: lo
 | T09 | FULL | PASS | 30 / 45 | 1 |
 | T06 | BOTH | PASS | 45 / 30 | 2 |
 | T07 | BOTH | PASS | 35 / 45 | 4 |
-| T08 | BOTH | IN_PROGRESS | 15 / 20 | 0 |
-| T10 | BOTH | TODO | 0 / 60 | 0 |
+| T08 | BOTH | PASS | 20 / 20 | 2 |
+| T10 | BOTH | IN_PROGRESS | 0 / 60 | 0 |
 | T11 | FULL-A | TODO | 0 / 45 | 0 |
 | T12 | FULL-A | TODO | 0 / 30 | 0 |
 | T13a | FULL-B | TODO | 0 / 60 | 0 |

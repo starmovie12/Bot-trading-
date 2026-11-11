@@ -185,12 +185,15 @@
   ],
   "timebox_min": 20,
   "cap_min": 60,
-  "minutes_used": 15,
+  "minutes_used": 20,
   "retries": 0,
   "verify": "tools/verify/T08.sh",
   "verify_sha256": "915ea7867762879db9ddae1d6eaeb7d41fb6c845d0c8f54cf09e6da5efd6f091",
-  "status": "IN_PROGRESS",
-  "evidence": []
+  "status": "PASS",
+  "evidence": [
+   "EVIDENCE/T08/verify.txt",
+   "EVIDENCE/T08/families.json"
+  ]
  },
  {
   "id": "T10",
@@ -206,7 +209,7 @@
   "retries": 0,
   "verify": "tools/verify/T10.sh",
   "verify_sha256": "",
-  "status": "TODO",
+  "status": "IN_PROGRESS",
   "evidence": []
  },
  {

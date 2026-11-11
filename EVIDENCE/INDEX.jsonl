@@ -179,3 +179,4 @@
 {"path": "EVIDENCE/T08/war_room.txt", "sha256": "49c33e161c6235aa11fc10b9198af882006c0810d49b6b0e8d4d33fc5dd15a54", "cmd": "python3 tools/war_room.py", "time": "2026-11-11T13:29:59Z", "exit": 0}
 {"path": "EVIDENCE/T08/war_room.txt", "sha256": "49c33e161c6235aa11fc10b9198af882006c0810d49b6b0e8d4d33fc5dd15a54", "cmd": "python3 tools/war_room.py", "time": "2026-11-11T13:30:10Z", "exit": 0}
 {"path": "EVIDENCE/T08/check.txt", "sha256": "4bc11b76b5f3a81c550a5e1ec2c9844fef4fca22a9d7a7540be0741b99925176", "cmd": "python3 tools/war_room.py --check EVIDENCE/T08/families.json", "time": "2026-11-11T13:30:11Z", "exit": 0}
+{"path": "EVIDENCE/T08/verify.txt", "sha256": "e0fcd135a6f00a2502217d383f9773c149b0f68a2efa347e9f8e119243a9bc87", "cmd": "tools/verify/T08.sh", "time": "2026-11-11T13:30:59Z", "exit": 0}
