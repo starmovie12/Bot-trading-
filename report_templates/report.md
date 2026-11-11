@@ -14,6 +14,11 @@ MANZOORI (is session): {auto:manzoori}
 BHAROSA: {auto:bharosa}
 SAMAY: {auto:samay}
 
+RECORDER CARD:
+{field:recorder_line_1}
+{field:recorder_line_2}
+{field:recorder_line_3}
+
 ---
 Technical sections below are in English (MISSION V11 §14). Numbers carry English tags and evidence paths.
 

@@ -198,3 +198,11 @@ WHY: §5.2 protected files; §12 tests are append-only
 ₹ IMPACT: none
 REVERSE BY: `haan F-PROT-1 b614` → one change to mission_check.py, re-seal, test green
 CLASS CHECK: A (tooling) · PROTECTED: yes (that is why it waits)
+
+## D-029 | T09 | 2026-11-11
+OLD → NEW: delivery built for the Recorder: `make bundle` (`tools/make_bundle.py`) writes a secret-scanned, strategy-free bundle (Recorder package, recorder.toml, OWNER_START.md, RUNBOOK.md, pack_data.py, backup_verify.py, an empty dependency lock, its own SHA256SUMS) to the gitignored dist/; `tools/pack_data.py` packs only sealed day files with checksums (a token can never enter a pack); `tools/backup_verify.py` checks a restored copy; alerts and the heartbeat are dry-run files only. The Recorder now imports no strategy code (IST helpers moved to `bot/recorder/clock.py`).
+HONEST LIMIT: the live Upstox feed adapter is not built (feed schema UNVERIFIED), so the bundle runs `--dry-run` only and `--live` is refused; the Recorder card says so (HOLD in practice, although DATA_RIGHTS is UNVERIFIED rather than NOT_ALLOWED).
+WHY: §10 item 3, T09; evidence tests/test_delivery.py and tools/verify/T09.sh
+₹ IMPACT: none
+REVERSE BY: git revert
+CLASS CHECK: C guard (no token in a bundle or pack; LIGHT only) · PROTECTED: make_report.py / report template changed under owner task T09; verify/T09.sh sealed after PASS

@@ -126,10 +126,10 @@
   ],
   "timebox_min": 45,
   "cap_min": 135,
-  "minutes_used": 0,
+  "minutes_used": 25,
   "retries": 0,
   "verify": "tools/verify/T09.sh",
-  "verify_sha256": "",
+  "verify_sha256": "cb25c273f24ad5dfb228f2ba7905ff723254d3a35870eb283542cdc77325051e",
   "status": "IN_PROGRESS",
   "evidence": []
  },

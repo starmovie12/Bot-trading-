@@ -2,7 +2,7 @@
  "verdict": "NOT_YET",
  "push": "local only (F-REMOTE ki manzoori nahi; INCIDENT #1 khula)",
  "seedhi_baat": "G0 ka nateeja: abhi har raasta adhoora (CONDITIONAL), kyunki web band tha aur koi kharcha official page se pakka nahi ho saka; sabse sasta static-IP server bhi {num:G0.s1_server_rs_pm} = {num:G0.s1_server_pct} capital har mahine khata hai.",
- "kya_ban_gaya": "T01 se T05: guard (FULL bhi) aur mohar · har tathya ka official URL · G0 ka hisaab · Recorder (sirf nakli feed par jaancha) · CP1 memo docs folder mein",
+ "kya_ban_gaya": "T01 se T05 aur T09: guard aur mohar · har tathya ka URL · G0 ka hisaab · Recorder bundle (sirf dry-run) · CP1 memo docs folder mein",
  "kaam_1": "INCIDENT #1: environment mein ACCESS_TOKEN wala naam mila; INCIDENT.md #1 ka ek raasta chuno, phir haan F-INC-1 be92",
  "kaam_2": "INCIDENT #3 aur #2 (sirf jaankari): haan F-INC-3 d9e1 · haan F-INC-2 fc8c",
  "kaam_3": "Upstox se likhit mein poochho: API market data apne personal backtest ke liye store kar sakte ho? (DATA_RIGHTS)",
@@ -43,7 +43,7 @@
  "verify_nahi": "koi bhi bahari tathya (web band: INCIDENT #1); chhote kharche (internet, bijli, CA) sirf maanyata",
  "check_laal": "ek safety test laal (purana order-endpoint wala test; jhootha alarm, galti meri): fix ke liye F-PROT-1 manzoori",
  "badi_galtiyan": "koi nahi (alag jaanch abhi nahi hui)",
- "baad_mein": "T09 (Recorder bundle), T06, T07, T08, T10",
+ "baad_mein": "T06, T07, T08, T10 (agle session ya isi mein)",
  "owner_top3": [
   "F-INC-1 be92",
   "F-MAXLOSS bca1",
@@ -71,5 +71,8 @@
   "MANUAL (signal bot de, order tum lagao): server ka kharcha nahi; baaki chhote kharche abhi sirf maanyata",
   "Default seema par ek lot ka premium: Nifty {num:G0.nifty_fit_premium_rs}, Sensex {num:G0.sensex_fit_premium_rs} tak; Nifty par har round trip ka kharcha {num:G0.nifty_charges_at_fit_rs}",
   "Saboot: mahine mein baarah trade par sau pachaas trade tak {num:G0.months_to_150_at_12}; do saal baad bhi pakadne laayak sabse chhota fayda {num:G0.mde_24m_12_rs} har trade, jabki sambhav fayda sirf {num:G0.credible_edge_12_rs} (VALIDATION_INFEASIBLE)"
- ]
+ ],
+ "recorder_line_1": "abhi asli recording nahi: Upstox feed ka adapter nahi bana (format verify nahi hua) aur data rakhne ki ijazat saaf nahi",
+ "recorder_line_2": "bundle taiyaar (dist folder, zip): sirf dry-run chalta hai, nakli data par, kuch save nahi hota",
+ "recorder_line_3": "tumhara kaam abhi: kuch nahi; pehle INCIDENT #1 aur Upstox se DATA_RIGHTS ka likhit jawab (OWNER_TODO)"
 }

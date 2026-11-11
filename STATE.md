@@ -7,7 +7,7 @@ BUDGET_MIN: 240
 PAUSE_AFTER_G0: yes
 TRACK: FULL (G0 CONDITIONAL for U1-U6: EVIDENCE/T04/g0.json; FULL-A next, FULL-B CLOSED)
 FULL-B gate: CLOSED (tools/fullb_gate.py arrives in T10; no REAL market data)
-IN_PROGRESS: T09 DELIVERY_OPS · sub-step: recorder made strategy-free (clock.py); bundle next · minutes_used: 5
+IN_PROGRESS: T09 DELIVERY_OPS · sub-step: bundle, pack, restore drill, card done; next: checkpoint, verify · minutes_used: 25
 
 ## DONE (V11)
 - T01 SYNC_SAFE: PASS (verify on 36acdef: EVIDENCE/T01/verify.txt; 20 min)

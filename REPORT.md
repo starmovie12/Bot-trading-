@@ -1,6 +1,6 @@
 DHYAN: INCIDENT #1 khula hai (kul 3 khule) · FAISLA: ABHI NAHI (data kam; kharche / niyam ka hisaab adhoora; data rakhne ki ijazat saaf nahi) · INTERIM
 SEEDHI BAAT: G0 ka nateeja: abhi har raasta adhoora (CONDITIONAL), kyunki web band tha aur koi kharcha official page se pakka nahi ho saka; sabse sasta static-IP server bhi ₹554.25/mahina [ginti (purani baat par)] = 3.7% [ginti (purani baat par)] capital har mahine khata hai.
-KYA BAN GAYA: T01 se T05: guard (FULL bhi) aur mohar · har tathya ka official URL · G0 ka hisaab · Recorder (sirf nakli feed par jaancha) · CP1 memo docs folder mein
+KYA BAN GAYA: T01 se T05 aur T09: guard aur mohar · har tathya ka URL · G0 ka hisaab · Recorder bundle (sirf dry-run) · CP1 memo docs folder mein
 KAAM 1: INCIDENT #1: environment mein ACCESS_TOKEN wala naam mila; INCIDENT.md #1 ka ek raasta chuno, phir haan F-INC-1 be92
 KAAM 2: INCIDENT #3 aur #2 (sirf jaankari): haan F-INC-3 d9e1 · haan F-INC-2 fc8c
 KAAM 3: Upstox se likhit mein poochho: API market data apne personal backtest ke liye store kar sakte ho? (DATA_RIGHTS)
@@ -12,7 +12,12 @@ SAWAL F-REMOTE (code 2350): default na (sirf local commit) | ₹ asar seedha nah
 PAISA KAMANE KA RAASTA: tested set mein abhi koi pakka raasta nahi mila (G0 adhoora). Sabse sasta agla raasta: pehle INCIDENT #1 theek karke kharche official page se pakke karna; phir MANUAL mode mein Recorder se asli data (server ka kharcha nahi); saboot bahut lamba lagega
 MANZOORI (is session): koi nahi
 BHAROSA: alag jaanch: nahi hui | khuli badi galtiyan: koi nahi (alag jaanch abhi nahi hui) | kya verify NAHI hua: koi bhi bahari tathya (web band: INCIDENT #1); chhote kharche (internet, bijli, CA) sirf maanyata | final check laal: ek safety test laal (purana order-endpoint wala test; jhootha alarm, galti meri): fix ke liye F-PROT-1 manzoori
-SAMAY: session 3 · 18 min chala · baad mein: T09 (Recorder bundle), T06, T07, T08, T10 · SEAL: c1f36384 · TRIALS: khaali · push: local only (F-REMOTE ki manzoori nahi; INCIDENT #1 khula) · baaki: 18 kaam, 14 sawal (OWNER_TODO.md)
+SAMAY: session 3 · 22 min chala · baad mein: T06, T07, T08, T10 (agle session ya isi mein) · SEAL: c1f36384 · TRIALS: khaali · push: local only (F-REMOTE ki manzoori nahi; INCIDENT #1 khula) · baaki: 18 kaam, 14 sawal (OWNER_TODO.md)
+
+RECORDER CARD:
+abhi asli recording nahi: Upstox feed ka adapter nahi bana (format verify nahi hua) aur data rakhne ki ijazat saaf nahi
+bundle taiyaar (dist folder, zip): sirf dry-run chalta hai, nakli data par, kuch save nahi hota
+tumhara kaam abhi: kuch nahi; pehle INCIDENT #1 aur Upstox se DATA_RIGHTS ka likhit jawab (OWNER_TODO)
 
 ---
 Technical sections below are in English (MISSION V11 §14). Numbers carry English tags and evidence paths.
@@ -29,7 +34,7 @@ NOT_YET(NO_DATA, G0_CONDITIONAL, DATA_RIGHTS_OPEN) · report INTERIM · push: lo
 | T04 | LITE | PASS | 32 / 45 | 3 |
 | T02b | FULL | PASS | 40 / 90 | 2 |
 | T05 | FULL | PASS | 35 / 60 | 2 |
-| T09 | FULL | IN_PROGRESS | 0 / 45 | 0 |
+| T09 | FULL | IN_PROGRESS | 25 / 45 | 0 |
 | T06 | BOTH | TODO | 0 / 30 | 0 |
 | T07 | BOTH | TODO | 0 / 45 | 0 |
 | T08 | BOTH | TODO | 0 / 20 | 0 |
@@ -141,6 +146,7 @@ Validation (power factor 4.132 at TRIALS_MAX 50), EVIDENCE/T04/g0.json:
 
 ## PROTECTED_CHANGES (since the last seal)
 - OWNER_QUESTIONS.md (rule append_only)
+- report_templates/report.md (rule exact)
 
 ## Allowlists
 Env allowlist names (tools/env_allowlist.txt): GH_TOKEN, GITHUB_TOKEN, GIT_ASKPASS, GIT_CONFIG_KEY_*, GIT_CONFIG_VALUE_*, CLAUDE_CODE_*, CLAUDE_SESSION_INGRESS_TOKEN_FILE, CCR_*, MAX_THINKING_TOKENS, BUN_TLS_EXTRA_DISTRUSTED_KEYS
