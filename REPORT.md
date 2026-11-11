@@ -1,18 +1,18 @@
-DHYAN: INCIDENT #1 khula hai (kul 3 khule) · FAISLA: ABHI NAHI (data kam; kharche / niyam ka hisaab adhoora; data rakhne ki ijazat saaf nahi) · INTERIM
+DHYAN: INCIDENT #2 khula hai (kul 2 khule) · FAISLA: ABHI NAHI (data kam; kharche / niyam ka hisaab adhoora; data rakhne ki ijazat saaf nahi) · INTERIM
 SEEDHI BAAT: G0 ka nateeja: abhi har raasta adhoora (CONDITIONAL), kyunki web band tha aur koi kharcha official page se pakka nahi ho saka; sabse sasta static-IP server bhi ₹554.25/mahina [ginti (purani baat par)] = 3.7% [ginti (purani baat par)] capital har mahine khata hai.
 KYA BAN GAYA: T01 se T10: guard aur mohar · har tathya ka URL · G0 ka hisaab · Recorder bundle (sirf dry-run) · limits ek jagah · autopsy · nau strategy families ka hisaab · faisla niyam aur truth tests · T11 ka pehla hissa: nakli data par har family ki jaanch (NONE)
-KAAM 1: GitHub upload ke liye: pehle repo Private karo (abhi PUBLIC hai), phir chat mein likho: haan F-INC-1 be92 aur haan F-REMOTE 2350 (internet ke liye saath mein haan F-PROT-3 81a5)
+KAAM 1: Repo abhi PUBLIC hai (koi bhi dekh sakta hai): GitHub par repo ki Settings mein Private karo
 KAAM 2: INCIDENT #3 aur #2 (sirf jaankari): haan F-INC-3 d9e1 · haan F-INC-2 fc8c
 KAAM 3: Upstox se likhit mein poochho: API market data apne personal backtest ke liye store kar sakte ho? (DATA_RIGHTS)
-SAWAL F-INC-1 (code be92): default khula (web + push band) | ₹ asar seedha nahi; par jab tak khula hai G0 adhoora rahega | jawab: haan / na F-INC-1 be92
 SAWAL F-DATARIGHTS (code 3fa1): default na: Recorder sirf LIGHT (derived data) | ₹ asar seedha nahi; bina ijazat data rakhna niyam todna ho sakta hai | jawab: haan / na F-DATARIGHTS 3fa1
 SAWAL F-MAXLOSS (code bca1): default ₹4,500 [maanyata] | ₹ asar ek trade ka max ab ₹450 [ginti (purani baat par)] | jawab: haan / na / set F-MAXLOSS <value> bca1
 SAWAL F-DAILY-UP-2 (code 2516): default din ka taala ₹450 [purani baat] | ₹ asar Nifty ka ek lot sirf ₹6.15 [ginti (purani baat par)] premium tak | jawab: haan / na F-DAILY-UP-2 2516
-SAWAL F-REMOTE (code 2350): default na (sirf local commit) | ₹ asar seedha nahi; par container mitne par kaam kho sakta hai | jawab: haan / na F-REMOTE 2350
+SAWAL F-INC-2 (code fc8c): default OWNER_QUESTIONS.md dekho | ₹ asar OWNER_QUESTIONS.md dekho | jawab: haan / na F-INC-2 fc8c
+SAWAL F-INC-3 (code d9e1): default OWNER_QUESTIONS.md dekho | ₹ asar OWNER_QUESTIONS.md dekho | jawab: haan / na F-INC-3 d9e1
 PAISA KAMANE KA RAASTA: tested set mein abhi koi pakka raasta nahi mila (G0 adhoora). Nakli data ki jaanch (T11) mein bhi koi family do saal ke data mein saabit hone laayak nahi nikli (NONE): kharche ke stress ke baad sambhav fayde se kai guna zyada fayda chahiye. Sabse sasta agla raasta: pehle INCIDENT #1 theek karke kharche official page se pakke karna; phir MANUAL mode mein Recorder se asli data (server ka kharcha nahi); saboot bahut lamba lagega
-MANZOORI (is session): koi nahi
+MANZOORI (is session): A-001 F-INC-1 (haan F-INC-1 be92) | A-002 F-REMOTE (haan F-REMOTE 2350)
 BHAROSA: alag jaanch: nahi hui | khuli badi galtiyan: koi nahi (alag jaanch abhi nahi hui) | kya verify NAHI hua: koi bhi bahari tathya (web band: INCIDENT #1); chhote kharche (internet, bijli, CA) sirf maanyata | final check laal: ek safety test laal (purana order-endpoint wala test; jhootha alarm, galti meri): fix ke liye F-PROT-1 manzoori
-SAMAY: session 3 · 413 min chala · baad mein: continue ke baad: T11 ka baaki hissa (claim lint, CP2 memo, verify), phir T12, phir alag jaanch (T17-R1) aur T18 · SEAL: a0baa30a · TRIALS: khaali · push: local only (F-REMOTE ki manzoori nahi; INCIDENT #1 khula) · baaki: 8 kaam, 18 sawal (OWNER_TODO.md)
+SAMAY: session 3 · 419 min chala · baad mein: continue ke baad: T11 ka baaki hissa (claim lint, CP2 memo, verify), phir T12, phir alag jaanch (T17-R1) aur T18 · SEAL: a0baa30a · TRIALS: khaali · push: mission branch GitHub par (A-002) · baaki: 8 kaam, 16 sawal (OWNER_TODO.md)
 
 RECORDER CARD:
 abhi asli recording nahi: Upstox feed ka adapter nahi bana (format verify nahi hua) aur data rakhne ki ijazat saaf nahi
@@ -23,7 +23,7 @@ tumhara kaam abhi: kuch nahi; pehle INCIDENT #1 aur Upstox se DATA_RIGHTS ka lik
 Technical sections below are in English (MISSION V11 §14). Numbers carry English tags and evidence paths.
 
 ## Verdict
-NOT_YET(NO_DATA, G0_CONDITIONAL, DATA_RIGHTS_OPEN) · report INTERIM · push: local only (F-REMOTE ki manzoori nahi; INCIDENT #1 khula)
+NOT_YET(NO_DATA, G0_CONDITIONAL, DATA_RIGHTS_OPEN) · report INTERIM · push: mission branch GitHub par (A-002)
 
 ## Tasks
 | id | track | status | minutes_used / timebox | evidence files |
@@ -54,7 +54,6 @@ NOT_YET(NO_DATA, G0_CONDITIONAL, DATA_RIGHTS_OPEN) · report INTERIM · push: lo
 | T18 | END | TODO | 0 / 20 | 0 |
 
 ## Open incidents
-- #1 · sandbox_breach · OPEN · closes with `haan F-INC-1 be92` (INCIDENT.md)
 - #2 · env_warn · OPEN · closes with `haan F-INC-2 fc8c` (INCIDENT.md)
 - #3 · env_warn · OPEN · closes with `haan F-INC-3 d9e1` (INCIDENT.md)
 
@@ -151,7 +150,7 @@ Validation (power factor 4.132 at TRIALS_MAX 50), EVIDENCE/T04/g0.json:
 | limits.MAX_TRADE_LOSS_RS | ₹450 [CODE(HISTORY)] | limits.toml |
 
 ## PROTECTED_CHANGES (since the last seal)
-none
+- OWNER_APPROVALS.md (rule append_only)
 
 ## Allowlists
 Env allowlist names (tools/env_allowlist.txt): GH_TOKEN, GITHUB_TOKEN, GIT_ASKPASS, GIT_CONFIG_KEY_*, GIT_CONFIG_VALUE_*, CLAUDE_CODE_*, CLAUDE_SESSION_INGRESS_TOKEN_FILE, CCR_*, MAX_THINKING_TOKENS, BUN_TLS_EXTRA_DISTRUSTED_KEYS

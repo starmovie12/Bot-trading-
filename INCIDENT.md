@@ -2,7 +2,7 @@
 
 Values of secrets or environment variables are never read, printed or written here: names and paths only.
 
-## #1 · sandbox_breach (STOP-THE-LINE) · OPEN
+## #1 · sandbox_breach (STOP-THE-LINE) · CLOSED
 WHAT HAPPENED: `tools/preflight.sh` found an environment-variable NAME that contains `ACCESS_TOKEN`: `CLOUDSDK_AUTH_ACCESS_TOKEN`. MISSION §1 item 9 says such a name can never be allowlisted, so it is a sandbox_breach. Its value was never read.
 WHERE: the process environment of this cloud session · evidence `EVIDENCE/T01/preflight.txt`
 WHEN: 2026-11-11 13:48 IST · session 1 · T01 step (0a)
@@ -16,6 +16,7 @@ MALIK KO KYA KARNA HAI (ek raasta chuno):
 SESSION 2 (2026-11-11 18:05 IST): preflight found the same name again (`EVIDENCE/SESSION2/preflight.txt`) → web fetch and push stay off in session 2.
 SESSION 3: same result (`EVIDENCE/SESSION3/preflight.txt`) → web fetch and push stay off in session 3.
 CLOSES WITH: `haan F-INC-1 be92`
+CLOSED: 2026-11-12 01:18 IST by the owner's line `haan F-INC-1 be92` (OWNER_APPROVALS A-001). The name is still in the environment; the owner also sent `Haan F-PROT-3 81a5` (exact-name allowlist, applied separately).
 
 ## #2 · env_warn · OPEN
 WHAT HAPPENED: secret-looking environment-variable NAMES that are not on the allowlist: `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`. Values never read.

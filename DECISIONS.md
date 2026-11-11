@@ -295,3 +295,10 @@ WHY: §9 SIM stage ("NONE is a valid result"); §12 T11, T12
 ₹ IMPACT: none directly; the easiest family needs a net edge of ₹175.51 [SIM] per trade against a credible edge of ₹15 [CODE(ESTIMATE)]
 REVERSE BY: re-run `python3 tools/sim_war_room.py` with REAL fill cost and sigma from the Recorder
 CLASS CHECK: B (statistics, SIM only) · PROTECTED: tools/verify/T11.sh is sealed with T11 (still to come)
+
+## D-040 | owner | 2026-11-12
+OLD → NEW: owner command lines (§15), applied in order: `haan F-INC-1 be92` → A-001, INCIDENT #1 CLOSED; `haan F-REMOTE 2350` → A-002, push of `mission/v11` allowed (the pre-push hook still checks incidents, the approval, the branch and the history scan); `Haan F-PROT-3 81a5` → A-003, recorded and applied in the next commit with a re-seal. The repo is PUBLIC (EVIDENCE/SESSION3/repo_visibility.txt) and the owner knew this before answering; making it private is OWNER_TODO item 0.
+WHY: §15 owner commands, §3.1; the owner asked three times in chat to upload the work
+₹ IMPACT: none
+REVERSE BY: make the GitHub repo private (a push cannot be taken back from the public web)
+CLASS CHECK: A (owner decision) · PROTECTED: OWNER_APPROVALS.md append-only

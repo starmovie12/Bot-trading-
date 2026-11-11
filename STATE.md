@@ -23,15 +23,15 @@ IN_PROGRESS: none · T11 SIM_WAR_ROOM DEFERRED(time) after sub-step: tools/sim_w
 - T04 G0_ECONOMICS: PASS (EVIDENCE/T04/verify.txt; G0 CONDITIONAL for U1-U6, TRACK FULL; seal/T04; CP1 memo docs/MEMO_CP1.md)
 
 ## NEXT
-Session 3 ended on the owner's stop (OWNER_NOTES.md). On `continue` (session 4): T11 resume (claim lint, CP2 memo, tests, verify, seal/T11) → T12 (T11 NONE → SKIPPED_BY_GATE, D-039) → END: T17-R1 → T18. FULL-B stays CLOSED. GitHub upload (push) waits for the owner's lines `haan F-INC-1 be92` + `haan F-REMOTE 2350`.
+Session 3 ended on the owner's stop (OWNER_NOTES.md). On `continue` (session 4): T11 resume (claim lint, CP2 memo, tests, verify, seal/T11) → T12 (T11 NONE → SKIPPED_BY_GATE, D-039) → END: T17-R1 → T18. FULL-B stays CLOSED. Owner lines applied (D-040): INCIDENT #1 closed, push allowed, F-PROT-3 to apply with a re-seal.
 
 ## OPEN INCIDENTS (INCIDENT.md)
-- #1 sandbox_breach: env name CLOUDSDK_AUTH_ACCESS_TOKEN → no push, no web fetch this session (closes: haan F-INC-1 be92)
+- #1 sandbox_breach: CLOSED by the owner (A-001, 2026-11-12)
 - #2 env_warn: AWS_ACCESS_KEY_ID / AWS_SECRET_ACCESS_KEY names (closes: haan F-INC-2 fc8c)
 - #3 env_warn: LIVE_TRADING_ENABLED name (closes: haan F-INC-3 d9e1)
 
 ## PUSH
-local only (F-REMOTE not approved; INCIDENT #1 open; .githooks/pre-push enforces both)
+allowed for mission/v11 only (A-002; .githooks/pre-push checks it); repo is PUBLIC (OWNER_TODO item 0)
 
 ## STASHES
 - stash@{0} "v5 WIP truth framework (engine hooks, synthetic, truth, breakeven)" from the old branch (DECISIONS D-003)
@@ -43,9 +43,9 @@ make smoke (ruff, ruff format, mypy, pytest via python3 -m; gofmt, go vet, go te
 limits.toml (one source of limits) · constants.toml (T03) · assumptions: DECISIONS.md D-010 and the defaults in OWNER_QUESTIONS.md · inputs: docs/00_input (MISSING_INPUT.md)
 
 ## OWNER_TODO top 3 (full list: OWNER_TODO.md)
-0. INCIDENT #1: sandbox theek karo, phir haan F-INC-1 be92
+0. Repo PUBLIC hai: GitHub par Private karo
 1. INCIDENT #3 + #2 (sirf jaankari): haan F-INC-3 d9e1 · haan F-INC-2 fc8c
-2. DATA_RIGHTS: Upstox se likhit jawab; CP1 sawal docs/MEMO_CP1.md (F-MAXLOSS bca1, F-H2PCT be04, ...); F-REMOTE 2350
+2. DATA_RIGHTS: Upstox se likhit jawab; CP1 sawal docs/MEMO_CP1.md (F-MAXLOSS bca1, F-H2PCT be04, ...)
 
 ## HASHES
 SHA256SUMS: sha256 20ab86987b20971e (file; covers docs/00_input and MISSION.md)
