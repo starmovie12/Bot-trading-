@@ -12,15 +12,13 @@ from dataclasses import dataclass, field
 from typing import Literal
 
 from bot.dimaag.candles import OPEN_MIN, Candle
+from bot.recorder.clock import IST_OFFSET_NS, ist_minute
 from bot.recorder.journal import Record
 from bot.strategy.selection import Quote
 
-IST_OFFSET_NS = (5 * 60 + 30) * 60 * 1_000_000_000
+__all__ = ["CLOSE_MIN", "IST_OFFSET_NS", "RecordedBook", "candles_from_ticks", "ist_minute"]
+
 CLOSE_MIN = 15 * 60 + 30
-
-
-def ist_minute(ts_ns: int) -> int:
-    return ((ts_ns + IST_OFFSET_NS) // 60_000_000_000) % (24 * 60)
 
 
 def candles_from_ticks(records: Iterable[Record], key: str) -> list[Candle]:

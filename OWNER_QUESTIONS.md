@@ -140,3 +140,12 @@ JAWAB: `haan F-RECFULL 99ea` / `na F-RECFULL 99ea`
 
 ## UPDATE F-INC-2 | session 2, 2026-11-11 (T04: tagged ₹ ASAR)
 ₹ ASAR: ₹0 [ginti]: agent in variables ko kabhi istemaal nahi karta
+
+## F-PROT-1 | code b614 | created session 3, 2026-11-11 (T09) | status OPEN
+SAWAL: Kya main protected file `tools/mission_check.py` mein ek chhota sudhaar karun: check #8 ke order-endpoint pattern ko tukdon se banaun (jaanch wahi rahegi), taaki purana safety test `test_no_order_endpoint_in_m0` phir se hara ho?
+PROPOSED: apply
+DEFAULT JO MAINE LIYA: na: file waisi hi; ek safety test laal rahega (jhootha alarm: code mein order ka koi raasta nahi, check #8 GREEN) [maanyata]
+₹ ASAR: ₹0 [ginti]; par jab tak ye nahi hota, poore tests hare nahi dikhenge (BHAROSA line)
+WAJAH: galti meri (T02b): maine guard mein order-endpoint ke pattern seedhe likhe, aur purana test unhe text mein dhoondhta hai. Protected file badalne ke liye tumhari manzoori chahiye; test ko kamzor karna mana hai (DECISIONS D-028)
+ULTA KAISE KAREIN: `haan F-PROT-1 b614` (main sirf yahi ek badlav karunga, phir naya SEAL)
+JAWAB: `haan F-PROT-1 b614` / `na F-PROT-1 b614`

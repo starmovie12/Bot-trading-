@@ -7,7 +7,7 @@ BUDGET_MIN: 240
 PAUSE_AFTER_G0: yes
 TRACK: FULL (G0 CONDITIONAL for U1-U6: EVIDENCE/T04/g0.json; FULL-A next, FULL-B CLOSED)
 FULL-B gate: CLOSED (tools/fullb_gate.py arrives in T10; no REAL market data)
-IN_PROGRESS: T09 DELIVERY_OPS · sub-step: start · minutes_used: 0
+IN_PROGRESS: T09 DELIVERY_OPS · sub-step: recorder made strategy-free (clock.py); bundle next · minutes_used: 5
 
 ## DONE (V11)
 - T01 SYNC_SAFE: PASS (verify on 36acdef: EVIDENCE/T01/verify.txt; 20 min)
@@ -62,4 +62,5 @@ gates.toml: not written (T10) · STRATEGY.md: not written (T12)
 - Session 3: owner wrote `continue` after CP1 without answers → all defaults stay; RUN ORDER resumes at T02b.
 - Session 1 ended by a forced stop (worker restart) during T04, after T03 PASS; owner wrote `continue` → session 2 (no seal, no budget, no answers).
 - Tools on PATH (pytest, mypy) lack the project's dev deps; always use python3 -m (D-009).
+- Run the FULL test suite (make smoke) in every task cycle before the commit (D-028). Known red: test_no_order_endpoint_in_m0 until haan F-PROT-1 b614.
 - Temp files only in ${TMPDIR:-/tmp}/mission-v11-* (D-012). Commit cycle: STATE → make_report → mission_check → safe_add → commit.

@@ -9,8 +9,8 @@
  "sawal_rank": [
   "F-INC-1",
   "F-DATARIGHTS",
+  "F-PROT-1",
   "F-MAXLOSS",
-  "F-H2PCT",
   "F-REMOTE"
  ],
  "sawal": {
@@ -33,11 +33,15 @@
   "F-REMOTE": {
    "default": "na (sirf local commit)",
    "asar": "seedha nahi; par container mitne par kaam kho sakta hai"
+  },
+  "F-PROT-1": {
+   "default": "na: file waisi hi, ek test laal",
+   "asar": "seedha nahi; poore tests hare nahi dikhenge"
   }
  },
  "raasta": "tested set mein abhi koi pakka raasta nahi mila (G0 adhoora). Sabse sasta agla raasta: pehle INCIDENT #1 theek karke kharche official page se pakke karna; phir MANUAL mode mein Recorder se asli data (server ka kharcha nahi); saboot bahut lamba lagega",
  "verify_nahi": "koi bhi bahari tathya (web band: INCIDENT #1); chhote kharche (internet, bijli, CA) sirf maanyata",
- "check_laal": "final check abhi nahi chala (T18 mein)",
+ "check_laal": "ek safety test laal (purana order-endpoint wala test; jhootha alarm, galti meri): fix ke liye F-PROT-1 manzoori",
  "badi_galtiyan": "koi nahi (alag jaanch abhi nahi hui)",
  "baad_mein": "T09 (Recorder bundle), T06, T07, T08, T10",
  "owner_top3": [
@@ -48,6 +52,7 @@
  "memo_rank": [
   "F-INC-1",
   "F-DATARIGHTS",
+  "F-PROT-1",
   "F-MAXLOSS",
   "F-H2PCT",
   "F-S118",

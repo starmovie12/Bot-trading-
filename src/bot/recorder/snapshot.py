@@ -22,8 +22,8 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any, Protocol
 
+from bot.recorder.clock import IST_OFFSET_NS, ist_minute
 from bot.recorder.journal import JournalCorrupt, JournalWriter, compress_day, read_journal
-from bot.recorder.ticks import IST_OFFSET_NS, ist_minute
 
 NS = 1_000_000_000
 OPEN_MINUTE = 9 * 60 + 15  # 09:15 IST

@@ -189,3 +189,12 @@ WHY: §10 item 2, T05; DATA_RIGHTS = UNVERIFIED keeps LIGHT scope
 ₹ IMPACT: server ₹0 [CODE(OWNER)] for the Recorder (owner's own machine, S0)
 REVERSE BY: git revert; FULL scope only after its gates
 CLASS CHECK: C guard (data rights: LIGHT only) · PROTECTED: verify/T05.sh sealed after PASS
+
+## D-028 | T09 | 2026-11-11
+OLD → NEW: self-found regression: T02b put the order-endpoint DETECTION patterns of check #8 into `tools/mission_check.py` as plain text; the older safety test `tests/test_safety.py::test_no_order_endpoint_in_m0` scans code files for those words as text, so it has failed since commit e22b048. The T02b cycle ran mission_check and the canaries but not the full pytest suite, so it was missed until now. It is a false alarm about an order path (check #8 finds no broker order call site; EVIDENCE/T02b/verify.txt), but the test suite is not green.
+FIX: blocked on the owner. The clean fix (build the patterns from fragments, same semantics) changes a protected `exact` file whose owner tasks (T02a, T02b) are closed, so it needs `haan F-PROT-1 b614`; weakening the test instead was refused (and is not allowed by MISSION §12). Default until answered: the file stays as sealed and one test stays red, shown on REPORT line 14.
+PROCESS FIX: from now on every task cycle runs the full test suite (`make smoke`) before its commit (STATE.md note).
+WHY: §5.2 protected files; §12 tests are append-only
+₹ IMPACT: none
+REVERSE BY: `haan F-PROT-1 b614` → one change to mission_check.py, re-seal, test green
+CLASS CHECK: A (tooling) · PROTECTED: yes (that is why it waits)
