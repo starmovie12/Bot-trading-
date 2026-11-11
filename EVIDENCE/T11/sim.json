@@ -1,0 +1,751 @@
+{
+ "inputs": {
+  "EVIDENCE/T04/g0.json": "958d90738a7639c8d550831f2f68f0034d43201d265ca03b1f6529d0bb56d137",
+  "EVIDENCE/T08/families.json": "d4fca80b71874f971ff1a0385b2793be18b503f42850895f54f0610a058ed565",
+  "gates.toml": "eb38296cc1ae400330741888ca4b4687002cb2339cb3284d06fc8c3f5c27b627",
+  "tools/truth_tests.py": "add690aa2d56a0a9e622a8ca9b3b95fcd87ca6108538a5fa181c686870051e2b"
+ },
+ "settings": {
+  "months": {
+   "value": 24,
+   "tag": "ASSUMPTION"
+  },
+  "days_per_month": {
+   "value": 21,
+   "tag": "ASSUMPTION"
+  },
+  "sigma_rs": {
+   "value": 500.0,
+   "tag": "ESTIMATE"
+  },
+  "runs": 50,
+  "n_boot": 200,
+  "null_runs": 1000,
+  "target_power": 0.8,
+  "seed": 2026
+ },
+ "families": [
+  {
+   "id": "a",
+   "name": "No-trade-heavy: only the best 5-12 setups a month, cash otherwise",
+   "members": [
+    "U1",
+    "U2"
+   ],
+   "kind": "unconventional",
+   "tag": "SIM",
+   "status": "RUN",
+   "per_month": {
+    "value": 8,
+    "tag": "ASSUMPTION"
+   },
+   "legs": {
+    "value": 1,
+    "tag": "ASSUMPTION"
+   },
+   "charges_per_leg_rs": {
+    "value": "48.14",
+    "tag": "CODE(HISTORY)"
+   },
+   "fill_per_leg_rs": {
+    "value": "65.00",
+    "tag": "CODE(ESTIMATE)"
+   },
+   "hurdle_rs": {
+    "value": "56.25",
+    "tag": "CODE(ASSUMPTION)"
+   },
+   "credible_rs": {
+    "value": "37.50",
+    "tag": "CODE(ESTIMATE)"
+   },
+   "stress_cut_rs": {
+    "value": 89.07,
+    "tag": "SIM"
+   },
+   "stress_cut_fill0_rs": {
+    "value": 24.07,
+    "tag": "SIM"
+   },
+   "trades_in_window": {
+    "value": 192,
+    "tag": "SIM"
+   },
+   "months_to_min_trades": {
+    "value": 18.8,
+    "tag": "SIM"
+   },
+   "null_control": {
+    "months": 24,
+    "pass": false,
+    "ok": true
+   },
+   "planted_control": {
+    "months": 24,
+    "net_rs": {
+     "value": 361.83,
+     "tag": "SIM"
+    },
+    "pass": true,
+    "ok": true
+   },
+   "kind_net_rs": {
+    "value": 93.75,
+    "tag": "SIM"
+   },
+   "power_kind": {
+    "value": 0.0,
+    "tag": "SIM"
+   },
+   "power_kind_fill0": {
+    "value": 0.08,
+    "tag": "SIM"
+   },
+   "needed_net_rs": {
+    "value": 246.41,
+    "tag": "SIM"
+   },
+   "power_needed": {
+    "value": 0.8,
+    "tag": "SIM"
+   },
+   "needed_over_credible": {
+    "value": 6.6,
+    "tag": "SIM"
+   },
+   "judgeable_in_window": true,
+   "candidate": false,
+   "why": "even at the kind edge with every fill at ₹0 the harness passes too rarely"
+  },
+  {
+   "id": "b",
+   "name": "Defined-risk premium selling (credit spread / condor)",
+   "members": [
+    "U3"
+   ],
+   "kind": "conventional",
+   "tag": "SIM",
+   "status": "RUN",
+   "per_month": {
+    "value": 4,
+    "tag": "ASSUMPTION"
+   },
+   "legs": {
+    "value": 2,
+    "tag": "ASSUMPTION"
+   },
+   "charges_per_leg_rs": {
+    "value": "48.14",
+    "tag": "CODE(HISTORY)"
+   },
+   "fill_per_leg_rs": {
+    "value": "65.00",
+    "tag": "CODE(ESTIMATE)"
+   },
+   "hurdle_rs": {
+    "value": "112.50",
+    "tag": "CODE(ASSUMPTION)"
+   },
+   "credible_rs": {
+    "value": "75.00",
+    "tag": "CODE(ESTIMATE)"
+   },
+   "stress_cut_rs": {
+    "value": 178.14,
+    "tag": "SIM"
+   },
+   "stress_cut_fill0_rs": {
+    "value": 48.14,
+    "tag": "SIM"
+   },
+   "trades_in_window": {
+    "value": 96,
+    "tag": "SIM"
+   },
+   "months_to_min_trades": {
+    "value": 37.5,
+    "tag": "SIM"
+   },
+   "null_control": {
+    "months": 38,
+    "pass": false,
+    "ok": true
+   },
+   "planted_control": {
+    "months": 38,
+    "net_rs": {
+     "value": 533.97,
+     "tag": "SIM"
+    },
+    "pass": true,
+    "ok": true
+   },
+   "kind_net_rs": {
+    "value": 187.5,
+    "tag": "SIM"
+   },
+   "power_kind": {
+    "value": 0.0,
+    "tag": "SIM"
+   },
+   "power_kind_fill0": {
+    "value": 0.0,
+    "tag": "SIM"
+   },
+   "needed_net_rs": null,
+   "power_needed": null,
+   "needed_over_credible": null,
+   "judgeable_in_window": false,
+   "candidate": false,
+   "why": "24 months give 96 trades, below min_trades 150: the harness cannot judge it inside the window"
+  },
+  {
+   "id": "c",
+   "name": "Option buying with IV-percentile, event and time-stop filters",
+   "members": [
+    "U1",
+    "U2"
+   ],
+   "kind": "conventional",
+   "tag": "SIM",
+   "status": "RUN",
+   "per_month": {
+    "value": 12,
+    "tag": "ASSUMPTION"
+   },
+   "legs": {
+    "value": 1,
+    "tag": "ASSUMPTION"
+   },
+   "charges_per_leg_rs": {
+    "value": "48.14",
+    "tag": "CODE(HISTORY)"
+   },
+   "fill_per_leg_rs": {
+    "value": "65.00",
+    "tag": "CODE(ESTIMATE)"
+   },
+   "hurdle_rs": {
+    "value": "37.50",
+    "tag": "CODE(ASSUMPTION)"
+   },
+   "credible_rs": {
+    "value": "25.00",
+    "tag": "CODE(ESTIMATE)"
+   },
+   "stress_cut_rs": {
+    "value": 89.07,
+    "tag": "SIM"
+   },
+   "stress_cut_fill0_rs": {
+    "value": 24.07,
+    "tag": "SIM"
+   },
+   "trades_in_window": {
+    "value": 288,
+    "tag": "SIM"
+   },
+   "months_to_min_trades": {
+    "value": 12.5,
+    "tag": "SIM"
+   },
+   "null_control": {
+    "months": 24,
+    "pass": false,
+    "ok": true
+   },
+   "planted_control": {
+    "months": 24,
+    "net_rs": {
+     "value": 303.35,
+     "tag": "SIM"
+    },
+    "pass": true,
+    "ok": true
+   },
+   "kind_net_rs": {
+    "value": 62.5,
+    "tag": "SIM"
+   },
+   "power_kind": {
+    "value": 0.0,
+    "tag": "SIM"
+   },
+   "power_kind_fill0": {
+    "value": 0.02,
+    "tag": "SIM"
+   },
+   "needed_net_rs": {
+    "value": 209.11,
+    "tag": "SIM"
+   },
+   "power_needed": {
+    "value": 0.82,
+    "tag": "SIM"
+   },
+   "needed_over_credible": {
+    "value": 8.4,
+    "tag": "SIM"
+   },
+   "judgeable_in_window": true,
+   "candidate": false,
+   "why": "even at the kind edge with every fill at ₹0 the harness passes too rarely"
+  },
+  {
+   "id": "d",
+   "name": "Expiry-day structure (gamma / pinning on the weekly expiry)",
+   "members": [
+    "U1",
+    "U2",
+    "U3"
+   ],
+   "kind": "conventional",
+   "tag": "SIM",
+   "status": "RUN",
+   "per_month": {
+    "value": 4,
+    "tag": "ASSUMPTION"
+   },
+   "legs": {
+    "value": 1,
+    "tag": "ASSUMPTION"
+   },
+   "charges_per_leg_rs": {
+    "value": "48.14",
+    "tag": "CODE(HISTORY)"
+   },
+   "fill_per_leg_rs": {
+    "value": "65.00",
+    "tag": "CODE(ESTIMATE)"
+   },
+   "hurdle_rs": {
+    "value": "112.50",
+    "tag": "CODE(ASSUMPTION)"
+   },
+   "credible_rs": {
+    "value": "75.00",
+    "tag": "CODE(ESTIMATE)"
+   },
+   "stress_cut_rs": {
+    "value": 89.07,
+    "tag": "SIM"
+   },
+   "stress_cut_fill0_rs": {
+    "value": 24.07,
+    "tag": "SIM"
+   },
+   "trades_in_window": {
+    "value": 96,
+    "tag": "SIM"
+   },
+   "months_to_min_trades": {
+    "value": 37.5,
+    "tag": "SIM"
+   },
+   "null_control": {
+    "months": 38,
+    "pass": false,
+    "ok": true
+   },
+   "planted_control": {
+    "months": 38,
+    "net_rs": {
+     "value": 444.9,
+     "tag": "SIM"
+    },
+    "pass": true,
+    "ok": true
+   },
+   "kind_net_rs": {
+    "value": 187.5,
+    "tag": "SIM"
+   },
+   "power_kind": {
+    "value": 0.0,
+    "tag": "SIM"
+   },
+   "power_kind_fill0": {
+    "value": 0.0,
+    "tag": "SIM"
+   },
+   "needed_net_rs": null,
+   "power_needed": null,
+   "needed_over_credible": null,
+   "judgeable_in_window": false,
+   "candidate": false,
+   "why": "24 months give 96 trades, below min_trades 150: the harness cannot judge it inside the window"
+  },
+  {
+   "id": "e",
+   "name": "Time of day (opening range, closing hour, lunch lull)",
+   "members": [
+    "U1"
+   ],
+   "kind": "conventional",
+   "tag": "SIM",
+   "status": "RUN",
+   "per_month": {
+    "value": 20,
+    "tag": "ASSUMPTION"
+   },
+   "legs": {
+    "value": 1,
+    "tag": "ASSUMPTION"
+   },
+   "charges_per_leg_rs": {
+    "value": "48.14",
+    "tag": "CODE(HISTORY)"
+   },
+   "fill_per_leg_rs": {
+    "value": "65.00",
+    "tag": "CODE(ESTIMATE)"
+   },
+   "hurdle_rs": {
+    "value": "22.50",
+    "tag": "CODE(ASSUMPTION)"
+   },
+   "credible_rs": {
+    "value": "15.00",
+    "tag": "CODE(ESTIMATE)"
+   },
+   "stress_cut_rs": {
+    "value": 89.07,
+    "tag": "SIM"
+   },
+   "stress_cut_fill0_rs": {
+    "value": 24.07,
+    "tag": "SIM"
+   },
+   "trades_in_window": {
+    "value": 480,
+    "tag": "SIM"
+   },
+   "months_to_min_trades": {
+    "value": 7.5,
+    "tag": "SIM"
+   },
+   "null_control": {
+    "months": 24,
+    "pass": false,
+    "ok": true
+   },
+   "planted_control": {
+    "months": 24,
+    "net_rs": {
+     "value": 248.5,
+     "tag": "SIM"
+    },
+    "pass": true,
+    "ok": true
+   },
+   "kind_net_rs": {
+    "value": 37.5,
+    "tag": "SIM"
+   },
+   "power_kind": {
+    "value": 0.0,
+    "tag": "SIM"
+   },
+   "power_kind_fill0": {
+    "value": 0.0,
+    "tag": "SIM"
+   },
+   "needed_net_rs": {
+    "value": 175.51,
+    "tag": "SIM"
+   },
+   "power_needed": {
+    "value": 0.76,
+    "tag": "SIM"
+   },
+   "needed_over_credible": {
+    "value": 11.7,
+    "tag": "SIM"
+   },
+   "judgeable_in_window": true,
+   "candidate": false,
+   "why": "even at the kind edge with every fill at ₹0 the harness passes too rarely"
+  },
+  {
+   "id": "f",
+   "name": "Gap / event (IV crush before and after scheduled events)",
+   "members": [
+    "U1",
+    "U3"
+   ],
+   "kind": "conventional",
+   "tag": "SIM",
+   "status": "RUN",
+   "per_month": {
+    "value": 4,
+    "tag": "ASSUMPTION"
+   },
+   "legs": {
+    "value": 2,
+    "tag": "ASSUMPTION"
+   },
+   "charges_per_leg_rs": {
+    "value": "48.14",
+    "tag": "CODE(HISTORY)"
+   },
+   "fill_per_leg_rs": {
+    "value": "65.00",
+    "tag": "CODE(ESTIMATE)"
+   },
+   "hurdle_rs": {
+    "value": "112.50",
+    "tag": "CODE(ASSUMPTION)"
+   },
+   "credible_rs": {
+    "value": "75.00",
+    "tag": "CODE(ESTIMATE)"
+   },
+   "stress_cut_rs": {
+    "value": 178.14,
+    "tag": "SIM"
+   },
+   "stress_cut_fill0_rs": {
+    "value": 48.14,
+    "tag": "SIM"
+   },
+   "trades_in_window": {
+    "value": 96,
+    "tag": "SIM"
+   },
+   "months_to_min_trades": {
+    "value": 37.5,
+    "tag": "SIM"
+   },
+   "null_control": {
+    "months": 38,
+    "pass": false,
+    "ok": true
+   },
+   "planted_control": {
+    "months": 38,
+    "net_rs": {
+     "value": 533.97,
+     "tag": "SIM"
+    },
+    "pass": true,
+    "ok": true
+   },
+   "kind_net_rs": {
+    "value": 187.5,
+    "tag": "SIM"
+   },
+   "power_kind": {
+    "value": 0.0,
+    "tag": "SIM"
+   },
+   "power_kind_fill0": {
+    "value": 0.0,
+    "tag": "SIM"
+   },
+   "needed_net_rs": null,
+   "power_needed": null,
+   "needed_over_credible": null,
+   "judgeable_in_window": false,
+   "candidate": false,
+   "why": "24 months give 96 trades, below min_trades 150: the harness cannot judge it inside the window"
+  },
+  {
+   "id": "g",
+   "name": "Breadth / heavyweight lead-lag (index heavyweights lead the index)",
+   "members": [
+    "U1"
+   ],
+   "kind": "unconventional",
+   "tag": "SIM",
+   "status": "RUN",
+   "per_month": {
+    "value": 20,
+    "tag": "ASSUMPTION"
+   },
+   "legs": {
+    "value": 1,
+    "tag": "ASSUMPTION"
+   },
+   "charges_per_leg_rs": {
+    "value": "48.14",
+    "tag": "CODE(HISTORY)"
+   },
+   "fill_per_leg_rs": {
+    "value": "65.00",
+    "tag": "CODE(ESTIMATE)"
+   },
+   "hurdle_rs": {
+    "value": "22.50",
+    "tag": "CODE(ASSUMPTION)"
+   },
+   "credible_rs": {
+    "value": "15.00",
+    "tag": "CODE(ESTIMATE)"
+   },
+   "stress_cut_rs": {
+    "value": 89.07,
+    "tag": "SIM"
+   },
+   "stress_cut_fill0_rs": {
+    "value": 24.07,
+    "tag": "SIM"
+   },
+   "trades_in_window": {
+    "value": 480,
+    "tag": "SIM"
+   },
+   "months_to_min_trades": {
+    "value": 7.5,
+    "tag": "SIM"
+   },
+   "null_control": {
+    "months": 24,
+    "pass": false,
+    "ok": true
+   },
+   "planted_control": {
+    "months": 24,
+    "net_rs": {
+     "value": 248.5,
+     "tag": "SIM"
+    },
+    "pass": true,
+    "ok": true
+   },
+   "kind_net_rs": {
+    "value": 37.5,
+    "tag": "SIM"
+   },
+   "power_kind": {
+    "value": 0.0,
+    "tag": "SIM"
+   },
+   "power_kind_fill0": {
+    "value": 0.0,
+    "tag": "SIM"
+   },
+   "needed_net_rs": {
+    "value": 175.51,
+    "tag": "SIM"
+   },
+   "power_needed": {
+    "value": 0.76,
+    "tag": "SIM"
+   },
+   "needed_over_credible": {
+    "value": 11.7,
+    "tag": "SIM"
+   },
+   "judgeable_in_window": true,
+   "candidate": false,
+   "why": "even at the kind edge with every fill at ₹0 the harness passes too rarely"
+  },
+  {
+   "id": "h",
+   "name": "Non-options: equity intraday (cash) and index ETF delivery",
+   "members": [
+    "U5",
+    "U6"
+   ],
+   "kind": "unconventional",
+   "tag": "SIM",
+   "status": "NOT_RUN",
+   "candidate": false,
+   "why": "no cost row: equity / ETF charges are not in constants.toml (T03 needs the web)"
+  },
+  {
+   "id": "i",
+   "name": "Own idea: MANUAL low-frequency debit spreads (no server, no static IP)",
+   "members": [
+    "U2"
+   ],
+   "kind": "unconventional",
+   "tag": "SIM",
+   "status": "RUN",
+   "per_month": {
+    "value": 8,
+    "tag": "ASSUMPTION"
+   },
+   "legs": {
+    "value": 2,
+    "tag": "ASSUMPTION"
+   },
+   "charges_per_leg_rs": {
+    "value": "48.14",
+    "tag": "CODE(HISTORY)"
+   },
+   "fill_per_leg_rs": {
+    "value": "65.00",
+    "tag": "CODE(ESTIMATE)"
+   },
+   "hurdle_rs": {
+    "value": "56.25",
+    "tag": "CODE(ASSUMPTION)"
+   },
+   "credible_rs": {
+    "value": "37.50",
+    "tag": "CODE(ESTIMATE)"
+   },
+   "stress_cut_rs": {
+    "value": 178.14,
+    "tag": "SIM"
+   },
+   "stress_cut_fill0_rs": {
+    "value": 48.14,
+    "tag": "SIM"
+   },
+   "trades_in_window": {
+    "value": 192,
+    "tag": "SIM"
+   },
+   "months_to_min_trades": {
+    "value": 18.8,
+    "tag": "SIM"
+   },
+   "null_control": {
+    "months": 24,
+    "pass": false,
+    "ok": true
+   },
+   "planted_control": {
+    "months": 24,
+    "net_rs": {
+     "value": 450.9,
+     "tag": "SIM"
+    },
+    "pass": true,
+    "ok": true
+   },
+   "kind_net_rs": {
+    "value": 93.75,
+    "tag": "SIM"
+   },
+   "power_kind": {
+    "value": 0.0,
+    "tag": "SIM"
+   },
+   "power_kind_fill0": {
+    "value": 0.02,
+    "tag": "SIM"
+   },
+   "needed_net_rs": {
+    "value": 335.48,
+    "tag": "SIM"
+   },
+   "power_needed": {
+    "value": 0.8,
+    "tag": "SIM"
+   },
+   "needed_over_credible": {
+    "value": 8.9,
+    "tag": "SIM"
+   },
+   "judgeable_in_window": true,
+   "candidate": false,
+   "why": "even at the kind edge with every fill at ₹0 the harness passes too rarely"
+  }
+ ],
+ "result": "NONE",
+ "candidates": [],
+ "line": "NONE: no family reaches 80% power in 24 months of SIM trades, even at the kind edge (hurdle + credible edge) with every fill at ₹0"
+}

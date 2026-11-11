@@ -1,0 +1,3 @@
+$ printf %s\\n Platform\ repo\ list\ \(mcp\ claude-code-remote\ list_repos\,\ 2026-11-12\):\ starmovie12/Bot-trading-\ visibility\ =\ public\;\ can_push\ =\ true.\ Read-only\ listing\;\ no\ push\,\ no\ web\ page\ fetched. 
+Platform repo list (mcp claude-code-remote list_repos, 2026-11-12): starmovie12/Bot-trading- visibility = public; can_push = true. Read-only listing; no push, no web page fetched.
+[exit 0]

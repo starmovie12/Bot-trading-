@@ -2,8 +2,8 @@
  "verdict": "NOT_YET",
  "push": "local only (F-REMOTE ki manzoori nahi; INCIDENT #1 khula)",
  "seedhi_baat": "G0 ka nateeja: abhi har raasta adhoora (CONDITIONAL), kyunki web band tha aur koi kharcha official page se pakka nahi ho saka; sabse sasta static-IP server bhi {num:G0.s1_server_rs_pm} = {num:G0.s1_server_pct} capital har mahine khata hai.",
- "kya_ban_gaya": "T01 se T09: guard aur mohar · har tathya ka URL · G0 ka hisaab · Recorder bundle (sirf dry-run) · limits ek jagah · autopsy · nau strategy families ka hisaab",
- "kaam_1": "INCIDENT #1: tumne bataya wo naam tumhara nahi; chat mein likho: haan F-INC-1 be92 aur haan F-PROT-3 81a5 (tab internet on hoga)",
+ "kya_ban_gaya": "T01 se T10: guard aur mohar · har tathya ka URL · G0 ka hisaab · Recorder bundle (sirf dry-run) · limits ek jagah · autopsy · nau strategy families ka hisaab · faisla niyam aur truth tests · T11 ka pehla hissa: nakli data par har family ki jaanch (NONE)",
+ "kaam_1": "GitHub upload ke liye: pehle repo Private karo (abhi PUBLIC hai), phir chat mein likho: haan F-INC-1 be92 aur haan F-REMOTE 2350 (internet ke liye saath mein haan F-PROT-3 81a5)",
  "kaam_2": "INCIDENT #3 aur #2 (sirf jaankari): haan F-INC-3 d9e1 · haan F-INC-2 fc8c",
  "kaam_3": "Upstox se likhit mein poochho: API market data apne personal backtest ke liye store kar sakte ho? (DATA_RIGHTS)",
  "sawal_rank": [
@@ -43,15 +43,15 @@
    "asar": "Nifty ka ek lot sirf {num:G0.nifty_fit_premium_rs} premium tak"
   }
  },
- "raasta": "tested set mein abhi koi pakka raasta nahi mila (G0 adhoora). Sabse sasta agla raasta: pehle INCIDENT #1 theek karke kharche official page se pakke karna; phir MANUAL mode mein Recorder se asli data (server ka kharcha nahi); saboot bahut lamba lagega",
+ "raasta": "tested set mein abhi koi pakka raasta nahi mila (G0 adhoora). Nakli data ki jaanch (T11) mein bhi koi family do saal ke data mein saabit hone laayak nahi nikli (NONE): kharche ke stress ke baad sambhav fayde se kai guna zyada fayda chahiye. Sabse sasta agla raasta: pehle INCIDENT #1 theek karke kharche official page se pakke karna; phir MANUAL mode mein Recorder se asli data (server ka kharcha nahi); saboot bahut lamba lagega",
  "verify_nahi": "koi bhi bahari tathya (web band: INCIDENT #1); chhote kharche (internet, bijli, CA) sirf maanyata",
  "check_laal": "ek safety test laal (purana order-endpoint wala test; jhootha alarm, galti meri): fix ke liye F-PROT-1 manzoori",
  "badi_galtiyan": "koi nahi (alag jaanch abhi nahi hui)",
- "baad_mein": "T10 (faisla niyam aur truth tests), phir T11, T12",
+ "baad_mein": "continue ke baad: T11 ka baaki hissa (claim lint, CP2 memo, verify), phir T12, phir alag jaanch (T17-R1) aur T18",
  "owner_top3": [
   "F-INC-1 be92",
-  "F-MAXLOSS bca1",
-  "F-REMOTE 2350"
+  "F-REMOTE 2350",
+  "F-MAXLOSS bca1"
  ],
  "memo_rank": [
   "F-INC-1",

@@ -7,7 +7,7 @@ BUDGET_MIN: 240
 PAUSE_AFTER_G0: yes
 TRACK: FULL (G0 CONDITIONAL for U1-U6: EVIDENCE/T04/g0.json; FULL-A next, FULL-B CLOSED)
 FULL-B gate: CLOSED (EVIDENCE/T10/fullb_gate.txt: G0 CONDITIONAL, no REAL days yet, no T12 candidate) → T13a-T16 SKIPPED_BY_GATE
-IN_PROGRESS: T11 SIM_WAR_ROOM · sub-step: start · minutes_used: 0
+IN_PROGRESS: none · T11 SIM_WAR_ROOM DEFERRED(time) after sub-step: tools/sim_war_room.py run (EVIDENCE/T11/sim.json: RESULT NONE); left: claim lint, CP2 memo, tests, verify, seal/T11 · minutes_used: 25
 
 ## DONE (V11)
 - T01 SYNC_SAFE: PASS (verify on 36acdef: EVIDENCE/T01/verify.txt; 20 min)
@@ -23,7 +23,7 @@ IN_PROGRESS: T11 SIM_WAR_ROOM · sub-step: start · minutes_used: 0
 - T04 G0_ECONOMICS: PASS (EVIDENCE/T04/verify.txt; G0 CONDITIONAL for U1-U6, TRACK FULL; seal/T04; CP1 memo docs/MEMO_CP1.md)
 
 ## NEXT
-CP1 pause (owner answers in chat) → next session (RUN ORDER): T02b, T05, T09, T06, T07, T08, T10, then FULL-A T11, T12; FULL-B stays CLOSED (no REAL data)
+Session 3 ended on the owner's stop (OWNER_NOTES.md). On `continue` (session 4): T11 resume (claim lint, CP2 memo, tests, verify, seal/T11) → T12 (T11 NONE → SKIPPED_BY_GATE, D-039) → END: T17-R1 → T18. FULL-B stays CLOSED. GitHub upload (push) waits for the owner's lines `haan F-INC-1 be92` + `haan F-REMOTE 2350`.
 
 ## OPEN INCIDENTS (INCIDENT.md)
 - #1 sandbox_breach: env name CLOUDSDK_AUTH_ACCESS_TOKEN → no push, no web fetch this session (closes: haan F-INC-1 be92)
@@ -50,7 +50,7 @@ limits.toml (one source of limits) · constants.toml (T03) · assumptions: DECIS
 ## HASHES
 SHA256SUMS: sha256 20ab86987b20971e (file; covers docs/00_input and MISSION.md)
 MISSION.md: 5eb4f9899b59b43a21d753bcd9123922ac82cbb0c2232f151be24a14b1611462
-SEAL: cf5bb14b (seal/T02b-2; earlier 588b53dd seal/T04, bc4d856a seal/T02a; log EVIDENCE/seal_log.jsonl)
+SEAL: a0baa30a (seal/T10; earlier 8ad3471a T08, a46a280f T07, 046774aa T06-2, 513c662e T09, c1f36384 T05, cf5bb14b T02b-2, 588b53dd T04, bc4d856a T02a; log EVIDENCE/seal_log.jsonl)
 TRIALS_HEAD: none (trials.jsonl empty)
 gates.toml: written in T10 (sealed at seal/T10) · STRATEGY.md: not written (T12)
 
@@ -64,6 +64,7 @@ gates.toml: written in T10 (sealed at seal/T10) · STRATEGY.md: not written (T12
 - Website (separate repo Bot-trading-website-): practice-mode admin panel; not part of this mission
 
 ## NOTES
+- Session 3 end (2026-11-12): a worker restart pushed the clock past the budget; the owner then asked to stop and upload to GitHub (notes, not command lines) → T11 DEFERRED(time), SESSION_WRAP done, push still local only.
 - Session 3: owner wrote `continue` after CP1 without answers → all defaults stay; RUN ORDER resumes at T02b.
 - Session 1 ended by a forced stop (worker restart) during T04, after T03 PASS; owner wrote `continue` → session 2 (no seal, no budget, no answers).
 - Tools on PATH (pytest, mypy) lack the project's dev deps; always use python3 -m (D-009).

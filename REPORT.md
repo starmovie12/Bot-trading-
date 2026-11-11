@@ -1,7 +1,7 @@
 DHYAN: INCIDENT #1 khula hai (kul 3 khule) · FAISLA: ABHI NAHI (data kam; kharche / niyam ka hisaab adhoora; data rakhne ki ijazat saaf nahi) · INTERIM
 SEEDHI BAAT: G0 ka nateeja: abhi har raasta adhoora (CONDITIONAL), kyunki web band tha aur koi kharcha official page se pakka nahi ho saka; sabse sasta static-IP server bhi ₹554.25/mahina [ginti (purani baat par)] = 3.7% [ginti (purani baat par)] capital har mahine khata hai.
-KYA BAN GAYA: T01 se T09: guard aur mohar · har tathya ka URL · G0 ka hisaab · Recorder bundle (sirf dry-run) · limits ek jagah · autopsy · nau strategy families ka hisaab
-KAAM 1: INCIDENT #1: tumne bataya wo naam tumhara nahi; chat mein likho: haan F-INC-1 be92 aur haan F-PROT-3 81a5 (tab internet on hoga)
+KYA BAN GAYA: T01 se T10: guard aur mohar · har tathya ka URL · G0 ka hisaab · Recorder bundle (sirf dry-run) · limits ek jagah · autopsy · nau strategy families ka hisaab · faisla niyam aur truth tests · T11 ka pehla hissa: nakli data par har family ki jaanch (NONE)
+KAAM 1: GitHub upload ke liye: pehle repo Private karo (abhi PUBLIC hai), phir chat mein likho: haan F-INC-1 be92 aur haan F-REMOTE 2350 (internet ke liye saath mein haan F-PROT-3 81a5)
 KAAM 2: INCIDENT #3 aur #2 (sirf jaankari): haan F-INC-3 d9e1 · haan F-INC-2 fc8c
 KAAM 3: Upstox se likhit mein poochho: API market data apne personal backtest ke liye store kar sakte ho? (DATA_RIGHTS)
 SAWAL F-INC-1 (code be92): default khula (web + push band) | ₹ asar seedha nahi; par jab tak khula hai G0 adhoora rahega | jawab: haan / na F-INC-1 be92
@@ -9,10 +9,10 @@ SAWAL F-DATARIGHTS (code 3fa1): default na: Recorder sirf LIGHT (derived data) |
 SAWAL F-MAXLOSS (code bca1): default ₹4,500 [maanyata] | ₹ asar ek trade ka max ab ₹450 [ginti (purani baat par)] | jawab: haan / na / set F-MAXLOSS <value> bca1
 SAWAL F-DAILY-UP-2 (code 2516): default din ka taala ₹450 [purani baat] | ₹ asar Nifty ka ek lot sirf ₹6.15 [ginti (purani baat par)] premium tak | jawab: haan / na F-DAILY-UP-2 2516
 SAWAL F-REMOTE (code 2350): default na (sirf local commit) | ₹ asar seedha nahi; par container mitne par kaam kho sakta hai | jawab: haan / na F-REMOTE 2350
-PAISA KAMANE KA RAASTA: tested set mein abhi koi pakka raasta nahi mila (G0 adhoora). Sabse sasta agla raasta: pehle INCIDENT #1 theek karke kharche official page se pakke karna; phir MANUAL mode mein Recorder se asli data (server ka kharcha nahi); saboot bahut lamba lagega
+PAISA KAMANE KA RAASTA: tested set mein abhi koi pakka raasta nahi mila (G0 adhoora). Nakli data ki jaanch (T11) mein bhi koi family do saal ke data mein saabit hone laayak nahi nikli (NONE): kharche ke stress ke baad sambhav fayde se kai guna zyada fayda chahiye. Sabse sasta agla raasta: pehle INCIDENT #1 theek karke kharche official page se pakke karna; phir MANUAL mode mein Recorder se asli data (server ka kharcha nahi); saboot bahut lamba lagega
 MANZOORI (is session): koi nahi
 BHAROSA: alag jaanch: nahi hui | khuli badi galtiyan: koi nahi (alag jaanch abhi nahi hui) | kya verify NAHI hua: koi bhi bahari tathya (web band: INCIDENT #1); chhote kharche (internet, bijli, CA) sirf maanyata | final check laal: ek safety test laal (purana order-endpoint wala test; jhootha alarm, galti meri): fix ke liye F-PROT-1 manzoori
-SAMAY: session 3 · 48 min chala · baad mein: T10 (faisla niyam aur truth tests), phir T11, T12 · SEAL: a0baa30a · TRIALS: khaali · push: local only (F-REMOTE ki manzoori nahi; INCIDENT #1 khula) · baaki: 8 kaam, 18 sawal (OWNER_TODO.md)
+SAMAY: session 3 · 413 min chala · baad mein: continue ke baad: T11 ka baaki hissa (claim lint, CP2 memo, verify), phir T12, phir alag jaanch (T17-R1) aur T18 · SEAL: a0baa30a · TRIALS: khaali · push: local only (F-REMOTE ki manzoori nahi; INCIDENT #1 khula) · baaki: 8 kaam, 18 sawal (OWNER_TODO.md)
 
 RECORDER CARD:
 abhi asli recording nahi: Upstox feed ka adapter nahi bana (format verify nahi hua) aur data rakhne ki ijazat saaf nahi
@@ -39,7 +39,7 @@ NOT_YET(NO_DATA, G0_CONDITIONAL, DATA_RIGHTS_OPEN) · report INTERIM · push: lo
 | T07 | BOTH | PASS | 35 / 45 | 4 |
 | T08 | BOTH | PASS | 20 / 20 | 2 |
 | T10 | BOTH | PASS | 40 / 60 | 2 |
-| T11 | FULL-A | IN_PROGRESS | 0 / 45 | 0 |
+| T11 | FULL-A | DEFERRED(time) | 25 / 45 | 0 |
 | T12 | FULL-A | TODO | 0 / 30 | 0 |
 | T13a | FULL-B | SKIPPED_BY_GATE(FULL-B closed: G0 CONDITIONAL, no REAL trading days recorded yet, no T12 candidate) | 0 / 60 | 1 |
 | T13b | FULL-B | SKIPPED_BY_GATE(FULL-B closed: G0 CONDITIONAL, no REAL trading days recorded yet, no T12 candidate) | 0 / 75 | 1 |
@@ -137,6 +137,11 @@ Validation (power factor 4.132 at TRIALS_MAX 50), EVIDENCE/T04/g0.json:
 | G0.s1_server_pct | 3.7% [CODE(HISTORY)] | EVIDENCE/T04/g0.json |
 | G0.s1_server_rs_pm | ₹554.25/mahina [CODE(HISTORY)] | EVIDENCE/T04/g0.json |
 | G0.sensex_fit_premium_rs | ₹20.05 [CODE(HISTORY)] | EVIDENCE/T04/g0.json |
+| SIM.families_run | 8 [SIM] | EVIDENCE/T11/sim.json |
+| SIM.needed_min_credible_rs | ₹15 [CODE(ESTIMATE)] | EVIDENCE/T11/sim.json |
+| SIM.needed_min_rs | ₹175.51 [SIM] | EVIDENCE/T11/sim.json |
+| SIM.power_best_pct | 8% [SIM] | EVIDENCE/T11/sim.json |
+| SIM.window_months | 24 months [ASSUMPTION] | EVIDENCE/T11/sim.json |
 | limits.CAPITAL_RS | ₹15,000 [OWNER] | limits.toml |
 | limits.DAILY_LOSS_LOCK_RS | ₹450 [HISTORY] | limits.toml |
 | limits.EQUITY_FLOOR_RS | ₹10,500 [CODE(ASSUMPTION)] | EVIDENCE/T01/limits_chain.txt |

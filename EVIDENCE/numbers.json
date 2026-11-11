@@ -83,6 +83,36 @@
   "tag": "CODE(HISTORY)",
   "evidence": "EVIDENCE/T04/g0.json"
  },
+ "SIM.families_run": {
+  "value": 8,
+  "unit": "count",
+  "tag": "SIM",
+  "evidence": "EVIDENCE/T11/sim.json"
+ },
+ "SIM.needed_min_credible_rs": {
+  "value": 15.0,
+  "unit": "INR",
+  "tag": "CODE(ESTIMATE)",
+  "evidence": "EVIDENCE/T11/sim.json"
+ },
+ "SIM.needed_min_rs": {
+  "value": 175.51,
+  "unit": "INR",
+  "tag": "SIM",
+  "evidence": "EVIDENCE/T11/sim.json"
+ },
+ "SIM.power_best_pct": {
+  "value": 8.0,
+  "unit": "pct",
+  "tag": "SIM",
+  "evidence": "EVIDENCE/T11/sim.json"
+ },
+ "SIM.window_months": {
+  "value": 24,
+  "unit": "months",
+  "tag": "ASSUMPTION",
+  "evidence": "EVIDENCE/T11/sim.json"
+ },
  "limits.CAPITAL_RS": {
   "value": 15000,
   "unit": "INR",

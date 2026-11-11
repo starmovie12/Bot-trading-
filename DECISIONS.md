@@ -288,3 +288,10 @@ WHY: §8.2, §12 T10, §16
 ₹ IMPACT: none
 REVERSE BY: gates.toml loosening needs an owner approval (per_value); the floors are protected (exact)
 CLASS CHECK: B (statistics) · PROTECTED: seal/T10
+
+## D-039 | T11 | 2026-11-12
+OLD → NEW: SIM war room `tools/sim_war_room.py` (result EVIDENCE/T11/sim.json, table docs/SIM_WAR_ROOM.md, keys SIM.* in EVIDENCE/numbers.json). Family profiles (trades a month / option legs) are ASSUMPTION: a 8/1, b 4/2, c 12/1, d 4/1, e 20/1, f 4/2, g 20/1, i 8/2; family h is NOT_RUN (no equity / ETF cost row). Costs, hurdle and credible edge per trade come from EVIDENCE/T04/g0.json with their own tags; sigma ₹500 [ESTIMATE] per trade (the kindest G0 value); window 24 months [ASSUMPTION]. Candidate rule: power at the kind edge (hurdle + credible edge) with every fill at ₹0 reaches 80% [ASSUMPTION]. Result: NONE (best power 8% [SIM]); both controls behaved for all eight run families (null FAIL, planted PASS). SIM kills nothing, so no NEGATIVE.md row. Routing when T11 passes: T12 has no candidate to lock → SKIPPED_BY_GATE(T11 result NONE) citing EVIDENCE/T11/sim.json; STRATEGY.md stays unwritten, so tools/fullb_gate.py keeps "no T12 candidate".
+WHY: §9 SIM stage ("NONE is a valid result"); §12 T11, T12
+₹ IMPACT: none directly; the easiest family needs a net edge of ₹175.51 [SIM] per trade against a credible edge of ₹15 [CODE(ESTIMATE)]
+REVERSE BY: re-run `python3 tools/sim_war_room.py` with REAL fill cost and sigma from the Recorder
+CLASS CHECK: B (statistics, SIM only) · PROTECTED: tools/verify/T11.sh is sealed with T11 (still to come)

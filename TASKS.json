@@ -225,11 +225,11 @@
   ],
   "timebox_min": 45,
   "cap_min": 135,
-  "minutes_used": 0,
+  "minutes_used": 25,
   "retries": 0,
   "verify": "tools/verify/T11.sh",
   "verify_sha256": "",
-  "status": "IN_PROGRESS",
+  "status": "DEFERRED(time)",
   "evidence": []
  },
  {
