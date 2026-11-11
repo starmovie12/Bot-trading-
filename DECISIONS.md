@@ -225,7 +225,7 @@ OLD → NEW: verdicts on the known suspects S1-S14 (evidence: EVIDENCE/T04/g0.js
 | S4 over-engineering | SAHI | 123 [CODE(HISTORY)] numeric literals in v3 strategy / risk code, 0 [CODE(HISTORY)] params.toml entries | T12 SPEC_LOCK keeps ≤ 12 live parameters |
 | S5 one lot ≈ capital, SL may not fill | SAHI | options SL-M rejected [HISTORY]; a limit stop can miss a gap | I7 by construction; F-I7STOP default no |
 | S6 lot size hard-coded | SAHI | `IndexSpec.lot` fed sizing | lot sizes only from the instrument file (`bot/strategy/instrument_master.py`); `lot_crosscheck` is test-only (D-034) |
-| S7 docs differ from code | SAHI | four docs said "SL-M" for the broker stop; `deploy/pehredaar.service` had two `Type=` lines | docs corrected; the duplicate removed |
+| S7 docs differ from code | SAHI | four docs named SL-M as the broker stop, which the exchange rejects for options; `deploy/pehredaar.service` had two `Type=` lines | docs corrected; the duplicate removed |
 | S8 free-tier machines vanish | ADHA | the plan has no free-tier machine now (owner: one Amazon server; Recorder on the owner's machine) | nothing to fix; keep it that way |
 | S9 not fully autonomous | SAHI | token valid until 03:30 [HISTORY]; IP change once a week [HISTORY] | owner ritual ≤ 5 min; read-only Analytics Token for the Recorder (verify) |
 | S10 re-registration on strategy change | GALAT for this bot | registration only above 10 [HISTORY] orders a second | none; keep the strategy stable anyway |

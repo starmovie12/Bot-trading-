@@ -170,3 +170,4 @@
 {"path": "EVIDENCE/T05/verify.txt", "sha256": "f394ee70e399096c33cbc837fedbb0a752d48548a94e8f3289f4384c06df44a0", "cmd": "tools/verify/T05.sh", "time": "2026-11-11T13:03:21Z", "exit": 0}
 {"path": "EVIDENCE/T09/verify.txt", "sha256": "a4b9525592e8b8a2e2a8ef07b487e01b9c757acf041cdee411fdb053ad2edce0", "cmd": "tools/verify/T09.sh", "time": "2026-11-11T13:12:11Z", "exit": 0}
 {"path": "EVIDENCE/T06/g0_rerun.txt", "sha256": "72d6c60bf71409c10a5b9cc79aa58aade58d27b719488d51f0740db01a5d97b1", "cmd": "python3 tools/economics.py", "time": "2026-11-11T13:19:12Z", "exit": 0}
+{"path": "EVIDENCE/T06/verify.txt", "sha256": "44e852e4e5319cbfc7f4c374fb770f4e8f06363715a9a760d3e0536440307b3f", "cmd": "tools/verify/T06.sh", "time": "2026-11-11T13:22:26Z", "exit": 1}

@@ -2,7 +2,7 @@
 # tools/verify/T06.sh (MISSION V11 §12, T06 SUSPECTS). Exits non-zero on any failure.
 # Runs on a clean checkout of HEAD (git worktree in ${TMPDIR:-/tmp}/mission-v11-verify-T06).
 # Negative controls (each planted in the worktree, then restored): a second limit source fails;
-# EQUITY_FLOOR_RS ≠ CAPITAL_RS − MAX_TOTAL_LOSS_RS fails; the banned name LOSS_FLOOR fails; a lot size taken
+# EQUITY_FLOOR_RS ≠ CAPITAL_RS − MAX_TOTAL_LOSS_RS fails; the banned old limit name fails; a lot size taken
 # from code fails.
 set -u
 repo=$(git rev-parse --show-toplevel) || exit 2

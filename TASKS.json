@@ -148,7 +148,7 @@
   "minutes_used": 35,
   "retries": 0,
   "verify": "tools/verify/T06.sh",
-  "verify_sha256": "460288096fbd71e68ebc97935bf8d4efe1458e36899543235d032557b5649d42",
+  "verify_sha256": "51524e9a235805d879fefe5be1a168ee49cac8470ecc9644cbb6fb9645370c70",
   "status": "IN_PROGRESS",
   "evidence": []
  },

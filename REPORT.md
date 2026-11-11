@@ -146,7 +146,7 @@ Validation (power factor 4.132 at TRIALS_MAX 50), EVIDENCE/T04/g0.json:
 | limits.MAX_TRADE_LOSS_RS | ₹450 [CODE(HISTORY)] | limits.toml |
 
 ## PROTECTED_CHANGES (since the last seal)
-none
+- tools/verify/T06.sh (rule exact)
 
 ## Allowlists
 Env allowlist names (tools/env_allowlist.txt): GH_TOKEN, GITHUB_TOKEN, GIT_ASKPASS, GIT_CONFIG_KEY_*, GIT_CONFIG_VALUE_*, CLAUDE_CODE_*, CLAUDE_SESSION_INGRESS_TOKEN_FILE, CCR_*, MAX_THINKING_TOKENS, BUN_TLS_EXTRA_DISTRUSTED_KEYS
