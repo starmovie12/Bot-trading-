@@ -12,7 +12,7 @@ SAWAL F-REMOTE (code 2350): default na (sirf local commit) | ₹ asar seedha nah
 PAISA KAMANE KA RAASTA: tested set mein abhi koi pakka raasta nahi mila (G0 adhoora). Sabse sasta agla raasta: pehle INCIDENT #1 theek karke kharche official page se pakke karna; phir MANUAL mode mein Recorder se asli data (server ka kharcha nahi); saboot bahut lamba lagega
 MANZOORI (is session): koi nahi
 BHAROSA: alag jaanch: nahi hui | khuli badi galtiyan: koi nahi (alag jaanch abhi nahi hui) | kya verify NAHI hua: koi bhi bahari tathya (web band: INCIDENT #1); chhote kharche (internet, bijli, CA) sirf maanyata | final check laal: ek safety test laal (purana order-endpoint wala test; jhootha alarm, galti meri): fix ke liye F-PROT-1 manzoori
-SAMAY: session 3 · 46 min chala · baad mein: T10 (faisla niyam aur truth tests), phir T11, T12 · SEAL: a0baa30a · TRIALS: khaali · push: local only (F-REMOTE ki manzoori nahi; INCIDENT #1 khula) · baaki: 14 kaam, 18 sawal (OWNER_TODO.md)
+SAMAY: session 3 · 48 min chala · baad mein: T10 (faisla niyam aur truth tests), phir T11, T12 · SEAL: a0baa30a · TRIALS: khaali · push: local only (F-REMOTE ki manzoori nahi; INCIDENT #1 khula) · baaki: 8 kaam, 18 sawal (OWNER_TODO.md)
 
 RECORDER CARD:
 abhi asli recording nahi: Upstox feed ka adapter nahi bana (format verify nahi hua) aur data rakhne ki ijazat saaf nahi
@@ -38,14 +38,14 @@ NOT_YET(NO_DATA, G0_CONDITIONAL, DATA_RIGHTS_OPEN) · report INTERIM · push: lo
 | T06 | BOTH | PASS | 45 / 30 | 2 |
 | T07 | BOTH | PASS | 35 / 45 | 4 |
 | T08 | BOTH | PASS | 20 / 20 | 2 |
-| T10 | BOTH | IN_PROGRESS | 30 / 60 | 0 |
-| T11 | FULL-A | TODO | 0 / 45 | 0 |
+| T10 | BOTH | PASS | 40 / 60 | 2 |
+| T11 | FULL-A | IN_PROGRESS | 0 / 45 | 0 |
 | T12 | FULL-A | TODO | 0 / 30 | 0 |
-| T13a | FULL-B | TODO | 0 / 60 | 0 |
-| T13b | FULL-B | TODO | 0 / 75 | 0 |
-| T14 | FULL-B | TODO | 0 / 45 | 0 |
-| T15 | FULL-B | TODO | 0 / 60 | 0 |
-| T16 | FULL-B | TODO | 0 / 30 | 0 |
+| T13a | FULL-B | SKIPPED_BY_GATE(FULL-B closed: G0 CONDITIONAL, no REAL trading days recorded yet, no T12 candidate) | 0 / 60 | 1 |
+| T13b | FULL-B | SKIPPED_BY_GATE(FULL-B closed: G0 CONDITIONAL, no REAL trading days recorded yet, no T12 candidate) | 0 / 75 | 1 |
+| T14 | FULL-B | SKIPPED_BY_GATE(FULL-B closed: G0 CONDITIONAL, no REAL trading days recorded yet, no T12 candidate) | 0 / 45 | 1 |
+| T15 | FULL-B | SKIPPED_BY_GATE(FULL-B closed: G0 CONDITIONAL, no REAL trading days recorded yet, no T12 candidate) | 0 / 60 | 1 |
+| T16 | FULL-B | SKIPPED_BY_GATE(FULL-B closed: G0 CONDITIONAL, no REAL trading days recorded yet, no T12 candidate) | 0 / 30 | 1 |
 | T17-R1 | END | TODO | 0 / 45 | 0 |
 | T17-F1 | END | TODO | 0 / 60 | 0 |
 | T17-R2 | END | TODO | 0 / 45 | 0 |

@@ -1,0 +1,15 @@
+$ tools/verify/T10.sh 
+PASS make verdict on synthetic data: NOT_YET(NO_DATA, G0_CONDITIONAL, DATA_RIGHTS_OPEN)
+PASS make verdict without data: NOT_YET(NO_DATA, G0_CONDITIONAL, DATA_RIGHTS_OPEN)
+PASS G0-FAIL fixture gives STOP(G0_FAIL_ARITH)
+PASS gates.toml not weaker than the floors; a weaker copy is rejected
+PASS test_a_random_entry_strategy_fails_the_harness
+PASS test_a_zero_cost_run_fails_the_harness
+PASS test_a_look_ahead_feature_fails_the_prefix_test_and_a_causal_one_passes
+PASS test_a_second_holdout_open_is_refused
+PASS test_gates_weaker_than_the_floors_are_rejected
+PASS fullb_gate CLOSED without REAL data
+PASS no trial before the pre-registration
+PASS no mission-v11 temp dir left
+T10 verify: 0 failure(s)
+[exit 0]

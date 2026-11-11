@@ -205,12 +205,15 @@
   ],
   "timebox_min": 60,
   "cap_min": 180,
-  "minutes_used": 30,
+  "minutes_used": 40,
   "retries": 0,
   "verify": "tools/verify/T10.sh",
   "verify_sha256": "562f140d1c6dd5923fe5d2234b67116ff254e787f17ce6100f24e1f6a2b90a22",
-  "status": "IN_PROGRESS",
-  "evidence": []
+  "status": "PASS",
+  "evidence": [
+   "EVIDENCE/T10/verify.txt",
+   "EVIDENCE/T10/fullb_gate.txt"
+  ]
  },
  {
   "id": "T11",
@@ -226,7 +229,7 @@
   "retries": 0,
   "verify": "tools/verify/T11.sh",
   "verify_sha256": "",
-  "status": "TODO",
+  "status": "IN_PROGRESS",
   "evidence": []
  },
  {
@@ -259,8 +262,10 @@
   "retries": 0,
   "verify": "tools/verify/T13a.sh",
   "verify_sha256": "",
-  "status": "TODO",
-  "evidence": []
+  "status": "SKIPPED_BY_GATE(FULL-B closed: G0 CONDITIONAL, no REAL trading days recorded yet, no T12 candidate)",
+  "evidence": [
+   "EVIDENCE/T10/fullb_gate.txt"
+  ]
  },
  {
   "id": "T13b",
@@ -276,8 +281,10 @@
   "retries": 0,
   "verify": "tools/verify/T13b.sh",
   "verify_sha256": "",
-  "status": "TODO",
-  "evidence": []
+  "status": "SKIPPED_BY_GATE(FULL-B closed: G0 CONDITIONAL, no REAL trading days recorded yet, no T12 candidate)",
+  "evidence": [
+   "EVIDENCE/T10/fullb_gate.txt"
+  ]
  },
  {
   "id": "T14",
@@ -293,8 +300,10 @@
   "retries": 0,
   "verify": "tools/verify/T14.sh",
   "verify_sha256": "",
-  "status": "TODO",
-  "evidence": []
+  "status": "SKIPPED_BY_GATE(FULL-B closed: G0 CONDITIONAL, no REAL trading days recorded yet, no T12 candidate)",
+  "evidence": [
+   "EVIDENCE/T10/fullb_gate.txt"
+  ]
  },
  {
   "id": "T15",
@@ -309,8 +318,10 @@
   "retries": 0,
   "verify": "tools/verify/T15.sh",
   "verify_sha256": "",
-  "status": "TODO",
-  "evidence": []
+  "status": "SKIPPED_BY_GATE(FULL-B closed: G0 CONDITIONAL, no REAL trading days recorded yet, no T12 candidate)",
+  "evidence": [
+   "EVIDENCE/T10/fullb_gate.txt"
+  ]
  },
  {
   "id": "T16",
@@ -326,8 +337,10 @@
   "retries": 0,
   "verify": "tools/verify/T16.sh",
   "verify_sha256": "",
-  "status": "TODO",
-  "evidence": []
+  "status": "SKIPPED_BY_GATE(FULL-B closed: G0 CONDITIONAL, no REAL trading days recorded yet, no T12 candidate)",
+  "evidence": [
+   "EVIDENCE/T10/fullb_gate.txt"
+  ]
  },
  {
   "id": "T17-R1",

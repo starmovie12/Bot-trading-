@@ -6,8 +6,8 @@ SESSION_START: 1794401358
 BUDGET_MIN: 240
 PAUSE_AFTER_G0: yes
 TRACK: FULL (G0 CONDITIONAL for U1-U6: EVIDENCE/T04/g0.json; FULL-A next, FULL-B CLOSED)
-FULL-B gate: CLOSED (tools/fullb_gate.py arrives in T10; no REAL market data)
-IN_PROGRESS: T10 VERDICT_CORE · sub-step: gates, floors, harness, verdict, fullb gate written; next: checkpoint, seal, verify · minutes_used: 30
+FULL-B gate: CLOSED (EVIDENCE/T10/fullb_gate.txt: G0 CONDITIONAL, no REAL days yet, no T12 candidate) → T13a-T16 SKIPPED_BY_GATE
+IN_PROGRESS: T11 SIM_WAR_ROOM · sub-step: start · minutes_used: 0
 
 ## DONE (V11)
 - T01 SYNC_SAFE: PASS (verify on 36acdef: EVIDENCE/T01/verify.txt; 20 min)
@@ -19,6 +19,7 @@ IN_PROGRESS: T10 VERDICT_CORE · sub-step: gates, floors, harness, verdict, full
 - T06 SUSPECTS: PASS (EVIDENCE/T06/verify.txt; limits one source, MAX_TRADE_LOSS ₹450 [CODE(HISTORY)] (D-032); niyam.toml move waits for F-PROT-2)
 - T07 AUTOPSY: PASS (EVIDENCE/T07/verify.txt; Recorder bug A fixed test-first; order-path bugs listed for T13a/T13b)
 - T08 ARITH_WAR_ROOM: PASS (EVIDENCE/T08/verify.txt; 9 families, 4 unconventional, no valid kill yet)
+- T10 VERDICT_CORE: PASS (EVIDENCE/T10/verify.txt; make verdict = NOT_YET(NO_DATA, G0_CONDITIONAL, DATA_RIGHTS_OPEN))
 - T04 G0_ECONOMICS: PASS (EVIDENCE/T04/verify.txt; G0 CONDITIONAL for U1-U6, TRACK FULL; seal/T04; CP1 memo docs/MEMO_CP1.md)
 
 ## NEXT
