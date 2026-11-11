@@ -67,7 +67,8 @@ for k in "SEBI fee" "stamp" "GST" "contract size" "upfront premium" "position li
 done
 [ "${missing_kw:-0}" -eq 0 ] && pass "REGULATORY.md covers every listed item"
 # 4. mission_check is GREEN on the clean tree (#18 included)
-python3 tools/mission_check.py | grep -q '^mission_check: GREEN' && pass "mission_check GREEN" || fail "mission_check RED"
+outg=$(python3 tools/mission_check.py)
+printf '%s\n' "$outg" | grep -q '^mission_check: GREEN' && pass "mission_check GREEN" || fail "mission_check RED"
 
 # negative control A: the row checker rejects a value missing from its extract
 cp constants.toml "$tmp/mission-v11-verify-T03-c.toml"
@@ -83,7 +84,8 @@ p = Path("constants.toml"); s = p.read_text()
 s = s.replace('[gst]\nvalue = 18\n', '[gst]\nvalue = 19\n', 1).replace('tag = "HISTORY"', 'tag = "SOURCE"')
 p.write_text(s)
 PY
-python3 tools/mission_check.py | grep -q '^#18 .*RED' && pass "#18 RED for a SOURCE value missing from its extract" ||
+out18=$(python3 tools/mission_check.py)
+printf '%s\n' "$out18" | grep -q '^#18 .*RED' && pass "#18 RED for a SOURCE value missing from its extract" ||
   fail "#18 did not catch a SOURCE value missing from its extract"
 mv constants.toml.orig constants.toml
 # negative control C: stale-TTL lint (a row fetched long ago) → mission_check --final RED with "stale"
@@ -92,7 +94,8 @@ sed -i '0,/^fetched = "2026-11-11"$/s//fetched = "2020-01-01"/' constants.toml
 out=$(python3 tools/mission_check.py --final)
 printf '%s\n' "$out" | grep -q 'stale' && printf '%s\n' "$out" | grep -q '^#T2 .*RED' &&
   pass "stale-TTL lint RED in --final" || fail "stale-TTL lint did not fire"
-python3 tools/mission_check.py | grep -q 'warning: .*stale' && pass "stale row is a warning in Tier 1" ||
+out1=$(python3 tools/mission_check.py)
+printf '%s\n' "$out1" | grep -q 'warning: .*stale' && pass "stale row is a warning in Tier 1" ||
   fail "no Tier 1 stale warning"
 mv constants.toml.orig constants.toml
 
