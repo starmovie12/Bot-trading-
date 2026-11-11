@@ -7,13 +7,14 @@ BUDGET_MIN: 240
 PAUSE_AFTER_G0: yes
 TRACK: FULL (G0 CONDITIONAL for U1-U6: EVIDENCE/T04/g0.json; FULL-A next, FULL-B CLOSED)
 FULL-B gate: CLOSED (tools/fullb_gate.py arrives in T10; no REAL market data)
-IN_PROGRESS: T05 RECORDER_MVP · sub-step: recorder + tests + spec written; next: checkpoint, verify · minutes_used: 25
+IN_PROGRESS: T09 DELIVERY_OPS · sub-step: start · minutes_used: 0
 
 ## DONE (V11)
 - T01 SYNC_SAFE: PASS (verify on 36acdef: EVIDENCE/T01/verify.txt; 20 min)
 - T02a GUARDS_CORE: PASS (verify on 3a05345: EVIDENCE/T02a/verify.txt; 8 canaries caught; seal/T02a)
 - T03 REGULATORY_DATA_RIGHTS: PASS offline (EVIDENCE/T03/verify.txt; constants.toml all UNVERIFIED; DATA_RIGHTS UNVERIFIED)
 - T02b GUARDS_FULL: PASS (EVIDENCE/T02b/verify.txt; 13 canaries; seal/T02b-2; param_scan finding D-024)
+- T05 RECORDER_MVP: PASS (EVIDENCE/T05/verify.txt; synthetic feed only, SIM; live adapter not built: schema UNVERIFIED)
 - T04 G0_ECONOMICS: PASS (EVIDENCE/T04/verify.txt; G0 CONDITIONAL for U1-U6, TRACK FULL; seal/T04; CP1 memo docs/MEMO_CP1.md)
 
 ## NEXT
