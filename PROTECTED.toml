@@ -1,6 +1,6 @@
 # PROTECTED.toml (MISSION V11 §5.2): written by tools/seal.py. Never edit by hand.
-seal = "513c662e"
-task = "T09"
+seal = "39d30914"
+task = "T06"
 session = "3"
 
 [[file]]
@@ -41,7 +41,7 @@ owner_tasks = []
 
 [[file]]
 path = "OWNER_QUESTIONS.md"
-sha256 = "053145458501df9f926044b24e494440da205f9a9d94ebddefd5a0c928438975"
+sha256 = "933f6771a1b5d946720f0ead35cb42fc6a3a5e524b339b82c8a32de61f406aa7"
 rule = "append_only"
 owner_tasks = []
 
@@ -59,7 +59,7 @@ owner_tasks = ["T10", "T12"]
 
 [[file]]
 path = "limits.toml"
-sha256 = "fb1845086b666b1aa6e8643f11dd6b1a99da61d087838d809d0f0816569f8051"
+sha256 = "cc5638feaf8d998bce9d3475eddb79e8f3328e6a620b1f4f4bac3bdb3f98b956"
 rule = "per_value"
 owner_tasks = ["T01", "T06"]
 
@@ -206,6 +206,12 @@ path = "tools/verify/T05.sh"
 sha256 = "c218448f1ed3280fd313c02bb4b77b513d97453e2f72c6d7ca1f5d8a00436e7b"
 rule = "exact"
 owner_tasks = ["T05"]
+
+[[file]]
+path = "tools/verify/T06.sh"
+sha256 = "460288096fbd71e68ebc97935bf8d4efe1458e36899543235d032557b5649d42"
+rule = "exact"
+owner_tasks = ["T06"]
 
 [[file]]
 path = "tools/verify/T09.sh"
