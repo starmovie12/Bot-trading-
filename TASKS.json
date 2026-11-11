@@ -168,7 +168,7 @@
   "retries": 0,
   "verify": "tools/verify/T07.sh",
   "verify_sha256": "",
-  "status": "TODO",
+  "status": "IN_PROGRESS",
   "evidence": []
  },
  {
@@ -184,7 +184,7 @@
   "retries": 0,
   "verify": "tools/verify/T08.sh",
   "verify_sha256": "",
-  "status": "IN_PROGRESS",
+  "status": "TODO",
   "evidence": []
  },
  {

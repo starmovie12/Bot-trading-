@@ -183,3 +183,12 @@ DEFAULT JO MAINE LIYA: na: din ka taala ₹450 [purani baat], ek trade max ₹45
 WAJAH: kam ₹ risk wala niyam jeet-ta hai (MISSION §3); badhana sirf tumhari manzoori se
 ULTA KAISE KAREIN: `set F-DAILY-UP-2 <₹> 2516`
 JAWAB: `haan F-DAILY-UP-2 2516` / `na F-DAILY-UP-2 2516` / `set F-DAILY-UP-2 <₹> 2516`
+
+## F-PROT-3 | code 81a5 | created session 3, 2026-11-11 (owner's chat note) | status OPEN
+SAWAL: Kya main MISSION.md §1 item 9 aur tools/preflight.sh mein sirf ek exact naam `CLOUDSDK_AUTH_ACCESS_TOKEN` (cloud platform ka Google Cloud tool wala variable, tumhara nahi) ko allowlist kar doon, taaki har naye session mein web aur push band na ho?
+PROPOSED: allow CLOUDSDK_AUTH_ACCESS_TOKEN
+DEFAULT JO MAINE LIYA: na: har naye session mein ye naam phir sandbox_breach banega (web aur push band) [maanyata]
+₹ ASAR: ₹0 [ginti] seedha; par web band rehne se kharche aur niyam official page se pakke nahi hote, isliye G0 adhoora rehta hai
+WAJAH: tumne chat mein bataya ki tumne koi API key ya token nahi diya; ye variable platform ka hai. MISSION ka niyam ACCESS_TOKEN wale naam ko allowlist karne se rokta hai, isliye protected badlav ke liye tumhari manzoori chahiye
+ULTA KAISE KAREIN: `haan F-PROT-3 81a5` (sirf yahi ek exact naam; baaki niyam waise hi)
+JAWAB: `haan F-PROT-3 81a5` / `na F-PROT-3 81a5`

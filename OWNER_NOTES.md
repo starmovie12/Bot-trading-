@@ -13,3 +13,10 @@ The owner wrote one line: `Continue` → the `continue` command (§15): a new se
 
 ## session 3, 2026-11-11 (start message)
 The owner wrote one line: `Continue` → the `continue` command (§15) after CP1. No answers to the CP1 questions, so every default stays.
+
+## session 3, 2026-11-11 (mid-run note, not a command line)
+The owner wrote (Hinglish, summarised faithfully): "Turn the internet on. None of my data is in there; what you
+found belongs to someone else. I did not give any API key or anything. Keep your internet on."
+Handling (§3.1, §15): this is not a command line, so it has no effect by itself; the owner was shown the exact
+lines that close INCIDENT #1 (`haan F-INC-1 be92`) and allow the platform's variable name in every later session
+(`haan F-PROT-3 81a5`). Web fetch stays off until then.

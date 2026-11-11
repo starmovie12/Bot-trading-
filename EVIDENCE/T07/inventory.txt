@@ -1,0 +1,34 @@
+$ env PYTHONPATH=src python3 -c $'\nimport ast, pathlib\nroot = pathlib.Path(\'src\')\nfor p in sorted(root.rglob(\'*.py\')):\n    mod = \'.\'.join(p.relative_to(root).with_suffix(\'\').parts).replace(\'.__init__\', \'\')\n    tree = ast.parse(p.read_text())\n    funcs = [n.name for n in tree.body if isinstance(n, (ast.FunctionDef, ast.ClassDef))]\n    deps = sorted({n.module for n in ast.walk(tree) if isinstance(n, ast.ImportFrom) and n.module and n.module.startswith(\'bot\')})\n    print(f\'{mod} | defs: {", ".join(funcs[:8])}{" …" if len(funcs) > 8 else ""} | imports: {", ".join(deps) or "-"}\')\n' 
+bot | defs:  | imports: -
+bot.__main__ | defs: check, main | imports: bot.haath.orders, bot.limits, bot.niyam, bot.strategy.costs
+bot.backtest | defs:  | imports: -
+bot.backtest.engine | defs: OptionBook, DayData, BtConfig, Trade, _hhmm, run_day, run | imports: bot.dimaag.candles, bot.dimaag.regime, bot.dimaag.setups, bot.strategy.costs, bot.strategy.instruments, bot.strategy.rules, bot.strategy.selection
+bot.backtest.metrics | defs: Summary, summarize, GateResult, backtest_gate | imports: bot.backtest.engine
+bot.dashboard_push | defs: sign, push_headers | imports: bot.login.secrets
+bot.dimaag | defs:  | imports: -
+bot.dimaag.candles | defs: Candle, resample, ema, vwap, atr | imports: -
+bot.dimaag.regime | defs: Regime, RegimeParams, Reading, opening_range, classify, RegimeTracker, gap_pct, gap_blocks_entry | imports: bot.dimaag.candles
+bot.dimaag.setups | defs: SetupParams, Signal, _side, s1_orb_retest, s2_vwap_pullback, s3_afternoon, first_signal | imports: bot.dimaag.candles, bot.dimaag.regime
+bot.haath | defs:  | imports: -
+bot.haath.orders | defs: LiveTradingForbidden, Status, Order, PaperBroker, Limits, Position, Ledger, OrderManager | imports: bot.recorder.journal, bot.strategy.costs
+bot.limits | defs: InvalidLimits, RiskLimits, chain_problems, load_limits | imports: -
+bot.login | defs:  | imports: -
+bot.login.secrets | defs: SecretError, Secret, SecretStore, CredentialsDirStore, MemoryStore | imports: -
+bot.login.totp | defs: key_from_base32, hotp, totp, seconds_left_in_step | imports: -
+bot.login.upstox_totp | defs: LoginError, TokenExpired, PreparedRequest, Token, _six_digits, build_request, expiry_after, _find_error_code … | imports: bot.login.secrets, bot.login.totp
+bot.niyam | defs: NiyamError, NeedsDecision, Number, IndexNumber, Niyam, _str, _bool, _number … | imports: -
+bot.recorder | defs:  | imports: -
+bot.recorder.__main__ | defs: dry_run, main | imports: bot.recorder.notify, bot.recorder.snapshot, bot.recorder.synthetic_feed
+bot.recorder.clock | defs: ist_minute | imports: -
+bot.recorder.journal | defs: JournalCorrupt, Record, _payload, _digest, _open_text, read_journal, JournalWriter, compress_day | imports: -
+bot.recorder.notify | defs: DryRunNotifier | imports: -
+bot.recorder.snapshot | defs: SchemaError, validate, Alert, RecorderConfig, Writer, FeedGuard, ist_date, dir_bytes … | imports: bot.recorder.clock, bot.recorder.journal
+bot.recorder.synthetic_feed | defs: light_keys, session_open_ns, synthetic_day | imports: bot.recorder.snapshot
+bot.recorder.ticks | defs: candles_from_ticks, _Series, RecordedBook | imports: bot.dimaag.candles, bot.recorder.clock, bot.recorder.journal, bot.strategy.selection
+bot.strategy | defs:  | imports: -
+bot.strategy.costs | defs: CostModel, CostBreakdown, round_trip, breakeven_points | imports: -
+bot.strategy.instrument_master | defs: InstrumentMasterError, load_lot_sizes | imports: -
+bot.strategy.instruments | defs: IndexSpec, _last_weekday_of_month, next_expiry, is_expiry_day, days_to_expiry, expiry_rules_apply | imports: -
+bot.strategy.rules | defs: Params, DayState, can_enter, OpenTrade, on_tick, after_exit, risk_per_trade, account_allows_trading | imports: bot.limits
+bot.strategy.selection | defs: Quote, Limits, Pick, _sl_price, _check, choose_strike | imports: bot.strategy.costs, bot.strategy.instruments
+[exit 0]
