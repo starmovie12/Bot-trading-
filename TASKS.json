@@ -164,12 +164,17 @@
   ],
   "timebox_min": 45,
   "cap_min": 135,
-  "minutes_used": 30,
+  "minutes_used": 35,
   "retries": 0,
   "verify": "tools/verify/T07.sh",
   "verify_sha256": "76afa88f80d7319f4f0fa5f59760d2f2341768efb792f11c11055634363d84e2",
-  "status": "IN_PROGRESS",
-  "evidence": []
+  "status": "PASS",
+  "evidence": [
+   "EVIDENCE/T07/verify.txt",
+   "EVIDENCE/T07/bugA_before_fix.txt",
+   "EVIDENCE/T07/bugA_after_fix.txt",
+   "EVIDENCE/T07/inventory.txt"
+  ]
  },
  {
   "id": "T08",
@@ -184,7 +189,7 @@
   "retries": 0,
   "verify": "tools/verify/T08.sh",
   "verify_sha256": "",
-  "status": "TODO",
+  "status": "IN_PROGRESS",
   "evidence": []
  },
  {

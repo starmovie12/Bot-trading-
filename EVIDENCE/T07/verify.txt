@@ -1,0 +1,11 @@
+$ tools/verify/T07.sh 
+PASS ranked bug list present
+PASS autopsy tests fail on the pre-fix Recorder (6136144)
+PASS autopsy tests pass after the fix
+PASS order path unreachable; live flag OFF; LIVE_TRADING_ENABLED has no effect
+PASS Recorder and invariant suites pass
+PASS invariant coverage (#14) OK
+PASS worktree restored
+PASS no mission-v11 temp dir left
+T07 verify: 0 failure(s)
+[exit 0]
