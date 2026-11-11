@@ -23,7 +23,7 @@ IN_PROGRESS: none · T11 SIM_WAR_ROOM DEFERRED(time) after sub-step: tools/sim_w
 - T04 G0_ECONOMICS: PASS (EVIDENCE/T04/verify.txt; G0 CONDITIONAL for U1-U6, TRACK FULL; seal/T04; CP1 memo docs/MEMO_CP1.md)
 
 ## NEXT
-Session 3 ended on the owner's stop (OWNER_NOTES.md). On `continue` (session 4): T11 resume (claim lint, CP2 memo, tests, verify, seal/T11) → T12 (T11 NONE → SKIPPED_BY_GATE, D-039) → END: T17-R1 → T18. FULL-B stays CLOSED. Owner lines applied (D-040): INCIDENT #1 closed, push allowed, F-PROT-3 to apply with a re-seal.
+Session 3 ended on the owner's stop (OWNER_NOTES.md). On `continue` (session 4): T11 resume (claim lint, CP2 memo, tests, verify, seal/T11) → T12 (T11 NONE → SKIPPED_BY_GATE, D-039) → END: T17-R1 → T18. FULL-B stays CLOSED. Owner lines applied (D-040): INCIDENT #1 closed, push allowed (mission/v11 pushed). FIRST step of session 4, before the preflight: apply A-003 (F-PROT-3) with a same-commit re-seal (D-041).
 
 ## OPEN INCIDENTS (INCIDENT.md)
 - #1 sandbox_breach: CLOSED by the owner (A-001, 2026-11-12)

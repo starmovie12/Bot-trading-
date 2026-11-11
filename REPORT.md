@@ -10,9 +10,9 @@ SAWAL F-DAILY-UP-2 (code 2516): default din ka taala ₹450 [purani baat] | ₹ 
 SAWAL F-INC-2 (code fc8c): default OWNER_QUESTIONS.md dekho | ₹ asar OWNER_QUESTIONS.md dekho | jawab: haan / na F-INC-2 fc8c
 SAWAL F-INC-3 (code d9e1): default OWNER_QUESTIONS.md dekho | ₹ asar OWNER_QUESTIONS.md dekho | jawab: haan / na F-INC-3 d9e1
 PAISA KAMANE KA RAASTA: tested set mein abhi koi pakka raasta nahi mila (G0 adhoora). Nakli data ki jaanch (T11) mein bhi koi family do saal ke data mein saabit hone laayak nahi nikli (NONE): kharche ke stress ke baad sambhav fayde se kai guna zyada fayda chahiye. Sabse sasta agla raasta: pehle INCIDENT #1 theek karke kharche official page se pakke karna; phir MANUAL mode mein Recorder se asli data (server ka kharcha nahi); saboot bahut lamba lagega
-MANZOORI (is session): A-001 F-INC-1 (haan F-INC-1 be92) | A-002 F-REMOTE (haan F-REMOTE 2350)
+MANZOORI (is session): A-001 F-INC-1 (haan F-INC-1 be92) | A-002 F-REMOTE (haan F-REMOTE 2350) | A-003 F-PROT-3 (Haan F-PROT-3 81a5)
 BHAROSA: alag jaanch: nahi hui | khuli badi galtiyan: koi nahi (alag jaanch abhi nahi hui) | kya verify NAHI hua: koi bhi bahari tathya (web band: INCIDENT #1); chhote kharche (internet, bijli, CA) sirf maanyata | final check laal: ek safety test laal (purana order-endpoint wala test; jhootha alarm, galti meri): fix ke liye F-PROT-1 manzoori
-SAMAY: session 3 · 419 min chala · baad mein: continue ke baad: T11 ka baaki hissa (claim lint, CP2 memo, verify), phir T12, phir alag jaanch (T17-R1) aur T18 · SEAL: a0baa30a · TRIALS: khaali · push: mission branch GitHub par (A-002) · baaki: 8 kaam, 16 sawal (OWNER_TODO.md)
+SAMAY: session 3 · 422 min chala · baad mein: continue ke baad: T11 ka baaki hissa (claim lint, CP2 memo, verify), phir T12, phir alag jaanch (T17-R1) aur T18 · SEAL: a0baa30a · TRIALS: khaali · push: mission branch GitHub par (A-002) · baaki: 8 kaam, 15 sawal (OWNER_TODO.md)
 
 RECORDER CARD:
 abhi asli recording nahi: Upstox feed ka adapter nahi bana (format verify nahi hua) aur data rakhne ki ijazat saaf nahi

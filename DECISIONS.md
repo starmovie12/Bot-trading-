@@ -302,3 +302,10 @@ WHY: §15 owner commands, §3.1; the owner asked three times in chat to upload t
 ₹ IMPACT: none
 REVERSE BY: make the GitHub repo private (a push cannot be taken back from the public web)
 CLASS CHECK: A (owner decision) · PROTECTED: OWNER_APPROVALS.md append-only
+
+## D-041 | owner | 2026-11-12
+OLD → NEW: A-003 (`Haan F-PROT-3 81a5`) is logged now and applied at the start of session 4, before that session's preflight, instead of "in the next commit" (D-040). Reasons: (1) the owner asked to stop all work until `continue`; (2) mission_check #3 treats any later change to a protected path as approved once an F-PROT approval names that path, which would stop the protected-change canary (tests/canary/run_canary.py, it edits the preflight) from firing; the change therefore needs a seal renewed in the same commit, done carefully at session start, so the approval entry does not name the paths.
+WHY: §15 (log, apply, re-seal); §5.5 canaries must keep firing
+₹ IMPACT: none
+REVERSE BY: apply A-003 now in a later session; or `na F-PROT-3 81a5` before session 4
+CLASS CHECK: A (owner decision) · PROTECTED: none changed in this commit

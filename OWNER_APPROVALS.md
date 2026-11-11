@@ -14,3 +14,8 @@ FILES: INCIDENT.md (#1 header OPEN → CLOSED)
 OWNER COMMAND (verbatim line): haan F-REMOTE 2350
 EFFECT: the agent may push `mission/v11` only (no force, no other branch) to origin starmovie12/Bot-trading-. Before answering, the owner was told the repo is PUBLIC (EVIDENCE/SESSION3/repo_visibility.txt).
 FILES: none
+
+## A-003 | session 3 | received 2026-11-12, logged 01:24 IST | question F-PROT-3 (code 81a5)
+OWNER COMMAND (verbatim line): Haan F-PROT-3 81a5
+EFFECT: the one exact name CLOUDSDK_AUTH_ACCESS_TOKEN (the platform's Google Cloud tool variable) becomes allowed in the mission rule §1 item 9 and in the session preflight; no other name, every other rule unchanged. Applied at the start of session 4, before its preflight runs; the changed files and their old and new sha256 go into DECISIONS then, and the seal is renewed in the same step (D-041).
+FILES: none yet (D-041)
