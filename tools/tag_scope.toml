@@ -1,0 +1,31 @@
+# tools/tag_scope.toml (MISSION V11 §5.1, §5.3): which numbers need a tag, what a tag looks like,
+# and which tokens are IDs (never counted as numbers; the only digits allowed in report_fields.json).
+# Protected (exact) from seal/T02a.
+
+[scope]
+# Files whose numbers need a tag and an evidence link (mission_check #1).
+# REPORT.md lines 1-15 are checked by #2 instead (they are rendered from numbers.json only).
+files = ["STATE.md", "DECISIONS.md", "NEGATIVE.md", "REPORT.md", "docs/MEMO_CP1.md", "docs/MEMO_CP2.md"]
+report_top_lines = 15
+
+[numbers]
+# A number needs a tag when it matches one of these Python regexes.
+money = '₹\s?[0-9][0-9,]*(\.[0-9]+)?'
+percent = '(?<![\w.])[0-9]+(\.[0-9]+)?\s?%'
+count = '(?<![\w.])[0-9][0-9,]*(\.[0-9]+)?\s+(trades?|trading days?|days?|din|lots?)\b'
+probability = '\bP\([^)]*\)\s*[=<>≤≥]\s*[0-9]'
+latency = '(?<![\w.])[0-9]+(\.[0-9]+)?\s?ms\b'
+
+[tags]
+# A number is tagged when one of these follows it on the same line.
+pattern = '\[(SOURCE|REAL|BACKTEST|SHADOW|CODE\(|SIM|HISTORY|POINTER|ESTIMATE|ASSUMPTION|OWNER|official source|asli data|purane asli data|asli feed|ginti|nakli|purani baat|sirf ishara|andaza|maanyata|tumhara niyam)'
+# A tagged number is linked when its section (or line) also holds one of these.
+evidence = 'EVIDENCE/[A-Za-z0-9_./-]+|numbers\.json|limits\.toml|constants\.toml|gates\.toml|params\.toml|OWNER_QUESTIONS\.md'
+# Tags that are links in themselves (an owner limit or a logged assumption).
+self_linked = '\[(OWNER|ASSUMPTION|tumhara niyam|maanyata)\b'
+
+[ids]
+# ID tokens: task ids, owner-question ids (with their code), decision / approval ids, suspects,
+# universe members, invariants, gates, checkpoints, severities, stages, hard limits, ruin rules,
+# incident numbers, seal tags and hashes.
+pattern = '\b(T[0-9]{2}[ab]?(-[RF][0-9])?|F-[A-Z0-9]+(-[A-Z0-9]+)*( [0-9a-f]{4}\b)?|D-[0-9]{3}|A-[0-9]{3}|S[0-9]{1,2}|U[1-6]|I[0-9]{1,2}[a-c]?|G[0-4]|CP[12]|Sev[123]|R[0-3]|H[1-5]|D[0-9]{1,2}|seal/T[0-9]{2}[ab]?|code [0-9a-f]{4}|[0-9a-f]{40}|[0-9a-f]{64})\b|#[0-9]+'

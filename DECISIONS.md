@@ -70,3 +70,38 @@ WHY: §5.4 one source; T04 needs these inputs [EVIDENCE/T01/limits_chain.txt]
 ₹ IMPACT: max loss per trade ₹1,125 [CODE(ASSUMPTION)]; any long option above that premium × lot is out by construction
 REVERSE BY: owner answer to F-MAXLOSS (`set F-MAXLOSS <₹> bca1`)
 CLASS CHECK: D guard (D4, D8) · PROTECTED: per_value from seal/T02a
+
+## D-011 | T02a | 2026-11-11
+OLD → NEW: `tests/test_login.py` held a fake token as a whole string literal in four places → one constant `FAKE_TOKEN` assembled from two fragments; the same assertions run on the same value.
+WHY: mission_check #6 scans the whole tree for token shapes; MISSION §5.3 wants fake secrets assembled at runtime, never stored whole. Not a weakening: the test count stays at its recorded minimum (`EVIDENCE/test_count.json`) and the login tests pass.
+₹ IMPACT: none
+REVERSE BY: git revert
+CLASS CHECK: A (test hygiene) · PROTECTED: no
+
+## D-012 | T01 | 2026-11-11
+OLD → NEW: during T01 two helper files (a generator for OWNER_QUESTIONS.md and a file list for a scan) were written to the tool's session scratchpad, which is outside the repo and outside `${TMPDIR:-/tmp}/mission-v11-*` → both deleted; from now on temporary files go only to `${TMPDIR:-/tmp}/mission-v11-*` and are deleted after use.
+WHY: MISSION §3 NEVER list ("writing outside the repo and ${TMPDIR:-/tmp}/mission-v11-*"); a self-found deviation, logged instead of hidden
+₹ IMPACT: none
+REVERSE BY: n/a
+CLASS CHECK: process · PROTECTED: no
+
+## D-013 | T02a | 2026-11-11
+OLD → NEW: redaction gains the high-entropy rule of §5.3: a token of at least 32 base64-like characters with upper case, lower case and digits, Shannon entropy at least 4.2 bits per character, and a character class that switches between neighbouring letters or digits in at least 30% [ASSUMPTION] of positions. The switch ratio was added after evidence paths such as `EVIDENCE/T01/…` were flagged; random keys switch about two times in three. Hex digests never qualify (no upper case), so hash context stays intact.
+WHY: §5.3; checked by the T02a verify (a planted token vanishes, a planted sha256 line survives)
+₹ IMPACT: none
+REVERSE BY: edit tools/secret_patterns.txt (protected: owner approval for a loosening)
+CLASS CHECK: A (tooling) · PROTECTED: yes, from seal/T02a
+
+## D-014 | T02a | 2026-11-11
+OLD → NEW: protected set and owner_tasks fixed in `tools/seal.py`: the §5.2 list; `make_report.py` and `report_templates/*` may be extended by T02a, T04, T09, T11 and T18 (the tasks that add a view: G0 section and CP1 memo, Recorder card, CP2 memo, final report); `secret_patterns.txt` also by T03 (it records the broker token shape); each verify script by its own task. `PROTECTED.toml` itself is pinned through `protected_toml_sha256` in `EVIDENCE/seal_log.jsonl`.
+WHY: §5.2 "owner_tasks: the task(s) that create or extend a file, as written in §12"
+₹ IMPACT: none
+REVERSE BY: owner approval (F-PROT-n) once sealed
+CLASS CHECK: A (tooling) · PROTECTED: yes
+
+## D-015 | T02a | 2026-11-11
+OLD → NEW: the elapsed-minutes token on REPORT line 15 ("<n> min chala") is the only part of REPORT.md that changes with the clock; mission_check #2 normalises it before comparing REPORT.md with a fresh render. The pytest collection count is read from per-file counts when the project's `-q` setting hides the total.
+WHY: a byte-exact comparison would otherwise turn red every minute
+₹ IMPACT: none
+REVERSE BY: edit tools/mission_check.py (protected)
+CLASS CHECK: A (tooling) · PROTECTED: yes

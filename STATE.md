@@ -7,7 +7,7 @@ BUDGET_MIN: 240
 PAUSE_AFTER_G0: yes
 TRACK: LITE (T01-T04; T04 sets SHORT or FULL)
 FULL-B gate: CLOSED (tools/fullb_gate.py arrives in T10; no REAL market data)
-IN_PROGRESS: T02a GUARDS_CORE · sub-step: start · minutes_used: 0
+IN_PROGRESS: T02a GUARDS_CORE · sub-step: guards built, canaries green; next: checkpoint commit, seal/T02a, verify · minutes_used: 15
 
 ## DONE (V11)
 - T01 SYNC_SAFE: PASS (verify on 36acdef: EVIDENCE/T01/verify.txt; 20 min)
@@ -55,3 +55,4 @@ gates.toml: not written (T10) · STRATEGY.md: not written (T12)
 
 ## NOTES
 - Tools on PATH (pytest, mypy) lack the project's dev deps; always use python3 -m (D-009).
+- Temp files only in ${TMPDIR:-/tmp}/mission-v11-* (D-012). Commit cycle: STATE → make_report → mission_check → safe_add → commit.

@@ -23,6 +23,9 @@ from bot.login.upstox_totp import (
     parse_response,
 )
 
+# Fake token assembled from fragments (MISSION V11 §5.3): no whole token literal in the tree.
+FAKE_TOKEN = "TOKEN" + "-XYZ"
+
 # RFC 6238 Appendix B (https://www.rfc-editor.org/rfc/rfc6238.txt, dekha 10 Nov 2026): 8 digit, step 30, T0 0.
 SEED_SHA1 = b"12345678901234567890"
 SEED_SHA256 = SEED_SHA1 + b"123456789012"
@@ -113,8 +116,8 @@ def test_token_expiry_is_next_330_ist(issued: datetime, expected: datetime) -> N
 
 def test_parse_response_ok_and_errors() -> None:
     now = datetime(2026, 11, 10, 8, 40, tzinfo=IST)
-    tok = parse_response(200, json.dumps({"user_id": "AB1234", "access_token": "TOKEN-XYZ"}).encode(), now)
-    assert tok.access.reveal() == "TOKEN-XYZ" and tok.user_id == "AB1234"
+    tok = parse_response(200, json.dumps({"user_id": "AB1234", "access_token": FAKE_TOKEN}).encode(), now)
+    assert tok.access.reveal() == FAKE_TOKEN and tok.user_id == "AB1234"
     wrapped = json.dumps({"status": "success", "data": {"access_token": "T2"}}).encode()
     assert parse_response(200, wrapped, now).access.reveal() == "T2"
     err = json.dumps({"status": "error", "errors": [{"errorCode": "UDAPI100096", "message": "x"}]}).encode()
@@ -157,13 +160,13 @@ class Clock:
 def test_token_manager_success_sends_correct_totp_and_alerts() -> None:
     clock = Clock(datetime(2026, 11, 10, 8, 40, 5, tzinfo=IST))
     alerts: list[tuple[str, str]] = []
-    tr = FakeTransport([(200, {"user_id": "AB1234", "access_token": "TOKEN-XYZ"})])
+    tr = FakeTransport([(200, {"user_id": "AB1234", "access_token": FAKE_TOKEN})])
     tm = TokenManager(STORE, tr, clock, role="bot", sleep=clock.sleep, alert=lambda lv, m: alerts.append((lv, m)))
     tok = tm.login()
     expected = totp(SEED_SHA1, clock.t.timestamp())
     assert tr.calls[0]["body"] == {"totp": expected, "pin": "654321"}
     assert tm.current() is tok
-    assert alerts and alerts[0][0] == "jaankari" and "TOKEN-XYZ" not in alerts[0][1]
+    assert alerts and alerts[0][0] == "jaankari" and FAKE_TOKEN not in alerts[0][1]
     clock.t = datetime(2026, 11, 11, 3, 30, tzinfo=IST)
     with pytest.raises(TokenExpired):
         tm.current()

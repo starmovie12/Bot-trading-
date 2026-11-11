@@ -1,1 +1,52 @@
-{}
+{
+ "verdict": "NOT_YET",
+ "reasons": [
+  "NO_DATA",
+  "MISSING_INPUT"
+ ],
+ "push": "local only (F-REMOTE ki manzoori nahi; INCIDENT #1 khula)",
+ "seedhi_baat": "abhi sirf suraksha ka dhaancha bana hai; ₹ ka hisaab (G0) T04 mein hoga. Ek trade ka max nuksaan abhi {num:limits.MAX_TRADE_LOSS_RS}.",
+ "kya_ban_gaya": "T01 aur T02a: secret guard, mission_check, REPORT banane wala tool, mohar (SEAL) · purane docs hash ke saath",
+ "kaam_1": "INCIDENT #1: environment mein ACCESS_TOKEN wala naam mila; INCIDENT.md #1 ka ek raasta chuno, phir haan F-INC-1 be92",
+ "kaam_2": "F-REMOTE: ye container mit sakta hai; repo Private ho to haan F-REMOTE 2350",
+ "kaam_3": "INCIDENT #3 aur #2 padho (sirf jaankari): haan F-INC-3 d9e1 · haan F-INC-2 fc8c",
+ "sawal_rank": [
+  "F-INC-1",
+  "F-REMOTE",
+  "F-MAXLOSS",
+  "F-INC-3",
+  "F-INC-2"
+ ],
+ "sawal": {
+  "F-INC-1": {
+   "default": "khula (web + push band)",
+   "asar": "seedha nahi; par G0 adhoora rahega"
+  },
+  "F-REMOTE": {
+   "default": "na (sirf local commit)",
+   "asar": "seedha nahi; par kaam kho sakta hai"
+  },
+  "F-MAXLOSS": {
+   "default": "{num:limits.MAX_TOTAL_LOSS_RS}",
+   "asar": "ek trade ka max nuksaan {num:limits.MAX_TRADE_LOSS_RS}"
+  },
+  "F-INC-3": {
+   "default": "khula (kuch nahi rukta)",
+   "asar": "koi nahi"
+  },
+  "F-INC-2": {
+   "default": "khula (kuch nahi rukta)",
+   "asar": "koi nahi"
+  }
+ },
+ "raasta": "abhi nahi pata: pehle G0 (T04) ka hisaab; web band hai, isliye tathya pakke nahi",
+ "verify_nahi": "koi bhi bahari tathya (web band: INCIDENT #1)",
+ "check_laal": "final check abhi nahi chala (T18 mein)",
+ "badi_galtiyan": "koi nahi (alag jaanch abhi nahi hui)",
+ "baad_mein": "T03 (offline), T04 G0, phir CP1 par rukna",
+ "owner_top3": [
+  "F-INC-1 be92 sandbox",
+  "F-REMOTE 2350 push",
+  "F-INC-3 d9e1"
+ ]
+}

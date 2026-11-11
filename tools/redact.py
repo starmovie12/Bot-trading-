@@ -1,16 +1,18 @@
 #!/usr/bin/env python3
-"""Secret redactor and scanner (MISSION V11 §5.3). T01 version: pattern based.
+"""Secret redactor and scanner (MISSION V11 §5.3).
 
 The one pattern list is tools/secret_patterns.txt (shared with the pre-commit hook,
 tools/safe_add.sh and tools/mission_check.py).
 
 Modes:
-  redact.py                   stdin -> stdout; every content/pii hit replaced by [REDACTED:<name>]
-  redact.py --scan PATH...    print "path:line: kind/name" per content or pii hit (never the text)
+  redact.py                   stdin -> stdout; every content / pii / entropy hit -> [REDACTED:<name>]
+  redact.py --scan PATH...    print "path:line: kind/name" per content, pii or entropy hit (never the text)
   redact.py --guard PATH...   name + content check of worktree files (safe_add.sh); exit 1 on a hit
   redact.py --names PATH...   print paths whose base name is secret-named; exit 1 on a hit
   redact.py --staged          name + content check of the git index (pre-commit hook); exit 1 on a hit
 
+Hash context is kept: 40-hex git SHAs and 64-hex digests never match a pattern, and the entropy
+rule needs upper case, lower case and digits together, which a hex digest never has.
 Every mode except plain redaction exits 1 when it finds something. A matched value is never
 printed, and a secret-named file is never opened.
 """
@@ -18,15 +20,20 @@ printed, and a secret-named file is never opened.
 from __future__ import annotations
 
 import fnmatch
+import itertools
+import math
 import re
 import subprocess
 import sys
+from collections import Counter
+from collections.abc import Callable
 from dataclasses import dataclass
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 PATTERNS_FILE = ROOT / "tools" / "secret_patterns.txt"
-KINDS = ("name", "content", "pii", "exempt")
+KINDS = ("name", "content", "pii", "exempt", "entropy")
+TOKEN = re.compile(r"[A-Za-z0-9+/=_-]{16,}")
 
 
 @dataclass(frozen=True)
@@ -50,7 +57,30 @@ def load_rules(path: Path = PATTERNS_FILE) -> list[Rule]:
 
 
 def _compiled(rules: list[Rule], kinds: tuple[str, ...]) -> list[tuple[Rule, re.Pattern[str]]]:
-    return [(r, re.compile(r.pattern)) for r in rules if r.kind in kinds]
+    return [(r, re.compile(r.pattern)) for r in rules if r.kind in kinds and r.kind != "entropy"]
+
+
+def shannon(s: str) -> float:
+    counts = Counter(s)
+    return -sum(c / len(s) * math.log2(c / len(s)) for c in counts.values())
+
+
+def switch_ratio(token: str) -> float:
+    classes = ["u" if c.isupper() else "l" if c.islower() else "d" for c in token if c.isalnum()]
+    switches = sum(1 for a, b in itertools.pairwise(classes) if a != b)
+    return switches / max(1, len(classes) - 1)
+
+
+def high_entropy(token: str, rule: Rule) -> bool:
+    min_len, min_bits, min_switch = rule.pattern.split()
+    return (
+        len(token) >= int(min_len)
+        and any(c.isupper() for c in token)
+        and any(c.islower() for c in token)
+        and any(c.isdigit() for c in token)
+        and shannon(token) >= float(min_bits)
+        and switch_ratio(token) >= float(min_switch)
+    )
 
 
 def secret_named(path: str, rules: list[Rule]) -> str | None:
@@ -64,24 +94,38 @@ def secret_named(path: str, rules: list[Rule]) -> str | None:
     return None
 
 
+def _entropy_replacer(rule: Rule) -> Callable[[re.Match[str]], str]:
+    def replace(m: re.Match[str]) -> str:
+        return f"[REDACTED:{rule.name}]" if high_entropy(m.group(0), rule) else m.group(0)
+
+    return replace
+
+
 def redact_text(text: str, rules: list[Rule]) -> str:
     compiled = _compiled(rules, ("content", "pii"))
+    entropy = [r for r in rules if r.kind == "entropy"]
     out_lines = []
     for raw in text.split("\n"):
         line = raw
         for rule, rx in compiled:
             line = rx.sub(f"[REDACTED:{rule.name}]", line)
+        for rule in entropy:
+            line = TOKEN.sub(_entropy_replacer(rule), line)
         out_lines.append(line)
     return "\n".join(out_lines)
 
 
 def scan_text(label: str, text: str, rules: list[Rule], kinds: tuple[str, ...]) -> list[str]:
     compiled = _compiled(rules, kinds)
+    entropy = [r for r in rules if r.kind == "entropy" and "entropy" in kinds]
     hits = []
     for number, line in enumerate(text.splitlines(), start=1):
         for rule, rx in compiled:
             if rx.search(line):
                 hits.append(f"{label}:{number}: {rule.kind}/{rule.name}")
+        for rule in entropy:
+            if any(high_entropy(m.group(0), rule) for m in TOKEN.finditer(line)):
+                hits.append(f"{label}:{number}: entropy/{rule.name}")
     return hits
 
 
@@ -126,7 +170,8 @@ def main(argv: list[str]) -> int:
             if (n := secret_named(p, rules)) is not None:
                 hits.append(f"{p}: name/{n} (not opened)")
                 continue
-            hits += scan_text(p, Path(p).read_bytes().decode("utf-8", "replace"), rules, ("content", "pii"))
+            text = Path(p).read_bytes().decode("utf-8", "replace")
+            hits += scan_text(p, text, rules, ("content", "pii", "entropy"))
     else:
         print(__doc__, file=sys.stderr)
         return 64

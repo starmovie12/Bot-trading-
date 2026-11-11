@@ -29,11 +29,11 @@
   ],
   "timebox_min": 45,
   "cap_min": 135,
-  "minutes_used": 0,
+  "minutes_used": 15,
   "retries": 0,
   "verify": "tools/verify/T02a.sh",
-  "verify_sha256": "",
-  "status": "TODO",
+  "verify_sha256": "b2491c9f822028bb43485f49d0217bcbfbf51bfcefde4d933ceeccf27ccb8ca9",
+  "status": "IN_PROGRESS",
   "evidence": []
  },
  {

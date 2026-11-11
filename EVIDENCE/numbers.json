@@ -1,1 +1,38 @@
-{}
+{
+ "limits.CAPITAL_RS": {
+  "value": 15000,
+  "unit": "INR",
+  "tag": "OWNER",
+  "evidence": "limits.toml"
+ },
+ "limits.MAX_TOTAL_LOSS_RS": {
+  "value": 4500,
+  "unit": "INR",
+  "tag": "ASSUMPTION",
+  "evidence": "EVIDENCE/T01/limits_chain.txt"
+ },
+ "limits.MAX_DRAWDOWN_RS": {
+  "value": 2250,
+  "unit": "INR",
+  "tag": "CODE(ASSUMPTION)",
+  "evidence": "EVIDENCE/T01/limits_chain.txt"
+ },
+ "limits.MAX_TRADE_LOSS_RS": {
+  "value": 1125,
+  "unit": "INR",
+  "tag": "CODE(ASSUMPTION)",
+  "evidence": "EVIDENCE/T01/limits_chain.txt"
+ },
+ "limits.EQUITY_FLOOR_RS": {
+  "value": 10500,
+  "unit": "INR",
+  "tag": "CODE(ASSUMPTION)",
+  "evidence": "EVIDENCE/T01/limits_chain.txt"
+ },
+ "limits.H2_MONTHLY_RS": {
+  "value": 1500,
+  "unit": "INR/month",
+  "tag": "OWNER",
+  "evidence": "limits.toml"
+ }
+}
