@@ -1,6 +1,6 @@
 # PROTECTED.toml (MISSION V11 §5.2): written by tools/seal.py. Never edit by hand.
-seal = "a46a280f"
-task = "T07"
+seal = "8ad3471a"
+task = "T08"
 session = "3"
 
 [[file]]
@@ -218,6 +218,12 @@ path = "tools/verify/T07.sh"
 sha256 = "76afa88f80d7319f4f0fa5f59760d2f2341768efb792f11c11055634363d84e2"
 rule = "exact"
 owner_tasks = ["T07"]
+
+[[file]]
+path = "tools/verify/T08.sh"
+sha256 = "915ea7867762879db9ddae1d6eaeb7d41fb6c845d0c8f54cf09e6da5efd6f091"
+rule = "exact"
+owner_tasks = ["T08"]
 
 [[file]]
 path = "tools/verify/T09.sh"
