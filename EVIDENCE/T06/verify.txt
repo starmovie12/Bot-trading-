@@ -1,0 +1,15 @@
+$ tools/verify/T06.sh 
+PASS limits chain, one source, lot source, banned name: all tests pass
+PASS lot sizes only from the instrument file
+PASS the chain holds
+PASS entry point check reads limits.toml
+PASS docs contain 0 wrong SL-M
+PASS one Type= in pehredaar.service
+PASS a second limit source fails
+PASS EQUITY_FLOOR_RS ≠ CAPITAL_RS − MAX_TOTAL_LOSS_RS fails
+PASS the banned name fails
+PASS a lot size from code fails
+PASS worktree restored after the controls
+PASS no mission-v11 temp dir left
+T06 verify: 0 failure(s)
+[exit 0]

@@ -145,12 +145,15 @@
   ],
   "timebox_min": 30,
   "cap_min": 90,
-  "minutes_used": 35,
+  "minutes_used": 45,
   "retries": 0,
   "verify": "tools/verify/T06.sh",
   "verify_sha256": "51524e9a235805d879fefe5be1a168ee49cac8470ecc9644cbb6fb9645370c70",
-  "status": "IN_PROGRESS",
-  "evidence": []
+  "status": "PASS",
+  "evidence": [
+   "EVIDENCE/T06/verify.txt",
+   "EVIDENCE/T06/g0_rerun.txt"
+  ]
  },
  {
   "id": "T07",
@@ -181,7 +184,7 @@
   "retries": 0,
   "verify": "tools/verify/T08.sh",
   "verify_sha256": "",
-  "status": "TODO",
+  "status": "IN_PROGRESS",
   "evidence": []
  },
  {

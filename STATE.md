@@ -7,7 +7,7 @@ BUDGET_MIN: 240
 PAUSE_AFTER_G0: yes
 TRACK: FULL (G0 CONDITIONAL for U1-U6: EVIDENCE/T04/g0.json; FULL-A next, FULL-B CLOSED)
 FULL-B gate: CLOSED (tools/fullb_gate.py arrives in T10; no REAL market data)
-IN_PROGRESS: T06 SUSPECTS · sub-step: S1-S14 verdicts, limits one source, lot from file, docs fixed; next: checkpoint, seal, verify · minutes_used: 35
+IN_PROGRESS: T08 ARITH_WAR_ROOM · sub-step: start · minutes_used: 0
 
 ## DONE (V11)
 - T01 SYNC_SAFE: PASS (verify on 36acdef: EVIDENCE/T01/verify.txt; 20 min)
@@ -16,6 +16,7 @@ IN_PROGRESS: T06 SUSPECTS · sub-step: S1-S14 verdicts, limits one source, lot f
 - T02b GUARDS_FULL: PASS (EVIDENCE/T02b/verify.txt; 13 canaries; seal/T02b-2; param_scan finding D-024)
 - T05 RECORDER_MVP: PASS (EVIDENCE/T05/verify.txt; synthetic feed only, SIM; live adapter not built: schema UNVERIFIED)
 - T09 DELIVERY_OPS: PASS (EVIDENCE/T09/verify.txt; bundle dry-run only: live adapter not built)
+- T06 SUSPECTS: PASS (EVIDENCE/T06/verify.txt; limits one source, MAX_TRADE_LOSS ₹450 [CODE(HISTORY)] (D-032); niyam.toml move waits for F-PROT-2)
 - T04 G0_ECONOMICS: PASS (EVIDENCE/T04/verify.txt; G0 CONDITIONAL for U1-U6, TRACK FULL; seal/T04; CP1 memo docs/MEMO_CP1.md)
 
 ## NEXT
