@@ -1,5 +1,5 @@
 # PROTECTED.toml (MISSION V11 §5.2): written by tools/seal.py. Never edit by hand.
-seal = "6e435143"
+seal = "cf5bb14b"
 task = "T02b"
 session = "3"
 
@@ -83,7 +83,7 @@ owner_tasks = ["T02a", "T02b", "T04", "T09", "T11", "T18"]
 
 [[file]]
 path = "tests/canary/run_canary.py"
-sha256 = "6c739f4797432e9c65ce5573676afa9279933dd55413417770ca9b5d9137d9e8"
+sha256 = "aa19814d20db5200ada76d324546bd362e076c2e84743860c034cb9d6c45b8d9"
 rule = "exact"
 owner_tasks = ["T02a", "T02b"]
 
