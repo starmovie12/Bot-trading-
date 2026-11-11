@@ -13,23 +13,9 @@ PASS clean checkout GREEN (Tier 1 + FULL + history)
   canary: PASS canary 'Go file naming the broker host' → #8 RED
   canary: PASS canary 'Class C/D pattern' → #4 RED
   canary: PASS canary 'hidden trial' → #13 RED
-  canary: Traceback (most recent call last):
-  canary:   File "/tmp/mission-v11-verify-T02b/tests/canary/run_canary.py", line 208, in <module>
-  canary:     sys.exit(main())
-  canary:              ~~~~^^
-  canary:   File "/tmp/mission-v11-verify-T02b/tests/canary/run_canary.py", line 193, in main
-  canary:     mutate(copy)
-  canary:     ~~~~~~^^^^^^
-  canary:   File "/tmp/mission-v11-verify-T02b/tests/canary/run_canary.py", line 153, in secret_in_history
-  canary:     git("read-tree", "HEAD")
-  canary:     ~~~^^^^^^^^^^^^^^^^^^^^^
-  canary:   File "/tmp/mission-v11-verify-T02b/tests/canary/run_canary.py", line 150, in git
-  canary:     r = subprocess.run(["git", *args], cwd=c, env=env, input=data, capture_output=True, check=True)  # noqa: S603, S607
-  canary:   File "/usr/local/lib/python3.13/subprocess.py", line 578, in run
-  canary:     raise CalledProcessError(retcode, process.args,
-  canary:                              output=stdout, stderr=stderr)
-  canary: subprocess.CalledProcessError: Command '['git', 'read-tree', 'HEAD']' returned non-zero exit status 128.
-FAIL canaries: 12 caught
+  canary: PASS canary 'secret in git history' → #6h RED
+  canary: canaries: 0 failure(s)
+PASS 13 canaries caught, clean copy GREEN
 PASS callsite_allowlist: three gateway sites
 PASS scan_allowlist entries complete
 PASS param_scan counts 2 literals
@@ -37,5 +23,5 @@ PASS param_scan rejects 13 literals (> 12)
 PASS pre-push runs the history scan
 PASS CI runs mission_check --history and the canaries
 PASS no mission-v11 temp dir left
-T02b verify: 1 failure(s)
-[exit 1]
+T02b verify: 0 failure(s)
+[exit 0]

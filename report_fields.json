@@ -2,7 +2,7 @@
  "verdict": "NOT_YET",
  "push": "local only (F-REMOTE ki manzoori nahi; INCIDENT #1 khula)",
  "seedhi_baat": "G0 ka nateeja: abhi har raasta adhoora (CONDITIONAL), kyunki web band tha aur koi kharcha official page se pakka nahi ho saka; sabse sasta static-IP server bhi {num:G0.s1_server_rs_pm} = {num:G0.s1_server_pct} capital har mahine khata hai.",
- "kya_ban_gaya": "T01 se T04: guard aur mohar · har tathya ka official URL aur saboot · G0 ka hisaab (tools/economics.py) · CP1 memo docs folder mein",
+ "kya_ban_gaya": "T01 se T04 aur T02b: guard (ab FULL: order raasta, PII, git history) aur mohar · har tathya ka official URL · G0 ka hisaab · CP1 memo docs folder mein",
  "kaam_1": "INCIDENT #1: environment mein ACCESS_TOKEN wala naam mila; INCIDENT.md #1 ka ek raasta chuno, phir haan F-INC-1 be92",
  "kaam_2": "INCIDENT #3 aur #2 (sirf jaankari): haan F-INC-3 d9e1 · haan F-INC-2 fc8c",
  "kaam_3": "Upstox se likhit mein poochho: API market data apne personal backtest ke liye store kar sakte ho? (DATA_RIGHTS)",
@@ -39,7 +39,7 @@
  "verify_nahi": "koi bhi bahari tathya (web band: INCIDENT #1); chhote kharche (internet, bijli, CA) sirf maanyata",
  "check_laal": "final check abhi nahi chala (T18 mein)",
  "badi_galtiyan": "koi nahi (alag jaanch abhi nahi hui)",
- "baad_mein": "CP1: tumhare jawab; phir T02b, T05 (Recorder), T09",
+ "baad_mein": "T05 (Recorder), T09, T06, T07, T08, T10",
  "owner_top3": [
   "F-INC-1 be92",
   "F-MAXLOSS bca1",

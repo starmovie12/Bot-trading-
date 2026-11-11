@@ -7,12 +7,13 @@ BUDGET_MIN: 240
 PAUSE_AFTER_G0: yes
 TRACK: FULL (G0 CONDITIONAL for U1-U6: EVIDENCE/T04/g0.json; FULL-A next, FULL-B CLOSED)
 FULL-B gate: CLOSED (tools/fullb_gate.py arrives in T10; no REAL market data)
-IN_PROGRESS: T02b GUARDS_FULL · sub-step: FULL checks, canaries, CI built; next: checkpoint, seal/T02b, verify · minutes_used: 25
+IN_PROGRESS: T05 RECORDER_MVP · sub-step: start · minutes_used: 0
 
 ## DONE (V11)
 - T01 SYNC_SAFE: PASS (verify on 36acdef: EVIDENCE/T01/verify.txt; 20 min)
 - T02a GUARDS_CORE: PASS (verify on 3a05345: EVIDENCE/T02a/verify.txt; 8 canaries caught; seal/T02a)
 - T03 REGULATORY_DATA_RIGHTS: PASS offline (EVIDENCE/T03/verify.txt; constants.toml all UNVERIFIED; DATA_RIGHTS UNVERIFIED)
+- T02b GUARDS_FULL: PASS (EVIDENCE/T02b/verify.txt; 13 canaries; seal/T02b-2; param_scan finding D-024)
 - T04 G0_ECONOMICS: PASS (EVIDENCE/T04/verify.txt; G0 CONDITIONAL for U1-U6, TRACK FULL; seal/T04; CP1 memo docs/MEMO_CP1.md)
 
 ## NEXT
@@ -43,7 +44,7 @@ limits.toml (one source of limits) · constants.toml (T03) · assumptions: DECIS
 ## HASHES
 SHA256SUMS: sha256 20ab86987b20971e (file; covers docs/00_input and MISSION.md)
 MISSION.md: 5eb4f9899b59b43a21d753bcd9123922ac82cbb0c2232f151be24a14b1611462
-SEAL: 588b53dd (seal/T04; earlier bc4d856a at seal/T02a; log EVIDENCE/seal_log.jsonl)
+SEAL: cf5bb14b (seal/T02b-2; earlier 588b53dd seal/T04, bc4d856a seal/T02a; log EVIDENCE/seal_log.jsonl)
 TRIALS_HEAD: none (trials.jsonl empty)
 gates.toml: not written (T10) · STRATEGY.md: not written (T12)
 

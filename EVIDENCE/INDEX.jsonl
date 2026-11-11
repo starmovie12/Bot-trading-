@@ -163,3 +163,4 @@
 {"path": "EVIDENCE/SESSION3/preflight.txt", "sha256": "271c49d617b3c38109625e17e85dbf346655692ef55f2b71deb73caaca671b84", "cmd": "tools/preflight.sh", "time": "2026-11-11T12:49:19Z", "exit": 20}
 {"path": "EVIDENCE/T02b/param_scan.txt", "sha256": "6fd0bb72461bc2bf8de995ad26ea051f1677e99ea9345b0f0940c1a539a26412", "cmd": "python3 tools/param_scan.py", "time": "2026-11-11T12:54:32Z", "exit": 1}
 {"path": "EVIDENCE/T02b/verify.txt", "sha256": "da3d688fb22824b29928c35ac09ddab5742d1eea62feaaad88b7d23267a8298d", "cmd": "tools/verify/T02b.sh", "time": "2026-11-11T12:54:49Z", "exit": 1}
+{"path": "EVIDENCE/T02b/verify.txt", "sha256": "b0a1f7d0c09fc7f7c92e456b37da0f9d3ef9d7c32f301aabacbf39d604aeb982", "cmd": "tools/verify/T02b.sh", "time": "2026-11-11T12:56:11Z", "exit": 0}

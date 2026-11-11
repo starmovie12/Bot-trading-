@@ -1,6 +1,6 @@
 DHYAN: INCIDENT #1 khula hai (kul 3 khule) · FAISLA: ABHI NAHI (data kam; kharche / niyam ka hisaab adhoora; data rakhne ki ijazat saaf nahi) · INTERIM
 SEEDHI BAAT: G0 ka nateeja: abhi har raasta adhoora (CONDITIONAL), kyunki web band tha aur koi kharcha official page se pakka nahi ho saka; sabse sasta static-IP server bhi ₹554.25/mahina [ginti (purani baat par)] = 3.7% [ginti (purani baat par)] capital har mahine khata hai.
-KYA BAN GAYA: T01 se T04: guard aur mohar · har tathya ka official URL aur saboot · G0 ka hisaab (tools/economics.py) · CP1 memo docs folder mein
+KYA BAN GAYA: T01 se T04 aur T02b: guard (ab FULL: order raasta, PII, git history) aur mohar · har tathya ka official URL · G0 ka hisaab · CP1 memo docs folder mein
 KAAM 1: INCIDENT #1: environment mein ACCESS_TOKEN wala naam mila; INCIDENT.md #1 ka ek raasta chuno, phir haan F-INC-1 be92
 KAAM 2: INCIDENT #3 aur #2 (sirf jaankari): haan F-INC-3 d9e1 · haan F-INC-2 fc8c
 KAAM 3: Upstox se likhit mein poochho: API market data apne personal backtest ke liye store kar sakte ho? (DATA_RIGHTS)
@@ -12,7 +12,7 @@ SAWAL F-REMOTE (code 2350): default na (sirf local commit) | ₹ asar seedha nah
 PAISA KAMANE KA RAASTA: tested set mein abhi koi pakka raasta nahi mila (G0 adhoora). Sabse sasta agla raasta: pehle INCIDENT #1 theek karke kharche official page se pakke karna; phir MANUAL mode mein Recorder se asli data (server ka kharcha nahi); saboot bahut lamba lagega
 MANZOORI (is session): koi nahi
 BHAROSA: alag jaanch: nahi hui | khuli badi galtiyan: koi nahi (alag jaanch abhi nahi hui) | kya verify NAHI hua: koi bhi bahari tathya (web band: INCIDENT #1); chhote kharche (internet, bijli, CA) sirf maanyata | final check laal: final check abhi nahi chala (T18 mein)
-SAMAY: session 3 · 6 min chala · baad mein: CP1: tumhare jawab; phir T02b, T05 (Recorder), T09 · SEAL: cf5bb14b · TRIALS: khaali · push: local only (F-REMOTE ki manzoori nahi; INCIDENT #1 khula) · baaki: 20 kaam, 13 sawal (OWNER_TODO.md)
+SAMAY: session 3 · 7 min chala · baad mein: T05 (Recorder), T09, T06, T07, T08, T10 · SEAL: cf5bb14b · TRIALS: khaali · push: local only (F-REMOTE ki manzoori nahi; INCIDENT #1 khula) · baaki: 19 kaam, 13 sawal (OWNER_TODO.md)
 
 ---
 Technical sections below are in English (MISSION V11 §14). Numbers carry English tags and evidence paths.
@@ -27,8 +27,8 @@ NOT_YET(NO_DATA, G0_CONDITIONAL, DATA_RIGHTS_OPEN) · report INTERIM · push: lo
 | T02a | LITE | PASS | 18 / 45 | 1 |
 | T03 | LITE | PASS | 16 / 45 | 2 |
 | T04 | LITE | PASS | 32 / 45 | 3 |
-| T02b | FULL | IN_PROGRESS | 25 / 90 | 0 |
-| T05 | FULL | TODO | 0 / 60 | 0 |
+| T02b | FULL | PASS | 40 / 90 | 2 |
+| T05 | FULL | IN_PROGRESS | 0 / 60 | 0 |
 | T09 | FULL | TODO | 0 / 45 | 0 |
 | T06 | BOTH | TODO | 0 / 30 | 0 |
 | T07 | BOTH | TODO | 0 / 45 | 0 |
