@@ -1,0 +1,19 @@
+$ tools/verify/T09.sh 
+PASS runbook within two pages
+PASS make bundle refused a planted token
+PASS no bundle written on refusal
+PASS make bundle passes on the clean tree
+PASS bundle SHA256SUMS match
+PASS unzipped bundle runs --dry-run offline
+PASS --live refused
+PASS bundle has no strategy / order code
+PASS alert dry-run wrote message files
+PASS test_data_pack_round_trip_checksums_match
+PASS test_a_tampered_or_padded_pack_is_refused
+PASS test_restore_drill_passes_and_a_damaged_copy_fails
+PASS test_alert_dry_run_writes_a_message_file_and_sends_nothing
+PASS Recorder card has three lines
+PASS card in OWNER_TODO #1 and REPORT
+PASS no mission-v11 temp dir left
+T09 verify: 0 failure(s)
+[exit 0]
