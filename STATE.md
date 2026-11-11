@@ -7,13 +7,14 @@ BUDGET_MIN: 240
 PAUSE_AFTER_G0: yes
 TRACK: LITE (T01-T04; T04 sets SHORT or FULL)
 FULL-B gate: CLOSED (tools/fullb_gate.py arrives in T10; no REAL market data)
-IN_PROGRESS: T02a GUARDS_CORE · sub-step: guards built, canaries green; next: checkpoint commit, seal/T02a, verify · minutes_used: 15
+IN_PROGRESS: T03 REGULATORY_DATA_RIGHTS · sub-step: start (offline: INCIDENT #1) · minutes_used: 0
 
 ## DONE (V11)
 - T01 SYNC_SAFE: PASS (verify on 36acdef: EVIDENCE/T01/verify.txt; 20 min)
+- T02a GUARDS_CORE: PASS (verify on 3a05345: EVIDENCE/T02a/verify.txt; 8 canaries caught; seal/T02a)
 
 ## NEXT
-T02a GUARDS_CORE → T03 (offline: INCIDENT #1) → T04 G0 → CP1 memo → SESSION_WRAP
+T03 (offline: INCIDENT #1) → T04 G0 → CP1 memo → SESSION_WRAP
 
 ## OPEN INCIDENTS (INCIDENT.md)
 - #1 sandbox_breach: env name CLOUDSDK_AUTH_ACCESS_TOKEN → no push, no web fetch this session (closes: haan F-INC-1 be92)
@@ -21,7 +22,7 @@ T02a GUARDS_CORE → T03 (offline: INCIDENT #1) → T04 G0 → CP1 memo → SESS
 - #3 env_warn: LIVE_TRADING_ENABLED name (closes: haan F-INC-3 d9e1)
 
 ## PUSH
-local only (F-REMOTE not approved; INCIDENT #1 open; .githooks/pre-push refuses every push until T02a)
+local only (F-REMOTE not approved; INCIDENT #1 open; .githooks/pre-push enforces both)
 
 ## STASHES
 - stash@{0} "v5 WIP truth framework (engine hooks, synthetic, truth, breakeven)" from the old branch (DECISIONS D-003)
@@ -40,7 +41,7 @@ limits.toml (one source of limits) · constants.toml (T03) · assumptions: DECIS
 ## HASHES
 SHA256SUMS: sha256 20ab86987b20971e (file; covers docs/00_input and MISSION.md)
 MISSION.md: 5eb4f9899b59b43a21d753bcd9123922ac82cbb0c2232f151be24a14b1611462
-SEAL: none yet (first seal: seal/T02a)
+SEAL: bc4d856a (seal/T02a, 27 files; log EVIDENCE/seal_log.jsonl)
 TRIALS_HEAD: none (trials.jsonl empty)
 gates.toml: not written (T10) · STRATEGY.md: not written (T12)
 

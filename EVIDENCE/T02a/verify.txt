@@ -1,0 +1,24 @@
+$ tools/verify/T02a.sh 
+PASS clean checkout: mission_check GREEN
+PASS PROTECTED.toml seal matches seal_log and its entries
+PASS tag seal/T02a exists
+  canary: PASS clean copy is GREEN
+  canary: PASS canary 'untagged number' → #1 RED
+  canary: PASS canary 'fake secret (from fragments)' → #6 RED
+  canary: PASS canary 'skipped test' → #5 RED
+  canary: PASS canary 'protected change without approval' → #3 RED
+  canary: PASS canary 'fake approval with a wrong code' → #17 RED
+  canary: PASS canary 'digit in report_fields.json' → #2 RED
+  canary: PASS canary 'constants value missing from its extract' → #18 RED
+  canary: PASS canary 'FULL-B task PASS while the gate is CLOSED' → #19 RED
+  canary: canaries: 0 failure(s)
+PASS all 8 CORE canaries caught
+PASS approval line with a wrong code rejected
+PASS digit in report_fields.json rejected
+PASS planted token redacted
+PASS planted sha256 line kept
+PASS pre-commit hook refused a commit with an untagged number
+PASS pre-push refused the push
+PASS no mission-v11 temp dir left
+T02a verify: 0 failure(s)
+[exit 0]

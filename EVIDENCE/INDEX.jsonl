@@ -5,3 +5,4 @@
 {"path": "EVIDENCE/T01/smoke_baseline.txt", "sha256": "7083cc62aeb94e10880d8028507f6a560036f2d6ca3393e6599399824ea0df5b", "cmd": "make smoke", "time": "2026-11-11T08:23:30Z", "exit": 0}
 {"path": "EVIDENCE/T01/verify.txt", "sha256": "bc4c0e00b6b180c989221f65a6fa4c7da1691d57535c9137bb0541ec1a2316cf", "cmd": "tools/verify/T01.sh", "time": "2026-11-11T08:25:42Z", "exit": 0}
 {"path": "EVIDENCE/T01/verify.txt", "sha256": "595c3d87384b104c9c4862a9597a7f68a4d8fa50781839ce83715f9710ca0e86", "cmd": "tools/verify/T01.sh", "time": "2026-11-11T08:26:07Z", "exit": 0}
+{"path": "EVIDENCE/T02a/verify.txt", "sha256": "58d7cf0b2e9bb9371f43f5037ccb9fc086b1b9a21d01a307c40c45efe03e7640", "cmd": "tools/verify/T02a.sh", "time": "2026-11-11T08:41:17Z", "exit": 0}

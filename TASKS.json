@@ -29,12 +29,14 @@
   ],
   "timebox_min": 45,
   "cap_min": 135,
-  "minutes_used": 15,
+  "minutes_used": 18,
   "retries": 0,
   "verify": "tools/verify/T02a.sh",
   "verify_sha256": "b2491c9f822028bb43485f49d0217bcbfbf51bfcefde4d933ceeccf27ccb8ca9",
-  "status": "IN_PROGRESS",
-  "evidence": []
+  "status": "PASS",
+  "evidence": [
+   "EVIDENCE/T02a/verify.txt"
+  ]
  },
  {
   "id": "T03",
@@ -49,7 +51,7 @@
   "retries": 0,
   "verify": "tools/verify/T03.sh",
   "verify_sha256": "",
-  "status": "TODO",
+  "status": "IN_PROGRESS",
   "evidence": []
  },
  {
