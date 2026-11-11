@@ -12,7 +12,7 @@ SAWAL F-INC-2 (code fc8c): default khula (kuch nahi rukta) | ₹ asar koi nahi |
 PAISA KAMANE KA RAASTA: abhi nahi pata: pehle G0 (T04) ka hisaab; web band hai, isliye tathya pakke nahi
 MANZOORI (is session): koi nahi
 BHAROSA: alag jaanch: nahi hui | khuli badi galtiyan: koi nahi (alag jaanch abhi nahi hui) | kya verify NAHI hua: koi bhi bahari tathya (web band: INCIDENT #1) | final check laal: final check abhi nahi chala (T18 mein)
-SAMAY: session 1 · 44 min chala · baad mein: T03 (offline), T04 G0, phir CP1 par rukna · SEAL: bc4d856a · TRIALS: khaali · push: local only (F-REMOTE ki manzoori nahi; INCIDENT #1 khula) · baaki: 22 kaam, 10 sawal (OWNER_TODO.md)
+SAMAY: session 1 · 45 min chala · baad mein: T04 G0 (offline), phir CP1 par rukna · SEAL: bc4d856a · TRIALS: khaali · push: local only (F-REMOTE ki manzoori nahi; INCIDENT #1 khula) · baaki: 21 kaam, 10 sawal (OWNER_TODO.md)
 
 ---
 Technical sections below are in English (MISSION V11 §14). Numbers carry English tags and evidence paths.
@@ -25,8 +25,8 @@ NOT_YET(NO_DATA, MISSING_INPUT) · report INTERIM · push: local only (F-REMOTE 
 |---|---|---|---|---|
 | T01 | LITE | PASS | 20 / 40 | 6 |
 | T02a | LITE | PASS | 18 / 45 | 1 |
-| T03 | LITE | IN_PROGRESS | 12 / 45 | 0 |
-| T04 | LITE | TODO | 0 / 45 | 0 |
+| T03 | LITE | PASS | 16 / 45 | 2 |
+| T04 | LITE | IN_PROGRESS | 0 / 45 | 0 |
 | T02b | FULL | TODO | 0 / 90 | 0 |
 | T05 | FULL | TODO | 0 / 60 | 0 |
 | T09 | FULL | TODO | 0 / 45 | 0 |

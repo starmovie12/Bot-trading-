@@ -7,14 +7,15 @@ BUDGET_MIN: 240
 PAUSE_AFTER_G0: yes
 TRACK: LITE (T01-T04; T04 sets SHORT or FULL)
 FULL-B gate: CLOSED (tools/fullb_gate.py arrives in T10; no REAL market data)
-IN_PROGRESS: T03 REGULATORY_DATA_RIGHTS · sub-step: rows + REGULATORY.md written; next: checkpoint, verify · minutes_used: 12
+IN_PROGRESS: T04 G0_ECONOMICS · sub-step: start · minutes_used: 0
 
 ## DONE (V11)
 - T01 SYNC_SAFE: PASS (verify on 36acdef: EVIDENCE/T01/verify.txt; 20 min)
 - T02a GUARDS_CORE: PASS (verify on 3a05345: EVIDENCE/T02a/verify.txt; 8 canaries caught; seal/T02a)
+- T03 REGULATORY_DATA_RIGHTS: PASS offline (EVIDENCE/T03/verify.txt; constants.toml all UNVERIFIED; DATA_RIGHTS UNVERIFIED)
 
 ## NEXT
-T03 (offline: INCIDENT #1) → T04 G0 → CP1 memo → SESSION_WRAP
+T04 G0 → CP1 memo → SESSION_WRAP
 
 ## OPEN INCIDENTS (INCIDENT.md)
 - #1 sandbox_breach: env name CLOUDSDK_AUTH_ACCESS_TOKEN → no push, no web fetch this session (closes: haan F-INC-1 be92)

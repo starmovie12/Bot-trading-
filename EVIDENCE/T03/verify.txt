@@ -5,14 +5,6 @@ PASS DATA_RIGHTS verdict present
 PASS REGULATORY.md covers every listed item
 PASS mission_check GREEN
 PASS row checker rejected a value missing from its extract
-Traceback (most recent call last):
-  File "/tmp/mission-v11-verify-T03/tools/mission_check.py", line 619, in <module>
-    sys.exit(main(sys.argv[1:]))
-             ~~~~^^^^^^^^^^^^^^
-  File "/tmp/mission-v11-verify-T03/tools/mission_check.py", line 614, in main
-    print("mission_check: " + ("GREEN" if not red else "RED " + " ".join(red)))
-    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-BrokenPipeError: [Errno 32] Broken pipe
 PASS #18 RED for a SOURCE value missing from its extract
 PASS stale-TTL lint RED in --final
 PASS stale row is a warning in Tier 1
