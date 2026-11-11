@@ -266,3 +266,10 @@ WHY: §5.1 tags, §3.1 "a changed question gets a new id"
 ₹ IMPACT: none
 REVERSE BY: n/a
 CLASS CHECK: A (tooling, questions) · PROTECTED: OWNER_QUESTIONS.md append-only respected
+
+## D-036 | T07 | 2026-11-11
+OLD → NEW: autopsy done (docs/AUTOPSY.md): inventory (EVIDENCE/T07/inventory.txt), a ranked list of capital-killing bugs (order-path items handed to T13a / T13b), and one Recorder bug fixed with its failing test first: bug A, a message with a wrong exchange date split the day and the second seal overwrote the first day file (data loss). Fix: drifted messages are alerted and not recorded; rows for a sealed day are not written; `seal_day` never overwrites (EVIDENCE/T07/bugA_before_fix.txt fails, EVIDENCE/T07/bugA_after_fix.txt passes). I8 tests added on every track (live flag OFF; the owner's LIVE_TRADING_ENABLED has no effect; the order path is unreachable from the Recorder and niyam entry points).
+WHY: §12 T07; §7 I8; D-006 follow-up
+₹ IMPACT: none (data integrity)
+REVERSE BY: git revert
+CLASS CHECK: B (time / data) · PROTECTED: verify/T07.sh sealed with T07

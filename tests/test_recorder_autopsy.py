@@ -1,0 +1,51 @@
+"""T07 AUTOPSY (MISSION V11 §12): Recorder bugs found in the autopsy, each test written before its fix.
+
+Bug A (time / calendar, data loss): one message with a wrong exchange date split the day: the recorder sealed
+the day early, re-opened a new journal for the same date and, at the day's end, sealed it over the first
+`.jsonl.gz`, losing the first part of the day.
+"""
+
+from __future__ import annotations
+
+import datetime as dt
+from pathlib import Path
+
+import pytest
+
+from bot.recorder.snapshot import NS, RecorderConfig, SnapshotRecorder, replay, seal_day
+from bot.recorder.synthetic_feed import light_keys, synthetic_day
+
+DAY = dt.date(2026, 11, 12)
+
+
+def test_a_message_with_a_wrong_exchange_date_does_not_split_or_overwrite_the_day(tmp_path: Path) -> None:
+    keys = light_keys()[:3]
+    rec = SnapshotRecorder(RecorderConfig(data_dir=tmp_path / "data", size_cap_bytes=10**9))
+    feed = list(synthetic_day(DAY, 31, keys))
+    first, rest = feed[: 10 * len(keys)], feed[10 * len(keys) : 20 * len(keys)]
+    for local, msg in first:
+        rec.on_message(msg, local)
+    local, msg = first[-1]
+    rec.on_message({**msg, "exch_ts_ns": msg["exch_ts_ns"] + 86_400 * NS}, local + NS)  # a bogus next-day stamp
+    for local, msg in rest:
+        rec.on_message(msg, local)
+    gz = rec.end_day()
+    assert gz is not None
+    assert not (tmp_path / "data" / f"{DAY + dt.timedelta(days=1)}.jsonl.gz").exists()
+    assert len(replay(gz)) == 20 * len(keys)  # nothing from the first ten minutes was lost
+    assert "clock_drift" in [a.kind for a in rec.alerts]
+
+
+def test_sealing_never_overwrites_an_existing_day_file(tmp_path: Path) -> None:
+    keys = light_keys()[:2]
+    rec = SnapshotRecorder(RecorderConfig(data_dir=tmp_path / "data", size_cap_bytes=10**9))
+    for local, msg in synthetic_day(DAY, 32, keys):
+        rec.on_message(msg, local)
+    gz = rec.end_day()
+    assert gz is not None
+    before = gz.read_bytes()
+    again = tmp_path / "data" / f"{DAY}.jsonl"
+    again.write_text("")
+    with pytest.raises(FileExistsError):
+        seal_day(again)
+    assert gz.read_bytes() == before

@@ -12,7 +12,7 @@ SAWAL F-REMOTE (code 2350): default na (sirf local commit) | ₹ asar seedha nah
 PAISA KAMANE KA RAASTA: tested set mein abhi koi pakka raasta nahi mila (G0 adhoora). Sabse sasta agla raasta: pehle INCIDENT #1 theek karke kharche official page se pakke karna; phir MANUAL mode mein Recorder se asli data (server ka kharcha nahi); saboot bahut lamba lagega
 MANZOORI (is session): koi nahi
 BHAROSA: alag jaanch: nahi hui | khuli badi galtiyan: koi nahi (alag jaanch abhi nahi hui) | kya verify NAHI hua: koi bhi bahari tathya (web band: INCIDENT #1); chhote kharche (internet, bijli, CA) sirf maanyata | final check laal: ek safety test laal (purana order-endpoint wala test; jhootha alarm, galti meri): fix ke liye F-PROT-1 manzoori
-SAMAY: session 3 · 35 min chala · baad mein: T07, T08, T10 (agle session ya isi mein) · SEAL: 046774aa · TRIALS: khaali · push: local only (F-REMOTE ki manzoori nahi; INCIDENT #1 khula) · baaki: 16 kaam, 18 sawal (OWNER_TODO.md)
+SAMAY: session 3 · 38 min chala · baad mein: T07, T08, T10 (agle session ya isi mein) · SEAL: 046774aa · TRIALS: khaali · push: local only (F-REMOTE ki manzoori nahi; INCIDENT #1 khula) · baaki: 16 kaam, 18 sawal (OWNER_TODO.md)
 
 RECORDER CARD:
 abhi asli recording nahi: Upstox feed ka adapter nahi bana (format verify nahi hua) aur data rakhne ki ijazat saaf nahi
@@ -36,7 +36,7 @@ NOT_YET(NO_DATA, G0_CONDITIONAL, DATA_RIGHTS_OPEN) · report INTERIM · push: lo
 | T05 | FULL | PASS | 35 / 60 | 2 |
 | T09 | FULL | PASS | 30 / 45 | 1 |
 | T06 | BOTH | PASS | 45 / 30 | 2 |
-| T07 | BOTH | IN_PROGRESS | 0 / 45 | 0 |
+| T07 | BOTH | IN_PROGRESS | 30 / 45 | 0 |
 | T08 | BOTH | TODO | 0 / 20 | 0 |
 | T10 | BOTH | TODO | 0 / 60 | 0 |
 | T11 | FULL-A | TODO | 0 / 45 | 0 |

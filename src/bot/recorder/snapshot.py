@@ -178,7 +178,9 @@ class SnapshotRecorder:
         exch = int(clean["exch_ts_ns"])
         self.guard.seen(local_ns, exch)
         if not self.guard.drift_ok:
-            self._alert("clock_drift", f"exchange vs local more than {self.cfg.max_drift_s} s", local_ns)
+            # T07 bug A: a message with an untrustworthy exchange time is never recorded (it once split a day)
+            self._alert("clock_drift", f"exchange vs local more than {self.cfg.max_drift_s} s: not recorded", local_ns)
+            return
         day, minute = ist_date(exch), ist_minute(exch)
         if self._day == day and self._minute != -1 and minute < self._minute:
             self.late += 1  # a late message for a minute already written: never rewrite history
@@ -216,7 +218,11 @@ class SnapshotRecorder:
             self._cap_alerted = True
             self._alert("size_cap_80", f"{self.cfg.alert_pct}% of the size cap used", ts)
         if self._writer is None:
-            self._writer = self.writer_factory(self.day_path(self._day))
+            path = self.day_path(self._day)
+            if path.with_name(path.name + ".gz").exists():
+                self._alert("day_already_sealed", f"{self._day} is sealed: late rows not written", ts)
+                return
+            self._writer = self.writer_factory(path)
         try:
             for row in rows:
                 self._writer.write("snap", int(row["exch_ts_ns"]), row)
@@ -243,6 +249,9 @@ class SnapshotRecorder:
 
 
 def seal_day(path: Path) -> Path:
+    target = path.with_name(path.name + ".gz")
+    if target.exists():  # T07 bug A: never overwrite a sealed day
+        raise FileExistsError(f"{target.name} already sealed")
     gz = compress_day(path)
     gz.with_name(gz.name + ".sha256").write_text(f"{hashlib.sha256(gz.read_bytes()).hexdigest()}  {gz.name}\n")
     return gz

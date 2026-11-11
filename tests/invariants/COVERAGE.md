@@ -3,7 +3,7 @@
 | invariant | coverage |
 |---|---|
 | I4 | tests/invariants/test_i04_feed_stale_gap.py (feed side); order side N/A(order path not built) |
-| I8 | T07 creates tests/invariants/test_order_path_disabled.py |
+| I8 | tests/invariants/test_i08_live_flag_off.py and tests/invariants/test_order_path_disabled.py |
 | I11 | tests/invariants/test_i11_time.py (holiday calendar: UNVERIFIED, official page not fetched) |
 | I12 | tests/invariants/test_i12_money.py |
 | I13 | tests/invariants/test_i13_feed_schema.py (feed side); order side N/A(order path not built) |

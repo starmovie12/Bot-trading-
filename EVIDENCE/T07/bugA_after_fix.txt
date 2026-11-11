@@ -1,0 +1,4 @@
+$ python3 -m pytest -q -o addopts= -p no:cacheprovider tests/test_recorder_autopsy.py tests/test_recorder_mvp.py tests/invariants 
+...........................                                              [100%]
+27 passed in 13.88s
+[exit 0]
