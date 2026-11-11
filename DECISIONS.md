@@ -206,3 +206,10 @@ WHY: §10 item 3, T09; evidence tests/test_delivery.py and tools/verify/T09.sh
 ₹ IMPACT: none
 REVERSE BY: git revert
 CLASS CHECK: C guard (no token in a bundle or pack; LIGHT only) · PROTECTED: make_report.py / report template changed under owner task T09; verify/T09.sh sealed after PASS
+
+## D-030 | T09 | 2026-11-11
+OLD → NEW: process slip: the T09 PASS commit was refused by the pre-commit hook (T09 marked PASS before its seal, so the T09 template change looked unapproved: the guard worked), but the files it had staged stayed in the index, and `tools/seal.py` then committed them together with the seal (commit 67e0c5c holds the T09 PASS state, labelled "seal"). Nothing was lost or unchecked (the hook ran mission_check on that commit, GREEN). Rule from now on: seal while the task is still IN_PROGRESS, then mark PASS; after any refused commit, unstage before running another tool that commits. Improvement for the owner's queue: seal.py should refuse to run when unrelated files are staged (a protected file: needs its own F-PROT question later).
+WHY: honest record of history (§13 the adversary compares history)
+₹ IMPACT: none
+REVERSE BY: n/a
+CLASS CHECK: process · PROTECTED: no

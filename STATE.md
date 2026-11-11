@@ -63,5 +63,5 @@ gates.toml: not written (T10) · STRATEGY.md: not written (T12)
 - Session 3: owner wrote `continue` after CP1 without answers → all defaults stay; RUN ORDER resumes at T02b.
 - Session 1 ended by a forced stop (worker restart) during T04, after T03 PASS; owner wrote `continue` → session 2 (no seal, no budget, no answers).
 - Tools on PATH (pytest, mypy) lack the project's dev deps; always use python3 -m (D-009).
-- Run the FULL test suite (make smoke) in every task cycle before the commit (D-028). Known red: test_no_order_endpoint_in_m0 until haan F-PROT-1 b614.
+- Run the FULL test suite (make smoke) in every task cycle before the commit (D-028). Seal BEFORE marking a task PASS; unstage after a refused commit (D-030). Known red: test_no_order_endpoint_in_m0 until haan F-PROT-1 b614.
 - Temp files only in ${TMPDIR:-/tmp}/mission-v11-* (D-012). Commit cycle: STATE → make_report → mission_check → safe_add → commit.
