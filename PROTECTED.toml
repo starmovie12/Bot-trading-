@@ -1,6 +1,6 @@
 # PROTECTED.toml (MISSION V11 §5.2): written by tools/seal.py. Never edit by hand.
-seal = "8ad3471a"
-task = "T08"
+seal = "a0baa30a"
+task = "T10"
 session = "3"
 
 [[file]]
@@ -53,7 +53,7 @@ owner_tasks = ["T03"]
 
 [[file]]
 path = "gates.toml"
-sha256 = "ceeff2086158b08902722a68776008e63c6105e98e2b3a3233b648b2b882bdcf"
+sha256 = "eb38296cc1ae400330741888ca4b4687002cb2339cb3284d06fc8c3f5c27b627"
 rule = "per_value"
 owner_tasks = ["T10", "T12"]
 
@@ -118,6 +118,18 @@ rule = "exact"
 owner_tasks = ["T01", "T02a"]
 
 [[file]]
+path = "tools/floors_baseline.toml"
+sha256 = "2178b4acac6bb3319ad623f8cad8a9f8dea621522da2258960d3511529833c9d"
+rule = "exact"
+owner_tasks = ["T10"]
+
+[[file]]
+path = "tools/fullb_gate.py"
+sha256 = "3da06f45e14a009bb8f2b0c757de4fe8151ae4c72bec2f751a08b25a7a1b0dbd"
+rule = "exact"
+owner_tasks = ["T10"]
+
+[[file]]
 path = "tools/make_report.py"
 sha256 = "32f19f101f0f0ba661000f898984fdd559f0c8c86a66996f36dc1abd1975dca7"
 rule = "exact"
@@ -131,7 +143,7 @@ owner_tasks = ["T02a", "T02b"]
 
 [[file]]
 path = "tools/power.py"
-sha256 = "bdfda375c56706656d69fe4339a8b96517c522c31d3f0e87caa2c8df1869d4f8"
+sha256 = "afafb550032ffe8831113bafe389b87c65278f94b4425197122997a145607ec1"
 rule = "exact"
 owner_tasks = ["T04", "T10"]
 
@@ -170,6 +182,12 @@ path = "tools/tag_scope.toml"
 sha256 = "a08782fb95842990480461d8ecb2687cb7b39a176719d61c2a3c6c1876b66b66"
 rule = "exact"
 owner_tasks = ["T02a"]
+
+[[file]]
+path = "tools/truth_tests.py"
+sha256 = "add690aa2d56a0a9e622a8ca9b3b95fcd87ca6108538a5fa181c686870051e2b"
+rule = "exact"
+owner_tasks = ["T10", "T14"]
 
 [[file]]
 path = "tools/verify/T01.sh"
@@ -230,3 +248,9 @@ path = "tools/verify/T09.sh"
 sha256 = "cb25c273f24ad5dfb228f2ba7905ff723254d3a35870eb283542cdc77325051e"
 rule = "exact"
 owner_tasks = ["T09"]
+
+[[file]]
+path = "tools/verify/T10.sh"
+sha256 = "562f140d1c6dd5923fe5d2234b67116ff254e787f17ce6100f24e1f6a2b90a22"
+rule = "exact"
+owner_tasks = ["T10"]
