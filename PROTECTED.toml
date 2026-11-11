@@ -1,7 +1,7 @@
 # PROTECTED.toml (MISSION V11 §5.2): written by tools/seal.py. Never edit by hand.
-seal = "588b53dd"
-task = "T04"
-session = "2"
+seal = "6e435143"
+task = "T02b"
+session = "3"
 
 [[file]]
 path = ".githooks/pre-commit"
@@ -11,13 +11,13 @@ owner_tasks = ["T01", "T02a", "T02b"]
 
 [[file]]
 path = ".githooks/pre-push"
-sha256 = "60d0ffbf5688d869eba9c2588461279125a6ec7a427e8f823140b8a352464577"
+sha256 = "efebef98acd298d9ad6493dbc4e6735911f62320f09adc4ed60478908eada0ba"
 rule = "exact"
 owner_tasks = ["T01", "T02a", "T02b"]
 
 [[file]]
 path = ".github/workflows/ci.yml"
-sha256 = "9a50b107473a27c789a2fbc19d3a167770362452d1ab714a8a72167ef7159344"
+sha256 = "073b5febde74ec71a34d2fdd53553b011449fb291866f9a4c34447f232796081"
 rule = "exact"
 owner_tasks = ["T02b"]
 
@@ -83,9 +83,15 @@ owner_tasks = ["T02a", "T02b", "T04", "T09", "T11", "T18"]
 
 [[file]]
 path = "tests/canary/run_canary.py"
-sha256 = "7c179503eef6aa5dea3c8c6fb605e08f6ea54c0c6ae49d6869e0eeb7e3322ff8"
+sha256 = "6c739f4797432e9c65ce5573676afa9279933dd55413417770ca9b5d9137d9e8"
 rule = "exact"
 owner_tasks = ["T02a", "T02b"]
+
+[[file]]
+path = "tools/callsite_allowlist.toml"
+sha256 = "fed9672ba294cda799686833546114523a1f67c1fc5d4aebc38847a1a3871a46"
+rule = "exact"
+owner_tasks = ["T02b"]
 
 [[file]]
 path = "tools/clock.sh"
@@ -119,7 +125,7 @@ owner_tasks = ["T02a", "T02b", "T04", "T09", "T11", "T18"]
 
 [[file]]
 path = "tools/mission_check.py"
-sha256 = "aa5c87f525d5422893b2b94de4ba14767fdfbd4136221388b5fed12515b643e9"
+sha256 = "8ca8721cccd4283ffa331c686d2b4c132e855a7dac5d45d0531f9562f798b143"
 rule = "exact"
 owner_tasks = ["T02a", "T02b"]
 
@@ -176,6 +182,12 @@ path = "tools/verify/T02a.sh"
 sha256 = "b2491c9f822028bb43485f49d0217bcbfbf51bfcefde4d933ceeccf27ccb8ca9"
 rule = "exact"
 owner_tasks = ["T02a"]
+
+[[file]]
+path = "tools/verify/T02b.sh"
+sha256 = "4105f382526672847b738b57d591d53f8cab4bdfe29cec54284813ee85191a35"
+rule = "exact"
+owner_tasks = ["T02b"]
 
 [[file]]
 path = "tools/verify/T03.sh"
