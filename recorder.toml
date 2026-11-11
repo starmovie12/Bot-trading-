@@ -1,0 +1,12 @@
+# recorder.toml (MISSION V11 §10): Recorder settings for the owner's machine. Read-only market data.
+# LIGHT scope by default. FULL scope only with `haan F-RECFULL <code>` on a PC, and only when DATA_RIGHTS = OK.
+scope = "LIGHT"
+# Market data lives under data/ (gitignored): it is never committed.
+data_dir = "data/recorder"
+# Size cap for this machine, with an alert at alert_pct; at the cap recording stops and nothing is deleted.
+size_cap_mb = 2048
+alert_pct = 80
+# Feed guards: no fresh message for max_stale_s, or exchange vs local clock apart by more than max_drift_s,
+# means "no new entries" (I4, I11).
+max_stale_s = 120
+max_drift_s = 2

@@ -182,3 +182,10 @@ WHY: canaries must never touch the real repository (§5.5 "nothing violating is 
 ₹ IMPACT: none
 REVERSE BY: git revert (protected: owner task T02b)
 CLASS CHECK: A (tooling safety) · PROTECTED: tests/canary/* re-sealed
+
+## D-027 | T05 | 2026-11-11
+OLD → NEW: Recorder MVP built on the M0 journal: `src/bot/recorder/snapshot.py` records NORMALISED messages as one snapshot per instrument per minute (money in paise, IV in basis points, exchange and local timestamps), with feed guards (stale, gap, clock drift, schema → no new entries), a size cap with an 80% [ASSUMPTION] alert, a clean stop on a full disk, day seal (gzip + sha256 sidecar) and a daily health line. The live Upstox feed adapter is NOT built: its schema is UNVERIFIED (no web), so contract tests wait for redacted real recordings. One synthetic LIGHT day = 27,000 [CODE(SIM)] rows, 7.5 MB raw and 1.35 MB gzipped [SIM] (measured: EVIDENCE/T05/day_size.txt; design: docs/RECORDER_SPEC.md).
+WHY: §10 item 2, T05; DATA_RIGHTS = UNVERIFIED keeps LIGHT scope
+₹ IMPACT: server ₹0 [CODE(OWNER)] for the Recorder (owner's own machine, S0)
+REVERSE BY: git revert; FULL scope only after its gates
+CLASS CHECK: C guard (data rights: LIGHT only) · PROTECTED: verify/T05.sh sealed after PASS
