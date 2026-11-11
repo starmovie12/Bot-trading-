@@ -1,0 +1,3 @@
+$ sh -c grep\ -n\ -m1\ -F\ --\ \'10/sec\,\ 500/min\,\ 2000/30\ min\*\*.\ SEBI\'\ \'docs/00_input/research/R_c_Compliance.md\'\ \|\ cut\ -c1-600 
+151:| 5.6 | **Rate limit, order APIs (place, modify, cancel, multi, GTT milakar), bina registration algo:** **10/sec, 500/min, 2000/30 min**. SEBI-registered algo: 50/sec, 500/min, 2000/30 min. Baaki standard APIs: 50/sec, 500/min, 2000/30 min. Limit per-API, per-user. Paar karne par "temporary suspension" ho sakta hai. | 10 Nov 2026 | [U1] | Primary |
+[exit 0]

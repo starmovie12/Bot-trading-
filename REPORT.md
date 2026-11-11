@@ -1,9 +1,9 @@
 DHYAN: INCIDENT #1 khula hai (kul 3 khule) · FAISLA: ABHI NAHI (data kam; tumhari file ya jawab chahiye) · INTERIM
 SEEDHI BAAT: abhi sirf suraksha ka dhaancha bana hai; ₹ ka hisaab (G0) T04 mein hoga. Ek trade ka max nuksaan abhi ₹1,125 [ginti (maanyata par)].
-KYA BAN GAYA: T01 aur T02a: secret guard, mission_check, REPORT banane wala tool, mohar (SEAL) · purane docs hash ke saath
+KYA BAN GAYA: T01, T02a: secret guard, mission_check, REPORT tool, mohar (SEAL) · T03: har tathya ka official URL aur saboot (abhi UNVERIFIED)
 KAAM 1: INCIDENT #1: environment mein ACCESS_TOKEN wala naam mila; INCIDENT.md #1 ka ek raasta chuno, phir haan F-INC-1 be92
-KAAM 2: F-REMOTE: ye container mit sakta hai; repo Private ho to haan F-REMOTE 2350
-KAAM 3: INCIDENT #3 aur #2 padho (sirf jaankari): haan F-INC-3 d9e1 · haan F-INC-2 fc8c
+KAAM 2: INCIDENT #3 aur #2 (sirf jaankari): haan F-INC-3 d9e1 · haan F-INC-2 fc8c
+KAAM 3: Upstox se likhit mein poochho: API market data apne personal backtest ke liye store kar sakte ho? (DATA_RIGHTS)
 SAWAL F-INC-1 (code be92): default khula (web + push band) | ₹ asar seedha nahi; par G0 adhoora rahega | jawab: haan / na F-INC-1 be92
 SAWAL F-REMOTE (code 2350): default na (sirf local commit) | ₹ asar seedha nahi; par kaam kho sakta hai | jawab: haan / na F-REMOTE 2350
 SAWAL F-MAXLOSS (code bca1): default ₹4,500 [maanyata] | ₹ asar ek trade ka max nuksaan ₹1,125 [ginti (maanyata par)] | jawab: haan / na / set F-MAXLOSS <value> bca1
@@ -12,7 +12,7 @@ SAWAL F-INC-2 (code fc8c): default khula (kuch nahi rukta) | ₹ asar koi nahi |
 PAISA KAMANE KA RAASTA: abhi nahi pata: pehle G0 (T04) ka hisaab; web band hai, isliye tathya pakke nahi
 MANZOORI (is session): koi nahi
 BHAROSA: alag jaanch: nahi hui | khuli badi galtiyan: koi nahi (alag jaanch abhi nahi hui) | kya verify NAHI hua: koi bhi bahari tathya (web band: INCIDENT #1) | final check laal: final check abhi nahi chala (T18 mein)
-SAMAY: session 1 · 38 min chala · baad mein: T03 (offline), T04 G0, phir CP1 par rukna · SEAL: bc4d856a · TRIALS: khaali · push: local only (F-REMOTE ki manzoori nahi; INCIDENT #1 khula) · baaki: 22 kaam, 10 sawal (OWNER_TODO.md)
+SAMAY: session 1 · 44 min chala · baad mein: T03 (offline), T04 G0, phir CP1 par rukna · SEAL: bc4d856a · TRIALS: khaali · push: local only (F-REMOTE ki manzoori nahi; INCIDENT #1 khula) · baaki: 22 kaam, 10 sawal (OWNER_TODO.md)
 
 ---
 Technical sections below are in English (MISSION V11 §14). Numbers carry English tags and evidence paths.
@@ -25,7 +25,7 @@ NOT_YET(NO_DATA, MISSING_INPUT) · report INTERIM · push: local only (F-REMOTE 
 |---|---|---|---|---|
 | T01 | LITE | PASS | 20 / 40 | 6 |
 | T02a | LITE | PASS | 18 / 45 | 1 |
-| T03 | LITE | IN_PROGRESS | 0 / 45 | 0 |
+| T03 | LITE | IN_PROGRESS | 12 / 45 | 0 |
 | T04 | LITE | TODO | 0 / 45 | 0 |
 | T02b | FULL | TODO | 0 / 90 | 0 |
 | T05 | FULL | TODO | 0 / 60 | 0 |
@@ -67,7 +67,7 @@ NOT_YET(NO_DATA, MISSING_INPUT) · report INTERIM · push: local only (F-REMOTE 
 | limits.MAX_TRADE_LOSS_RS | ₹1,125 [CODE(ASSUMPTION)] | EVIDENCE/T01/limits_chain.txt |
 
 ## PROTECTED_CHANGES (since the last seal)
-none
+- constants.toml (rule evidence)
 
 ## Allowlists
 Env allowlist names (tools/env_allowlist.txt): GH_TOKEN, GITHUB_TOKEN, GIT_ASKPASS, GIT_CONFIG_KEY_*, GIT_CONFIG_VALUE_*, CLAUDE_CODE_*, CLAUDE_SESSION_INGRESS_TOKEN_FILE, CCR_*, MAX_THINKING_TOKENS, BUN_TLS_EXTRA_DISTRUSTED_KEYS

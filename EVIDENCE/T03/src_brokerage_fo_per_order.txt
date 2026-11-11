@@ -1,0 +1,3 @@
+$ sh -c grep\ -n\ -m1\ -F\ --\ \'Brokerage\ ₹20\ /\ executed\ order\'\ \'src/bot/strategy/costs.py\'\ \|\ cut\ -c1-600 
+4:- Brokerage ₹20 / executed order. API ka ₹10 wala offer 31 Dec 2025 tak tha (khatam), isliye ₹20.
+[exit 0]

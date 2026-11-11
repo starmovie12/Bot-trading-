@@ -1,0 +1,3 @@
+$ sh -c grep\ -n\ -m1\ -F\ --\ \'3\ Aug\ 2026\ se\ F\&O\ 3:40\ PM\'\ \'docs/00_input/research/R_c_Compliance.md\'\ \|\ cut\ -c1-600 
+14:6. Bada badlav: **3 Aug 2026 se F&O 3:40 PM tak** chalta hai (cash market mein Closing Auction Session aaya) [S12][U19]. **7 Dec 2026 se index F&O 3:45 PM tak, par expiry ke din expire hone wale index contract 3:30 PM par band** [S13]. Expiry settlement ka tareeka bhi badla hai.
+[exit 0]

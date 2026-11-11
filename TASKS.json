@@ -47,10 +47,10 @@
   ],
   "timebox_min": 45,
   "cap_min": 135,
-  "minutes_used": 0,
+  "minutes_used": 12,
   "retries": 0,
   "verify": "tools/verify/T03.sh",
-  "verify_sha256": "",
+  "verify_sha256": "eb36a6af279ca92cfbccc1429b008fdd139b295606aecb87aa2de175ef5435d0",
   "status": "IN_PROGRESS",
   "evidence": []
  },

@@ -1,0 +1,3 @@
+$ sh -c grep\ -n\ -m1\ -F\ --\ \'API\ orders\ must\ originate\ from\ a\ registered\ Static\ IP\'\ \'docs/00_input/research/R_c_Compliance.md\'\ \|\ cut\ -c1-600 
+146:| 5.1 | **Static IP:** "API orders must originate from a registered Static IP"; bina registered IP ke order reject. Lagu: **1 April 2026**. Yeh Place, Modify, Cancel, Multi Order, Cancel Multi, GTT, Exit All par lagta hai. Holdings, positions, funds, historical candle par nahi. | 1 Apr 2026 se; 10 Nov 2026 tak | [U2] | Primary |
+[exit 0]

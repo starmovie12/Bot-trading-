@@ -1,0 +1,3 @@
+$ sh -c grep\ -n\ -m1\ -F\ --\ \'Linux\ \$12\ plan\'\ \'docs/00_input/research/R_f_Budget_VPS.md\'\ \|\ cut\ -c1-600 
+7:2. Bot: AWS Lightsail Mumbai, Linux $12 plan (2 vCPU, 2 GB, 60 GB, static IP shaamil, CPU baseline 20% prati vCPU). Lightsail usi AWS Mumbai region mein hai jahan Upstox ke order aur feed server hain (`R_a`).
+[exit 0]

@@ -1,0 +1,3 @@
+$ sh -c grep\ -n\ -m1\ -F\ --\ \'\`/v2/market/holidays\`\'\ \'docs/00_input/research/R_b_Repos_Licence.md\'\ \|\ cut\ -c1-600 
+124:| Faisla | **Use nahi. Upstox official API se khud likho** (`/v2/market/holidays`, `/v2/option/chain`, upstox-python SDK ke `market_holidays_and_timings_api.py` aur `options_api.py` mein dekha). Wajah: unofficial endpoint kabhi bhi badal ya block ho sakta hai, aur GPL bhi hai. NSE ki terms of use: verify nahi hua |
+[exit 0]

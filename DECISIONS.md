@@ -105,3 +105,17 @@ WHY: a byte-exact comparison would otherwise turn red every minute
 ₹ IMPACT: none
 REVERSE BY: edit tools/mission_check.py (protected)
 CLASS CHECK: A (tooling) · PROTECTED: yes
+
+## D-016 | T03 | 2026-11-11
+OLD → NEW: T03 ran offline (INCIDENT #1 switched web fetch off). `constants.toml` holds rows for every fact named in §6, §10 and T03, each UNVERIFIED with its official URL, the date its HISTORY or POINTER source saw it, a TTL, and an extract written through `ev.sh` from the repo line it came from. Unknown facts (FD rate, the stock F&O cut-off, the total-return index source, the token shape, a SEBI profit denominator) are rows with value "unknown". DATA_RIGHTS = UNVERIFIED.
+WHY: §5.4 "Web unavailable or switched off → the field is UNVERIFIED; continue"; no SOURCE without a fetch in this session (§5.1, L2)
+₹ IMPACT: no decisive input of G0 is SOURCE, so G0 can be CONDITIONAL at best this session [CODE(ASSUMPTION)]
+REVERSE BY: a session with web access re-fetches each URL (T03 budget) and upgrades matching rows to SOURCE / VERIFIED
+CLASS CHECK: B (facts) · PROTECTED: constants.toml rule evidence from seal/T02a
+
+## D-017 | T03 | 2026-11-11
+OLD → NEW: IPFT contradiction found: `src/bot/strategy/costs.py:8` treats IPFT as "₹0.01/crore, ignored" next to an NSE rate of 0.03553% [HISTORY], while the MISSION reality check says 0.03553% already includes IPFT (0.03503% + IPFT) [POINTER]. G0 uses the composite 0.03553% [HISTORY] once and adds nothing for IPFT; T06 (S7) fixes the code comment after a SOURCE fetch.
+WHY: §5.4 "costs.py never adds a component already inside a composite rate"; extracts `EVIDENCE/T03/src_nse_txn_charge_composite.txt`, `EVIDENCE/T03/src_nse_ipft.txt`
+₹ IMPACT: the two readings differ by a negligible amount per trade [ESTIMATE]; the composite is the higher, safer one for a FEASIBLE test
+REVERSE BY: SOURCE fetch of the NSE / Upstox charge pages
+CLASS CHECK: B · PROTECTED: no (costs.py)

@@ -1,0 +1,4 @@
+$ sh -c grep\ -n\ -m1\ -F\ \'DATA_RIGHTS\ first\'\ MISSION.md\ \|\ cut\ -c1-300\;\ echo\ \'no\ Upstox\ ToS\ text\ in\ the\ repository\;\ web\ fetch\ is\ off\ \(INCIDENT\ #1\)\ →\ DATA_RIGHTS\ =\ UNVERIFIED\' 
+516:1. DATA_RIGHTS first. T03 gives a verdict: OK / MINIMAL (store only derived data) / NOT_ALLOWED / UNVERIFIED.
+no Upstox ToS text in the repository; web fetch is off (INCIDENT #1) → DATA_RIGHTS = UNVERIFIED
+[exit 0]

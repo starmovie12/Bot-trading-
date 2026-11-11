@@ -1,0 +1,3 @@
+$ sh -c grep\ -n\ -m1\ -F\ --\ \'Sensex:\ lot\ 20\'\ \'src/bot/strategy/instruments.py\'\ \|\ cut\ -c1-600 
+4:- Sensex: lot 20, weekly expiry Thursday, monthly = aakhri Thursday.
+[exit 0]

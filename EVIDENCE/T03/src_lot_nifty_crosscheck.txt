@@ -1,0 +1,3 @@
+$ sh -c grep\ -n\ -m1\ -F\ --\ \'Nifty\ 50:\ lot\ 65\'\ \'src/bot/strategy/instruments.py\'\ \|\ cut\ -c1-600 
+3:- Nifty 50: lot 65, weekly expiry Tuesday (1 Sep 2025 se), monthly = mahine ka aakhri Tuesday.
+[exit 0]

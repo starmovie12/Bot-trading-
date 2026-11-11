@@ -1,0 +1,3 @@
+$ sh -c grep\ -n\ -m1\ -F\ --\ \'Upstox\ Plus\ plan\ fee\'\ \'docs/00_input/research/R_d_Costs_Data.md\'\ \|\ cut\ -c1-600 
+29:| Upstox Plus plan fee | Abhi free ("free initially"); baad mein charge ho sakta hai | Expired Instruments API aur full_d30 depth ke liye zaroori | — | Upstox Plus T&C; Upstox API docs (error UDAPI1149) |
+[exit 0]

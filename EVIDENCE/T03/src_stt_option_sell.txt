@@ -1,0 +1,3 @@
+$ sh -c grep\ -n\ -m1\ -F\ --\ \'STT:\ premium\ ka\ 0.15%\'\ \'src/bot/strategy/costs.py\'\ \|\ cut\ -c1-600 
+5:- STT: premium ka 0.15% bechne par (1 Apr 2026 se).
+[exit 0]

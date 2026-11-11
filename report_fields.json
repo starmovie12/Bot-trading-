@@ -6,10 +6,10 @@
  ],
  "push": "local only (F-REMOTE ki manzoori nahi; INCIDENT #1 khula)",
  "seedhi_baat": "abhi sirf suraksha ka dhaancha bana hai; ₹ ka hisaab (G0) T04 mein hoga. Ek trade ka max nuksaan abhi {num:limits.MAX_TRADE_LOSS_RS}.",
- "kya_ban_gaya": "T01 aur T02a: secret guard, mission_check, REPORT banane wala tool, mohar (SEAL) · purane docs hash ke saath",
+ "kya_ban_gaya": "T01, T02a: secret guard, mission_check, REPORT tool, mohar (SEAL) · T03: har tathya ka official URL aur saboot (abhi UNVERIFIED)",
  "kaam_1": "INCIDENT #1: environment mein ACCESS_TOKEN wala naam mila; INCIDENT.md #1 ka ek raasta chuno, phir haan F-INC-1 be92",
- "kaam_2": "F-REMOTE: ye container mit sakta hai; repo Private ho to haan F-REMOTE 2350",
- "kaam_3": "INCIDENT #3 aur #2 padho (sirf jaankari): haan F-INC-3 d9e1 · haan F-INC-2 fc8c",
+ "kaam_2": "INCIDENT #3 aur #2 (sirf jaankari): haan F-INC-3 d9e1 · haan F-INC-2 fc8c",
+ "kaam_3": "Upstox se likhit mein poochho: API market data apne personal backtest ke liye store kar sakte ho? (DATA_RIGHTS)",
  "sawal_rank": [
   "F-INC-1",
   "F-REMOTE",

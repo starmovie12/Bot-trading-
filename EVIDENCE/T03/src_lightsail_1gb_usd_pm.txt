@@ -1,0 +1,3 @@
+$ sh -c grep\ -n\ -m1\ -F\ --\ \'\$7\ \(1\ GB\,\ 2\ vCPU\,\ 40\ GB\)\'\ \'docs/00_input/research/R_f_Budget_VPS.md\'\ \|\ cut\ -c1-600 
+16:| Lightsail Linux bundles (IPv4) | $5 (0.5 GB, 2 vCPU, 20 GB), $7 (1 GB, 2 vCPU, 40 GB), $12 (2 GB, 2 vCPU, 60 GB), $24 (4 GB, 2 vCPU, 80 GB). "Static IP address" har plan mein shaamil. Region suchi mein Asia Pacific (Mumbai); wahan transfer allowance aadha | https://aws.amazon.com/lightsail/pricing/ |
+[exit 0]

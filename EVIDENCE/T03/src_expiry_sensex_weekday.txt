@@ -1,0 +1,3 @@
+$ sh -c grep\ -n\ -m1\ -F\ --\ \'BSE\ ne\ \*\*Thursday\*\*\ chuna\'\ \'docs/00_input/research/R_c_Compliance.md\'\ \|\ cut\ -c1-600 
+81:| 3.4 | NSE ne **Tuesday** chuna: 1 Sep 2025 ya baad expire hone wale contracts Tuesday ko; monthly **aakhri Tuesday**. BSE ne **Thursday** chuna. | 10 Nov 2026 tak | NSE: [S11] Primary. BSE: Business Standard/Moneylife (Secondary) + Upstox instrument file [S18] mein Sensex expiry Thursday | NSE Primary, BSE Secondary |
+[exit 0]

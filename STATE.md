@@ -7,7 +7,7 @@ BUDGET_MIN: 240
 PAUSE_AFTER_G0: yes
 TRACK: LITE (T01-T04; T04 sets SHORT or FULL)
 FULL-B gate: CLOSED (tools/fullb_gate.py arrives in T10; no REAL market data)
-IN_PROGRESS: T03 REGULATORY_DATA_RIGHTS · sub-step: start (offline: INCIDENT #1) · minutes_used: 0
+IN_PROGRESS: T03 REGULATORY_DATA_RIGHTS · sub-step: rows + REGULATORY.md written; next: checkpoint, verify · minutes_used: 12
 
 ## DONE (V11)
 - T01 SYNC_SAFE: PASS (verify on 36acdef: EVIDENCE/T01/verify.txt; 20 min)

@@ -1,0 +1,3 @@
+$ sh -c grep\ -n\ -m1\ -F\ --\ \'api-sandbox.upstox.com\'\ \'docs/00_input/01_Bot_Idea_v4.md\'\ \|\ cut\ -c1-600 
+1232:Is aathve repo ki aakhri update 7 Sep 2026 (version 2.30.0) hai, aur ise lagbhag 115 se 123 stars va 86 se 87 forks mile hain. Jaanch ki tarikh: 9 Nov 2026. Kya dekha: repo clone karke `setup.py`, `LICENSE.txt`, `upstox_client/api_client.py`, `configuration.py`, `rest.py` aur `feeder/` ki files ki talaash ki. Bahari pate mein sirf Upstox ke apne pate (`api.upstox.com`, `api-hft.upstox.com`, `api-sandbox.upstox.com`, `account.upstox.com` aur websocket feeds) mile. Public IP, MAC address, system call ya chaabi bahar bhejne ka koi kaam nahi dikha `[Sawal 109]`. Har file ki har line nahi padh
+[exit 0]

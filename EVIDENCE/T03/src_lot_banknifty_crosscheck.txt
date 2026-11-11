@@ -1,0 +1,3 @@
+$ sh -c grep\ -n\ -m1\ -F\ --\ \'Bank\ Nifty:\ lot\ 30\'\ \'src/bot/strategy/instruments.py\'\ \|\ cut\ -c1-600 
+5:- Bank Nifty: lot 30, weekly NOV 2024 SE BAND; sirf monthly (aakhri Tuesday).
+[exit 0]

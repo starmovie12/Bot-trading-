@@ -1,0 +1,3 @@
+$ sh -c grep\ -n\ -m1\ -F\ --\ \'market_protection\`\ \(MPP\)\'\ \'docs/00_input/research/R_c_Compliance.md\'\ \|\ cut\ -c1-600 
+13:5. Exchange par **algo market order allowed nahi** [S7]. Upstox market order ko sirf `market_protection` (MPP) ke saath leta hai, 0 dene par reject [U5][U8]. **Options par SL-M exchange 27 Sep 2021 se reject karta hai** [S19]. Broker Stop ke liye SL (limit) hi rasta hai.
+[exit 0]
