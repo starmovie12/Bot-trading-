@@ -1,11 +1,11 @@
 STAGE=2
-NEXT=Phase 3a: python3 -m lab.build_matrix --outcomes (OUTCOMES after the §PREREG-0 commit), then tools/lab_eval.py
+NEXT=Phase 3c/3d: no finalist passed the screen (D-31); compute DD95 for candidates with >= 15 trades, carry the smallest as EXPERIMENTAL, then bot/contracts.py, tools/engine_of_record.py, bot/strategy module, AGREE
 BLOCK=S2
 MODEL_NOW=BIG
 MODEL_NEXT=BIG
 SWITCH_PENDING=none
 FREEZE=none
-TRIALS=0
+TRIALS=13
 HOLDOUT=sealed
 HALT=none
 VISIBILITY=public-ok
