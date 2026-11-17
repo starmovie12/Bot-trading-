@@ -1,9 +1,3 @@
-# OWNER_TODO (ranked: incidents and legal first, then by ₹ asar, then what blocks the most)
-
-0. **Repo PUBLIC hai:** `starmovie12/Bot-trading-` ab GitHub par hai aur koi bhi ise dekh sakta hai (EVIDENCE/SESSION3/repo_visibility.txt). GitHub par repo ki Settings mein visibility Private karo (menu ka exact naam verify nahi hua).
-1. **Recorder card:** abhi asli recording nahi (Upstox feed ka adapter nahi bana: format verify nahi hua; DATA_RIGHTS saaf nahi). Bundle `dist/recorder_bundle_<tareekh>.zip` sirf dry-run chalata hai (nakli data, kuch save nahi). Tumhara kaam abhi: kuch nahi; docs/OWNER_START.md padh lo.
-2. INCIDENT #3 aur #2 (env_warn, sirf jaankari): `LIVE_TRADING_ENABLED` naam tumhari environment settings mein hai (koi code ise nahi padhta); `AWS_ACCESS_KEY_ID` / `AWS_SECRET_ACCESS_KEY` naam platform ke lagte hain (agar tumne apni Amazon key daali ho to hatao aur badlo). Jawab: `haan F-INC-3 d9e1` aur `haan F-INC-2 fc8c`.
-3. **Kanooni (DATA_RIGHTS):** Upstox se likhit mein poochho: "Kya main Upstox API ka market data apne personal backtest ke liye apni machine par store kar sakta hoon?" Ye message sirf tum bhej sakte ho. Jab tak jawab nahi, Recorder sirf LIGHT (derived data, personal use).
-4. **Meri galti, tumhari manzoori chahiye: F-PROT-1.** Ek purana safety test laal hai kyunki maine guard file mein order-endpoint ke pattern seedhe likh diye (asli order raasta code mein nahi hai). Theek karne ke liye protected file badalni hogi: `haan F-PROT-1 b614`. Saath mein: purani niyam.toml ko archive karne ke liye CI file ka ek path badalna hai: `haan F-PROT-2 c81d`.
-5. CP1 ke sawal: docs/MEMO_CP1.md padho (sabse zaroori: F-DATARIGHTS 3fa1, F-MAXLOSS bca1, F-DAILY-UP-2 2516, F-H2PCT be04; phir F-S118 b07e, F-I7STOP 7aa8, F-DATAAGE 732c, F-MACHINE 9a0b, F-RECFULL 99ea, F-S16 3eda). Har jawab ek line: `haan <id> <code>` / `na <id> <code>` / `set <id> <value> <code>`.
-6. Baad mein (jab remote ho): GitHub par branch protection (main par seedha push band), kisi developer dost ki madad se.
+# OWNER_TODO (MISSION V19; max 20 lines; simple Hinglish)
+1. Repo PUBLIC hai (tumne `continue public-ok` diya): strategy ke number GitHub par nahi jayenge, sirf local file mein.
+2. incometax.gov.in is cloud session se khulta nahi (results/net_check.txt): tax ke tathya UNVERIFIED rahenge.

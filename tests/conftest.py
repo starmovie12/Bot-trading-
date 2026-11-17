@@ -1,6 +1,8 @@
 """Har test mein network band. M0 mein kisi broker ya internet se connection nahi hona chahiye."""
 
-from __future__ import annotations
+import os
+
+os.environ.pop("UPSTOX_RO_TOKEN", None)  # MISSION V19 C3: this process never holds the token
 
 import socket
 from collections.abc import Iterator

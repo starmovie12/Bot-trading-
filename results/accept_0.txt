@@ -1,0 +1,9 @@
+PASS F0-1 all sample paths ignored
+PASS F0-2 pins OK
+PASS F0-3 STATE.md 12 lines, absent [], unknown []
+PASS F0-4 tag True, archive True, left in tools [], in hooks []
+PASS F0-5 scan test rc 0, file unchanged since archive/v11-guards-final: True
+PASS F0-6 net check and scan record present
+PASS F0-7 branch bot/banknifty-v1
+PASS F0-8 absent [], model_log True
+PASS F0-9 MAP.md ok True, RECORDER_SPEC = PART REC True, clock.sh True

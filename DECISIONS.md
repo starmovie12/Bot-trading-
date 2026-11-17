@@ -314,3 +314,14 @@ CLASS CHECK: A (owner decision) · PROTECTED: none changed in this commit
 Owner's first message (V19): "Prompt to acche se padho aur kam start kar do": no `Max balance`, no `Stop at STOP-1`, no other data repo → OWNER_CEILING_RS and OWNER_STOP_AT_STOP1 not set; DATA_REPO = starmovie12/Bot-trading-historical-Bank-Nifty-.
 CODE_REPO starmovie12/Bot-trading- is public (unauthenticated GET 200; REST private=false) and no `continue public-ok` → HALT PUBLIC_REPO (Phase 0 step 2), nothing pushed.
 DATA_REPO unknown (REST blocked for this session with 403; `git ls-remote` works, so it is readable).
+
+## V19 decisions (MISSION_V19; one line each, N10)
+- D-1 V11 guard retirement (Phase 0 step 5; owner order): moved to archive/v11_guards/: mission_check.py, seal.py, PROTECTED.toml, canary runner, make_report.py + report_templates/, OWNER_QUESTIONS / APPROVALS / CONFIG / NOTES / TODO, INCIDENT.md, REPORT.md, report_fields.json, TASKS.json, qcode.py, callsite_allowlist / scan_allowlist / tag_scope, fullb_gate.py, the V11 trials / holdout logs (empty), the V11 verify scripts, war_room.py (it also tripped the order-endpoint scan with "place orders" in a doc string), STATE.md → STATE_v11.md. Hooks and CI no longer call them. The order-endpoint scan test is unchanged (results/scan_before_after.txt).
+- D-2 T11 leftovers → archive/t11/: tools/sim_war_room.py, EVIDENCE/T11/sim.json; docs/SIM_WAR_ROOM.md stays.
+- D-3 Branch: a local branch named `bot` blocked `bot/banknifty-v1` (git ref D/F conflict); it was renamed to `legacy/bot-local` (nothing deleted). origin also has a branch `bot`, so `bot/banknifty-v1` cannot exist there: the local name stays, pushes go to the remote branch `bot-banknifty-v1` (C9 fallback), with the compare URL recorded.
+- D-4 PR base = mission/v11 (git rev-list --count origin/main..origin/mission/v11 = 43 > 0; END E3).
+- D-5 tools/accept.py gets the checks of each phase in that phase (an id without a check is FAIL); tests/test_accept.py grows with it.
+- D-6 Reach (2026-11-17 22:34 IST): incometax.gov.in did not answer (results/net_check.txt) → tax rows UNVERIFIED unless another official source is reachable.
+- D-7 TOKEN not set → Phase 2b.2 skipped at once (UNVERIFIED_LIVE), API_CHECK = NA.
+- D-8 History scan: the only hit is a fake literal `"access_token": "TOKEN-XYZ"` in pre-V11 test history (8dfea02); it is added to the pinned tools/secret_allow.txt as an exact match (V11 had it in scan_allowlist.toml). Pins written for the first time in Phase 0.
+- D-9 Moved-file fallout: tests/test_limits_chain.py excludes MISSION_V19.md from the banned-name scan exactly as it already excluded MISSION.md (the mission text states the ban); tools/economics.py reads OWNER_APPROVALS.md only when it exists (V11 approval codes are void).

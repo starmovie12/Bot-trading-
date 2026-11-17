@@ -78,7 +78,7 @@ def test_the_banned_limit_name_appears_nowhere() -> None:
         rel
         for rel in tracked_files()
         if not rel.startswith("archive/")
-        and rel != "MISSION.md"
+        and rel not in ("MISSION.md", "MISSION_V19.md")  # the mission inputs that state the ban
         and not rel.startswith("docs/00_input/")
         and BANNED_NAME in (ROOT / rel).read_text(encoding="utf-8", errors="replace")
     ]

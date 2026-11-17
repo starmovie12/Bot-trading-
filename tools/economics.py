@@ -129,7 +129,8 @@ def approved_ids(text: str) -> set[str]:
 def build_inputs(root: Path = ROOT) -> dict[str, Any]:
     consts = tomllib.loads((root / "constants.toml").read_text(encoding="utf-8"))
     limits = tomllib.loads((root / "limits.toml").read_text(encoding="utf-8"))
-    approvals = approved_ids((root / "OWNER_APPROVALS.md").read_text(encoding="utf-8"))
+    approvals_file = root / "OWNER_APPROVALS.md"  # V11 approval codes are void under MISSION V19 (archived)
+    approvals = approved_ids(approvals_file.read_text(encoding="utf-8") if approvals_file.is_file() else "")
     facts = {}
     for name in FACTS:
         row = consts.get(name, {"value": "unknown", "tag": "ASSUMPTION"})

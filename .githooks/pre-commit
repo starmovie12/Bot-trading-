@@ -1,20 +1,16 @@
 #!/usr/bin/env bash
-# .githooks/pre-commit (MISSION V11 T02a).
-# 1. refuses commits on main; 2. secret guard on the STAGED blobs (names + content patterns,
-# prints path:line only); 3. mission_check Tier 1 must be GREEN.
+# .githooks/pre-commit (MISSION V19 Phase 0 5e): never on main; no data / recording / archive paths;
+# secret scan of the staged blobs (path:line only, values never printed); ruff on the staged .py files.
 root=$(git rev-parse --show-toplevel) || exit 1
 branch=$(git symbolic-ref --quiet --short HEAD 2>/dev/null || echo DETACHED)
-if [ "$branch" = "main" ]; then
-  echo "pre-commit: never commit to main (MISSION V11 §3). Commit refused." >&2
-  exit 1
-fi
-if ! python3 "$root/tools/redact.py" --staged; then
-  echo "pre-commit: secret-like file name or content staged (locations above; values never printed). Commit refused." >&2
-  exit 1
-fi
-if ! out=$(python3 "$root/tools/mission_check.py" 2>&1); then
-  printf '%s\n' "$out" >&2
-  echo "pre-commit: mission_check is RED. Commit refused." >&2
-  exit 1
+[ "$branch" = "main" ] && { echo "pre-commit: never commit to main" >&2; exit 1; }
+staged=$(git diff --cached --name-only --diff-filter=ACMR)
+bad=$(printf '%s\n' "$staged" | grep -E '^(data|recordings_private|state)/|\.(parquet|zip)$|\.csv\.gz$')
+[ -n "$bad" ] && { printf 'pre-commit: data / recording path staged:\n%s\n' "$bad" >&2; exit 1; }
+python3 "$root/tools/redact.py" --staged || { echo "pre-commit: secret-like name or content staged" >&2; exit 1; }
+py=$(printf '%s\n' "$staged" | grep -E '\.py$' | grep -v '^archive/')
+if [ -n "$py" ]; then
+  # shellcheck disable=SC2086
+  (cd "$root" && python3 -m ruff check --quiet $py) || { echo "pre-commit: ruff failed" >&2; exit 1; }
 fi
 exit 0

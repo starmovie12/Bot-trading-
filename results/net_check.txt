@@ -1,0 +1,14 @@
+github.com HTTP 400
+api.github.com HTTP 200
+upstox.com HTTP 200
+api.upstox.com HTTP 404
+assets.upstox.com HTTP 403
+nseindia.com HTTP 301
+nsearchives.nseindia.com HTTP 404
+sebi.gov.in HTTP 301
+incometax.gov.in HTTP 000
+rbi.org.in HTTP 200
+pypi.org HTTP 200
+files.pythonhosted.org HTTP 404
+registry.npmjs.org HTTP 200
+DATA_REPO git ls-remote OK

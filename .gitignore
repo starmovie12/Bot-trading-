@@ -20,6 +20,10 @@ access_token*
 # --- Private recordings, market data, bundles, caches, archives ---
 recordings_private/
 data/
+state/
+config/params.local.toml
+*.parquet
+*.csv.gz
 dist/
 .cache/
 *.zip

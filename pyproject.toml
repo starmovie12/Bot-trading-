@@ -4,7 +4,7 @@
 [project]
 name = "bot"
 version = "0.0.1"
-description = "BankNifty/Nifty50/Sensex options bot (M0: neev). Idea: branch `idea`."
+description = "BANKNIFTY options bot (MISSION V19: paper by default, live locked)."
 requires-python = ">=3.12"
 dependencies = []
 
@@ -12,6 +12,7 @@ dependencies = []
 line-length = 120
 target-version = "py312"
 src = ["src", "."]
+extend-exclude = ["data", "recordings_private", "state", "archive"]
 
 [tool.ruff.lint]
 select = ["E", "F", "W", "I", "B", "UP", "S", "SIM", "RUF", "PL"]

@@ -1,0 +1,8 @@
+== before (tag archive/v11-guards-final = d426c9a)
+1 failed in 0.63s
+offending files:
+  tools/mission_check.py
+  tools/war_room.py
+== after (bot/banknifty-v1, V11 guards archived)
+1 passed in 0.53s
+offending files: none (tools/mission_check.py and tools/war_room.py moved to archive/v11_guards/, outside the scanned src/ tools/ pehredaar/)

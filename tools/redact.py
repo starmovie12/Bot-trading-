@@ -1,8 +1,10 @@
 #!/usr/bin/env python3
-"""Secret redactor and scanner (MISSION V11 §5.3).
+"""Secret redactor and scanner (MISSION V11 §5.3; V19 C3 scan scope and allow-list).
 
-The one pattern list is tools/secret_patterns.txt (shared with the pre-commit hook,
-tools/safe_add.sh and tools/mission_check.py).
+The one pattern list is tools/secret_patterns.txt (shared with the hooks and tools/safe_add.sh);
+tools/secret_allow.txt (pinned) holds regexes for fake fixture tokens that a content hit may match.
+  redact.py --tree            name + content scan of `git ls-files --cached --others --exclude-standard`
+  redact.py --history         content scan of every added line in `git log --all -p`
 
 Modes:
   redact.py                   stdin -> stdout; every content / pii / entropy hit -> [REDACTED:<name>]
@@ -34,6 +36,19 @@ ROOT = Path(__file__).resolve().parent.parent
 PATTERNS_FILE = ROOT / "tools" / "secret_patterns.txt"
 KINDS = ("name", "content", "pii", "exempt", "entropy")
 TOKEN = re.compile(r"[A-Za-z0-9+/=_-]{16,}")
+ALLOW_FILE = ROOT / "tools" / "secret_allow.txt"
+DEFINITIONS = {"tools/secret_patterns.txt", "tools/secret_allow.txt"}  # regex definitions, not secrets
+
+
+def load_allow(path: Path = ALLOW_FILE) -> list[re.Pattern[str]]:
+    """Fake-token regexes (pinned); a content match equal to one of them is not a hit."""
+    if not path.is_file():
+        return []
+    lines = [x.strip() for x in path.read_text(encoding="utf-8").splitlines()]
+    return [re.compile(x) for x in lines if x and not x.startswith("#")]
+
+
+ALLOW = load_allow()
 
 
 @dataclass(frozen=True)
@@ -121,7 +136,7 @@ def scan_text(label: str, text: str, rules: list[Rule], kinds: tuple[str, ...]) 
     hits = []
     for number, line in enumerate(text.splitlines(), start=1):
         for rule, rx in compiled:
-            if rx.search(line):
+            if any(not any(a.fullmatch(m.group(0)) for a in ALLOW) for m in rx.finditer(line)):
                 hits.append(f"{label}:{number}: {rule.kind}/{rule.name}")
         for rule in entropy:
             if any(high_entropy(m.group(0), rule) for m in TOKEN.finditer(line)):
@@ -146,8 +161,30 @@ def _guard(paths: list[str], rules: list[Rule], read: bool, from_index: bool) ->
             continue
         if not read:
             continue
-        data = _git("show", f":{p}") if from_index else Path(p).read_bytes()
+        data = _git("show", f":{p}") if from_index else (ROOT / p).read_bytes()
         hits += scan_text(p, data.decode("utf-8", "replace"), rules, ("content",))
+    return hits
+
+
+def tree_paths() -> list[str]:
+    raw = _git("ls-files", "--cached", "--others", "--exclude-standard", "-z")
+    paths = [p for p in raw.decode("utf-8", "replace").split("\0") if p]
+    return [p for p in paths if p not in DEFINITIONS and (ROOT / p).is_file()]
+
+
+def history_hits(rules: list[Rule]) -> list[str]:
+    """Added lines of every commit on every ref, grouped by file; definition files skipped."""
+    log = _git("log", "--all", "-p", "--no-color", "--no-ext-diff", "--format=").decode("utf-8", "replace")
+    added: dict[str, list[str]] = {}
+    current = ""
+    for line in log.splitlines():
+        if line.startswith("+++ "):
+            current = line[6:] if line.startswith("+++ b/") else line[4:]
+        elif line.startswith("+") and current not in DEFINITIONS:
+            added.setdefault(current, []).append(line[1:])
+    hits: list[str] = []
+    for path, lines in sorted(added.items()):
+        hits += scan_text(f"history:{path}", "\n".join(lines), rules, ("content",))
     return hits
 
 
@@ -161,9 +198,13 @@ def main(argv: list[str]) -> int:
     if mode == "--names":
         hits = _guard(paths, rules, read=False, from_index=False)
     elif mode == "--guard":
-        hits = _guard(paths, rules, read=True, from_index=False)
+        hits = _guard([p for p in paths if p not in DEFINITIONS], rules, read=True, from_index=False)
     elif mode == "--staged":
-        hits = _guard(staged_paths(), rules, read=True, from_index=True)
+        hits = _guard([p for p in staged_paths() if p not in DEFINITIONS], rules, read=True, from_index=True)
+    elif mode == "--tree":
+        hits = _guard(tree_paths(), rules, read=True, from_index=False)
+    elif mode == "--history":
+        hits = history_hits(rules)
     elif mode == "--scan":
         hits = []
         for p in paths:

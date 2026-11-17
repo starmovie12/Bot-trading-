@@ -1,44 +1,10 @@
 #!/usr/bin/env bash
-# .githooks/pre-push (MISSION V11 T02a). A push is allowed only when ALL hold:
-#   - no OPEN secret or sandbox_breach incident in INCIDENT.md;
-#   - OWNER_APPROVALS.md holds the owner's `haan F-REMOTE <code>` with the code of OWNER_QUESTIONS.md;
-#   - the only ref pushed is refs/heads/mission/v11; no delete; no non-fast-forward (force) update;
-#   - mission_check with the git-history secrets scan (#6h) is GREEN (T02b).
+# .githooks/pre-push (MISSION V19 Phase 0 5e): never to main; secret scan of the tree; pins must match.
 root=$(git rev-parse --show-toplevel) || exit 1
-if ! python3 - "$root" <<'PY'
-import hashlib, re, sys
-from pathlib import Path
-root = Path(sys.argv[1])
-def read(rel):
-    p = root / rel
-    return p.read_text(encoding="utf-8") if p.is_file() else ""
-for m in re.finditer(r"^## #(\d+) · (\S+)[^\n]*· OPEN\s*$", read("INCIDENT.md"), re.M):
-    if m.group(2) in ("secret", "sandbox_breach"):
-        print(f"pre-push: INCIDENT #{m.group(1)} ({m.group(2)}) is open: push is disabled", file=sys.stderr); sys.exit(1)
-q = re.search(r"^## F-REMOTE \| code ([0-9a-f]{4}) \|", read("OWNER_QUESTIONS.md"), re.M)
-code = q.group(1) if q else None
-ok = code and re.search(rf"^## A-\d{{3}} \|[^\n]*question F-REMOTE \(code {code}\)\nOWNER COMMAND \(verbatim line\): (haan|ha|haa|han|yes) F-REMOTE {code}\s*$", read("OWNER_APPROVALS.md"), re.M | re.I)
-if not ok:
-    print("pre-push: no owner approval `haan F-REMOTE <code>`: push is disabled", file=sys.stderr); sys.exit(1)
-PY
-then
-  exit 1
-fi
-if ! out=$(python3 "$root/tools/mission_check.py" --history 2>&1); then
-  printf '%s\n' "$out" >&2
-  echo "pre-push: mission_check (tree + git history) is RED: push refused" >&2
-  exit 1
-fi
-zero=0000000000000000000000000000000000000000
-while read -r local_ref local_sha remote_ref remote_sha; do
-  if [ "$remote_ref" != "refs/heads/mission/v11" ]; then
-    echo "pre-push: only mission/v11 may be pushed (not $remote_ref)" >&2; exit 1
-  fi
-  if [ "$local_sha" = "$zero" ]; then
-    echo "pre-push: deleting a remote branch is not allowed" >&2; exit 1
-  fi
-  if [ "$remote_sha" != "$zero" ] && ! git merge-base --is-ancestor "$remote_sha" "$local_sha" 2>/dev/null; then
-    echo "pre-push: non-fast-forward (force) push is not allowed" >&2; exit 1
-  fi
+while read -r _ _ remote_ref _; do
+  [ "$remote_ref" = "refs/heads/main" ] && { echo "pre-push: never push to main" >&2; exit 1; }
 done
+[ "$(git symbolic-ref --quiet --short HEAD)" = "main" ] && { echo "pre-push: branch is main" >&2; exit 1; }
+python3 "$root/tools/redact.py" --tree || { echo "pre-push: secret scan found something" >&2; exit 1; }
+python3 "$root/tools/check_pins.py" || { echo "pre-push: a pinned file changed without a PIN BUMP" >&2; exit 1; }
 exit 0
