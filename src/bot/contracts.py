@@ -94,6 +94,7 @@ class TradeRecord:
     fill_cost_stressed_rs: Decimal
     net_stressed_rs: Decimal
     exit_reason: str
+    mae_rs: Decimal = Decimal(0)  # worst mark-to-market of the structure during the trade (gross, <= 0)
 
 
 @dataclass(frozen=True)

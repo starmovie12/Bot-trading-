@@ -1,10 +1,7 @@
 #!/usr/bin/env python3
 """Engine of record (MISSION V19 C10, ST9): bars -> strategy.decide -> next-bar fill -> RISK SHELL exits, bar by bar.
-
-Shares only the contracts (src/bot/contracts.py), the clock (minutes after 09:15 IST), the data reader (lab/data.py)
-and the cost model (tools/bn_economics.py) with the lab, never its vectorized functions. Every verdict number comes
-from here; lab/replay_agree.py compares it with the lab (AGREE, RULES K5).
-"""
+Shares with the lab only the contracts, the clock, the data reader and the cost model (never its vectorized code);
+every verdict number comes from here (lab/replay_agree.py checks AGREE, RULES K5)."""
 
 import datetime as dt
 import json
@@ -73,27 +70,28 @@ def value_path(day: Day, intent: Intent) -> tuple[Arr, list[bool]] | None:
     return net, [bool(x and y) for x, y in zip(a["live"], b["live"], strict=True)]
 
 
-def manage(v: Arr, live: list[bool], e: int, it: Intent) -> tuple[int, float, str, bool]:
+def manage(v: Arr, live: list[bool], e: int, it: Intent) -> tuple[int, float, str, bool, float]:
     """Exit minute, exit value, reason, stale exit: the RISK SHELL rules with the pessimistic intrabar rule."""
     entry = v["o"][e]
     risk = it.stop_frac * entry
-    stop, target, trail = entry - risk, entry + it.target_r * risk, False
+    stop, target, trail, mae = entry - risk, entry + it.target_r * risk, False, 0.0
     for m in range(e, FORCE_FLAT + 1):
         lo, hi, cl = v["l"][m], v["h"][m], v["c"][m]
         if math.isnan(lo) or math.isnan(hi) or math.isnan(cl):
             continue
         cur = entry if trail else stop
+        mae = min(mae, max(lo, min(cur, v["o"][m])) - entry)
         if lo <= cur:
-            return m, min(cur, v["o"][m]), "breakeven" if trail else "stop", not live[m]
+            return m, min(cur, v["o"][m]), "breakeven" if trail else "stop", not live[m], mae
         if hi >= target:
-            return m, target, "target", not live[m]
+            return m, target, "target", not live[m], mae
         trail = trail or hi >= entry + risk
         held = m - e + 1
         if held >= it.scratch_min and cl <= entry and not trail:
-            return m, cl, "scratch", not live[m]
+            return m, cl, "scratch", not live[m], mae
         if held >= it.time_stop_min or m == FORCE_FLAT:
-            return m, cl, "time" if held >= it.time_stop_min else "force_flat", not live[m]
-    return FORCE_FLAT, entry, "no_bar", True
+            return m, cl, "time" if held >= it.time_stop_min else "force_flat", not live[m], mae
+    return FORCE_FLAT, entry, "no_bar", True, 0.0
 
 
 def run_day(day: Day, strategy: Strategy, costs: StressedCosts, max_entries: int = MAX_ENTRIES) -> list[TradeRecord]:
@@ -113,7 +111,7 @@ def run_day(day: Day, strategy: Strategy, costs: StressedCosts, max_entries: int
         e = next((m for m in range(t, min(t + 3, FORCE_FLAT)) if live[m] and v["o"][m] > 0), -1)
         if e < 0 or e <= free_after or e < cool_until:
             continue
-        x, xval, reason, stale = manage(v, live, e, res)
+        x, xval, reason, stale, mae = manage(v, live, e, res)
         legs = res.legs
         legs_px = tuple(
             (
@@ -127,7 +125,22 @@ def run_day(day: Day, strategy: Strategy, costs: StressedCosts, max_entries: int
         gross = be.money(Decimal(str(xval - v["o"][e])) * day.lot)
         net = be.money(gross - Decimal("1.5") * charges - fill)
         out.append(
-            TradeRecord(res.intent_id, day.day, legs, e, x, v["o"][e], xval, day.lot, gross, charges, fill, net, reason)
+            TradeRecord(
+                res.intent_id,
+                day.day,
+                legs,
+                e,
+                x,
+                v["o"][e],
+                xval,
+                day.lot,
+                gross,
+                charges,
+                fill,
+                net,
+                reason,
+                be.money(Decimal(str(mae)) * day.lot),
+            )
         )
         free_after = x
         if net < 0:
