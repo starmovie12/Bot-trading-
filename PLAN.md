@@ -41,3 +41,13 @@ RISK SHELL (identical for every candidate and control; constants, never tuned):
 EXIT PRESETS (lab/build_matrix.py PRESETS): EXIT0 = stop as above, target +2R, scratch 30 min (exit when value <= entry
 and the trail is off), time-stop 120 min. Round C grid (finalists only, <= 4 each, <= 8 in all, each a trial):
 C1 scratch 20 · C2 scratch 45 · C3 time-stop 60 · C4 target +3R.
+
+BRACKET (3b; lab/ideas.py holds the exact rules and params; trials counted in trials.jsonl; cap 30):
+- Controls (4): K1 ORB break + retest {near 0.001} · K2 VWAP pullback {trend 0.004, eff 0.3, near 0.0005} ·
+  K3 afternoon momentum {move 0.005} · K4 fixed 10:00 entry {t 45}. All LONG, EXIT0.
+- Round A (5 after the prefilter, results/prefilter.md): A1 30-min range break {eff 0.35} · A2 volatility expansion
+  {ratio 1.5, move 0.0025} · A7 first-30-min -> last hour {t 315} · A9 afternoon extreme fade {near 0.001, eff 0.25} ·
+  A10 trend resumption {eff 0.4}. All LONG, EXIT0. Screen: stressed net mean > 0, ST4, ST11, screening null (1,000 runs).
+- Round B (<= 6): the best <= 3 Round A ideas by the loss-first order (if none survived, the 2 least bad), each with two
+  add-ons in this order: (b1) VIX falling at entry (vix_chg < 0), (b2) SPREAD structure instead of LONG.
+- Round C (<= 8): finalists only, presets C1..C4 of the exit grid above.
