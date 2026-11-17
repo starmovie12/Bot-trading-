@@ -8,16 +8,10 @@
 - `limits.toml`, `gates.toml` · risk limits (one source) and statistical gates · pinned: `python3 tools/check_pins.py`
 - `constants.toml` · facts with tag / URL / date (Phase 2 refreshes) · —
 - `config/PINS.sha256` · sha256 of the 4 pinned files · `tools/check_pins.py` (pre-push, CI)
-- `config/niyam.toml` · V10 rule file (legacy loader `bot.niyam`) · `tests/test_niyam.py`
+- `config/niyam.toml` · V10 rule file, legacy: no code loads it; tests/test_safety.py scans it for secrets · —
 - `params.toml` · strategy parameters (example values only while the repo is public) · —
-- `src/bot/` · M0 bot package (paper only) · `python3 -m pytest -q`
+- `src/bot/` · the bot package (Phase 4 builds it BANKNIFTY-only; the V10 code is in `archive/v10_bot/`) · `python3 -m pytest -q`
 - `src/bot/limits.py` · loads `limits.toml` (RiskLimits, chain check) · `tests/test_limits_chain.py`
-- `src/bot/haath/orders.py` · PAPER-only order manager · `tests/test_orders.py`
-- `src/bot/strategy/` · costs, instrument master (lot from master), strike selection, rules · `tests/test_strategy.py`
-- `src/bot/backtest/` · V10 backtest engine + metrics · `tests/test_backtest.py`
-- `src/bot/dimaag/` · V10 regime + setups S1-S3 (controls, not the answer) · `tests/test_strategy.py`
-- `src/bot/recorder/` · FROZEN Recorder MVP (do not extend or run, R9) · `tests/test_recorder*.py`
-- `src/bot/login/` · V10 login helpers (never run by the agent) · `tests/test_login.py`
 - `pehredaar/` · Go watchdog (lease) · `cd pehredaar && go test ./...`
 - `tools/accept.py` · acceptance checks per phase · `python3 tools/accept.py --phase <p>` · `tests/test_accept.py`
 - `tools/check_recording.py` · read-only check of the owner's recording · `tests/test_check_recording.py`
@@ -27,14 +21,16 @@
 - `tools/safe_add.sh` · the only way to stage files · —
 - `tools/webgrep.py` · grep a saved web page (≤ 30 lines) · `tests/test_webgrep.py`
 - `tools/clock.sh` · IST + UTC now · —
-- `tools/economics.py`, `tools/power.py` · V11 G0 cost model, power · `tests/invariants/test_i12_money.py`
+- `tools/bn_economics.py`, `tools/power_table.py` · BANKNIFTY costs, feasibility card, power table · `tests/test_bn_economics.py`, `tests/test_power_table.py`
 - `tools/truth_tests.py`, `tools/verdict.py` · Holm, block bootstrap, null, walk-forward, MC, holdout · `tests/test_truth_tests.py`
-- `tools/make_bundle.py`, `pack_data.py`, `backup_verify.py` · FROZEN V11 delivery tools · `tests/test_delivery.py`
+- `lab/data.py` · read-only loader of the data repo (per day, per table, no look-ahead) · `tests/test_lab_data.py`
+- `tools/profile_data.py`, `tools/data_gaps.py`, `tools/make_calendar.py` · data profile, DG audit G1-G5, calendar · `tests/test_data_gaps.py`
 - `.githooks/` · pre-commit (data paths, secrets, ruff), pre-push (main, secrets, pins) · `git config core.hooksPath`
 - `.github/workflows/ci.yml` · ruff, mypy, pytest, secret scan, pins, Go · —
 - `tests/` · pytest suite (network blocked in conftest) · `python3 -m pytest -q`
 - `tests/fixtures/` · plain csv / json fixtures (`rec_sample_day.csv` = a PASS recording) · —
 - `results/` · short outputs of every "done" command · —
 - `docs/` · REGULATORY, SIM_WAR_ROOM (V11 T11: NONE), OWNER_START, V11 docs · —
-- `archive/` · retired V11 guards (`v11_guards/`), T11 leftovers (`t11/`), `gates_v11_floor.toml` · tag `archive/v11-guards-final`
+- `archive/` · retired V11 guards (`v11_guards/`), V10 multi-index bot + frozen Recorder (`v10_bot/`), T11 leftovers (`t11/`), `gates_v11_floor.toml`, `constants_v11.toml` · tag `archive/v11-guards-final`
+- `DATA_REQUEST.md` · what the owner may add (Part H) and the Recorder checklist (Part R) · F1-1
 - `data/` (gitignored) · `data/banknifty/repo/` = read-only clone of the data repo (Phase 1) · —

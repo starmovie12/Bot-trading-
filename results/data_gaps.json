@@ -1,5 +1,5 @@
 {
- "calendar": "CALENDAR_UNVERIFIED",
+ "calendar": "2026 SOURCE, 2024-2025 DATA-DERIVED",
  "data_sha": "9e7a49d4eb838d0127fe9267c007888f69c0cc58",
  "data_grade": "B",
  "valid_days_list": [
@@ -514,7 +514,9 @@
   "folders_not_in_index": 84,
   "index_without_folder": [],
   "days_present": 526,
-  "exchange_days_missing": [],
+  "exchange_days_missing": [
+   "2026-01-15"
+  ],
   "days_not_ok": {
    "2024-11-01": "NOT OK / READY",
    "2025-02-01": "OK / None",

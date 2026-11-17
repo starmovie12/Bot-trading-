@@ -11,6 +11,7 @@ import os
 os.environ.pop("UPSTOX_RO_TOKEN", None)
 
 import hashlib
+import json
 import re
 import subprocess
 import sys
@@ -184,6 +185,137 @@ def map_spec_clock(root: Path) -> Result:
     map_ok = mp.is_file() and len(mp.read_text(encoding="utf-8").splitlines()) <= 60
     clock = (root / "tools/clock.sh").is_file()
     return same and map_ok and clock, f"MAP.md ok {map_ok}, RECORDER_SPEC = PART REC {same}, clock.sh {clock}"
+
+
+R1_NAMES = re.compile(r"(?<![a-z])(nifty|sensex|finnifty|midcpnifty|bankex)", re.IGNORECASE)
+DATA_DERIVED = ("docs/DATA_REPORT.md", "docs/DATA_GAPS.md", "results/data_gaps.json", "results/api_vs_pack.json")
+SKIP_LINE = "OWNER: STOP-1 skip (data OK) · STAGE 2 chalu"
+
+
+def text(root: Path, rel: str) -> str:
+    p = root / rel
+    return p.read_text(encoding="utf-8") if p.is_file() else ""
+
+
+def tree(root: Path) -> list[str]:
+    out = git(root, "ls-files", "--cached", "--others", "--exclude-standard").stdout.splitlines()
+    return [x for x in out if (root / x).is_file()]
+
+
+@check("F1-1")
+def data_request(root: Path) -> Result:
+    req = text(root, "DATA_REQUEST.md")
+    items = re.findall(r"^\d+\. .*$", req, re.MULTILINE)
+    part_h = req.split("## Part H", 1)[-1].split("## Part R", 1)[0] if "## Part H" in req else ""
+    h_items = re.findall(r"^\d+\. .*$", part_h, re.MULTILINE)
+    part_r = req.split("## Part R", 1)[-1] if "## Part R" in req else ""
+    ok = bool(items) and len(items) <= 10 and all("fallback_ok" in x for x in h_items) and "RECORDER_SPEC.md" in part_r
+    return (
+        ok,
+        f"{len(items)} items, {len(h_items)} in Part H, Part R names RECORDER_SPEC.md: {'RECORDER_SPEC.md' in part_r}",
+    )
+
+
+@check("F1-2")
+def feasibility_card(root: Path) -> Result:
+    lines = text(root, "results/feasibility_card.md").splitlines()
+    last = lines[-1] if lines else ""
+    answer = bool(re.fullmatch(r"1 LOT: (kam se kam ₹[0-9,]+|NAHI|PATA NAHI)", last))
+    ok = 0 < len(lines) <= 12 and all(len(x) <= 75 for x in lines) and answer
+    return ok, f"{len(lines)} lines, longest {max((len(x) for x in lines), default=0)}, answer '{last}'"
+
+
+@check("F1-3")
+def regulatory(root: Path) -> Result:
+    reg = text(root, "docs/REGULATORY.md")
+    lic = re.search(r"^DATA-LICENCE \| (HAAN|NAHI|UNVERIFIED) \|", reg, re.MULTILINE)
+    pub = re.search(r"^DATA-PUBLIC \| (HAAN|NAHI|UNVERIFIED) \|", reg, re.MULTILINE)
+    present = [p for p in DATA_DERIVED if (root / p).exists()]
+    ok = bool(lic and pub) and not (lic and lic.group(1) == "NAHI" and present)
+    return (
+        ok,
+        f"DATA-LICENCE {lic.group(1) if lic else None}, DATA-PUBLIC {pub.group(1) if pub else None}"
+        f", data files {len(present)}",
+    )
+
+
+@check("F1-4")
+def power(root: Path) -> Result:
+    p = root / "results/power.json"
+    if not p.is_file():
+        return False, "results/power.json missing"
+    anchors = json.loads(p.read_text(encoding="utf-8")).get("anchors", {})
+    want = {"sigma_1000_e_15": 34885, "sigma_1000_e_176": 254, "sigma_1000_n_30_mde": 511}
+    return anchors == want, f"anchors {anchors}"
+
+
+@check("F1-5")
+def secrets_pins_state(root: Path) -> Result:
+    scan = subprocess.run(  # noqa: S603
+        [sys.executable, str(root / "tools/redact.py"), "--tree"], cwd=root, capture_output=True, text=True, check=False
+    )
+    pins_bad = check_pins.problems(root)
+    st_ok, st_ev = state_and_files(root)
+    ok = scan.returncode == 0 and not pins_bad and st_ok
+    return (
+        ok,
+        f"secret scan rc {scan.returncode} ({len(scan.stdout.splitlines())} hits), pins {pins_bad or 'OK'}, {st_ev}",
+    )
+
+
+@check("F1-6")
+def data_gaps(root: Path) -> Result:
+    lic = re.search(r"^DATA-LICENCE \| (\w+)", text(root, "docs/REGULATORY.md"), re.MULTILINE)
+    if lic and lic.group(1) == "NAHI":
+        return True, "DATA-LICENCE NAHI: no gap files by design"
+    raw = text(root, "results/data_gaps.json")
+    if not raw or not (root / "docs/DATA_GAPS.md").is_file():
+        return False, "docs/DATA_GAPS.md or results/data_gaps.json missing"
+    g = json.loads(raw)
+    rows = all(g.get(k, {}).get("verdict") in ("OK", "GAP", "NA") for k in ("G1", "G2", "G3", "G4", "G5"))
+    g4 = g.get("G4", {})
+    short_ok = "valid_days" in g4 and (g4["valid_days"] >= 125 or "days_short" in g4)
+    part_h = text(root, "DATA_REQUEST.md").split("## Part H", 1)[-1].split("## Part R", 1)[0]
+    gap_ids = all(re.search(r"gap G\d", x) for x in re.findall(r"^\d+\. .*$", part_h, re.MULTILINE))
+    card_ok = True
+    if state(root).get("STAGE") != "STOP-1":
+        card = text(root, "results/stage1_card.md").splitlines()
+        card_ok = len(card) == 5 and all(len(x) <= 70 for x in card) and card[-1] == SKIP_LINE
+    ok = rows and "CALENDAR_UNVERIFIED" not in str(g.get("calendar")) and short_ok and gap_ids and card_ok
+    return (
+        ok,
+        f"G1-G5 verdicts {rows}, calendar {g.get('calendar')}, valid_days {g4.get('valid_days')}"
+        f", gap ids {gap_ids}, card {card_ok}",
+    )
+
+
+@check("F1-7")
+def api_vs_pack(root: Path) -> Result:
+    raw = text(root, "results/api_vs_pack.json")
+    api = json.loads(raw).get("API_CHECK") if raw else None
+    token_unset = state(root).get("TOKEN") == "not set"
+    ok = api in ("MATCH", "DIFF", "NA") and (api == "NA" or not token_unset)
+    return ok, f"API_CHECK {api}, TOKEN {state(root).get('TOKEN')}"
+
+
+@check("F1-8")
+def scope_banknifty(root: Path) -> Result:
+    hits = []
+    for rel in tree(root):
+        source = rel.startswith(("bot/", "src/bot/", "lab/", "tools/")) and rel != "tools/accept.py"
+        test = rel.startswith("tests/") and rel.endswith(".py") and rel != "tests/test_scope_banknifty.py"
+        if (source or test) and R1_NAMES.search(text(root, rel)):
+            hits.append(rel)
+    return not hits, f"other-index names in {hits}" if hits else "BANKNIFTY only in bot/, lab/, tools/ and tests"
+
+
+@check("F1-9")
+def data_repo(root: Path) -> Result:
+    if not (root / "data/banknifty/repo").exists():
+        return True, "no data repo clone"
+    sha = state(root).get("DATA_SHA", "")
+    ignored = git(root, "check-ignore", "-q", "data/banknifty/repo").returncode == 0
+    return bool(sha) and ignored, f"DATA_SHA {sha[:12] or 'missing'}, ignored {ignored}"
 
 
 def run(phase: str, root: Path) -> tuple[int, list[str]]:

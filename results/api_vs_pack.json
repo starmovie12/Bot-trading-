@@ -1,0 +1,6 @@
+{
+ "API_CHECK": "NA",
+ "OPTIONS_API_CHECK": "NOT_POSSIBLE",
+ "reason": "TOKEN not set: Phase 2b.2 skipped (D-7); expired options need the Upstox Plus Expired Instruments API",
+ "series": {}
+}

@@ -1,6 +1,6 @@
-STAGE=1
-NEXT=Phase 1b: python3 tools/data_gaps.py --calendar results/calendar.txt, then DATA_REQUEST.md, accept --phase 1b, push
-BLOCK=S1A
+STAGE=2
+NEXT=INTAKE-H: LOAD LAB (sed -n '/^<part id="LAB"/,/^<\/part>/p' MISSION_V19.md), then INTAKE-H steps
+BLOCK=S2
 MODEL_NOW=BIG
 MODEL_NEXT=BIG
 SWITCH_PENDING=none

@@ -90,3 +90,80 @@ def test_every_phase0_id_has_a_breaker() -> None:
 def test_an_id_without_a_check_function_fails(tmp_path: Path) -> None:
     rc, lines = accept.run("6post", tmp_path)
     assert rc == 1 and all(x.startswith("FAIL") for x in lines)
+
+
+COPY_1B = (
+    ".gitignore",
+    "config/PINS.sha256",
+    *check_pins.PINNED,
+    "tools/redact.py",
+    "tools/check_recording.py",
+    "STATE.md",
+    "RECORDER_SPEC.md",
+    "OWNER_TODO.md",
+    "PLAN.md",
+    "DATA_REQUEST.md",
+    "docs/REGULATORY.md",
+    "docs/DATA_REPORT.md",
+    "docs/DATA_GAPS.md",
+    "results/feasibility_card.md",
+    "results/power.json",
+    "results/data_gaps.json",
+    "results/api_vs_pack.json",
+    "results/stage1_card.md",
+)
+
+
+def make_fixture_1b(tmp: Path) -> Path:
+    for rel in COPY_1B:
+        (tmp / rel).parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy(ROOT / rel, tmp / rel)
+    for rel in ("src/bot/ok.py", "lab/ok.py", "tests/test_ok.py"):
+        (tmp / rel).parent.mkdir(parents=True, exist_ok=True)
+        (tmp / rel).write_text("X = 1\n")
+    (tmp / "data/banknifty/repo").mkdir(parents=True)
+    git(tmp, "init", "-q", "-b", "bot/banknifty-v1")
+    git(tmp, "add", "--", *COPY_1B, "src/bot/ok.py", "lab/ok.py", "tests/test_ok.py")
+    return tmp
+
+
+def _sub(path: Path, old: str, new: str) -> None:
+    text = path.read_text()
+    assert old in text
+    path.write_text(text.replace(old, new))
+
+
+OTHER_INDEX = "NIF" + "TY50"  # built at run time so this file never matches the R1 scan itself
+FAKE_JWT = "ey" + "J" + "a" * 12 + "." + "b" * 12 + "." + "c" * 12
+
+BREAK_1B: dict[str, Callable[[Path], object]] = {
+    "F1-1": lambda r: _sub(r / "DATA_REQUEST.md", "fallback_ok", "fallback"),
+    "F1-2": lambda r: (r / "results/feasibility_card.md").write_text("x" * 90 + "\n1 LOT: NAHI\n"),
+    "F1-3": lambda r: _sub(r / "docs/REGULATORY.md", "DATA-LICENCE | UNVERIFIED", "DATA-LICENCE | NAHI"),
+    "F1-4": lambda r: _sub(r / "results/power.json", "254", "255"),
+    "F1-5": lambda r: (r / "notes.md").write_text(f"token {FAKE_JWT}\n"),
+    "F1-6": lambda r: _sub(
+        r / "results/data_gaps.json", '"calendar": "2026 SOURCE', '"calendar": "CALENDAR_UNVERIFIED'
+    ),
+    "F1-7": lambda r: _sub(r / "results/api_vs_pack.json", '"NA"', '"MAYBE"'),
+    "F1-8": lambda r: (r / "tools/x.py").write_text(f"{OTHER_INDEX} = 1\n"),
+    "F1-9": lambda r: _without(r / "STATE.md", "DATA_SHA="),
+}
+
+
+def test_every_1b_check_passes_on_the_good_fixture(tmp_path: Path) -> None:
+    rc, lines = accept.run("1b", make_fixture_1b(tmp_path))
+    assert rc == 0, lines
+
+
+@pytest.mark.parametrize("cid", sorted(BREAK_1B))
+def test_each_1b_check_fails_on_its_broken_fixture(tmp_path: Path, cid: str) -> None:
+    root = make_fixture_1b(tmp_path)
+    BREAK_1B[cid](root)
+    rc, lines = accept.run("1b", root)
+    assert rc == 1
+    assert [x for x in lines if not x.startswith("PASS")] == [x for x in lines if x.startswith(f"FAIL {cid} ")], lines
+
+
+def test_every_1b_id_has_a_breaker() -> None:
+    assert sorted(BREAK_1B) == sorted(accept.PHASES["1b"])

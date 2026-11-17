@@ -173,7 +173,7 @@ def run(calendar: set[str] | None) -> Row:
         "chain / IV / greeks": "HAVE", "constituents (12 banks)": "HAVE", "global indices": "PARTIAL",
         "exchange PCR / OI / FII-DII": "HAVE", "recorded bid / ask": "NONE"}  # fmt: skip
     return {
-        "calendar": "OK" if calendar is not None else "CALENDAR_UNVERIFIED",
+        "calendar": "2026 SOURCE, 2024-2025 DATA-DERIVED" if calendar is not None else "CALENDAR_UNVERIFIED",
         "data_sha": prof["data_sha"],
         "data_grade": "B",
         "valid_days_list": valid,
@@ -189,7 +189,9 @@ def main(argv: list[str]) -> int:
     calendar = None
     if "--calendar" in argv:
         path = Path(argv[argv.index("--calendar") + 1])
-        calendar = {x.strip() for x in path.read_text(encoding="utf-8").splitlines() if x.strip()}
+        calendar = {
+            x.strip() for x in path.read_text(encoding="utf-8").splitlines() if x.strip() and not x.startswith("#")
+        }
     res = run(calendar)
     (ROOT / "results/data_gaps.json").write_text(json.dumps(res, indent=1, default=str) + "\n", encoding="utf-8")
     for g in ("G1", "G2", "G3", "G4", "G5"):

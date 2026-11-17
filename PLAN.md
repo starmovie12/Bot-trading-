@@ -4,7 +4,7 @@
 - [x] Phase 2 FACTS
 - [x] Phase 2b PROBE (2b.1 public: master + feed docs; 2b.2 skipped: TOKEN not set)
 - [x] Phase 2c FEASIBILITY
-- [ ] Phase 1b DATA REQUEST + STOP-1 (or skip)
+- [x] Phase 1b DATA REQUEST + STOP-1 skipped (results/stage1_card.md)
 - [ ] INTAKE-H · Phase 3 LAB · 4A · 4B · 4C · 5 · 6 → STOP-2
 - [ ] Phase 7 · P7rev → FINAL-2
 

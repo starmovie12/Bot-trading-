@@ -60,8 +60,8 @@ def test_risk_limits_have_one_source() -> None:
             if assign.search(line):
                 offenders.append(f"{rel}:{n}")
     assert offenders == [], "a second source of a risk limit (only ABS_MAX_LOTS is exempt, by name)"
-    entry = (ROOT / "src/bot/__main__.py").read_text(encoding="utf-8")
-    assert re.search(r"Limits\(\s*\d", entry) is None, "the entry point must take its limits from limits.toml"
+    hard = [str(p) for p in (ROOT / "src").rglob("*.py") if re.search(r"Limits\(\s*\d", p.read_text(encoding="utf-8"))]
+    assert hard == [], "every bot module (the entry point included) takes its limits from limits.toml"
 
 
 def test_lot_size_never_comes_from_code() -> None:

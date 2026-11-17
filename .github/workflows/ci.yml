@@ -35,8 +35,6 @@ jobs:
         run: python tools/redact.py --tree && python tools/redact.py --history
       - name: Pins (gates.toml, limits.toml, secret patterns and allow-list), MISSION V19 C3
         run: python tools/check_pins.py
-      - name: Niyam-file jaanch
-        run: PYTHONPATH=src python -m bot.niyam config/niyam.toml
       - name: TLS jaanch band karne wala code nahi
         run: |
           if grep -rnE "CERT_NONE|verify\s*=\s*False|check_hostname\s*=\s*False|InsecureSkipVerify|rejectUnauthorized\s*:\s*false|NODE_TLS_REJECT_UNAUTHORIZED" src tools pehredaar; then

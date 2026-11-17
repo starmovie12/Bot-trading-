@@ -1,17 +1,7 @@
-# Invariant coverage (MISSION V11 §7; mission_check #14 enforces it once T07 is terminal)
+# Invariant coverage (MISSION V19: the V10 bot and its invariant tests are archived in archive/v10_bot/;
+# Phase 4 (BOT) re-establishes I1-I13 on the BANKNIFTY gateway with fuzz and fault tests F1-F16)
 
 | invariant | coverage |
 |---|---|
-| I4 | tests/invariants/test_i04_feed_stale_gap.py (feed side); order side N/A(order path not built) |
-| I8 | tests/invariants/test_i08_live_flag_off.py and tests/invariants/test_order_path_disabled.py |
-| I11 | tests/invariants/test_i11_time.py (holiday calendar: UNVERIFIED, official page not fetched) |
-| I12 | tests/test_bn_economics.py (MISSION V19 Phase 2c; the V11 test is archived with tools/economics.py) |
-| I13 | tests/invariants/test_i13_feed_schema.py (feed side); order side N/A(order path not built) |
-| I1 | N/A(order path not built) |
-| I2 | N/A(order path not built) |
-| I3 | N/A(order path not built) |
-| I5 | N/A(order path not built) |
-| I6 | N/A(order path not built) |
-| I7 | N/A(order path not built) |
-| I9 | N/A(order path not built) |
-| I10 | N/A(order path not built); the static call-site scan runs as mission_check #8 |
+| I12 | tests/test_bn_economics.py (Decimal money in paise) |
+| I1-I11, I13 | Phase 4 (4A / 4B / 4C): not built yet |

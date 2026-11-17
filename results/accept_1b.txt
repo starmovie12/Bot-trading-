@@ -1,0 +1,9 @@
+PASS F1-1 7 items, 6 in Part H, Part R names RECORDER_SPEC.md: True
+PASS F1-2 11 lines, longest 68, answer '1 LOT: kam se kam ₹10,000'
+PASS F1-3 DATA-LICENCE UNVERIFIED, DATA-PUBLIC UNVERIFIED, data files 4
+PASS F1-4 anchors {'sigma_1000_e_15': 34885, 'sigma_1000_e_176': 254, 'sigma_1000_n_30_mde': 511}
+PASS F1-5 secret scan rc 0 (0 hits), pins OK, STATE.md 13 lines, absent [], unknown []
+PASS F1-6 G1-G5 verdicts True, calendar 2026 SOURCE, 2024-2025 DATA-DERIVED, valid_days 470, gap ids True, card True
+PASS F1-7 API_CHECK NA, TOKEN not set
+PASS F1-8 BANKNIFTY only in bot/, lab/, tools/ and tests
+PASS F1-9 DATA_SHA 9e7a49d4eb83, ignored True
