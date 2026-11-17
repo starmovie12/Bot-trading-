@@ -70,3 +70,9 @@ gates.toml: written in T10 (sealed at seal/T10) · STRATEGY.md: not written (T12
 - Tools on PATH (pytest, mypy) lack the project's dev deps; always use python3 -m (D-009).
 - Run the FULL test suite (make smoke) in every task cycle before the commit (D-028). Seal BEFORE marking a task PASS; unstage after a refused commit (D-030). Known red: test_no_order_endpoint_in_m0 until haan F-PROT-1 b614.
 - Temp files only in ${TMPDIR:-/tmp}/mission-v11-* (D-012). Commit cycle: STATE → make_report → mission_check → safe_add → commit.
+
+## V19 KEYS (MISSION_V19 Phase 0; carried over by step 9)
+HALT=PUBLIC_REPO
+VISIBILITY=public
+TOKEN=not set
+NEXT=V19 Phase 0 step 2: re-check code repo visibility (owner: make it private or `continue public-ok`), then Phase 0 steps 3-10

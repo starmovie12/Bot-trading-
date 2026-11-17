@@ -309,3 +309,8 @@ WHY: §15 (log, apply, re-seal); §5.5 canaries must keep firing
 ₹ IMPACT: none
 REVERSE BY: apply A-003 now in a later session; or `na F-PROT-3 81a5` before session 4
 CLASS CHECK: A (owner decision) · PROTECTED: none changed in this commit
+
+## V19-0 | MISSION_V19 Phase 0 | 2026-11-17
+Owner's first message (V19): "Prompt to acche se padho aur kam start kar do": no `Max balance`, no `Stop at STOP-1`, no other data repo → OWNER_CEILING_RS and OWNER_STOP_AT_STOP1 not set; DATA_REPO = starmovie12/Bot-trading-historical-Bank-Nifty-.
+CODE_REPO starmovie12/Bot-trading- is public (unauthenticated GET 200; REST private=false) and no `continue public-ok` → HALT PUBLIC_REPO (Phase 0 step 2), nothing pushed.
+DATA_REPO unknown (REST blocked for this session with 403; `git ls-remote` works, so it is readable).
