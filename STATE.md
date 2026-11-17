@@ -1,5 +1,5 @@
 STAGE=2
-NEXT=Phase 3a: write lab/build_matrix.py (FEATURES on DESIGN days from data/lab/split.json), then results/market_facts.md, then fix §PREREG-0 shell + exit grid, then OUTCOMES
+NEXT=Phase 3a: python3 -m lab.build_matrix --outcomes (OUTCOMES after the §PREREG-0 commit), then tools/lab_eval.py
 BLOCK=S2
 MODEL_NOW=BIG
 MODEL_NEXT=BIG
