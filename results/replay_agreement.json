@@ -1,0 +1,11 @@
+{
+ "vec_vs_eor": {
+  "n_lab": 24,
+  "n_eor": 24,
+  "matched": 24,
+  "union": 24,
+  "agreement": 1.0,
+  "pass": true,
+  "slice": "DESIGN, carried candidate A1+b1 (EXIT0, LONG)"
+ }
+}

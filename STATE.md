@@ -1,5 +1,5 @@
 STAGE=2
-NEXT=Phase 3c/3d: no finalist passed the screen (D-31); compute DD95 for candidates with >= 15 trades, carry the smallest as EXPERIMENTAL, then bot/contracts.py, tools/engine_of_record.py, bot/strategy module, AGREE
+NEXT=Phase 3d: loss-first rank (DD95 from engine trades with MAE marks), STRATEGY.md, edge decomposition, PREMORTEM; then 3e holdout + Monte Carlo + limits
 BLOCK=S2
 MODEL_NOW=BIG
 MODEL_NEXT=BIG

@@ -36,7 +36,7 @@ for arg in "$@"; do
     case "$base" in .gitignore | .gitattributes | SHA256SUMS | Makefile | go.mod | go.sum | LICENSE | requirements-dev.in) allowed=1 ;; esac
     case "$base" in
       *.py | *.go | *.toml | *.md | *.json | *.jsonl | *.sh | *.yml | *.yaml | *.txt | *.cfg | *.ini | *.lock | *.sha256 | *.service | *.timer) allowed=1 ;;
-      *.csv) case "$p" in tests/fixtures/*) allowed=1 ;; esac ;;
+      *.csv) case "$p" in tests/fixtures/* | results/*) allowed=1 ;; esac ;;
     esac
     case "$base" in
       *.zip | *.tar | *.tar.* | *.tgz | *.gz | *.bz2 | *.xz | *.7z | *.rar) reason="archive" ;;

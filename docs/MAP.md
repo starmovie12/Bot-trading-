@@ -11,6 +11,10 @@
 - `config/niyam.toml` · V10 rule file, legacy: no code loads it; tests/test_safety.py scans it for secrets · —
 - `params.toml` · strategy parameters (example values only while the repo is public) · —
 - `src/bot/` · the bot package (Phase 4 builds it BANKNIFTY-only; the V10 code is in `archive/v10_bot/`) · `python3 -m pytest -q`
+- `src/bot/contracts.py` · frozen shared types (Bar, Intent, TradeRecord, Strategy, CostModel) · `tests/test_engine_of_record.py`
+- `src/bot/strategy/orb_vix.py` · carried candidate A1+b1 (EXPERIMENTAL: paper only) · `tests/test_engine_of_record.py`
+- `tools/engine_of_record.py` · bar-by-bar engine of record (every verdict number) · `tests/test_engine_of_record.py`
+- `lab/build_matrix.py`, `lab/ideas.py`, `lab/run_round.py`, `lab/replay_agree.py`, `tools/lab_eval.py` · 3a matrix, bracket, rounds, AGREE · `python3 -m lab.run_round`
 - `src/bot/limits.py` · loads `limits.toml` (RiskLimits, chain check) · `tests/test_limits_chain.py`
 - `pehredaar/` · Go watchdog (lease) · `cd pehredaar && go test ./...`
 - `tools/accept.py` · acceptance checks per phase · `python3 tools/accept.py --phase <p>` · `tests/test_accept.py`

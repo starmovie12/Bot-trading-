@@ -18,7 +18,7 @@ import numpy as np
 
 ROOT = Path(__file__).resolve().parent.parent
 SEED = 20261116
-COOLOFF_MIN = 30
+SHELL_COOLOFF = 30  # pre-registered shell constant (PLAN.md §PREREG-0); 3e writes it to limits.toml
 MAX_ENTRIES = 2
 HALF_SPREAD, SLIP = 0.50, 0.20  # ₹ per unit per side: ESTIMATE (D-21)
 STRESS_CHARGES, STRESS_SLIP, BASE_SPREAD_MULT = 1.5, 2.0, 2.0
@@ -116,7 +116,7 @@ def sequence(tr: Trades, idx: np.ndarray) -> np.ndarray:
         entries += 1
         free_at = tr.exit_m[i]
         if tr.net_stressed[i] < 0:
-            cool_at = tr.exit_m[i] + COOLOFF_MIN
+            cool_at = tr.exit_m[i] + SHELL_COOLOFF
         if tr.net_stressed[i] <= -0.5 * tr.max_loss[i]:
             over = True
     return np.array(taken, dtype=int)
