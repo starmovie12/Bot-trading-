@@ -1,5 +1,5 @@
 STAGE=2
-NEXT=INTAKE-H: LOAD LAB (sed -n '/^<part id="LAB"/,/^<\/part>/p' MISSION_V19.md), then INTAKE-H steps
+NEXT=INTAKE-H: LOAD LAB (MF=MISSION_V19.md; sed -n '/^<part id="LAB"/,/^<\/part>/p' "$MF"), then INTAKE-H step 1
 BLOCK=S2
 MODEL_NOW=BIG
 MODEL_NEXT=BIG
