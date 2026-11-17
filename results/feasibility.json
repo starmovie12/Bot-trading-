@@ -1,0 +1,1160 @@
+{
+ "premiums": {
+  "tag": "REAL",
+  "days": 452,
+  "spot_median": 55850.25,
+  "median": {
+   "0-2|CE|0": 199.15,
+   "0-2|CE|1": 153.85,
+   "0-2|CE|2": 114.3,
+   "0-2|CE|3": 84.72,
+   "0-2|PE|0": 194.88,
+   "0-2|PE|1": 147.07,
+   "0-2|PE|2": 111.92,
+   "0-2|PE|3": 84.35,
+   "16-40|CE|0": 909.08,
+   "16-40|CE|1": 850.75,
+   "16-40|CE|2": 796.7,
+   "16-40|CE|3": 746.3,
+   "16-40|PE|0": 674.83,
+   "16-40|PE|1": 635.4,
+   "16-40|PE|2": 597.55,
+   "16-40|PE|3": 555.65,
+   "3-7|CE|0": 416.98,
+   "3-7|CE|1": 361.75,
+   "3-7|CE|2": 312.38,
+   "3-7|CE|3": 267.02,
+   "3-7|PE|0": 341.65,
+   "3-7|PE|1": 296.7,
+   "3-7|PE|2": 257.73,
+   "3-7|PE|3": 224.3,
+   "8-15|CE|0": 658.8,
+   "8-15|CE|1": 597.2,
+   "8-15|CE|2": 547.15,
+   "8-15|CE|3": 495.08,
+   "8-15|PE|0": 505.25,
+   "8-15|PE|1": 464.25,
+   "8-15|PE|2": 429.08,
+   "8-15|PE|3": 391.75
+  },
+  "count": {
+   "0-2|CE|0": 48,
+   "0-2|CE|1": 48,
+   "0-2|CE|2": 48,
+   "0-2|CE|3": 48,
+   "0-2|PE|0": 48,
+   "0-2|PE|1": 48,
+   "0-2|PE|2": 48,
+   "0-2|PE|3": 47,
+   "16-40|CE|0": 196,
+   "16-40|CE|1": 200,
+   "16-40|CE|2": 201,
+   "16-40|CE|3": 199,
+   "16-40|PE|0": 198,
+   "16-40|PE|1": 196,
+   "16-40|PE|2": 198,
+   "16-40|PE|3": 195,
+   "3-7|CE|0": 74,
+   "3-7|CE|1": 74,
+   "3-7|CE|2": 74,
+   "3-7|CE|3": 72,
+   "3-7|PE|0": 74,
+   "3-7|PE|1": 72,
+   "3-7|PE|2": 74,
+   "3-7|PE|3": 71,
+   "8-15|CE|0": 123,
+   "8-15|CE|1": 123,
+   "8-15|CE|2": 124,
+   "8-15|CE|3": 126,
+   "8-15|PE|0": 121,
+   "8-15|PE|1": 125,
+   "8-15|PE|2": 122,
+   "8-15|PE|3": 125
+  }
+ },
+ "feasibility": {
+  "lot": 30,
+  "on": "2026-11-18",
+  "structures": {
+   "long dte 0-2 ATM": {
+    "cash_needed_rs": "5910.60",
+    "max_loss_rs": "6055.81",
+    "round_trip_rs": "61.21",
+    "round_trip_stressed_rs": "145.21",
+    "breakeven_points": "9.68"
+   },
+   "long dte 0-2 1 OTM": {
+    "cash_needed_rs": "4513.80",
+    "max_loss_rs": "4655.70",
+    "round_trip_rs": "57.90",
+    "round_trip_stressed_rs": "141.90",
+    "breakeven_points": "9.46"
+   },
+   "long dte 0-2 2 OTM": {
+    "cash_needed_rs": "3393.30",
+    "max_loss_rs": "3532.55",
+    "round_trip_rs": "55.25",
+    "round_trip_stressed_rs": "139.25",
+    "breakeven_points": "9.28"
+   },
+   "debit CE dte 0-2 ATM / 2 OTM": {
+    "net_debit_rs": "2545.50",
+    "max_loss_rs": "2830.19",
+    "round_trip_stressed_rs": "284.69",
+    "margin_leg2_estimate_rs": "150795.68",
+    "cash_needed_stressed_rs": "194469.10",
+    "cash_needed_favourable_rs": "5974.50"
+   },
+   "long dte 3-7 ATM": {
+    "cash_needed_rs": "11379.60",
+    "max_loss_rs": "11537.78",
+    "round_trip_rs": "74.18",
+    "round_trip_stressed_rs": "158.18",
+    "breakeven_points": "10.55"
+   },
+   "long dte 3-7 1 OTM": {
+    "cash_needed_rs": "9876.90",
+    "max_loss_rs": "10031.52",
+    "round_trip_rs": "70.62",
+    "round_trip_stressed_rs": "154.62",
+    "breakeven_points": "10.31"
+   },
+   "long dte 3-7 2 OTM": {
+    "cash_needed_rs": "8551.80",
+    "max_loss_rs": "8703.27",
+    "round_trip_rs": "67.47",
+    "round_trip_stressed_rs": "151.47",
+    "breakeven_points": "10.10"
+   },
+   "debit CE dte 3-7 ATM / 2 OTM": {
+    "net_debit_rs": "3138.00",
+    "max_loss_rs": "3452.27",
+    "round_trip_stressed_rs": "314.27",
+    "margin_leg2_estimate_rs": "150795.68",
+    "cash_needed_stressed_rs": "201004.00",
+    "cash_needed_favourable_rs": "12509.40"
+   },
+   "long dte 8-15 ATM": {
+    "cash_needed_rs": "17460.90",
+    "max_loss_rs": "17633.49",
+    "round_trip_rs": "88.59",
+    "round_trip_stressed_rs": "172.59",
+    "breakeven_points": "11.51"
+   },
+   "long dte 8-15 1 OTM": {
+    "cash_needed_rs": "15921.90",
+    "max_loss_rs": "16090.85",
+    "round_trip_rs": "84.95",
+    "round_trip_stressed_rs": "168.95",
+    "breakeven_points": "11.26"
+   },
+   "long dte 8-15 2 OTM": {
+    "cash_needed_rs": "14643.60",
+    "max_loss_rs": "14809.52",
+    "round_trip_rs": "81.92",
+    "round_trip_stressed_rs": "165.92",
+    "breakeven_points": "11.06"
+   },
+   "debit CE dte 8-15 ATM / 2 OTM": {
+    "net_debit_rs": "3349.50",
+    "max_loss_rs": "3697.67",
+    "round_trip_stressed_rs": "348.17",
+    "margin_leg2_estimate_rs": "150795.68",
+    "cash_needed_stressed_rs": "208258.60",
+    "cash_needed_favourable_rs": "19764.00"
+   },
+   "long dte 16-40 ATM": {
+    "cash_needed_rs": "23758.80",
+    "max_loss_rs": "23946.33",
+    "round_trip_rs": "103.53",
+    "round_trip_stressed_rs": "187.53",
+    "breakeven_points": "12.50"
+   },
+   "long dte 16-40 1 OTM": {
+    "cash_needed_rs": "22292.40",
+    "max_loss_rs": "22476.45",
+    "round_trip_rs": "100.05",
+    "round_trip_stressed_rs": "184.05",
+    "breakeven_points": "12.27"
+   },
+   "long dte 16-40 2 OTM": {
+    "cash_needed_rs": "20913.90",
+    "max_loss_rs": "21094.68",
+    "round_trip_rs": "96.78",
+    "round_trip_stressed_rs": "180.78",
+    "breakeven_points": "12.05"
+   },
+   "debit CE dte 16-40 ATM / 2 OTM": {
+    "net_debit_rs": "3371.40",
+    "max_loss_rs": "3755.12",
+    "round_trip_stressed_rs": "383.72",
+    "margin_leg2_estimate_rs": "150795.68",
+    "cash_needed_stressed_rs": "215767.00",
+    "cash_needed_favourable_rs": "27272.40"
+   }
+  },
+  "chain_floor_rs": {
+   "long dte 0-2 ATM": "12111.62",
+   "long dte 0-2 1 OTM": "9311.40",
+   "long dte 0-2 2 OTM": "7065.10",
+   "debit CE dte 0-2 ATM / 2 OTM": "5660.38",
+   "long dte 3-7 ATM": "23075.56",
+   "long dte 3-7 1 OTM": "20063.04",
+   "long dte 3-7 2 OTM": "17406.54",
+   "debit CE dte 3-7 ATM / 2 OTM": "6904.54",
+   "long dte 8-15 ATM": "35266.98",
+   "long dte 8-15 1 OTM": "32181.70",
+   "long dte 8-15 2 OTM": "29619.04",
+   "debit CE dte 8-15 ATM / 2 OTM": "7395.34",
+   "long dte 16-40 ATM": "47892.66",
+   "long dte 16-40 1 OTM": "44952.90",
+   "long dte 16-40 2 OTM": "42189.36",
+   "debit CE dte 16-40 ATM / 2 OTM": "7510.24"
+  },
+  "ladder": [
+   {
+    "balance_rs": 10000,
+    "fixed_cost_pct_pm": 15.0,
+    "fd_baseline_rs_pm": "52.08",
+    "long dte 0-2 ATM": {
+     "fits": true,
+     "max_loss_pct": 60.56,
+     "chain_ok": false
+    },
+    "long dte 0-2 1 OTM": {
+     "fits": true,
+     "max_loss_pct": 46.56,
+     "chain_ok": true
+    },
+    "long dte 0-2 2 OTM": {
+     "fits": true,
+     "max_loss_pct": 35.33,
+     "chain_ok": true
+    },
+    "debit CE dte 0-2 ATM / 2 OTM": {
+     "fits": false,
+     "max_loss_pct": 28.3,
+     "chain_ok": true
+    },
+    "long dte 3-7 ATM": {
+     "fits": false,
+     "max_loss_pct": 115.38,
+     "chain_ok": false
+    },
+    "long dte 3-7 1 OTM": {
+     "fits": true,
+     "max_loss_pct": 100.32,
+     "chain_ok": false
+    },
+    "long dte 3-7 2 OTM": {
+     "fits": true,
+     "max_loss_pct": 87.03,
+     "chain_ok": false
+    },
+    "debit CE dte 3-7 ATM / 2 OTM": {
+     "fits": false,
+     "max_loss_pct": 34.52,
+     "chain_ok": true
+    },
+    "long dte 8-15 ATM": {
+     "fits": false,
+     "max_loss_pct": 176.33,
+     "chain_ok": false
+    },
+    "long dte 8-15 1 OTM": {
+     "fits": false,
+     "max_loss_pct": 160.91,
+     "chain_ok": false
+    },
+    "long dte 8-15 2 OTM": {
+     "fits": false,
+     "max_loss_pct": 148.1,
+     "chain_ok": false
+    },
+    "debit CE dte 8-15 ATM / 2 OTM": {
+     "fits": false,
+     "max_loss_pct": 36.98,
+     "chain_ok": true
+    },
+    "long dte 16-40 ATM": {
+     "fits": false,
+     "max_loss_pct": 239.46,
+     "chain_ok": false
+    },
+    "long dte 16-40 1 OTM": {
+     "fits": false,
+     "max_loss_pct": 224.76,
+     "chain_ok": false
+    },
+    "long dte 16-40 2 OTM": {
+     "fits": false,
+     "max_loss_pct": 210.95,
+     "chain_ok": false
+    },
+    "debit CE dte 16-40 ATM / 2 OTM": {
+     "fits": false,
+     "max_loss_pct": 37.55,
+     "chain_ok": true
+    }
+   },
+   {
+    "balance_rs": 15000,
+    "fixed_cost_pct_pm": 10.0,
+    "fd_baseline_rs_pm": "78.13",
+    "long dte 0-2 ATM": {
+     "fits": true,
+     "max_loss_pct": 40.37,
+     "chain_ok": true
+    },
+    "long dte 0-2 1 OTM": {
+     "fits": true,
+     "max_loss_pct": 31.04,
+     "chain_ok": true
+    },
+    "long dte 0-2 2 OTM": {
+     "fits": true,
+     "max_loss_pct": 23.55,
+     "chain_ok": true
+    },
+    "debit CE dte 0-2 ATM / 2 OTM": {
+     "fits": false,
+     "max_loss_pct": 18.87,
+     "chain_ok": true
+    },
+    "long dte 3-7 ATM": {
+     "fits": true,
+     "max_loss_pct": 76.92,
+     "chain_ok": false
+    },
+    "long dte 3-7 1 OTM": {
+     "fits": true,
+     "max_loss_pct": 66.88,
+     "chain_ok": false
+    },
+    "long dte 3-7 2 OTM": {
+     "fits": true,
+     "max_loss_pct": 58.02,
+     "chain_ok": false
+    },
+    "debit CE dte 3-7 ATM / 2 OTM": {
+     "fits": false,
+     "max_loss_pct": 23.02,
+     "chain_ok": true
+    },
+    "long dte 8-15 ATM": {
+     "fits": false,
+     "max_loss_pct": 117.56,
+     "chain_ok": false
+    },
+    "long dte 8-15 1 OTM": {
+     "fits": false,
+     "max_loss_pct": 107.27,
+     "chain_ok": false
+    },
+    "long dte 8-15 2 OTM": {
+     "fits": true,
+     "max_loss_pct": 98.73,
+     "chain_ok": false
+    },
+    "debit CE dte 8-15 ATM / 2 OTM": {
+     "fits": false,
+     "max_loss_pct": 24.65,
+     "chain_ok": true
+    },
+    "long dte 16-40 ATM": {
+     "fits": false,
+     "max_loss_pct": 159.64,
+     "chain_ok": false
+    },
+    "long dte 16-40 1 OTM": {
+     "fits": false,
+     "max_loss_pct": 149.84,
+     "chain_ok": false
+    },
+    "long dte 16-40 2 OTM": {
+     "fits": false,
+     "max_loss_pct": 140.63,
+     "chain_ok": false
+    },
+    "debit CE dte 16-40 ATM / 2 OTM": {
+     "fits": false,
+     "max_loss_pct": 25.03,
+     "chain_ok": true
+    }
+   },
+   {
+    "balance_rs": 20000,
+    "fixed_cost_pct_pm": 7.5,
+    "fd_baseline_rs_pm": "104.17",
+    "long dte 0-2 ATM": {
+     "fits": true,
+     "max_loss_pct": 30.28,
+     "chain_ok": true
+    },
+    "long dte 0-2 1 OTM": {
+     "fits": true,
+     "max_loss_pct": 23.28,
+     "chain_ok": true
+    },
+    "long dte 0-2 2 OTM": {
+     "fits": true,
+     "max_loss_pct": 17.66,
+     "chain_ok": true
+    },
+    "debit CE dte 0-2 ATM / 2 OTM": {
+     "fits": false,
+     "max_loss_pct": 14.15,
+     "chain_ok": true
+    },
+    "long dte 3-7 ATM": {
+     "fits": true,
+     "max_loss_pct": 57.69,
+     "chain_ok": false
+    },
+    "long dte 3-7 1 OTM": {
+     "fits": true,
+     "max_loss_pct": 50.16,
+     "chain_ok": false
+    },
+    "long dte 3-7 2 OTM": {
+     "fits": true,
+     "max_loss_pct": 43.52,
+     "chain_ok": true
+    },
+    "debit CE dte 3-7 ATM / 2 OTM": {
+     "fits": false,
+     "max_loss_pct": 17.26,
+     "chain_ok": true
+    },
+    "long dte 8-15 ATM": {
+     "fits": true,
+     "max_loss_pct": 88.17,
+     "chain_ok": false
+    },
+    "long dte 8-15 1 OTM": {
+     "fits": true,
+     "max_loss_pct": 80.45,
+     "chain_ok": false
+    },
+    "long dte 8-15 2 OTM": {
+     "fits": true,
+     "max_loss_pct": 74.05,
+     "chain_ok": false
+    },
+    "debit CE dte 8-15 ATM / 2 OTM": {
+     "fits": false,
+     "max_loss_pct": 18.49,
+     "chain_ok": true
+    },
+    "long dte 16-40 ATM": {
+     "fits": false,
+     "max_loss_pct": 119.73,
+     "chain_ok": false
+    },
+    "long dte 16-40 1 OTM": {
+     "fits": false,
+     "max_loss_pct": 112.38,
+     "chain_ok": false
+    },
+    "long dte 16-40 2 OTM": {
+     "fits": false,
+     "max_loss_pct": 105.47,
+     "chain_ok": false
+    },
+    "debit CE dte 16-40 ATM / 2 OTM": {
+     "fits": false,
+     "max_loss_pct": 18.78,
+     "chain_ok": true
+    }
+   },
+   {
+    "balance_rs": 25000,
+    "fixed_cost_pct_pm": 6.0,
+    "fd_baseline_rs_pm": "130.21",
+    "long dte 0-2 ATM": {
+     "fits": true,
+     "max_loss_pct": 24.22,
+     "chain_ok": true
+    },
+    "long dte 0-2 1 OTM": {
+     "fits": true,
+     "max_loss_pct": 18.62,
+     "chain_ok": true
+    },
+    "long dte 0-2 2 OTM": {
+     "fits": true,
+     "max_loss_pct": 14.13,
+     "chain_ok": true
+    },
+    "debit CE dte 0-2 ATM / 2 OTM": {
+     "fits": false,
+     "max_loss_pct": 11.32,
+     "chain_ok": true
+    },
+    "long dte 3-7 ATM": {
+     "fits": true,
+     "max_loss_pct": 46.15,
+     "chain_ok": true
+    },
+    "long dte 3-7 1 OTM": {
+     "fits": true,
+     "max_loss_pct": 40.13,
+     "chain_ok": true
+    },
+    "long dte 3-7 2 OTM": {
+     "fits": true,
+     "max_loss_pct": 34.81,
+     "chain_ok": true
+    },
+    "debit CE dte 3-7 ATM / 2 OTM": {
+     "fits": false,
+     "max_loss_pct": 13.81,
+     "chain_ok": true
+    },
+    "long dte 8-15 ATM": {
+     "fits": true,
+     "max_loss_pct": 70.53,
+     "chain_ok": false
+    },
+    "long dte 8-15 1 OTM": {
+     "fits": true,
+     "max_loss_pct": 64.36,
+     "chain_ok": false
+    },
+    "long dte 8-15 2 OTM": {
+     "fits": true,
+     "max_loss_pct": 59.24,
+     "chain_ok": false
+    },
+    "debit CE dte 8-15 ATM / 2 OTM": {
+     "fits": false,
+     "max_loss_pct": 14.79,
+     "chain_ok": true
+    },
+    "long dte 16-40 ATM": {
+     "fits": true,
+     "max_loss_pct": 95.79,
+     "chain_ok": false
+    },
+    "long dte 16-40 1 OTM": {
+     "fits": true,
+     "max_loss_pct": 89.91,
+     "chain_ok": false
+    },
+    "long dte 16-40 2 OTM": {
+     "fits": true,
+     "max_loss_pct": 84.38,
+     "chain_ok": false
+    },
+    "debit CE dte 16-40 ATM / 2 OTM": {
+     "fits": false,
+     "max_loss_pct": 15.02,
+     "chain_ok": true
+    }
+   },
+   {
+    "balance_rs": 30000,
+    "fixed_cost_pct_pm": 5.0,
+    "fd_baseline_rs_pm": "156.25",
+    "long dte 0-2 ATM": {
+     "fits": true,
+     "max_loss_pct": 20.19,
+     "chain_ok": true
+    },
+    "long dte 0-2 1 OTM": {
+     "fits": true,
+     "max_loss_pct": 15.52,
+     "chain_ok": true
+    },
+    "long dte 0-2 2 OTM": {
+     "fits": true,
+     "max_loss_pct": 11.78,
+     "chain_ok": true
+    },
+    "debit CE dte 0-2 ATM / 2 OTM": {
+     "fits": false,
+     "max_loss_pct": 9.43,
+     "chain_ok": true
+    },
+    "long dte 3-7 ATM": {
+     "fits": true,
+     "max_loss_pct": 38.46,
+     "chain_ok": true
+    },
+    "long dte 3-7 1 OTM": {
+     "fits": true,
+     "max_loss_pct": 33.44,
+     "chain_ok": true
+    },
+    "long dte 3-7 2 OTM": {
+     "fits": true,
+     "max_loss_pct": 29.01,
+     "chain_ok": true
+    },
+    "debit CE dte 3-7 ATM / 2 OTM": {
+     "fits": false,
+     "max_loss_pct": 11.51,
+     "chain_ok": true
+    },
+    "long dte 8-15 ATM": {
+     "fits": true,
+     "max_loss_pct": 58.78,
+     "chain_ok": false
+    },
+    "long dte 8-15 1 OTM": {
+     "fits": true,
+     "max_loss_pct": 53.64,
+     "chain_ok": false
+    },
+    "long dte 8-15 2 OTM": {
+     "fits": true,
+     "max_loss_pct": 49.37,
+     "chain_ok": true
+    },
+    "debit CE dte 8-15 ATM / 2 OTM": {
+     "fits": false,
+     "max_loss_pct": 12.33,
+     "chain_ok": true
+    },
+    "long dte 16-40 ATM": {
+     "fits": true,
+     "max_loss_pct": 79.82,
+     "chain_ok": false
+    },
+    "long dte 16-40 1 OTM": {
+     "fits": true,
+     "max_loss_pct": 74.92,
+     "chain_ok": false
+    },
+    "long dte 16-40 2 OTM": {
+     "fits": true,
+     "max_loss_pct": 70.32,
+     "chain_ok": false
+    },
+    "debit CE dte 16-40 ATM / 2 OTM": {
+     "fits": false,
+     "max_loss_pct": 12.52,
+     "chain_ok": true
+    }
+   },
+   {
+    "balance_rs": 40000,
+    "fixed_cost_pct_pm": 3.75,
+    "fd_baseline_rs_pm": "208.33",
+    "long dte 0-2 ATM": {
+     "fits": true,
+     "max_loss_pct": 15.14,
+     "chain_ok": true
+    },
+    "long dte 0-2 1 OTM": {
+     "fits": true,
+     "max_loss_pct": 11.64,
+     "chain_ok": true
+    },
+    "long dte 0-2 2 OTM": {
+     "fits": true,
+     "max_loss_pct": 8.83,
+     "chain_ok": true
+    },
+    "debit CE dte 0-2 ATM / 2 OTM": {
+     "fits": false,
+     "max_loss_pct": 7.08,
+     "chain_ok": true
+    },
+    "long dte 3-7 ATM": {
+     "fits": true,
+     "max_loss_pct": 28.84,
+     "chain_ok": true
+    },
+    "long dte 3-7 1 OTM": {
+     "fits": true,
+     "max_loss_pct": 25.08,
+     "chain_ok": true
+    },
+    "long dte 3-7 2 OTM": {
+     "fits": true,
+     "max_loss_pct": 21.76,
+     "chain_ok": true
+    },
+    "debit CE dte 3-7 ATM / 2 OTM": {
+     "fits": false,
+     "max_loss_pct": 8.63,
+     "chain_ok": true
+    },
+    "long dte 8-15 ATM": {
+     "fits": true,
+     "max_loss_pct": 44.08,
+     "chain_ok": true
+    },
+    "long dte 8-15 1 OTM": {
+     "fits": true,
+     "max_loss_pct": 40.23,
+     "chain_ok": true
+    },
+    "long dte 8-15 2 OTM": {
+     "fits": true,
+     "max_loss_pct": 37.02,
+     "chain_ok": true
+    },
+    "debit CE dte 8-15 ATM / 2 OTM": {
+     "fits": false,
+     "max_loss_pct": 9.24,
+     "chain_ok": true
+    },
+    "long dte 16-40 ATM": {
+     "fits": true,
+     "max_loss_pct": 59.87,
+     "chain_ok": false
+    },
+    "long dte 16-40 1 OTM": {
+     "fits": true,
+     "max_loss_pct": 56.19,
+     "chain_ok": false
+    },
+    "long dte 16-40 2 OTM": {
+     "fits": true,
+     "max_loss_pct": 52.74,
+     "chain_ok": false
+    },
+    "debit CE dte 16-40 ATM / 2 OTM": {
+     "fits": false,
+     "max_loss_pct": 9.39,
+     "chain_ok": true
+    }
+   },
+   {
+    "balance_rs": 50000,
+    "fixed_cost_pct_pm": 3.0,
+    "fd_baseline_rs_pm": "260.42",
+    "long dte 0-2 ATM": {
+     "fits": true,
+     "max_loss_pct": 12.11,
+     "chain_ok": true
+    },
+    "long dte 0-2 1 OTM": {
+     "fits": true,
+     "max_loss_pct": 9.31,
+     "chain_ok": true
+    },
+    "long dte 0-2 2 OTM": {
+     "fits": true,
+     "max_loss_pct": 7.07,
+     "chain_ok": true
+    },
+    "debit CE dte 0-2 ATM / 2 OTM": {
+     "fits": false,
+     "max_loss_pct": 5.66,
+     "chain_ok": true
+    },
+    "long dte 3-7 ATM": {
+     "fits": true,
+     "max_loss_pct": 23.08,
+     "chain_ok": true
+    },
+    "long dte 3-7 1 OTM": {
+     "fits": true,
+     "max_loss_pct": 20.06,
+     "chain_ok": true
+    },
+    "long dte 3-7 2 OTM": {
+     "fits": true,
+     "max_loss_pct": 17.41,
+     "chain_ok": true
+    },
+    "debit CE dte 3-7 ATM / 2 OTM": {
+     "fits": false,
+     "max_loss_pct": 6.9,
+     "chain_ok": true
+    },
+    "long dte 8-15 ATM": {
+     "fits": true,
+     "max_loss_pct": 35.27,
+     "chain_ok": true
+    },
+    "long dte 8-15 1 OTM": {
+     "fits": true,
+     "max_loss_pct": 32.18,
+     "chain_ok": true
+    },
+    "long dte 8-15 2 OTM": {
+     "fits": true,
+     "max_loss_pct": 29.62,
+     "chain_ok": true
+    },
+    "debit CE dte 8-15 ATM / 2 OTM": {
+     "fits": false,
+     "max_loss_pct": 7.4,
+     "chain_ok": true
+    },
+    "long dte 16-40 ATM": {
+     "fits": true,
+     "max_loss_pct": 47.89,
+     "chain_ok": true
+    },
+    "long dte 16-40 1 OTM": {
+     "fits": true,
+     "max_loss_pct": 44.95,
+     "chain_ok": true
+    },
+    "long dte 16-40 2 OTM": {
+     "fits": true,
+     "max_loss_pct": 42.19,
+     "chain_ok": true
+    },
+    "debit CE dte 16-40 ATM / 2 OTM": {
+     "fits": false,
+     "max_loss_pct": 7.51,
+     "chain_ok": true
+    }
+   },
+   {
+    "balance_rs": 75000,
+    "fixed_cost_pct_pm": 2.0,
+    "fd_baseline_rs_pm": "390.63",
+    "long dte 0-2 ATM": {
+     "fits": true,
+     "max_loss_pct": 8.07,
+     "chain_ok": true
+    },
+    "long dte 0-2 1 OTM": {
+     "fits": true,
+     "max_loss_pct": 6.21,
+     "chain_ok": true
+    },
+    "long dte 0-2 2 OTM": {
+     "fits": true,
+     "max_loss_pct": 4.71,
+     "chain_ok": true
+    },
+    "debit CE dte 0-2 ATM / 2 OTM": {
+     "fits": false,
+     "max_loss_pct": 3.77,
+     "chain_ok": true
+    },
+    "long dte 3-7 ATM": {
+     "fits": true,
+     "max_loss_pct": 15.38,
+     "chain_ok": true
+    },
+    "long dte 3-7 1 OTM": {
+     "fits": true,
+     "max_loss_pct": 13.38,
+     "chain_ok": true
+    },
+    "long dte 3-7 2 OTM": {
+     "fits": true,
+     "max_loss_pct": 11.6,
+     "chain_ok": true
+    },
+    "debit CE dte 3-7 ATM / 2 OTM": {
+     "fits": false,
+     "max_loss_pct": 4.6,
+     "chain_ok": true
+    },
+    "long dte 8-15 ATM": {
+     "fits": true,
+     "max_loss_pct": 23.51,
+     "chain_ok": true
+    },
+    "long dte 8-15 1 OTM": {
+     "fits": true,
+     "max_loss_pct": 21.45,
+     "chain_ok": true
+    },
+    "long dte 8-15 2 OTM": {
+     "fits": true,
+     "max_loss_pct": 19.75,
+     "chain_ok": true
+    },
+    "debit CE dte 8-15 ATM / 2 OTM": {
+     "fits": false,
+     "max_loss_pct": 4.93,
+     "chain_ok": true
+    },
+    "long dte 16-40 ATM": {
+     "fits": true,
+     "max_loss_pct": 31.93,
+     "chain_ok": true
+    },
+    "long dte 16-40 1 OTM": {
+     "fits": true,
+     "max_loss_pct": 29.97,
+     "chain_ok": true
+    },
+    "long dte 16-40 2 OTM": {
+     "fits": true,
+     "max_loss_pct": 28.13,
+     "chain_ok": true
+    },
+    "debit CE dte 16-40 ATM / 2 OTM": {
+     "fits": false,
+     "max_loss_pct": 5.01,
+     "chain_ok": true
+    }
+   },
+   {
+    "balance_rs": 100000,
+    "fixed_cost_pct_pm": 1.5,
+    "fd_baseline_rs_pm": "520.83",
+    "long dte 0-2 ATM": {
+     "fits": true,
+     "max_loss_pct": 6.06,
+     "chain_ok": true
+    },
+    "long dte 0-2 1 OTM": {
+     "fits": true,
+     "max_loss_pct": 4.66,
+     "chain_ok": true
+    },
+    "long dte 0-2 2 OTM": {
+     "fits": true,
+     "max_loss_pct": 3.53,
+     "chain_ok": true
+    },
+    "debit CE dte 0-2 ATM / 2 OTM": {
+     "fits": false,
+     "max_loss_pct": 2.83,
+     "chain_ok": true
+    },
+    "long dte 3-7 ATM": {
+     "fits": true,
+     "max_loss_pct": 11.54,
+     "chain_ok": true
+    },
+    "long dte 3-7 1 OTM": {
+     "fits": true,
+     "max_loss_pct": 10.03,
+     "chain_ok": true
+    },
+    "long dte 3-7 2 OTM": {
+     "fits": true,
+     "max_loss_pct": 8.7,
+     "chain_ok": true
+    },
+    "debit CE dte 3-7 ATM / 2 OTM": {
+     "fits": false,
+     "max_loss_pct": 3.45,
+     "chain_ok": true
+    },
+    "long dte 8-15 ATM": {
+     "fits": true,
+     "max_loss_pct": 17.63,
+     "chain_ok": true
+    },
+    "long dte 8-15 1 OTM": {
+     "fits": true,
+     "max_loss_pct": 16.09,
+     "chain_ok": true
+    },
+    "long dte 8-15 2 OTM": {
+     "fits": true,
+     "max_loss_pct": 14.81,
+     "chain_ok": true
+    },
+    "debit CE dte 8-15 ATM / 2 OTM": {
+     "fits": false,
+     "max_loss_pct": 3.7,
+     "chain_ok": true
+    },
+    "long dte 16-40 ATM": {
+     "fits": true,
+     "max_loss_pct": 23.95,
+     "chain_ok": true
+    },
+    "long dte 16-40 1 OTM": {
+     "fits": true,
+     "max_loss_pct": 22.48,
+     "chain_ok": true
+    },
+    "long dte 16-40 2 OTM": {
+     "fits": true,
+     "max_loss_pct": 21.09,
+     "chain_ok": true
+    },
+    "debit CE dte 16-40 ATM / 2 OTM": {
+     "fits": false,
+     "max_loss_pct": 3.76,
+     "chain_ok": true
+    }
+   },
+   {
+    "balance_rs": 150000,
+    "fixed_cost_pct_pm": 1.0,
+    "fd_baseline_rs_pm": "781.25",
+    "long dte 0-2 ATM": {
+     "fits": true,
+     "max_loss_pct": 4.04,
+     "chain_ok": true
+    },
+    "long dte 0-2 1 OTM": {
+     "fits": true,
+     "max_loss_pct": 3.1,
+     "chain_ok": true
+    },
+    "long dte 0-2 2 OTM": {
+     "fits": true,
+     "max_loss_pct": 2.36,
+     "chain_ok": true
+    },
+    "debit CE dte 0-2 ATM / 2 OTM": {
+     "fits": false,
+     "max_loss_pct": 1.89,
+     "chain_ok": true
+    },
+    "long dte 3-7 ATM": {
+     "fits": true,
+     "max_loss_pct": 7.69,
+     "chain_ok": true
+    },
+    "long dte 3-7 1 OTM": {
+     "fits": true,
+     "max_loss_pct": 6.69,
+     "chain_ok": true
+    },
+    "long dte 3-7 2 OTM": {
+     "fits": true,
+     "max_loss_pct": 5.8,
+     "chain_ok": true
+    },
+    "debit CE dte 3-7 ATM / 2 OTM": {
+     "fits": false,
+     "max_loss_pct": 2.3,
+     "chain_ok": true
+    },
+    "long dte 8-15 ATM": {
+     "fits": true,
+     "max_loss_pct": 11.76,
+     "chain_ok": true
+    },
+    "long dte 8-15 1 OTM": {
+     "fits": true,
+     "max_loss_pct": 10.73,
+     "chain_ok": true
+    },
+    "long dte 8-15 2 OTM": {
+     "fits": true,
+     "max_loss_pct": 9.87,
+     "chain_ok": true
+    },
+    "debit CE dte 8-15 ATM / 2 OTM": {
+     "fits": false,
+     "max_loss_pct": 2.47,
+     "chain_ok": true
+    },
+    "long dte 16-40 ATM": {
+     "fits": true,
+     "max_loss_pct": 15.96,
+     "chain_ok": true
+    },
+    "long dte 16-40 1 OTM": {
+     "fits": true,
+     "max_loss_pct": 14.98,
+     "chain_ok": true
+    },
+    "long dte 16-40 2 OTM": {
+     "fits": true,
+     "max_loss_pct": 14.06,
+     "chain_ok": true
+    },
+    "debit CE dte 16-40 ATM / 2 OTM": {
+     "fits": false,
+     "max_loss_pct": 2.5,
+     "chain_ok": true
+    }
+   },
+   {
+    "balance_rs": 200000,
+    "fixed_cost_pct_pm": 0.75,
+    "fd_baseline_rs_pm": "1041.67",
+    "long dte 0-2 ATM": {
+     "fits": true,
+     "max_loss_pct": 3.03,
+     "chain_ok": true
+    },
+    "long dte 0-2 1 OTM": {
+     "fits": true,
+     "max_loss_pct": 2.33,
+     "chain_ok": true
+    },
+    "long dte 0-2 2 OTM": {
+     "fits": true,
+     "max_loss_pct": 1.77,
+     "chain_ok": true
+    },
+    "debit CE dte 0-2 ATM / 2 OTM": {
+     "fits": true,
+     "max_loss_pct": 1.42,
+     "chain_ok": true
+    },
+    "long dte 3-7 ATM": {
+     "fits": true,
+     "max_loss_pct": 5.77,
+     "chain_ok": true
+    },
+    "long dte 3-7 1 OTM": {
+     "fits": true,
+     "max_loss_pct": 5.02,
+     "chain_ok": true
+    },
+    "long dte 3-7 2 OTM": {
+     "fits": true,
+     "max_loss_pct": 4.35,
+     "chain_ok": true
+    },
+    "debit CE dte 3-7 ATM / 2 OTM": {
+     "fits": false,
+     "max_loss_pct": 1.73,
+     "chain_ok": true
+    },
+    "long dte 8-15 ATM": {
+     "fits": true,
+     "max_loss_pct": 8.82,
+     "chain_ok": true
+    },
+    "long dte 8-15 1 OTM": {
+     "fits": true,
+     "max_loss_pct": 8.05,
+     "chain_ok": true
+    },
+    "long dte 8-15 2 OTM": {
+     "fits": true,
+     "max_loss_pct": 7.4,
+     "chain_ok": true
+    },
+    "debit CE dte 8-15 ATM / 2 OTM": {
+     "fits": false,
+     "max_loss_pct": 1.85,
+     "chain_ok": true
+    },
+    "long dte 16-40 ATM": {
+     "fits": true,
+     "max_loss_pct": 11.97,
+     "chain_ok": true
+    },
+    "long dte 16-40 1 OTM": {
+     "fits": true,
+     "max_loss_pct": 11.24,
+     "chain_ok": true
+    },
+    "long dte 16-40 2 OTM": {
+     "fits": true,
+     "max_loss_pct": 10.55,
+     "chain_ok": true
+    },
+    "debit CE dte 16-40 ATM / 2 OTM": {
+     "fits": false,
+     "max_loss_pct": 1.88,
+     "chain_ok": true
+    }
+   }
+  ],
+  "smallest_row": 10000
+ },
+ "favourable_smallest_row": 10000,
+ "assumptions": {
+  "side_fill_per_unit_rs": "0.70",
+  "stress": "2",
+  "margin_leg2_share_of_notional": "0.09",
+  "fixed_pm_stressed_rs": "1500"
+ }
+}

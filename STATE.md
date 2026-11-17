@@ -1,5 +1,5 @@
 STAGE=1
-NEXT=Phase 2c FEASIBILITY: LOAD RULES, write tools/bn_economics.py and tools/power_table.py
+NEXT=Phase 1b: python3 tools/data_gaps.py --calendar results/calendar.txt, then DATA_REQUEST.md, accept --phase 1b, push
 BLOCK=S1A
 MODEL_NOW=BIG
 MODEL_NEXT=BIG
