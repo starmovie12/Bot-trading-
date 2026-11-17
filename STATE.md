@@ -1,5 +1,5 @@
 STAGE=1
-NEXT=Phase 1 DATA INTAKE: git clone --depth 1 --filter=blob:none --no-checkout https://github.com/starmovie12/Bot-trading-historical-Bank-Nifty- data/banknifty/repo
+NEXT=Phase 2 FACTS: official pages via curl -sL to ${TMPDIR:-/tmp}/mission-web/ then python3 tools/webgrep.py <file> <regex> (fetch budget 30)
 BLOCK=S1A
 MODEL_NOW=BIG
 MODEL_NEXT=BIG
@@ -10,3 +10,4 @@ HOLDOUT=sealed
 HALT=none
 VISIBILITY=public-ok
 TOKEN=not set
+DATA_SHA=9e7a49d4eb838d0127fe9267c007888f69c0cc58

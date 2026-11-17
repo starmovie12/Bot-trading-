@@ -28,7 +28,11 @@ max-args = 8
 strict = true
 python_version = "3.12"
 mypy_path = "src:."
-files = ["src", "tests", "tools"]
+files = ["src", "tests", "tools", "lab"]
+
+[[tool.mypy.overrides]]
+module = ["pyarrow", "pyarrow.*"]
+ignore_missing_imports = true
 
 [tool.pytest.ini_options]
 pythonpath = ["src", "."]

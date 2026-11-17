@@ -33,7 +33,7 @@ for arg in "$@"; do
   if [ -z "$reason" ] && [ "$deletion" -eq 0 ]; then
     allowed=0
     case "$p" in .githooks/* | .github/workflows/*) allowed=1 ;; esac
-    case "$base" in .gitignore | .gitattributes | SHA256SUMS | Makefile | go.mod | go.sum | LICENSE) allowed=1 ;; esac
+    case "$base" in .gitignore | .gitattributes | SHA256SUMS | Makefile | go.mod | go.sum | LICENSE | requirements-dev.in) allowed=1 ;; esac
     case "$base" in
       *.py | *.go | *.toml | *.md | *.json | *.jsonl | *.sh | *.yml | *.yaml | *.txt | *.cfg | *.ini | *.lock | *.sha256 | *.service | *.timer) allowed=1 ;;
       *.csv) case "$p" in tests/fixtures/*) allowed=1 ;; esac ;;

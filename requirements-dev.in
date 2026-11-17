@@ -4,3 +4,6 @@ mypy==2.4.1
 pytest==9.2.0
 hypothesis==6.170.15
 pip-audit==2.10.1
+# Data research (MISSION V19 Phase 1): parquet reader and arrays. Licences: pyarrow Apache-2.0, numpy BSD-3-Clause.
+pyarrow==26.0.1
+numpy==2.5.5

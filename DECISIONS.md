@@ -325,3 +325,7 @@ DATA_REPO unknown (REST blocked for this session with 403; `git ls-remote` works
 - D-7 TOKEN not set → Phase 2b.2 skipped at once (UNVERIFIED_LIVE), API_CHECK = NA.
 - D-8 History scan: the only hit is a fake literal `"access_token": "TOKEN-XYZ"` in pre-V11 test history (8dfea02); it is added to the pinned tools/secret_allow.txt as an exact match (V11 had it in scan_allowlist.toml). Pins written for the first time in Phase 0.
 - D-9 Moved-file fallout: tests/test_limits_chain.py excludes MISSION_V19.md from the banned-name scan exactly as it already excluded MISSION.md (the mission text states the ban); tools/economics.py reads OWNER_APPROVALS.md only when it exists (V11 approval codes are void).
+- D-10 DATA_GRADE = B: option OHLC, volume, OI per minute; no historical bid / ask anywhere in the pack (docs/DATA_REPORT.md).
+- D-11 Current regime for counting valid days and for option P&L starts 2024-11-20 (monthly-only Bank Nifty options; POINTER until Phase 2); rupee P&L uses each contract's own lot from contracts.csv (15 / 30 / 35 / 30 over the window).
+- D-12 Data code lives in lab/ (lab/data.py loader); tools/profile_data.py and tools/data_gaps.py are kept and re-run by DG; pyarrow 26.0.1 + numpy 2.5.5 added as hash-locked dev dependencies (Apache-2.0, BSD-3-Clause).
+- D-13 The 19 days 2024-11-28 .. 2024-12-24 have option candles but no ATM strikes (G3): they stay valid days for index features and are excluded from option P&L.
