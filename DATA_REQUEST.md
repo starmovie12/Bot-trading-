@@ -13,3 +13,8 @@ Sirf woh cheezein jo data repo mein nahi hain aur jinse strategy ka hisaab sach 
 
 ## Part R (owner ka Recorder; agent ise na banata hai na chalata hai)
 7. MUST · gap G5 (recorded bid / ask NONE) · follow `RECORDER_SPEC.md`: MUST = ts_recv IST, ≤ 60 s snapshots, BANKNIFTY index ltp, current-month futures bid / ask / qty / ltp / volume / oi, nearest-expiry options ATM ± 5 CE and PE with bid / ask / qty / ltp / volume / oi, India VIX ltp, market-status and connection events; NICE = next expiry, ATM ± 10, IV / greeks, depth, HDFCBANK / ICICIBANK · why: real spreads and slippage (DATA-R) for Phase 7 · substitute: spread ESTIMATE x 2 (verdict capped until measured) · fallback_ok = yes. Check the first day with `python tools/check_recording.py <file>`.
+
+## Status after INTAKE-H (cycle 1; STOP-1 was skipped)
+Every item above is OPEN_FOR_NEXT_CYCLE (Phase 7 step 1 ticks it). Cap codes this cycle: items 1-6 fall back to
+excluding the affected days or features (no V3 cap code); item 7 falls back to the stressed spread ESTIMATE (C4, ST7),
+which caps nothing in V3 but keeps every spread number tagged ESTIMATE until DATA-R arrives.

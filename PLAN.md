@@ -5,7 +5,12 @@
 - [x] Phase 2b PROBE (2b.1 public: master + feed docs; 2b.2 skipped: TOKEN not set)
 - [x] Phase 2c FEASIBILITY
 - [x] Phase 1b DATA REQUEST + STOP-1 skipped (results/stage1_card.md)
-- [ ] INTAKE-H · Phase 3 LAB · 4A · 4B · 4C · 5 · 6 → STOP-2
+- [x] INTAKE-H (cycle 1: Phase 1 snapshot kept, DATA_SHA 9e7a49d4; holdout sealed in holdout_log.jsonl)
+- [ ] Phase 3 LAB (grade B: REAL option candles, spreads ESTIMATE; DESIGN 362 days 2024-11-21..2026-07-03, HOLDOUT 90 days 2026-07-06..2026-11-12)
+  - 3a matrix + market facts (5-minute decision bars; REAL option OHLC for ATM and 2 OTM, nearest monthly expiry; lot by contract)
+  - 3b blueprint, prefilter, bracket in §PREREG-0 (cap 30 trials) · 3c tournament + contracts + engine of record
+  - 3d loss-first rank + STRATEGY.md · 3e holdout once + Monte Carlo + limits + ladder + verdict
+- [ ] 4A · 4B · 4C · 5 · 6 → STOP-2
 - [ ] Phase 7 · P7rev → FINAL-2
 
 ## WANT-LIST (Phase 1; gap ids from docs/DATA_GAPS.md)

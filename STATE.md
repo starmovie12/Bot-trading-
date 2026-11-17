@@ -1,5 +1,5 @@
 STAGE=2
-NEXT=INTAKE-H: LOAD LAB (MF=MISSION_V19.md; sed -n '/^<part id="LAB"/,/^<\/part>/p' "$MF"), then INTAKE-H step 1
+NEXT=Phase 3a: write lab/build_matrix.py (FEATURES on DESIGN days from data/lab/split.json), then results/market_facts.md, then fix §PREREG-0 shell + exit grid, then OUTCOMES
 BLOCK=S2
 MODEL_NOW=BIG
 MODEL_NEXT=BIG
