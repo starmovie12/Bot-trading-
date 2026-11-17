@@ -1,0 +1,114 @@
+# REGULATORY + DATA RIGHTS (T03, session 1, 2026-11-11)
+
+**Read this first.** Session 1 had **no web access**: `tools/preflight.sh` found an environment-variable
+name containing `ACCESS_TOKEN` (INCIDENT #1, sandbox_breach), and MISSION §1 item 9 then switches web
+fetch off for the whole session. So no official page was fetched in this session. Every fact below is
+**UNVERIFIED** and tagged HISTORY (from the owner's research files or an earlier session, with the repo
+line as its extract), POINTER (the MISSION reality check) or ASSUMPTION (unknown). None is SOURCE, so
+none can pass a gate. The next session with web access re-fetches each official URL (≤ 60 fetches)
+and upgrades rows to SOURCE only when the value matches the page. One row per fact lives in
+`constants.toml`; each extract is in `EVIDENCE/T03/src_<name>.txt`.
+
+## Verdicts
+
+- **DATA_RIGHTS = UNVERIFIED.** No Upstox API terms text is in the repository and web fetch is off.
+  Consequence (MISSION §10): LIGHT Recorder scope, derived data only, personal use only, never shared.
+  OWNER_TODO asks the owner to get Upstox's written answer; the CP1 memo asks F-DATARIGHTS.
+- **Market-data calls need no static IP** [HISTORY]: the static-IP rule covers order APIs (place,
+  modify, cancel, multi, GTT, exit all), not holdings, positions, funds or historical candles. So the
+  Recorder and MANUAL execution need no static-IP spend; API orders do.
+- **Algo registration (S10)** [HISTORY]: below 10 orders per second per exchange no exchange
+  registration is needed (the broker tags a generic algo id); registration, and re-registration when
+  the logic changes, applies only above that threshold. A personal bot at ~12 trades a month stays
+  far below it. The `X-Algo-Name` header is optional below the threshold.
+- **Broker stop type** [HISTORY]: the exchange rejects SL-M on options (since 2021-09-27), so the
+  broker-side stop must be SL (limit) and can fail to fill in a gap (S5, S7). Upstox market orders
+  need `market_protection` (MPP); 0 is rejected.
+- **Contradiction found (input for T06 / S7):** `src/bot/strategy/costs.py:8` says IPFT is
+  "₹0.01/crore, ignored", while the MISSION reality check says the NSE composite 0.03553% already
+  contains IPFT (0.03503% + IPFT) [POINTER]. G0 uses the composite rate once and never adds IPFT on
+  top, which is the conservative reading of both.
+- **Upstox token shape: unknown** (no repo source). `tools/secret_patterns.txt` already redacts
+  JWT-like (`eyJ…`) and long random tokens, so no new pattern was added.
+
+## Facts (all UNVERIFIED this session)
+
+| constants row | value [tag] | official URL to verify | status | extract | note |
+|---|---|---|---|---|---|
+| `brokerage_fo_per_order` | 20 INR per executed order [HISTORY] | https://upstox.com/brokerage-charges/ | UNVERIFIED | `EVIDENCE/T03/src_brokerage_fo_per_order.txt` (from `src/bot/strategy/costs.py`) | API ₹10 offer ended 2025-12-31 (same line) |
+| `stt_option_sell` | 0.15 % of premium, sell side [HISTORY] | https://upstox.com/brokerage-charges/ | UNVERIFIED | `EVIDENCE/T03/src_stt_option_sell.txt` (from `src/bot/strategy/costs.py`) | from 2026-04-01 |
+| `stt_option_exercise` | 0.15 % of intrinsic value, paid by the buyer [POINTER] | https://www.sebi.gov.in/ | UNVERIFIED | `EVIDENCE/T03/src_stt_option_exercise.txt` (from `MISSION.md`) | the D10 trap |
+| `nse_txn_charge_composite` | 0.03553 % of premium (NSE options, incl. IPFT) [HISTORY] | https://upstox.com/brokerage-charges/ | UNVERIFIED | `EVIDENCE/T03/src_nse_txn_charge_composite.txt` (from `src/bot/strategy/costs.py`) | MISSION POINTER: composite = 0.03503% + IPFT |
+| `nse_txn_charge_ex_ipft` | 0.03503 % of premium (NSE options, excl. IPFT) [POINTER] | https://www.nseindia.com/ | UNVERIFIED | `EVIDENCE/T03/src_nse_txn_charge_ex_ipft.txt` (from `MISSION.md`) |  |
+| `nse_ipft` | 0.0005 % of premium (derived: composite minus ex-IPFT) [POINTER] | https://www.nseindia.com/ | UNVERIFIED | `EVIDENCE/T03/src_nse_ipft.txt` (from `MISSION.md`) | CONTRADICTION: costs.py:8 says IPFT ₹0.01/crore; T06 (S7) resolves; G0 uses the composite |
+| `bse_txn_charge` | 0.0325 % of premium (BSE options) [HISTORY] | https://upstox.com/brokerage-charges/ | UNVERIFIED | `EVIDENCE/T03/src_bse_txn_charge.txt` (from `src/bot/strategy/costs.py`) |  |
+| `sebi_fee` | 10 INR per crore of turnover [HISTORY] | https://upstox.com/brokerage-charges/ | UNVERIFIED | `EVIDENCE/T03/src_sebi_fee.txt` (from `src/bot/strategy/costs.py`) |  |
+| `stamp_duty_buy` | 0.003 % of buy value [HISTORY] | https://upstox.com/brokerage-charges/ | UNVERIFIED | `EVIDENCE/T03/src_stamp_duty_buy.txt` (from `src/bot/strategy/costs.py`) |  |
+| `gst` | 18 % of brokerage + exchange + SEBI fee [HISTORY] | https://upstox.com/brokerage-charges/ | UNVERIFIED | `EVIDENCE/T03/src_gst.txt` (from `src/bot/strategy/costs.py`) |  |
+| `lot_nifty_crosscheck` | 65 units per lot (test cross-check only) [HISTORY] | https://www.nseindia.com/ | UNVERIFIED | `EVIDENCE/T03/src_lot_nifty_crosscheck.txt` (from `src/bot/strategy/instruments.py`) | the bot reads lot size only from the instrument master |
+| `lot_banknifty_crosscheck` | 30 units per lot (test cross-check only) [HISTORY] | https://www.nseindia.com/ | UNVERIFIED | `EVIDENCE/T03/src_lot_banknifty_crosscheck.txt` (from `src/bot/strategy/instruments.py`) |  |
+| `lot_sensex_crosscheck` | 20 units per lot (test cross-check only) [HISTORY] | https://www.bseindia.com/ | UNVERIFIED | `EVIDENCE/T03/src_lot_sensex_crosscheck.txt` (from `src/bot/strategy/instruments.py`) |  |
+| `expiry_nifty_weekday` | Tuesday weekday [HISTORY] | https://www.nseindia.com/ | UNVERIFIED | `EVIDENCE/T03/src_expiry_nifty_weekday.txt` (from `docs/00_input/research/R_c_Compliance.md`) | monthly = last Tuesday |
+| `expiry_sensex_weekday` | Thursday weekday [HISTORY] | https://www.bseindia.com/ | UNVERIFIED | `EVIDENCE/T03/src_expiry_sensex_weekday.txt` (from `docs/00_input/research/R_c_Compliance.md`) | BSE source was secondary in the research |
+| `banknifty_weekly` | sirf monthly contract cycle [HISTORY] | https://www.nseindia.com/ | UNVERIFIED | `EVIDENCE/T03/src_banknifty_weekly.txt` (from `src/bot/strategy/instruments.py`) | weekly closed Nov 2024; monthly only |
+| `regime_change_nifty_expiry` | 1 Sep 2025 date (F-DATAAGE input) [HISTORY] | https://www.nseindia.com/ | UNVERIFIED | `EVIDENCE/T03/src_regime_change_nifty_expiry.txt` (from `docs/00_input/research/R_c_Compliance.md`) | NSE expiry moved to Tuesday |
+| `regime_change_lot_sizes` | from Jan 2026 date (F-DATAAGE input) [POINTER] | https://www.nseindia.com/ | UNVERIFIED | `EVIDENCE/T03/src_regime_change_lot_sizes.txt` (from `MISSION.md`) | NSE circular FAOP70616 (POINTER) |
+| `sebi_upfront_premium` | upfront option premium rule (from 2025-02-01) [HISTORY] | https://www.sebi.gov.in/ | UNVERIFIED | `EVIDENCE/T03/src_sebi_upfront_premium.txt` (from `docs/00_input/research/R_c_Compliance.md`) | the full premium must be in the account before buying |
+| `sebi_one_weekly_expiry` | ek weekly benchmark index option rule [HISTORY] | https://www.sebi.gov.in/ | UNVERIFIED | `EVIDENCE/T03/src_sebi_one_weekly_expiry.txt` (from `docs/00_input/research/R_c_Compliance.md`) |  |
+| `fo_session_end` | 3:40 PM time (F&O close from 2026-08-03) [HISTORY] | https://www.nseindia.com/ | UNVERIFIED | `EVIDENCE/T03/src_fo_session_end.txt` (from `docs/00_input/research/R_c_Compliance.md`) | from 2026-12-07 index F&O 15:45; expiring index contracts close 15:30 on expiry day |
+| `upstox_fo_auto_squareoff` | 3:25 PM time [HISTORY] | https://upstox.com/developer/api-documentation/ | UNVERIFIED | `EVIDENCE/T03/src_upstox_fo_auto_squareoff.txt` (from `docs/00_input/research/R_c_Compliance.md`) |  |
+| `upstox_order_rate_per_sec` | 10 orders per second (place+modify+cancel+multi+GTT) [HISTORY] | https://upstox.com/developer/api-documentation/ | UNVERIFIED | `EVIDENCE/T03/src_upstox_order_rate_per_sec.txt` (from `docs/00_input/research/R_c_Compliance.md`) | unregistered algo |
+| `upstox_order_rate_per_min` | 500 orders per minute [HISTORY] | https://upstox.com/developer/api-documentation/ | UNVERIFIED | `EVIDENCE/T03/src_upstox_order_rate_per_min.txt` (from `docs/00_input/research/R_c_Compliance.md`) |  |
+| `upstox_order_rate_per_30min` | 2000 orders per 30 minutes [HISTORY] | https://upstox.com/developer/api-documentation/ | UNVERIFIED | `EVIDENCE/T03/src_upstox_order_rate_per_30min.txt` (from `docs/00_input/research/R_c_Compliance.md`) |  |
+| `sebi_ops_threshold` | 10 orders per second per exchange without algo registration [HISTORY] | https://www.sebi.gov.in/ | UNVERIFIED | `EVIDENCE/T03/src_sebi_ops_threshold.txt` (from `docs/00_input/research/R_c_Compliance.md`) | registration and re-registration on logic change only above it (S10) |
+| `static_ip_for_orders` | registered Static IP rule (from 2026-04-01) [HISTORY] | https://upstox.com/developer/api-documentation/announcements/algo-trading-circular | UNVERIFIED | `EVIDENCE/T03/src_static_ip_for_orders.txt` (from `docs/00_input/research/R_c_Compliance.md`) | not needed for holdings, positions, funds, historical candles: market-data calls need no static IP |
+| `static_ip_change_limit` | calendar week mein ek baar rule [HISTORY] | https://upstox.com/developer/api-documentation/announcements/algo-trading-circular | UNVERIFIED | `EVIDENCE/T03/src_static_ip_change_limit.txt` (from `docs/00_input/research/R_c_Compliance.md`) | old access tokens die on an IP change |
+| `algo_name_header` | X-Algo-Name header (optional below the threshold) [HISTORY] | https://upstox.com/developer/api-documentation/announcements/algo-trading-circular | UNVERIFIED | `EVIDENCE/T03/src_algo_name_header.txt` (from `docs/00_input/research/R_c_Compliance.md`) | only for exchange-approved algo strategies |
+| `upstox_session_valid_until` | 3:30 AM time (next day) [HISTORY] | https://upstox.com/developer/api-documentation/ | UNVERIFIED | `EVIDENCE/T03/src_upstox_session_valid_until.txt` (from `docs/00_input/research/R_c_Compliance.md`) | daily login burden |
+| `upstox_analytics_readonly_access` | Analytics Token read-only token option (1 year, GET only) [HISTORY] | https://upstox.com/developer/api-documentation/ | UNVERIFIED | `EVIDENCE/T03/src_upstox_analytics_readonly_access.txt` (from `docs/00_input/research/R_c_Compliance.md`) | cannot place orders |
+| `market_feed` | Protobuf feed format (WebSocket V3) [HISTORY] | https://upstox.com/developer/api-documentation/ | UNVERIFIED | `EVIDENCE/T03/src_market_feed.txt` (from `docs/00_input/research/R_c_Compliance.md`) | modes ltpc, option_greeks, full, full_d30 |
+| `upstox_mpp` | market_protection market orders need MPP (0 = reject) [HISTORY] | https://upstox.com/developer/api-documentation/ | UNVERIFIED | `EVIDENCE/T03/src_upstox_mpp.txt` (from `docs/00_input/research/R_c_Compliance.md`) |  |
+| `options_slm_rejected` | SL-M options SL-M rejected by the exchange since 2021-09-27 [HISTORY] | https://www.nseindia.com/ | UNVERIFIED | `EVIDENCE/T03/src_options_slm_rejected.txt` (from `docs/00_input/research/R_c_Compliance.md`) | broker-side stop must be SL (limit) |
+| `upstox_sandbox_host` | api-sandbox.upstox.com host seen in the official SDK [HISTORY] | https://upstox.com/developer/api-documentation/ | UNVERIFIED | `EVIDENCE/T03/src_upstox_sandbox_host.txt` (from `docs/00_input/01_Bot_Idea_v4.md`) | usable for R1 paper orders: verify nahi hua |
+| `upstox_expired_instruments` | Upstox Plus plan needed for the Expired Instruments API [HISTORY] | https://upstox.com/developer/api-documentation/ | UNVERIFIED | `EVIDENCE/T03/src_upstox_expired_instruments.txt` (from `docs/00_input/research/R_d_Costs_Data.md`) | free initially (HISTORY) |
+| `lightsail_bundle_usd_pm` | 12 USD per month (2 GB, static IP included) [HISTORY] | https://aws.amazon.com/lightsail/pricing/ | UNVERIFIED | `EVIDENCE/T03/src_lightsail_bundle_usd_pm.txt` (from `docs/00_input/research/R_f_Budget_VPS.md`) | S1 route candidate |
+| `lightsail_small_usd_pm` | 5 USD per month (0.5 GB bundle, static IP included) [HISTORY] | https://aws.amazon.com/lightsail/pricing/ | UNVERIFIED | `EVIDENCE/T03/src_lightsail_small_usd_pm.txt` (from `docs/00_input/research/R_f_Budget_VPS.md`) | cheapest static-IP route in the repo research; whether the bot fits in 0.5 GB is not measured |
+| `lightsail_1gb_usd_pm` | 7 USD per month (1 GB bundle, static IP included) [HISTORY] | https://aws.amazon.com/lightsail/pricing/ | UNVERIFIED | `EVIDENCE/T03/src_lightsail_1gb_usd_pm.txt` (from `docs/00_input/research/R_f_Budget_VPS.md`) |  |
+| `usd_inr` | 93.94 INR per USD (ECB, 2026-11-09) [HISTORY] | https://www.rbi.org.in/ | UNVERIFIED | `EVIDENCE/T03/src_usd_inr.txt` (from `docs/00_input/research/R_f_Budget_VPS.md`) | MISSION wants the RBI reference rate: not fetched |
+| `aws_india_gst` | 18 % GST on AWS India bills [HISTORY] | https://aws.amazon.com/lightsail/pricing/ | UNVERIFIED | `EVIDENCE/T03/src_aws_india_gst.txt` (from `docs/00_input/research/R_f_Budget_VPS.md`) |  |
+| `nse_hist_trade_data_fo_rs_pa` | 110000 INR per year + tax (NSE Historical Trade Data, F&O) [HISTORY] | https://www.nseindia.com/ | UNVERIFIED | `EVIDENCE/T03/src_nse_hist_trade_data_fo_rs_pa.txt` (from `docs/00_input/research/R_d_Costs_Data.md`) | licence has a commercial-use clause |
+| `holiday_calendar_api` | /v2/market/holidays holiday source (Upstox API) [HISTORY] | https://upstox.com/developer/api-documentation/ | UNVERIFIED | `EVIDENCE/T03/src_holiday_calendar_api.txt` (from `docs/00_input/research/R_b_Repos_Licence.md`) | NSE holiday page is the official source |
+| `sebi_fy26_loss_share` | 87.7 % of individual F&O traders with a net loss in FY26 [POINTER] | https://www.sebi.gov.in/ | UNVERIFIED | `EVIDENCE/T03/src_sebi_fy26_loss_share.txt` (from `MISSION.md`) | a crowd base rate; no capital denominator |
+| `fd_rate` | unknown (% per year (bank FD / liquid fund)) [ASSUMPTION] | https://www.rbi.org.in/ | UNVERIFIED | `EVIDENCE/T03/src_fd_rate.txt` | no source in the repo; BASELINE_RS_PM uses ₹0 for FAIL tests and a sensitivity row otherwise |
+| `stock_fo_physical_settlement_cutoff` | unknown (Upstox cut-off before stock F&O expiry (D12)) [ASSUMPTION] | https://upstox.com/developer/api-documentation/ | UNVERIFIED | `EVIDENCE/T03/src_stock_fo_physical_settlement_cutoff.txt` | no source in the repo; D12 forbids stock F&O entries in expiry week anyway |
+| `nse_total_return_index_source` | unknown (NSE Indices total-return index history) [ASSUMPTION] | https://www.niftyindices.com/ | UNVERIFIED | `EVIDENCE/T03/src_nse_total_return_index_source.txt` | information only, never a gate input |
+| `upstox_access_credential_shape` | unknown (shape of the Upstox access token) [ASSUMPTION] | https://upstox.com/developer/api-documentation/ | UNVERIFIED | `EVIDENCE/T03/src_upstox_access_credential_shape.txt` | no source in the repo; jwt_like and entropy rules cover JWT-like and long random tokens |
+| `sebi_top_percentile_profit` | unknown (SEBI top-percentile profit with a capital denominator) [ASSUMPTION] | https://www.sebi.gov.in/ | UNVERIFIED | `EVIDENCE/T03/src_sebi_top_percentile_profit.txt` | no denominator in any repo source → MAX_CREDIBLE_NET_EDGE is ESTIMATE |
+| `data_rights` | UNVERIFIED [ASSUMPTION] | https://upstox.com/developer/api-documentation/ | UNVERIFIED | `EVIDENCE/T03/src_data_rights.txt` | LIGHT scope, derived data only |
+
+## Coverage of the MISSION lists (§6 "not yet known", §10, T03)
+
+| item | where |
+|---|---|
+| SEBI fee, stamp duty, GST | `sebi_fee`, `stamp_duty_buy`, `gst` |
+| per-exchange charge rows, IPFT separate | `nse_txn_charge_ex_ipft`, `nse_ipft`, `nse_txn_charge_composite`, `bse_txn_charge` |
+| STT incl. exercise (D10) | `stt_option_sell`, `stt_option_exercise` |
+| new SEBI F&O rules (contract size, expiry, upfront premium, position limits) | `sebi_upfront_premium`, `sebi_one_weekly_expiry`; contract size and position limits are in the extract source `docs/00_input/research/R_c_Compliance.md` rows 3.1 and 3.5 (far above this account's size) |
+| stock F&O physical settlement + Upstox cut-off (D12) | `stock_fo_physical_settlement_cutoff` (unknown; D12 bans the expiry week anyway) |
+| Upstox MPP | `upstox_mpp` |
+| Upstox sandbox | `upstox_sandbox_host` (usable for R1: unknown) |
+| rate limits | `upstox_order_rate_per_sec`, `_per_min`, `_per_30min`, `sebi_ops_threshold` |
+| historical-data rules | `upstox_expired_instruments`, `nse_hist_trade_data_fo_rs_pa` |
+| data-storage permission | `data_rights` (UNVERIFIED) |
+| read-only or long-lived token | `upstox_analytics_readonly_access`, `upstox_session_valid_until` |
+| Upstox feed schema | `market_feed` (protobuf schema file itself: T05 needs it) |
+| cheapest legal static-IP route and price | `lightsail_small_usd_pm`, `lightsail_1gb_usd_pm`, `lightsail_bundle_usd_pm`, `usd_inr`, `aws_india_gst` |
+| FD / liquid-fund rate | `fd_rate` (unknown) |
+| USD/INR reference rate (RBI) | `usd_inr` (ECB figure, not RBI) |
+| NSE total-return index | `nse_total_return_index_source` (unknown) |
+| SEBI top-percentile figures (group + denominator) | `sebi_fy26_loss_share`, `sebi_top_percentile_profit` (no denominator) |
+| holiday calendar source | `holiday_calendar_api` |
+| algo / Algo Name rules; re-registration on strategy change (S10) | `algo_name_header`, `sebi_ops_threshold` |
+| market-data calls and the static IP | `static_ip_for_orders`, `static_ip_change_limit` |
+| latest expiry-day / lot-size regime change (F-DATAAGE) | `regime_change_nifty_expiry`, `regime_change_lot_sizes` |
+| trading hours and auto square-off | `fo_session_end`, `upstox_fo_auto_squareoff` |

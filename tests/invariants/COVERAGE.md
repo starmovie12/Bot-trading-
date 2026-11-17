@@ -5,7 +5,7 @@
 | I4 | tests/invariants/test_i04_feed_stale_gap.py (feed side); order side N/A(order path not built) |
 | I8 | tests/invariants/test_i08_live_flag_off.py and tests/invariants/test_order_path_disabled.py |
 | I11 | tests/invariants/test_i11_time.py (holiday calendar: UNVERIFIED, official page not fetched) |
-| I12 | tests/invariants/test_i12_money.py |
+| I12 | tests/test_bn_economics.py (MISSION V19 Phase 2c; the V11 test is archived with tools/economics.py) |
 | I13 | tests/invariants/test_i13_feed_schema.py (feed side); order side N/A(order path not built) |
 | I1 | N/A(order path not built) |
 | I2 | N/A(order path not built) |

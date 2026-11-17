@@ -1,631 +1,434 @@
-# constants.toml: facts of the world (MISSION V11 §5.4), written in T03 (session 1).
-# Session 1 had NO web access (INCIDENT #1 sandbox_breach): every row is UNVERIFIED and tagged HISTORY
-# (the owner's or an earlier session's research), POINTER (MISSION reality check) or ASSUMPTION (unknown).
-# No row is SOURCE, so no row is gate-eligible. Each extract is the matching repo line, written through ev.sh.
-# Lot sizes here are cross-checks for tests only: the bot reads lot size from the instrument master.
+# constants.toml (MISSION V19 Phase 2): BANKNIFTY facts only. Each row: value, unit, tag, url, date (fetched), note;
+# dated series are arrays of tables with valid_from (use the last row whose valid_from <= the trade date).
+# Tags (C4): SOURCE = official page fetched on `date`; REAL = measured on the owner's data (DATA_SHA 9e7a49d4);
+# POINTER / HISTORY / ESTIMATE / ASSUMPTION / UNVERIFIED as defined in MISSION_V19.md C4. The bot reads the lot size
+# only from the instrument master; the rows below are cross-checks and backtest inputs.
+# Fetch log: results/fetch_log.md (11 of the 30 allowed fetches used in Phase 2).
 
-[brokerage_fo_per_order]
+# ---------------------------------------------------------------- contract
+[[lot_size]]
+value = 15
+unit = "units per lot (contracts expiring 2024-10-30 .. 2025-01-30)"
+tag = "REAL"
+url = "data repo BANKNIFTY/contracts.csv"
+date = "2026-11-17"
+valid_from = "2024-10-01"
+[[lot_size]]
+value = 30
+unit = "units per lot (contracts expiring 2025-02-27 .. 2025-06-26)"
+tag = "REAL"
+url = "data repo BANKNIFTY/contracts.csv"
+date = "2026-11-17"
+valid_from = "2025-02-27"
+[[lot_size]]
+value = 35
+unit = "units per lot (contracts expiring 2025-07-31 .. 2025-12-30)"
+tag = "REAL"
+url = "data repo BANKNIFTY/contracts.csv"
+date = "2026-11-17"
+valid_from = "2025-07-31"
+[[lot_size]]
+value = 30
+unit = "units per lot (contracts expiring from 2026-01-27; every current contract in the master)"
+tag = "SOURCE"
+url = "https://assets.upstox.com/market-quote/instruments/exchange/NSE.json.gz"
+date = "2026-11-18"
+valid_from = "2026-01-27"
+note = "valid_from is the first expiry with this lot in contracts.csv (REAL); rupee P&L uses each contract's own lot"
+
+[tick_size]
+value = 0.05
+unit = "INR per unit"
+tag = "SOURCE"
+url = "https://assets.upstox.com/market-quote/instruments/exchange/NSE.json.gz"
+date = "2026-11-18"
+note = "the master states tick_size 5.0 in paise"
+
+[strike_step]
+value = 100
+unit = "index points between listed strikes near ATM (500 on far strikes)"
+tag = "SOURCE"
+url = "https://assets.upstox.com/market-quote/instruments/exchange/NSE.json.gz"
+date = "2026-11-18"
+note = "REAL: 100 on every day of the data window"
+
+[freeze_quantity]
+value = 900
+unit = "units per order"
+tag = "SOURCE"
+url = "https://assets.upstox.com/market-quote/instruments/exchange/NSE.json.gz"
+date = "2026-11-18"
+
+[expiry_cycle]
+value = "monthly"
+unit = "BANKNIFTY options: no weekly contracts (master weekly = false)"
+tag = "SOURCE"
+url = "https://assets.upstox.com/market-quote/instruments/exchange/NSE.json.gz"
+date = "2026-11-18"
+note = "listed now: 2026-11-23, 2026-12-29, 2027-01-25, 2027-03-30, 2027-06-29, 2027-09-28. REAL: 26 monthly expiries in the data, no weekly"
+
+[regime_monthly_only_from]
+value = "2024-11-20"
+unit = "date from which BANKNIFTY has no weekly expiry"
+tag = "POINTER"
+url = "https://www.sebi.gov.in/"
+date = "2026-11-17"
+note = "UNVERIFIED (SEBI page not fetched); the data holds monthly contracts only even before this date"
+
+[[expiry_weekday]]
+value = "Thursday"
+unit = "last Thursday of the month"
+tag = "REAL"
+url = "data repo BANKNIFTY/contracts.csv"
+date = "2026-11-17"
+valid_from = "2024-10-01"
+[[expiry_weekday]]
+value = "Tuesday"
+unit = "last Tuesday of the month; the trading day before when it is a holiday (2026-11-23 Monday: 2026-11-24 holiday)"
+tag = "REAL"
+url = "data repo BANKNIFTY/contracts.csv + instrument master"
+date = "2026-11-18"
+valid_from = "2025-09-01"
+
+[[session_end_fo_ist]]
+value = "15:30"
+unit = "last F&O minute bar 15:29 (index options and futures)"
+tag = "REAL"
+url = "data repo store/opt_1m, fut_1m"
+date = "2026-11-18"
+valid_from = "2024-10-01"
+[[session_end_fo_ist]]
+value = "15:40"
+unit = "last F&O minute bar 15:39; the index itself stops at 15:30"
+tag = "REAL"
+url = "data repo store/opt_1m, fut_1m (2026-08-03 first day)"
+date = "2026-11-18"
+valid_from = "2026-08-03"
+note = "pack POINTER 'F&O trades until 15:40 from 3 Aug 2026' matches the bars; no official page fetched"
+
+[session_start_ist]
+value = "09:15"
+unit = "first minute bar"
+tag = "REAL"
+url = "data repo store/spot_1m"
+date = "2026-11-17"
+
+# ---------------------------------------------------------------- charges (options, NSE, Upstox)
+[brokerage_option_per_order]
 value = 20
-unit = "INR per executed order"
-tag = "HISTORY"
-source_url = "https://upstox.com/brokerage-charges/"
-fetched = "2026-11-11"
-ttl_days = 30
-status = "UNVERIFIED"
-extract = "EVIDENCE/T03/src_brokerage_fo_per_order.txt"
-seen_in = "src/bot/strategy/costs.py"
-fetched_by = "earlier session or owner file; not re-fetched in session 1 (web off: INCIDENT #1)"
-note = "API ₹10 offer ended 2025-12-31 (same line)"
+unit = "INR per executed order, flat"
+tag = "SOURCE"
+url = "https://upstox.com/brokerage-charges/"
+date = "2026-11-18"
 
-[stt_option_sell]
+[[stt_option_sell]]
+value = 0.0625
+unit = "% of premium, sell side"
+tag = "SOURCE"
+url = "https://upstox.com/brokerage-charges/"
+date = "2026-11-18"
+valid_from = "2023-04-01"
+[[stt_option_sell]]
+value = 0.1
+unit = "% of premium, sell side"
+tag = "SOURCE"
+url = "https://upstox.com/brokerage-charges/"
+date = "2026-11-18"
+valid_from = "2024-10-01"
+[[stt_option_sell]]
 value = 0.15
 unit = "% of premium, sell side"
-tag = "HISTORY"
-source_url = "https://upstox.com/brokerage-charges/"
-fetched = "2026-11-11"
-ttl_days = 30
-status = "UNVERIFIED"
-extract = "EVIDENCE/T03/src_stt_option_sell.txt"
-seen_in = "src/bot/strategy/costs.py"
-fetched_by = "earlier session or owner file; not re-fetched in session 1 (web off: INCIDENT #1)"
-note = "from 2026-04-01"
+tag = "SOURCE"
+url = "https://upstox.com/brokerage-charges/"
+date = "2026-11-18"
+valid_from = "2026-04-01"
 
-[stt_option_exercise]
+[stt_option_exercised]
 value = 0.15
-unit = "% of intrinsic value, paid by the buyer"
-tag = "POINTER"
-source_url = "https://www.sebi.gov.in/"
-fetched = "2026-11-11"
-ttl_days = 30
-status = "UNVERIFIED"
-extract = "EVIDENCE/T03/src_stt_option_exercise.txt"
-seen_in = "MISSION.md"
-fetched_by = "earlier session or owner file; not re-fetched in session 1 (web off: INCIDENT #1)"
-note = "the D10 trap"
+unit = "% on the sale of an option that is exercised (basis: intrinsic value per the POINTER; wording on the page)"
+tag = "SOURCE"
+url = "https://upstox.com/brokerage-charges/"
+date = "2026-11-18"
+valid_from = "2026-04-01"
+note = "the rate before 2026-04-01 is not on the page: UNVERIFIED; the bot never holds an ITM long into expiry (Class D)"
 
-[nse_txn_charge_composite]
-value = 0.03553
-unit = "% of premium (NSE options, incl. IPFT)"
-tag = "HISTORY"
-source_url = "https://upstox.com/brokerage-charges/"
-fetched = "2026-11-11"
-ttl_days = 30
-status = "UNVERIFIED"
-extract = "EVIDENCE/T03/src_nse_txn_charge_composite.txt"
-seen_in = "src/bot/strategy/costs.py"
-fetched_by = "earlier session or owner file; not re-fetched in session 1 (web off: INCIDENT #1)"
-note = "MISSION POINTER: composite = 0.03503% + IPFT"
-
-[nse_txn_charge_ex_ipft]
+[[nse_txn_option]]
+value = 0.0495
+unit = "% of premium, both sides"
+tag = "SOURCE"
+url = "https://upstox.com/brokerage-charges/"
+date = "2026-11-18"
+valid_from = "2024-04-01"
+[[nse_txn_option]]
 value = 0.03503
-unit = "% of premium (NSE options, excl. IPFT)"
-tag = "POINTER"
-source_url = "https://www.nseindia.com/"
-fetched = "2026-11-11"
-ttl_days = 30
-status = "UNVERIFIED"
-extract = "EVIDENCE/T03/src_nse_txn_charge_ex_ipft.txt"
-seen_in = "MISSION.md"
-fetched_by = "earlier session or owner file; not re-fetched in session 1 (web off: INCIDENT #1)"
+unit = "% of premium, both sides"
+tag = "SOURCE"
+url = "https://upstox.com/brokerage-charges/"
+date = "2026-11-18"
+valid_from = "2024-10-01"
 
-[nse_ipft]
+[ipft_option]
 value = 0.0005
-unit = "% of premium (derived: composite minus ex-IPFT)"
-tag = "POINTER"
-source_url = "https://www.nseindia.com/"
-fetched = "2026-11-11"
-ttl_days = 30
-status = "UNVERIFIED"
-extract = "EVIDENCE/T03/src_nse_ipft.txt"
-seen_in = "MISSION.md"
-fetched_by = "earlier session or owner file; not re-fetched in session 1 (web off: INCIDENT #1)"
-note = "CONTRADICTION: costs.py:8 says IPFT ₹0.01/crore; T06 (S7) resolves; G0 uses the composite"
-value_forms = ["0.03503", "0.03553"]
-
-[bse_txn_charge]
-value = 0.0325
-unit = "% of premium (BSE options)"
-tag = "HISTORY"
-source_url = "https://upstox.com/brokerage-charges/"
-fetched = "2026-11-11"
-ttl_days = 30
-status = "UNVERIFIED"
-extract = "EVIDENCE/T03/src_bse_txn_charge.txt"
-seen_in = "src/bot/strategy/costs.py"
-fetched_by = "earlier session or owner file; not re-fetched in session 1 (web off: INCIDENT #1)"
+unit = "% of premium turnover (INR 0.50 per lakh)"
+tag = "SOURCE"
+url = "https://upstox.com/brokerage-charges/"
+date = "2026-11-18"
 
 [sebi_fee]
-value = 10
-unit = "INR per crore of turnover"
-tag = "HISTORY"
-source_url = "https://upstox.com/brokerage-charges/"
-fetched = "2026-11-11"
-ttl_days = 30
-status = "UNVERIFIED"
-extract = "EVIDENCE/T03/src_sebi_fee.txt"
-seen_in = "src/bot/strategy/costs.py"
-fetched_by = "earlier session or owner file; not re-fetched in session 1 (web off: INCIDENT #1)"
+value = 0.0001
+unit = "% of turnover (INR 10 per crore)"
+tag = "SOURCE"
+url = "https://upstox.com/brokerage-charges/"
+date = "2026-11-18"
 
-[stamp_duty_buy]
+[stamp_option_buy]
 value = 0.003
-unit = "% of buy value"
-tag = "HISTORY"
-source_url = "https://upstox.com/brokerage-charges/"
-fetched = "2026-11-11"
-ttl_days = 30
-status = "UNVERIFIED"
-extract = "EVIDENCE/T03/src_stamp_duty_buy.txt"
-seen_in = "src/bot/strategy/costs.py"
-fetched_by = "earlier session or owner file; not re-fetched in session 1 (web off: INCIDENT #1)"
+unit = "% of premium, buy side"
+tag = "SOURCE"
+url = "https://upstox.com/brokerage-charges/"
+date = "2026-11-18"
 
 [gst]
 value = 18
-unit = "% of brokerage + exchange + SEBI fee"
-tag = "HISTORY"
-source_url = "https://upstox.com/brokerage-charges/"
-fetched = "2026-11-11"
-ttl_days = 30
-status = "UNVERIFIED"
-extract = "EVIDENCE/T03/src_gst.txt"
-seen_in = "src/bot/strategy/costs.py"
-fetched_by = "earlier session or owner file; not re-fetched in session 1 (web off: INCIDENT #1)"
+unit = "% on brokerage + exchange transaction + IPFT charges"
+tag = "SOURCE"
+url = "https://upstox.com/brokerage-charges/"
+date = "2026-11-18"
+note = "GST on the SEBI fee is not stated on the page: the cost model includes it (stress side)"
 
-[lot_nifty_crosscheck]
-value = 65
-unit = "units per lot (test cross-check only)"
-tag = "HISTORY"
-source_url = "https://www.nseindia.com/"
-fetched = "2026-11-11"
-ttl_days = 30
-status = "UNVERIFIED"
-extract = "EVIDENCE/T03/src_lot_nifty_crosscheck.txt"
-seen_in = "src/bot/strategy/instruments.py"
-fetched_by = "earlier session or owner file; not re-fetched in session 1 (web off: INCIDENT #1)"
-note = "the bot reads lot size only from the instrument master"
+[auto_squareoff_fee]
+value = 75
+unit = "INR + GST per intraday position squared off by Upstox (INR 50 + GST with Upstox Plus)"
+tag = "SOURCE"
+url = "https://upstox.com/brokerage-charges/"
+date = "2026-11-18"
 
-[lot_banknifty_crosscheck]
-value = 30
-unit = "units per lot (test cross-check only)"
-tag = "HISTORY"
-source_url = "https://www.nseindia.com/"
-fetched = "2026-11-11"
-ttl_days = 30
-status = "UNVERIFIED"
-extract = "EVIDENCE/T03/src_lot_banknifty_crosscheck.txt"
-seen_in = "src/bot/strategy/instruments.py"
-fetched_by = "earlier session or owner file; not re-fetched in session 1 (web off: INCIDENT #1)"
+[mis_cutoff_index_options_ist]
+value = "15:15"
+unit = "broker auto square-off time for intraday index options"
+tag = "UNVERIFIED"
+url = "https://upstox.com/help-center/"
+date = "2026-11-18"
+note = "not found on an official page this cycle; 15:15 is the stressed (earliest) POINTER value: FORCE_FLAT_IST must be earlier"
 
-[lot_sensex_crosscheck]
-value = 20
-unit = "units per lot (test cross-check only)"
-tag = "HISTORY"
-source_url = "https://www.bseindia.com/"
-fetched = "2026-11-11"
-ttl_days = 30
-status = "UNVERIFIED"
-extract = "EVIDENCE/T03/src_lot_sensex_crosscheck.txt"
-seen_in = "src/bot/strategy/instruments.py"
-fetched_by = "earlier session or owner file; not re-fetched in session 1 (web off: INCIDENT #1)"
+# ---------------------------------------------------------------- Upstox API (official docs, full text)
+[order_types]
+value = "MARKET, LIMIT, SL, SL-M"
+unit = "order_type values"
+tag = "SOURCE"
+url = "https://upstox.com/developer/api-documentation/llms-full.txt"
+date = "2026-11-18"
+note = "market_protection (MARKET, SL-M) default -1 = auto; 0 = rejected by the exchange's restriction on API MARKET orders. The bot uses LIMIT and SL (stop-limit) only"
 
-[expiry_nifty_weekday]
-value = "Tuesday"
-unit = "weekday"
-tag = "HISTORY"
-source_url = "https://www.nseindia.com/"
-fetched = "2026-11-10"
-ttl_days = 30
-status = "UNVERIFIED"
-extract = "EVIDENCE/T03/src_expiry_nifty_weekday.txt"
-seen_in = "docs/00_input/research/R_c_Compliance.md"
-fetched_by = "earlier session or owner file; not re-fetched in session 1 (web off: INCIDENT #1)"
-note = "monthly = last Tuesday"
+[order_tag_max_chars]
+value = 40
+unit = "characters (UDAPI1119 above it)"
+tag = "SOURCE"
+url = "https://upstox.com/developer/api-documentation/llms-full.txt"
+date = "2026-11-18"
+note = "whether a repeated tag is rejected: UNVERIFIED; how many modifies one order allows: UNVERIFIED; no reduce-only flag exists"
 
-[expiry_sensex_weekday]
-value = "Thursday"
-unit = "weekday"
-tag = "HISTORY"
-source_url = "https://www.bseindia.com/"
-fetched = "2026-11-10"
-ttl_days = 30
-status = "UNVERIFIED"
-extract = "EVIDENCE/T03/src_expiry_sensex_weekday.txt"
-seen_in = "docs/00_input/research/R_c_Compliance.md"
-fetched_by = "earlier session or owner file; not re-fetched in session 1 (web off: INCIDENT #1)"
-note = "BSE source was secondary in the research"
-
-[banknifty_weekly]
-value = "sirf monthly"
-unit = "contract cycle"
-tag = "HISTORY"
-source_url = "https://www.nseindia.com/"
-fetched = "2026-11-11"
-ttl_days = 30
-status = "UNVERIFIED"
-extract = "EVIDENCE/T03/src_banknifty_weekly.txt"
-seen_in = "src/bot/strategy/instruments.py"
-fetched_by = "earlier session or owner file; not re-fetched in session 1 (web off: INCIDENT #1)"
-note = "weekly closed Nov 2024; monthly only"
-
-[regime_change_nifty_expiry]
-value = "1 Sep 2025"
-unit = "date (F-DATAAGE input)"
-tag = "HISTORY"
-source_url = "https://www.nseindia.com/"
-fetched = "2026-11-10"
-ttl_days = 30
-status = "UNVERIFIED"
-extract = "EVIDENCE/T03/src_regime_change_nifty_expiry.txt"
-seen_in = "docs/00_input/research/R_c_Compliance.md"
-fetched_by = "earlier session or owner file; not re-fetched in session 1 (web off: INCIDENT #1)"
-note = "NSE expiry moved to Tuesday"
-
-[regime_change_lot_sizes]
-value = "from Jan 2026"
-unit = "date (F-DATAAGE input)"
-tag = "POINTER"
-source_url = "https://www.nseindia.com/"
-fetched = "2026-11-11"
-ttl_days = 30
-status = "UNVERIFIED"
-extract = "EVIDENCE/T03/src_regime_change_lot_sizes.txt"
-seen_in = "MISSION.md"
-fetched_by = "earlier session or owner file; not re-fetched in session 1 (web off: INCIDENT #1)"
-note = "NSE circular FAOP70616 (POINTER)"
-
-[sebi_upfront_premium]
-value = "upfront option premium"
-unit = "rule (from 2025-02-01)"
-tag = "HISTORY"
-source_url = "https://www.sebi.gov.in/"
-fetched = "2026-11-10"
-ttl_days = 30
-status = "UNVERIFIED"
-extract = "EVIDENCE/T03/src_sebi_upfront_premium.txt"
-seen_in = "docs/00_input/research/R_c_Compliance.md"
-fetched_by = "earlier session or owner file; not re-fetched in session 1 (web off: INCIDENT #1)"
-note = "the full premium must be in the account before buying"
-
-[sebi_one_weekly_expiry]
-value = "ek weekly benchmark index option"
-unit = "rule"
-tag = "HISTORY"
-source_url = "https://www.sebi.gov.in/"
-fetched = "2026-11-10"
-ttl_days = 30
-status = "UNVERIFIED"
-extract = "EVIDENCE/T03/src_sebi_one_weekly_expiry.txt"
-seen_in = "docs/00_input/research/R_c_Compliance.md"
-fetched_by = "earlier session or owner file; not re-fetched in session 1 (web off: INCIDENT #1)"
-
-[fo_session_end]
-value = "3:40 PM"
-unit = "time (F&O close from 2026-08-03)"
-tag = "HISTORY"
-source_url = "https://www.nseindia.com/"
-fetched = "2026-11-10"
-ttl_days = 30
-status = "UNVERIFIED"
-extract = "EVIDENCE/T03/src_fo_session_end.txt"
-seen_in = "docs/00_input/research/R_c_Compliance.md"
-fetched_by = "earlier session or owner file; not re-fetched in session 1 (web off: INCIDENT #1)"
-note = "from 2026-12-07 index F&O 15:45; expiring index contracts close 15:30 on expiry day"
-
-[upstox_fo_auto_squareoff]
-value = "3:25 PM"
-unit = "time"
-tag = "HISTORY"
-source_url = "https://upstox.com/developer/api-documentation/"
-fetched = "2026-11-10"
-ttl_days = 30
-status = "UNVERIFIED"
-extract = "EVIDENCE/T03/src_upstox_fo_auto_squareoff.txt"
-seen_in = "docs/00_input/research/R_c_Compliance.md"
-fetched_by = "earlier session or owner file; not re-fetched in session 1 (web off: INCIDENT #1)"
-
-[upstox_order_rate_per_sec]
-value = 10
-unit = "orders per second (place+modify+cancel+multi+GTT)"
-tag = "HISTORY"
-source_url = "https://upstox.com/developer/api-documentation/"
-fetched = "2026-11-10"
-ttl_days = 30
-status = "UNVERIFIED"
-extract = "EVIDENCE/T03/src_upstox_order_rate_per_sec.txt"
-seen_in = "docs/00_input/research/R_c_Compliance.md"
-fetched_by = "earlier session or owner file; not re-fetched in session 1 (web off: INCIDENT #1)"
-note = "unregistered algo"
-
-[upstox_order_rate_per_min]
-value = 500
-unit = "orders per minute"
-tag = "HISTORY"
-source_url = "https://upstox.com/developer/api-documentation/"
-fetched = "2026-11-10"
-ttl_days = 30
-status = "UNVERIFIED"
-extract = "EVIDENCE/T03/src_upstox_order_rate_per_min.txt"
-seen_in = "docs/00_input/research/R_c_Compliance.md"
-fetched_by = "earlier session or owner file; not re-fetched in session 1 (web off: INCIDENT #1)"
-
-[upstox_order_rate_per_30min]
-value = 2000
-unit = "orders per 30 minutes"
-tag = "HISTORY"
-source_url = "https://upstox.com/developer/api-documentation/"
-fetched = "2026-11-10"
-ttl_days = 30
-status = "UNVERIFIED"
-extract = "EVIDENCE/T03/src_upstox_order_rate_per_30min.txt"
-seen_in = "docs/00_input/research/R_c_Compliance.md"
-fetched_by = "earlier session or owner file; not re-fetched in session 1 (web off: INCIDENT #1)"
-
-[sebi_ops_threshold]
-value = 10
-unit = "orders per second per exchange without algo registration"
-tag = "HISTORY"
-source_url = "https://www.sebi.gov.in/"
-fetched = "2026-11-10"
-ttl_days = 30
-status = "UNVERIFIED"
-extract = "EVIDENCE/T03/src_sebi_ops_threshold.txt"
-seen_in = "docs/00_input/research/R_c_Compliance.md"
-fetched_by = "earlier session or owner file; not re-fetched in session 1 (web off: INCIDENT #1)"
-note = "registration and re-registration on logic change only above it (S10)"
+[order_api_rate_limits]
+value = "10 per second, 500 per minute, 2000 per 30 minutes"
+unit = "place + modify + cancel + multi + GTT combined (no algo registration); 50 per second for SEBI-registered algos"
+tag = "SOURCE"
+url = "https://upstox.com/developer/api-documentation/rate-limiting"
+date = "2026-11-18"
+note = "other standard APIs (funds, positions, historical candles): 50 per second, 500 per minute, 2000 per 30 minutes"
 
 [static_ip_for_orders]
-value = "registered Static IP"
-unit = "rule (from 2026-04-01)"
-tag = "HISTORY"
-source_url = "https://upstox.com/developer/api-documentation/announcements/algo-trading-circular"
-fetched = "2026-11-10"
-ttl_days = 30
-status = "UNVERIFIED"
-extract = "EVIDENCE/T03/src_static_ip_for_orders.txt"
-seen_in = "docs/00_input/research/R_c_Compliance.md"
-fetched_by = "earlier session or owner file; not re-fetched in session 1 (web off: INCIDENT #1)"
-note = "not needed for holdings, positions, funds, historical candles: market-data calls need no static IP"
+value = "required"
+unit = "every API order call (place, modify, cancel, multi, GTT) must come from the registered static IP; from 2026-04-01"
+tag = "SOURCE"
+url = "https://upstox.com/developer/api-documentation/llms-full.txt"
+date = "2026-11-18"
+note = "one primary + one secondary IP per user; change at most once per calendar week; one customer per IP; funds, positions and historical APIs are not restricted"
 
-[static_ip_change_limit]
-value = "calendar week mein ek baar"
-unit = "rule"
-tag = "HISTORY"
-source_url = "https://upstox.com/developer/api-documentation/announcements/algo-trading-circular"
-fetched = "2026-11-10"
-ttl_days = 30
-status = "UNVERIFIED"
-extract = "EVIDENCE/T03/src_static_ip_change_limit.txt"
-seen_in = "docs/00_input/research/R_c_Compliance.md"
-fetched_by = "earlier session or owner file; not re-fetched in session 1 (web off: INCIDENT #1)"
-note = "old access tokens die on an IP change"
+[algo_registration_threshold]
+value = 10
+unit = "orders per second; above it SEBI / exchange algo registration (Algo ID) is needed; X-Algo-Name header only for an exchange-approved algo"
+tag = "SOURCE"
+url = "https://upstox.com/developer/api-documentation/llms-full.txt"
+date = "2026-11-18"
 
-[algo_name_header]
-value = "X-Algo-Name"
-unit = "header (optional below the threshold)"
-tag = "HISTORY"
-source_url = "https://upstox.com/developer/api-documentation/announcements/algo-trading-circular"
-fetched = "2026-11-10"
-ttl_days = 30
-status = "UNVERIFIED"
-extract = "EVIDENCE/T03/src_algo_name_header.txt"
-seen_in = "docs/00_input/research/R_c_Compliance.md"
-fetched_by = "earlier session or owner file; not re-fetched in session 1 (web off: INCIDENT #1)"
-note = "only for exchange-approved algo strategies"
+[access_token_valid_until_ist]
+value = "03:30"
+unit = "the daily access token expires at 03:30 IST the next day"
+tag = "SOURCE"
+url = "https://upstox.com/developer/api-documentation/llms-full.txt"
+date = "2026-11-18"
+note = "whether a new login revokes the old token: UNVERIFIED"
 
-[upstox_session_valid_until]
-value = "3:30 AM"
-unit = "time (next day)"
-tag = "HISTORY"
-source_url = "https://upstox.com/developer/api-documentation/"
-fetched = "2026-11-10"
-ttl_days = 30
-status = "UNVERIFIED"
-extract = "EVIDENCE/T03/src_upstox_session_valid_until.txt"
-seen_in = "docs/00_input/research/R_c_Compliance.md"
-fetched_by = "earlier session or owner file; not re-fetched in session 1 (web off: INCIDENT #1)"
-note = "daily login burden"
+[analytics_token]
+value = "read-only GET, 1-year validity"
+unit = "cannot place, modify or cancel; account GETs need a static IP"
+tag = "SOURCE"
+url = "https://upstox.com/developer/api-documentation/llms-full.txt"
+date = "2026-11-18"
 
-[upstox_analytics_readonly_access]
-value = "Analytics Token"
-unit = "read-only token option (1 year, GET only)"
-tag = "HISTORY"
-source_url = "https://upstox.com/developer/api-documentation/"
-fetched = "2026-11-10"
-ttl_days = 30
-status = "UNVERIFIED"
-extract = "EVIDENCE/T03/src_upstox_analytics_readonly_access.txt"
-seen_in = "docs/00_input/research/R_c_Compliance.md"
-fetched_by = "earlier session or owner file; not re-fetched in session 1 (web off: INCIDENT #1)"
-note = "cannot place orders"
+[funds_api]
+value = "GET /v3/user/get-funds-and-margin"
+unit = "balance field: data.available_margin (INR)"
+tag = "SOURCE"
+url = "https://upstox.com/developer/api-documentation/llms-full.txt"
+date = "2026-11-18"
+note = "live shape UNVERIFIED_LIVE (no token this cycle)"
 
-[market_feed]
-value = "Protobuf"
-unit = "feed format (WebSocket V3)"
-tag = "HISTORY"
-source_url = "https://upstox.com/developer/api-documentation/"
-fetched = "2026-11-10"
-ttl_days = 30
-status = "UNVERIFIED"
-extract = "EVIDENCE/T03/src_market_feed.txt"
-seen_in = "docs/00_input/research/R_c_Compliance.md"
-fetched_by = "earlier session or owner file; not re-fetched in session 1 (web off: INCIDENT #1)"
-note = "modes ltpc, option_greeks, full, full_d30"
+[margin_api]
+value = "POST margin (basket): data.final_margin = total margin after margin benefit"
+unit = "needs an access token"
+tag = "SOURCE"
+url = "https://upstox.com/developer/api-documentation/llms-full.txt"
+date = "2026-11-18"
 
-[upstox_mpp]
-value = "market_protection"
-unit = "market orders need MPP (0 = reject)"
-tag = "HISTORY"
-source_url = "https://upstox.com/developer/api-documentation/"
-fetched = "2026-11-10"
-ttl_days = 30
-status = "UNVERIFIED"
-extract = "EVIDENCE/T03/src_upstox_mpp.txt"
-seen_in = "docs/00_input/research/R_c_Compliance.md"
-fetched_by = "earlier session or owner file; not re-fetched in session 1 (web off: INCIDENT #1)"
+[margin_leg2_debit_spread]
+value = "UNVERIFIED"
+unit = "INR margin to sell Leg 2 after Leg 1 is held"
+tag = "UNVERIFIED"
+url = "https://upstox.com/developer/api-documentation/llms-full.txt"
+date = "2026-11-18"
+note = "needs the live margin API (UNVERIFIED_LIVE); Phase 2c uses a stressed ESTIMATE with its derivation"
 
-[options_slm_rejected]
-value = "SL-M"
-unit = "options SL-M rejected by the exchange since 2021-09-27"
-tag = "HISTORY"
-source_url = "https://www.nseindia.com/"
-fetched = "2026-11-10"
-ttl_days = 30
-status = "UNVERIFIED"
-extract = "EVIDENCE/T03/src_options_slm_rejected.txt"
-seen_in = "docs/00_input/research/R_c_Compliance.md"
-fetched_by = "earlier session or owner file; not re-fetched in session 1 (web off: INCIDENT #1)"
-note = "broker-side stop must be SL (limit)"
+[market_feed_v3]
+value = "GET /v3/feed/market-data-feed/authorize -> authorized_redirect_uri (wss, one-time code); protobuf feed"
+unit = "modes ltpc, full, option_greeks, full_d30; LTPC up to 5000 keys alone, 2000 combined; fields ltpc.ltp/ltt/cp, marketLevel.bidAskQuote[bidQ, bidP, askQ, askP], currentTs"
+tag = "SOURCE"
+url = "https://upstox.com/developer/api-documentation/llms-full.txt"
+date = "2026-11-18"
+note = "live shape UNVERIFIED_LIVE"
 
-[upstox_sandbox_host]
-value = "api-sandbox.upstox.com"
-unit = "host seen in the official SDK"
-tag = "HISTORY"
-source_url = "https://upstox.com/developer/api-documentation/"
-fetched = "2026-11-09"
-ttl_days = 30
-status = "UNVERIFIED"
-extract = "EVIDENCE/T03/src_upstox_sandbox_host.txt"
-seen_in = "docs/00_input/01_Bot_Idea_v4.md"
-fetched_by = "earlier session or owner file; not re-fetched in session 1 (web off: INCIDENT #1)"
-note = "usable for R1 paper orders: verify nahi hua"
+[historical_candles_api]
+value = "v3: minutes 1-300 from January 2022, hours 1-5 from January 2022, days from January 2000"
+unit = "live instruments only"
+tag = "SOURCE"
+url = "https://upstox.com/developer/api-documentation/llms-full.txt"
+date = "2026-11-18"
 
-[upstox_expired_instruments]
-value = "Upstox Plus"
-unit = "plan needed for the Expired Instruments API"
-tag = "HISTORY"
-source_url = "https://upstox.com/developer/api-documentation/"
-fetched = "2026-11-10"
-ttl_days = 30
-status = "UNVERIFIED"
-extract = "EVIDENCE/T03/src_upstox_expired_instruments.txt"
-seen_in = "docs/00_input/research/R_d_Costs_Data.md"
-fetched_by = "earlier session or owner file; not re-fetched in session 1 (web off: INCIDENT #1)"
-note = "free initially (HISTORY)"
+[expired_instruments_api]
+value = "Upstox Plus only: expired contracts OHLC at 1, 3, 5, 15, 30 minutes and day; no bid / ask"
+unit = "four Expired Instruments APIs"
+tag = "SOURCE"
+url = "https://upstox.com/developer/api-documentation/llms-full.txt"
+date = "2026-11-18"
 
-[lightsail_bundle_usd_pm]
-value = 12
-unit = "USD per month (2 GB, static IP included)"
-tag = "HISTORY"
-source_url = "https://aws.amazon.com/lightsail/pricing/"
-fetched = "2026-11-09"
-ttl_days = 30
-status = "UNVERIFIED"
-extract = "EVIDENCE/T03/src_lightsail_bundle_usd_pm.txt"
-seen_in = "docs/00_input/research/R_f_Budget_VPS.md"
-fetched_by = "earlier session or owner file; not re-fetched in session 1 (web off: INCIDENT #1)"
-note = "S1 route candidate"
+[holiday_api]
+value = "GET /v2/market/holidays needs an access token (current year)"
+unit = "API"
+tag = "SOURCE"
+url = "https://upstox.com/developer/api-documentation/llms-full.txt"
+date = "2026-11-18"
 
-[lightsail_small_usd_pm]
-value = 5
-unit = "USD per month (0.5 GB bundle, static IP included)"
-tag = "HISTORY"
-source_url = "https://aws.amazon.com/lightsail/pricing/"
-fetched = "2026-11-09"
-ttl_days = 30
-status = "UNVERIFIED"
-extract = "EVIDENCE/T03/src_lightsail_small_usd_pm.txt"
-seen_in = "docs/00_input/research/R_f_Budget_VPS.md"
-fetched_by = "earlier session or owner file; not re-fetched in session 1 (web off: INCIDENT #1)"
-note = "cheapest static-IP route in the repo research; whether the bot fits in 0.5 GB is not measured"
+# ---------------------------------------------------------------- calendar
+[holidays_2026]
+value = ["2026-01-26", "2026-02-15", "2026-03-03", "2026-03-21", "2026-03-26", "2026-03-31", "2026-04-03", "2026-04-14", "2026-05-01", "2026-05-28", "2026-06-26", "2026-08-15", "2026-09-14", "2026-10-02", "2026-10-20", "2026-11-08", "2026-11-10", "2026-11-24", "2026-12-25"]
+unit = "exchange trading holidays (2026-11-08 = Diwali, with a Muhurat session)"
+tag = "SOURCE"
+url = "https://upstox.com/stocks-market/share-market-holidays/"
+date = "2026-11-18"
 
-[lightsail_1gb_usd_pm]
-value = 7
-unit = "USD per month (1 GB bundle, static IP included)"
-tag = "HISTORY"
-source_url = "https://aws.amazon.com/lightsail/pricing/"
-fetched = "2026-11-09"
-ttl_days = 30
-status = "UNVERIFIED"
-extract = "EVIDENCE/T03/src_lightsail_1gb_usd_pm.txt"
-seen_in = "docs/00_input/research/R_f_Budget_VPS.md"
-fetched_by = "earlier session or owner file; not re-fetched in session 1 (web off: INCIDENT #1)"
+[holidays_2024_2025]
+value = "UNVERIFIED"
+unit = "the official page lists the current year only; NSE pages refuse scripted access"
+tag = "UNVERIFIED"
+url = "https://upstox.com/stocks-market/share-market-holidays/"
+date = "2026-11-18"
+note = "results/calendar.txt uses the weekdays present in the data for 2024-2025 (CODE(REAL))"
 
+[event_calendar]
+value = "UNVERIFIED"
+unit = "RBI policy dates, large bank results"
+tag = "UNVERIFIED"
+url = "https://www.rbi.org.in/"
+date = "2026-11-18"
+note = "not fetched this cycle (budget kept for decision facts); DATA_REQUEST Part H"
+
+# ---------------------------------------------------------------- money
 [usd_inr]
-value = 93.94
-unit = "INR per USD (ECB, 2026-11-09)"
-tag = "HISTORY"
-source_url = "https://www.rbi.org.in/"
-fetched = "2026-11-09"
-ttl_days = 30
-status = "UNVERIFIED"
-extract = "EVIDENCE/T03/src_usd_inr.txt"
-seen_in = "docs/00_input/research/R_f_Budget_VPS.md"
-fetched_by = "earlier session or owner file; not re-fetched in session 1 (web off: INCIDENT #1)"
-note = "MISSION wants the RBI reference rate: not fetched"
+value = 93.5703
+unit = "INR per USD (RBI reference rate shown on the RBI home page)"
+tag = "SOURCE"
+url = "https://www.rbi.org.in/"
+date = "2026-11-18"
 
-[aws_india_gst]
+[lightsail_plan_usd_pm]
+value = 12
+unit = "USD per month (the V11 plan); cheapest plan USD 5 per month"
+tag = "HISTORY"
+url = "https://aws.amazon.com/lightsail/pricing/"
+date = "2026-11-18"
+note = "the price table is script-rendered: UNVERIFIED this cycle; a static IP is included in every Lightsail plan (SOURCE, same page)"
+
+[aws_gst]
 value = 18
-unit = "% GST on AWS India bills"
-tag = "HISTORY"
-source_url = "https://aws.amazon.com/lightsail/pricing/"
-fetched = "2026-11-09"
-ttl_days = 30
-status = "UNVERIFIED"
-extract = "EVIDENCE/T03/src_aws_india_gst.txt"
-seen_in = "docs/00_input/research/R_f_Budget_VPS.md"
-fetched_by = "earlier session or owner file; not re-fetched in session 1 (web off: INCIDENT #1)"
+unit = "% GST on the AWS bill"
+tag = "ASSUMPTION"
+url = "https://aws.amazon.com/lightsail/pricing/"
+date = "2026-11-18"
 
-[nse_hist_trade_data_fo_rs_pa]
-value = 110000
-unit = "INR per year + tax (NSE Historical Trade Data, F&O)"
-tag = "HISTORY"
-source_url = "https://www.nseindia.com/"
-fetched = "2026-11-10"
-ttl_days = 30
-status = "UNVERIFIED"
-extract = "EVIDENCE/T03/src_nse_hist_trade_data_fo_rs_pa.txt"
-seen_in = "docs/00_input/research/R_d_Costs_Data.md"
-fetched_by = "earlier session or owner file; not re-fetched in session 1 (web off: INCIDENT #1)"
-note = "licence has a commercial-use clause"
-value_forms = ["1,10,000"]
+[upstox_plus_price_pm]
+value = 1500
+unit = "INR per month (stress value = the R5 cap)"
+tag = "UNVERIFIED"
+url = "https://upstox.com/plus/"
+date = "2026-11-18"
+note = "price not in the page text; Plus unlocks expired-contract OHLC, 3 WebSockets, Depth 30, auto square-off INR 50 instead of 75"
 
-[holiday_calendar_api]
-value = "/v2/market/holidays"
-unit = "holiday source (Upstox API)"
-tag = "HISTORY"
-source_url = "https://upstox.com/developer/api-documentation/"
-fetched = "2026-11-10"
-ttl_days = 30
-status = "UNVERIFIED"
-extract = "EVIDENCE/T03/src_holiday_calendar_api.txt"
-seen_in = "docs/00_input/research/R_b_Repos_Licence.md"
-fetched_by = "earlier session or owner file; not re-fetched in session 1 (web off: INCIDENT #1)"
-note = "NSE holiday page is the official source"
+[fd_rate_1y]
+value = 6.25
+unit = "% per year, SBI 1 year to less than 2 years, public (w.e.f. 2025-12-15)"
+tag = "SOURCE"
+url = "https://sbi.co.in/web/interest-rates/deposit-rates/retail-domestic-term-deposits"
+date = "2026-11-18"
 
 [sebi_fy26_loss_share]
 value = 87.7
-unit = "% of individual F&O traders with a net loss in FY26"
+unit = "% of individual F&O traders with a loss (the crowd's base rate, not a verdict on any strategy)"
 tag = "POINTER"
-source_url = "https://www.sebi.gov.in/"
-fetched = "2026-11-11"
-ttl_days = 30
-status = "UNVERIFIED"
-extract = "EVIDENCE/T03/src_sebi_fy26_loss_share.txt"
-seen_in = "MISSION.md"
-fetched_by = "earlier session or owner file; not re-fetched in session 1 (web off: INCIDENT #1)"
-note = "a crowd base rate; no capital denominator"
+url = "https://www.sebi.gov.in/"
+date = "2026-11-17"
 
-[fd_rate]
-value = "unknown"
-unit = "% per year (bank FD / liquid fund)"
-tag = "ASSUMPTION"
-source_url = "https://www.rbi.org.in/"
-fetched = "2026-11-11"
-ttl_days = 30
-status = "UNVERIFIED"
-extract = "EVIDENCE/T03/src_fd_rate.txt"
-note = "no source in the repo; BASELINE_RS_PM uses ₹0 for FAIL tests and a sensitivity row otherwise"
+# ---------------------------------------------------------------- tax (incometax.gov.in not reachable from this session)
+[tax_fo_income_class]
+value = "UNVERIFIED"
+unit = "income class of F&O results"
+tag = "UNVERIFIED"
+url = "https://www.incometax.gov.in/"
+date = "2026-11-18"
 
-[stock_fo_physical_settlement_cutoff]
-value = "unknown"
-unit = "Upstox cut-off before stock F&O expiry (D12)"
-tag = "ASSUMPTION"
-source_url = "https://upstox.com/developer/api-documentation/"
-fetched = "2026-11-11"
-ttl_days = 30
-status = "UNVERIFIED"
-extract = "EVIDENCE/T03/src_stock_fo_physical_settlement_cutoff.txt"
-note = "no source in the repo; D12 forbids stock F&O entries in expiry week anyway"
+[tax_loss_carry_forward]
+value = "UNVERIFIED"
+unit = "years an F&O loss can be carried forward"
+tag = "UNVERIFIED"
+url = "https://www.incometax.gov.in/"
+date = "2026-11-18"
 
-[nse_total_return_index_source]
-value = "unknown"
-unit = "NSE Indices total-return index history"
-tag = "ASSUMPTION"
-source_url = "https://www.niftyindices.com/"
-fetched = "2026-11-11"
-ttl_days = 30
-status = "UNVERIFIED"
-extract = "EVIDENCE/T03/src_nse_total_return_index_source.txt"
-note = "information only, never a gate input"
+[tax_audit_threshold]
+value = "UNVERIFIED"
+unit = "turnover threshold for a tax audit"
+tag = "UNVERIFIED"
+url = "https://www.incometax.gov.in/"
+date = "2026-11-18"
 
-[upstox_access_credential_shape]
-value = "unknown"
-unit = "shape of the Upstox access token"
-tag = "ASSUMPTION"
-source_url = "https://upstox.com/developer/api-documentation/"
-fetched = "2026-11-11"
-ttl_days = 30
-status = "UNVERIFIED"
-extract = "EVIDENCE/T03/src_upstox_access_credential_shape.txt"
-note = "no source in the repo; jwt_like and entropy rules cover JWT-like and long random tokens"
+# ---------------------------------------------------------------- data rights (C2 licence gate)
+[data_licence]
+value = "UNVERIFIED"
+unit = "may the owner's downloaded API data be processed by an AI session for his own research"
+tag = "UNVERIFIED"
+url = "https://upstox.com/terms-of-use-and-privacy-policy/"
+date = "2026-11-18"
+note = "the terms of use say nothing specific about API market data; the owner put the data in his repo himself (OWNER)"
 
-[sebi_top_percentile_profit]
-value = "unknown"
-unit = "SEBI top-percentile profit with a capital denominator"
-tag = "ASSUMPTION"
-source_url = "https://www.sebi.gov.in/"
-fetched = "2026-11-11"
-ttl_days = 30
-status = "UNVERIFIED"
-extract = "EVIDENCE/T03/src_sebi_top_percentile_profit.txt"
-note = "no denominator in any repo source → MAX_CREDIBLE_NET_EDGE is ESTIMATE"
+[data_public]
+value = "UNVERIFIED"
+unit = "may that data sit in a public repository"
+tag = "UNVERIFIED"
+url = "https://upstox.com/terms-of-use-and-privacy-policy/"
+date = "2026-11-18"
+note = "the owner's matter: OWNER_TODO line, never a deletion or a stop"
 
 [data_rights]
 value = "UNVERIFIED"
-unit = "verdict (OK / MINIMAL / NOT_ALLOWED / UNVERIFIED)"
-tag = "ASSUMPTION"
-source_url = "https://upstox.com/developer/api-documentation/"
-fetched = "2026-11-11"
-ttl_days = 30
-status = "UNVERIFIED"
-extract = "EVIDENCE/T03/src_data_rights.txt"
-note = "LIGHT scope, derived data only, personal use only; F-DATARIGHTS asked in T04"
+unit = "kept for tools/verdict.py (same meaning as data_licence)"
+tag = "UNVERIFIED"
+url = "https://upstox.com/terms-of-use-and-privacy-policy/"
+date = "2026-11-18"

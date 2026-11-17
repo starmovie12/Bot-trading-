@@ -1,5 +1,5 @@
 STAGE=1
-NEXT=Phase 2 FACTS: official pages via curl -sL to ${TMPDIR:-/tmp}/mission-web/ then python3 tools/webgrep.py <file> <regex> (fetch budget 30)
+NEXT=Phase 2c FEASIBILITY: LOAD RULES, write tools/bn_economics.py and tools/power_table.py
 BLOCK=S1A
 MODEL_NOW=BIG
 MODEL_NEXT=BIG
