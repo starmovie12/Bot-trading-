@@ -24,3 +24,7 @@ which caps nothing in V3 but keeps every spread number tagged ESTIMATE until DAT
 - Item 7 (recorder bid / ask) replaces the spread ESTIMATE (stressed x2 .. x4) with the measured p90 spread: an honest cost cut on every family; until then the stress stays.
 - Item 6 (index, futures and VIX 2022-01 .. 2024-09) gives the direction stage (S2) about 2.5 times the days, enough to tell a real near-expiry momentum effect from noise; option P&L stays on the current regime (ST6).
 - New data days after 2026-11-13 are the fresh forward test (results/forward_shadow.md) for any candidate that passes.
+
+## Owner order 2 (D-42), section E
+- Item 6 now has exact steps and a script: docs/FETCH_HISTORY.md (BANKNIFTY index + India VIX, 1 minute, 2022-01 .. 2024-09; about 40 MB, ESTIMATE). Expired option candles for 2022-24 are NOT available from Upstox (its expired-instruments API keeps about 6 months of expiries, Plus plan; SOURCE 2026-11-18).
+- Items 5 (event calendar) and 7 (recorder bid / ask) stay as asked above; new days after 2026-11-13 are always welcome (fresh CONFIRM data).

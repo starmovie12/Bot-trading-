@@ -1,5 +1,5 @@
 STAGE=2
-NEXT=P3R v2 (owner order 2, D-42): research_plan_v2.md + card; Round 8 (EXPLORE) with the shell day rules as a grid; no bot code until STRATEGY PASS + 'build bot'
+NEXT=P3R v2 R8 (F3 ML, §PREREG-R8 committed): build lab/ml_r8.py (numpy logistic + stumps, walk-forward, day-rule grid), F6 table, run, rounds.md; then R9 F4; no bot code (D-40, D-42)
 BLOCK=S2
 MODEL_NOW=BIG
 MODEL_NEXT=BIG

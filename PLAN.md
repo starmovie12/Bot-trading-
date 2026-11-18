@@ -193,3 +193,24 @@ re-run under new ids (their S2 lines count again in k).
 |---|---|---|---|---|
 | R7-1 | gap-and-go at 09:45, hold to close (R6-4 rule) | DIRECTION | t = 30, abs(gap) >= X, sign(ret_open) = sign(gap), side = sign(gap) | X 0.001, 0.002, 0.003 (0.0005, 0.004) |
 | R7-2 | near-expiry 10:30 direction, hold to close (R6-5 rule) | DIRECTION | t = 75, dte <= 7, abs(ret_open) >= X, side = sign(ret_open) | X 0.002, 0.003, 0.004 (0.001, 0.005) |
+
+## §PREREG-R8 (P3R v2 round 8, owner order 2 / D-42; EXPLORE; before any R8 number)
+
+Family F3 (ML probability). Data: DESIGN 362 days; the old holdout stays closed. Trial cap added: 200
+Features (20, as of the decision row, no look-ahead): t, dte, gap, ret_open, ret15, ret30, eff, rv5, rv15, rv30,
+vwap_dist, basis, basis_chg, vix, vix_chg, vix_pct, oi_skew, hdfc15, icici15, prev_ret (NaN -> the training median;
+standardised on the training folds).
+Targets: up = forward index move over H >= 14.2 + 5 points; down = the mirror; two models per fold.
+Models: M1 logistic regression (numpy, L2 = 1.0, Newton steps); M2 boosted decision stumps (numpy, 50 rounds,
+learning rate 0.1, logistic loss).
+Walk-forward: DESIGN days in 5 equal blocks; test blocks 2..5 (the 4 folds of ST4), each trained on all earlier blocks
+with a 1-day embargo. Inside the training blocks only (an inner split: the last training block validates), choose
+H in {30, 60, to 14:30} and the probability threshold in {0.55, 0.60, 0.65, 0.70} that maximise the validation stressed
+net with >= 0.5 trades a day. Signal: side = the model with the higher probability if it is >= the threshold, else
+NO-TRADE. t 30..285.
+S3 (option P&L, out-of-sample predictions only): structures / exits {CAP15-XH, CAP15-XI2} (matrix_r7 / matrix_r2) x day
+rules {max entries 1, 2, 3, 5, 10, 15} x {stop the day after a losing trade: yes, no} x {cool-off 15, 30 min}; one
+structure at a time; daily ₹ loss lock = 2 x the structure's max loss. ids R8-<model>-<exit>-e<n>-s<y|n>-c<min>.
+Every id is a trial (2 x 2 x 24 = 96 lines). EXPLORE screen as results/research_plan_v2.md (null: random sides and
+times on the same days, same count, p < 0.01, 2,000 runs).
+F6 (not a trial): the break-even table by strike (ITM delta 0.6-0.7 / ATM / CAP15) and hold time -> results/f6_breakeven.md.
