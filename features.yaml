@@ -1,0 +1,34 @@
+# Feature registry of program S3 (BANKNIFTY_STRATEGY_V3.md §4.1-§4.2). Decision bar t (ts_open) -> decision_ts = t + 1 min.
+# A row is usable only when its availability time <= decision_ts. 1-minute OHLC tables have no available_from_ts:
+# available = ts_close. 3m / 15m bars: is_partial == False AND available_from_ts <= decision_ts. Daily metrics: only
+# version == "INTRADAY_PREV_CLOSE" (known at 09:15); EOD_INCLUSIVE is never read.
+rules:
+  decision_ts: ts_open + 1 minute
+  minute_tables: {available: ts_close}
+  derived_tables: {available: available_from_ts}
+  bars_3m_15m: {available: available_from_ts, require: "is_partial == False"}
+  daily_metrics: {available: available_from_ts, require: "version == 'INTRADAY_PREV_CLOSE'"}
+  k06_baseline: {require: "baseline_same_dte_status == 'OK'", else: NA}
+  holdout: "days in data/lab/split.json 'holdout' are never read before V3 §14.2 (lab/s3/data.py guard, access log)"
+features:
+  spot_ohlc: {table: spot_1m, columns: [ts_open, ts_close, o, h, l, c], available: ts_close}
+  fut_ohlcv: {table: fut_1m, columns: [expiry_date, ts_open, ts_close, o, h, l, c, v], available: ts_close,
+              note: "day futures = the expiry with the largest volume 09:15-09:19 (V3 §4.3)"}
+  option_ohlcv: {table: [opt_1m, opt_wide_1m], columns: [expiry_date, strike, option_type, ts_open, ts_close, o, h, l, c, v, oi, is_stale],
+                 available: ts_close, note: "union, de-duplicated; nearest expiry"}
+  vix: {table: vix_1m, columns: [ts_open, ts_close, c], available: ts_close}
+  stocks: {table: stock_1m, columns: [ts_open, ts_close, c], available: ts_close,
+           underlyings: [AUBANK, AXISBANK, BANKBARODA, CANBK, FEDERALBNK, HDFCBANK, ICICIBANK, IDFCFIRSTB, INDUSINDBK, KOTAKBANK, PNB, SBIN]}
+  delta: {table: iv_greeks_1m, column: delta_DERIVED, available: available_from_ts, note: "use abs(Delta) for index risk"}
+  half_spread_proxy: {table: iv_greeks_1m, column: half_spread_PROXY, available: available_from_ts}
+  volume_baseline: {table: iv_greeks_1m, column: volume_baseline_same_dte_DERIVED, available: available_from_ts,
+                    require: "baseline_same_dte_status == 'OK'"}
+  iv: {table: iv_greeks_1m, column: iv_DERIVED, available: available_from_ts}
+  chain: {table: chain_1m, columns: [strike, ce_close_DERIVED, ce_v_DERIVED, ce_oi_DERIVED, ce_is_stale, pe_close_DERIVED, pe_v_DERIVED, pe_oi_DERIVED, pe_is_stale], available: available_from_ts}
+  oi_walls: {table: chain_metrics_1m, columns: [call_oi_wall_DERIVED, put_oi_wall_DERIVED], available: available_from_ts}
+  chain_metrics: {table: chain_metrics_1m, columns: [pcr_DERIVED, max_pain_DERIVED, gex_proxy_PROXY, gamma_flip_PROXY, atm_iv_DERIVED], available: available_from_ts}
+  bars_3m: {table: bars_3m, columns: [ts_open, ts_close, o_DERIVED, h_DERIVED, l_DERIVED, c_DERIVED, is_partial], available: available_from_ts, require: "is_partial == False"}
+  bars_15m: {table: bars_15m, columns: [ts_open, ts_close, o_DERIVED, h_DERIVED, l_DERIVED, c_DERIVED, is_partial], available: available_from_ts, require: "is_partial == False"}
+  ivp: {table: daily_metrics_DERIVED, column: ivp_vix_PROXY, available: available_from_ts, require: "version == 'INTRADAY_PREV_CLOSE'", label: "IVP = VIX par PROXY"}
+  rv20: {table: daily_metrics_DERIVED, column: rv20_DERIVED, available: available_from_ts, require: "version == 'INTRADAY_PREV_CLOSE'"}
+  fii_dii: {table: xcheck_csv/fii_dii_daily.csv, available: "next session (day D usable from D+1)", status: SHADOW}

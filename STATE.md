@@ -1,5 +1,5 @@
 STAGE=2
-NEXT=S3 Step A: config/strategy_v3.toml, features.yaml, tools/preflight.py, nested WF check (V3 §12, §4.2, §13.1, §13.4)
+NEXT=S3 Step A: lab/s3/data.py (day loader + holdout guard + access log), tools/preflight.py, tools/nested_wf.py; then engine + T01-T25 (WIP: registry, costs, config, features.yaml done)
 BLOCK=S2
 MODEL_NOW=BIG
 MODEL_NEXT=BIG
