@@ -1,11 +1,11 @@
 STAGE=2
-NEXT=Owner order 5 (D-49): tools/overfit.py (PBO CSCV 16 blocks, DSR) + tests -> R17 nested WF of the R14 + R15 pipeline (pre-register first) -> R18 meta-labeling -> R19 shrinkage -> R20 vol-target lots -> R21 per-setup holds -> R22 daily trend bias -> combos; holdout opens once by the D-49 (4) rule; no bot code
+NEXT=Owner order 5: R18 meta-labeling (pre-register first; walk-forward probability per R14 signal -> 0..3 lots) -> R19 shrinkage -> R20 vol-target -> R21 per-setup hold -> R22 daily trend; card after R19; holdout by D-49 (4) only; no bot code
 BLOCK=S2
 MODEL_NOW=BIG
 MODEL_NEXT=BIG
 SWITCH_PENDING=none
 FREEZE=none
-TRIALS=369
+TRIALS=371
 HOLDOUT=burned
 HALT=none
 VISIBILITY=public-ok

@@ -1,5 +1,5 @@
 PASS F6-1 LIVE_POSSIBLE = false, MIN / MAX absent True, chain at CAPITAL_RS True
-PASS F6-2 369 trials (cap 1110), unique True, no ST1 fields [], parts not merged []
+PASS F6-2 371 trials (cap 1120), unique True, no ST1 fields [], parts not merged []
 PASS F6-3 holdout_log.jsonl: 1 seal, 1 open record(s)
 PASS F6-11 prefilter.md True, finalist columns ('ST4b', 'ST4c', 'ST7 delay', 'ST11', 'DESIGN max DD'), rows 1
 PASS F3-1 shell + exit grid + ids all in §PREREG-0; committed first True
