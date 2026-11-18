@@ -511,3 +511,14 @@ sign(ret_open), X in {0, 1, 2, 3, 4}; R31-2 weekday afternoon fade: at 13:00 (t 
 195), abs(ret_open) >= X, side = sign(ret_open), X in {0.002, 0.004, 0.006}. Nested as §PREREG-R17 over these 26
 setups (S2 + S3 per training window), 1 lot; the nested run is the trial. Trial cap added: 5. Trial: R31-a.
 Gates, PBO and DSR as §PREREG-R17.
+
+## S3 · R0 (owner order 6; BANKNIFTY_STRATEGY_V3.md §13.3; committed before any R0 number)
+R0 = the three fixed V3 variants, no tuning (3 configs, cap 3). Each is run on the 4 OOS windows (DESIGN blocks 2-5,
+290 days) and logged per window by the runner. T1-P is the main test; T1-RAW and T1 are comparison only.
+Series BASE (half spread 0.50, slip 0.20); STRESS frozen from the T1-P OOS entry bars (§5.3). Reports: NULL-RANDOM
+(2,000 seeds, SEED 20261119), NULL-FLIP, EXIT-CHECK, diagnosis, cost curve (full spread 0.50-4.00), intrabar
+(BARCLOSE / PATH / WORST), trades and signals CSV, R0 card + 10-trade chart table.
+<!-- S3-GRID R0 -->
+```json
+[{"variant": "T1-RAW"}, {"variant": "T1"}, {"variant": "T1-P"}]
+```
