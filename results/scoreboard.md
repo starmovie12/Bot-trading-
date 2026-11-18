@@ -15,3 +15,12 @@
 | A1+b2 | B | 3.5 | 0.166 | -13.4 | 14.1 | -777.34 | 46640.22 | 0 | 0.98 | -874.57 | 0.033 | 26 | -924.52 | -584.87 | 1 | 60 | SPREAD | EXIT0 |
 | A2+b1 | B | 2.0 | 0.094 | 45.51 | 7.88 | 1118.57 | 13065.97 | 0 | 0.028 | -442.4 | 2.463 | 8 | 1671.0 | -36.5 | 2 | 34 | LONG | EXIT0 |
 | A2+b2 | B | 4.4 | 0.207 | -18.66 | 15.05 | -929.82 | 69736.28 | 0 | 0.997 | -1001.25 | 0.009 | 24 | -960.75 | -859.87 | 2 | 75 | SPREAD | EXIT0 |
+
+## Finalists (ST4b, ST4c, ST7-delay, ST11, DESIGN-drawdown)
+
+No candidate passed the 3c battery; the row is the pick carried as EXPERIMENTAL (3d).
+Stressed ₹ per trade, PRE-TAX, [BACKTEST·in-sample].
+
+| id | status | ST4b high VIX (n) | ST4b low VIX (n) | ST4c w/o best 5 | ST7 delay +1 bar (n) | ST7 delay +2 bars (n) | ST11 per day | DESIGN max DD ₹ | DESIGN DD95 MTM ₹ | profit factor | losing streak |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| A1+b1 | EXPERIMENTAL: paper only | -73.22 (14, thin) | -37.08 (10, thin) | -867.01 | 172.26 (25) | -140.5 (25) | 0.066 RARE | 11220.43 | 15326.0 | 0.915 | 6 |

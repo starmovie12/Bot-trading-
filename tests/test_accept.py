@@ -167,3 +167,79 @@ def test_each_1b_check_fails_on_its_broken_fixture(tmp_path: Path, cid: str) -> 
 
 def test_every_1b_id_has_a_breaker() -> None:
     assert sorted(BREAK_1B) == sorted(accept.PHASES["1b"])
+
+
+COPY_3E = (
+    "limits.toml",
+    "trials.jsonl",
+    "holdout_log.jsonl",
+    "DECISIONS.md",
+    "results/prefilter.md",
+    "results/scoreboard.md",
+    "results/market_facts.md",
+    "results/replay_agreement.json",
+    "results/loss_first_rank.json",
+    "results/verdict.json",
+    "src/bot/__init__.py",
+    "src/bot/contracts.py",
+    "tools/__init__.py",
+    "tools/engine_of_record.py",
+    "tools/bn_economics.py",
+    "lab/__init__.py",
+    "lab/data.py",
+    "constants.toml",
+    "tests/__init__.py",
+    "tests/conftest.py",
+    "tests/test_engine_of_record.py",
+    "pyproject.toml",
+)
+
+
+def make_fixture_3e(tmp: Path) -> Path:
+    for rel in (*COPY_3E, "PLAN.md"):
+        (tmp / rel).parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy(ROOT / rel, tmp / rel)
+    git(tmp, "init", "-q", "-b", "bot/banknifty-v1")
+    git(tmp, "config", "user.email", "fixture@example.invalid")
+    git(tmp, "config", "user.name", "fixture")
+    git(tmp, "add", "--", "PLAN.md")
+    git(tmp, "commit", "-q", "-m", "prereg")  # §PREREG-0 first, then the trials (ST1, N4)
+    git(tmp, "add", "--", *COPY_3E)
+    git(tmp, "commit", "-q", "-m", "trials")
+    return tmp
+
+
+def _append(path: Path, line: str) -> None:
+    path.write_text(path.read_text() + line)
+
+
+BREAK_3E: dict[str, Callable[[Path], object]] = {
+    "F6-1": lambda r: _sub(r / "limits.toml", "[LIVE_POSSIBLE]\nvalue = false", "[LIVE_POSSIBLE]\nvalue = true"),
+    "F6-2": lambda r: _append(r / "trials.jsonl", (r / "trials.jsonl").read_text().splitlines()[0] + "\n"),
+    "F6-3": lambda r: _append(r / "holdout_log.jsonl", '{"event": "open"}\n'),
+    "F6-11": lambda r: (r / "results/scoreboard.md").write_text(
+        (r / "results/scoreboard.md").read_text().split("## Finalists")[0]
+    ),
+    "F3-1": lambda r: _sub(r / "PLAN.md", "A10", "Z10"),
+    "F3-2": lambda r: (r / "results/market_facts.md").write_text("x\n" * 41),
+    "F3-3": lambda r: _append(r / "tools/engine_of_record.py", "# padding\n# padding\n"),
+    "F3-4": lambda r: (r / "results/verdict.json").write_text('{"label": "MAYBE"}\n'),
+}
+
+
+def test_every_3e_check_passes_on_the_good_fixture(tmp_path: Path) -> None:
+    rc, lines = accept.run("3e", make_fixture_3e(tmp_path))
+    assert rc == 0, lines
+
+
+@pytest.mark.parametrize("cid", sorted(BREAK_3E))
+def test_each_3e_check_fails_on_its_broken_fixture(tmp_path: Path, cid: str) -> None:
+    root = make_fixture_3e(tmp_path)
+    BREAK_3E[cid](root)
+    rc, lines = accept.run("3e", root)
+    assert rc == 1
+    assert [x for x in lines if not x.startswith("PASS")] == [x for x in lines if x.startswith(f"FAIL {cid} ")], lines
+
+
+def test_every_3e_id_has_a_breaker() -> None:
+    assert sorted(BREAK_3E) == sorted(accept.PHASES["3e"])

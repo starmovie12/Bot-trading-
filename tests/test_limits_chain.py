@@ -1,5 +1,5 @@
-"""T06 (MISSION V11 §5.4, S1, S6, S11): one source of risk limits, the chain, lot size only from the
-instrument file, and the banned old limit name."""
+"""MISSION V19 RULES K1 / K3 (from V11 T06): one source of risk limits, the chain, fixed rupees across the balance
+band, LIVE_POSSIBLE, lot size only from the instrument file, and the banned old limit name."""
 
 from __future__ import annotations
 
@@ -10,7 +10,7 @@ from pathlib import Path
 
 import pytest
 
-from bot.limits import ABS_MAX_LOTS, InvalidLimits, load_limits
+from bot.limits import ABS_MAX_LOTS, InvalidLimits, derive_day_limits, load_limits
 
 ROOT = Path(__file__).resolve().parents[1]
 LIMITS = ROOT / "limits.toml"
@@ -36,7 +36,11 @@ def test_the_chain_holds_on_the_real_file() -> None:
     assert 2 * lim.max_trade_loss_rs <= lim.max_drawdown_rs <= lim.max_total_loss_rs <= lim.capital_rs
     assert lim.equity_floor_rs == lim.capital_rs - lim.max_total_loss_rs
     assert lim.max_trade_loss_rs <= lim.daily_loss_lock_rs <= lim.weekly_loss_lock_rs <= lim.monthly_loss_lock_rs
+    assert lim.monthly_loss_lock_rs <= lim.max_total_loss_rs
     assert lim.lots_cap == min(lim.max_lots, ABS_MAX_LOTS) == 1
+    assert lim.cooloff_min >= 15
+    if not lim.live_possible:
+        assert lim.min_live_balance_rs is None and lim.max_balance_rs is None
 
 
 def test_equity_floor_that_is_not_capital_minus_total_loss_is_refused(tmp_path: Path) -> None:
@@ -46,7 +50,45 @@ def test_equity_floor_that_is_not_capital_minus_total_loss_is_refused(tmp_path: 
 
 def test_a_trade_loss_above_half_the_drawdown_is_refused(tmp_path: Path) -> None:
     with pytest.raises(InvalidLimits):
-        load_limits(with_value(tmp_path, "MAX_TRADE_LOSS_RS", 2_000))
+        load_limits(with_value(tmp_path, "MAX_TRADE_LOSS_RS", load_limits().max_drawdown_rs))
+
+
+def test_every_rupee_limit_is_fixed_across_five_balances() -> None:
+    lim = load_limits()
+    top = lim.max_balance_rs or 200_000
+    low = lim.min_live_balance_rs or lim.max_total_loss_rs
+    seen = set()
+    for b in (low + (top - low) * k // 4 for k in range(5)):
+        day = derive_day_limits(lim, b)
+        assert day.equity_floor_rs == b - day.max_total_loss_rs
+        seen.add(
+            (day.max_trade_loss_rs, day.max_drawdown_rs, day.max_total_loss_rs, day.daily_loss_lock_rs,
+             day.weekly_loss_lock_rs, day.monthly_loss_lock_rs)
+        )  # fmt: skip
+    assert len(seen) == 1, "a larger balance must never scale a rupee limit"
+
+
+def test_a_balance_below_the_total_loss_is_refused() -> None:
+    lim = load_limits()
+    with pytest.raises(InvalidLimits):
+        derive_day_limits(lim, lim.max_total_loss_rs - 1)
+
+
+def test_live_possible_needs_a_band_and_false_forbids_one(tmp_path: Path) -> None:
+    text = LIMITS.read_text(encoding="utf-8")
+    flipped = tmp_path / "flip.toml"
+    flipped.write_text(re.sub(r"(\[LIVE_POSSIBLE\]\nvalue = )\w+", r"\g<1>true", text, count=1), encoding="utf-8")
+    band = tmp_path / "band.toml"
+    band.write_text(re.sub(r"(\[LIVE_POSSIBLE\]\nvalue = )\w+", r"\g<1>false", text, count=1)
+                    + "\n[MIN_LIVE_BALANCE_RS]\nvalue = 200000\n", encoding="utf-8")  # fmt: skip
+    for path in (flipped, band) if not load_limits().live_possible else (band,):
+        with pytest.raises(InvalidLimits, match="LIVE_POSSIBLE"):
+            load_limits(path)
+
+
+def test_a_cooloff_below_15_minutes_is_refused(tmp_path: Path) -> None:
+    with pytest.raises(InvalidLimits, match="COOLOFF_MIN"):
+        load_limits(with_value(tmp_path, "COOLOFF_MIN", 10))
 
 
 def test_risk_limits_have_one_source() -> None:

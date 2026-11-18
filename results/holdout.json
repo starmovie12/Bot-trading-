@@ -1,0 +1,10 @@
+{
+ "trades": 5,
+ "days": 90,
+ "mean_net_rs": -351.41,
+ "hlo_rs": -828.74,
+ "total_net_rs": -1757.07,
+ "pass": false,
+ "code": "HOLDOUT_FAIL",
+ "label": "BACKTEST(out-of-sample), stressed, PRE-TAX"
+}

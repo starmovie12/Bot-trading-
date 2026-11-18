@@ -217,10 +217,13 @@ class Holdout:
         self._append({"event": "seal", "cutoff": cutoff, "sha256": digest})
         return digest
 
-    def open(self) -> None:
+    def open(self, **info: Any) -> None:
         rows = self._rows()
         if not any(r["event"] == "seal" for r in rows):
             raise RuntimeError("no sealed holdout")
         if any(r["event"] == "open" for r in rows):
             raise RuntimeError("the holdout was already opened once: a second open is refused")
-        self._append({"event": "open"})
+        self._append({**info, "event": "open"})
+
+    def opened(self) -> bool:
+        return any(r["event"] == "open" for r in self._rows())

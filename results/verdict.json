@@ -1,0 +1,37 @@
+{
+ "label": "STOP",
+ "label_text": "RUKO: is data mein raasta nahi mila",
+ "headline": "NO_EDGE_IN_TESTED_SET",
+ "codes": [
+  {
+   "code": "NO_EDGE_IN_TESTED_SET",
+   "class": "STOP"
+  },
+  {
+   "code": "NOT_REVIEWED",
+   "class": "BLOCK"
+  },
+  {
+   "code": "HOLDOUT_FAIL",
+   "class": "BLOCK"
+  },
+  {
+   "code": "NO_LIVE_BALANCE_UP_TO_2L",
+   "class": "LIMIT"
+  }
+ ],
+ "rows": [
+  "2",
+  "3",
+  "4"
+ ],
+ "inputs": {
+  "data_grade": "B",
+  "short_mode": false,
+  "passed_battery": [],
+  "holdout_pass": false,
+  "reviewed": false
+ },
+ "paper_only": true,
+ "date": "2026-11-18"
+}

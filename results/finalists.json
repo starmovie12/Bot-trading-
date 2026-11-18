@@ -1,0 +1,35 @@
+[
+ {
+  "id": "A1+b1",
+  "status": "EXPERIMENTAL: paper only",
+  "st4b_high_vix": {
+   "net_mean": -73.22,
+   "trades": 14,
+   "thin": true
+  },
+  "st4b_low_vix": {
+   "net_mean": -37.08,
+   "trades": 10,
+   "thin": true
+  },
+  "st4b_pass": false,
+  "st4c_net_mean_wo_best5": -867.01,
+  "st4c_pass": false,
+  "st7_delay_1": {
+   "net_mean": 172.26,
+   "trades": 25
+  },
+  "st7_delay_2": {
+   "net_mean": -140.5,
+   "trades": 25
+  },
+  "st7_delay_pass": false,
+  "st11_per_day": 0.066,
+  "st11_pass": false,
+  "design_max_dd_rs": 11220.43,
+  "design_dd95_mtm_rs": 15326.0,
+  "profit_factor": 0.915,
+  "losing_streak": 6,
+  "best5_share": null
+ }
+]

@@ -17,7 +17,7 @@ from bot.contracts import Bar, Intent, MarketState, Strategy, TradeRecord  # noq
 from tools import bn_economics as be  # noqa: E402
 
 N, FIRST, LAST, STEP, FORCE_FLAT = 385, 15, 315, 5, 355  # minutes after 09:15; FORCE_FLAT = 15:10 IST
-MAX_ENTRIES, COOLOFF = 2, 30
+MAX_ENTRIES, COOLOFF, DELAY = 2, 30, 0  # DELAY: bars added before the fill (ST7 delay test only)
 HALF_SPREAD, SLIP = Decimal("0.50"), Decimal("0.20")  # ₹ per unit per side, ESTIMATE (D-21); stressed below (ST7)
 Arr = dict[str, list[float]]
 
@@ -108,7 +108,7 @@ def run_day(day: Day, strategy: Strategy, costs: StressedCosts, max_entries: int
         if not isinstance(res, Intent) or path is None:
             continue
         v, live = path
-        e = next((m for m in range(t, min(t + 3, FORCE_FLAT)) if live[m] and v["o"][m] > 0), -1)
+        e = next((m for m in range(t + DELAY, min(t + DELAY + 3, FORCE_FLAT)) if live[m] and v["o"][m] > 0), -1)
         if e < 0 or e <= free_after or e < cool_until:
             continue
         x, xval, reason, stale, mae = manage(v, live, e, res)

@@ -1,20 +1,20 @@
-# BALANCE LADDER (MISSION V19 RULES K2): skeleton from Phase 2c; 3e fills the Monte Carlo columns
+# BALANCE LADDER (MISSION V19 RULES K2; filled in 3e; PROVISIONAL until Phase 7)
 
-1 lot = 30 units; costs PRE-TAX and stressed; premiums = REAL medians at 10:00 IST (results/feasibility.json).
-Cell = fits / max loss % of balance / chain OK (2 x max loss <= balance). Spread cash uses the margin ESTIMATE.
+Strategy A1+b1 (EXPERIMENTAL: paper only), 1 lot long ATM option. Per-trade cap ₹35,700, MAX_TOTAL_LOSS ₹157,500, P(HARD KILL 12m) 0.042 and DD p95 ₹157,584: worst of four Monte Carlo ensembles, stressed, PRE-TAX [BACKTEST].
+Base-case stressed net per month: ₹-146 [BACKTEST]; fixed monthly cost ₹1,500 [ESTIMATE].
 
-| balance | fixed cost % / month | FD ₹ / month | long dte 8-15 ATM | long dte 8-15 1 OTM | long dte 8-15 2 OTM | debit CE dte 8-15 ATM / 2 OTM | P(HARD KILL 12m) | DD p95 |
-|---|---|---|---|---|---|---|---|---|
-| ₹10,000 | 15.0% | ₹52 | no / 176.33% / no | no / 160.91% / no | no / 148.1% / no | no / 36.98% / OK | 3e | 3e |
-| ₹15,000 | 10.0% | ₹78 | no / 117.56% / no | no / 107.27% / no | fits / 98.73% / no | no / 24.65% / OK | 3e | 3e |
-| ₹20,000 | 7.5% | ₹104 | fits / 88.17% / no | fits / 80.45% / no | fits / 74.05% / no | no / 18.49% / OK | 3e | 3e |
-| ₹25,000 | 6.0% | ₹130 | fits / 70.53% / no | fits / 64.36% / no | fits / 59.24% / no | no / 14.79% / OK | 3e | 3e |
-| ₹30,000 | 5.0% | ₹156 | fits / 58.78% / no | fits / 53.64% / no | fits / 49.37% / OK | no / 12.33% / OK | 3e | 3e |
-| ₹40,000 | 3.75% | ₹208 | fits / 44.08% / OK | fits / 40.23% / OK | fits / 37.02% / OK | no / 9.24% / OK | 3e | 3e |
-| ₹50,000 | 3.0% | ₹260 | fits / 35.27% / OK | fits / 32.18% / OK | fits / 29.62% / OK | no / 7.4% / OK | 3e | 3e |
-| ₹75,000 | 2.0% | ₹391 | fits / 23.51% / OK | fits / 21.45% / OK | fits / 19.75% / OK | no / 4.93% / OK | 3e | 3e |
-| ₹1,00,000 | 1.5% | ₹521 | fits / 17.63% / OK | fits / 16.09% / OK | fits / 14.81% / OK | no / 3.7% / OK | 3e | 3e |
-| ₹1,50,000 | 1.0% | ₹781 | fits / 11.76% / OK | fits / 10.73% / OK | fits / 9.87% / OK | no / 2.47% / OK | 3e | 3e |
-| ₹2,00,000 | 0.75% | ₹1,042 | fits / 8.82% / OK | fits / 8.05% / OK | fits / 7.4% / OK | no / 1.85% / OK | 3e | 3e |
+| balance | 1 lot fits | max loss % | chain | P(kill) <= 5% | fixed cost % / month | cost <= half net | FD ₹ / month | DD p95 % | spread (fits / max loss % / chain) | row passes |
+|---|---|---|---|---|---|---|---|---|---|---|
+| ₹10,000 | no | 357.0% | no | yes | 15.0% | no | ₹52 | 1575.8% | no / 37.55% / OK | no |
+| ₹15,000 | no | 238.0% | no | yes | 10.0% | no | ₹78 | 1050.6% | no / 25.03% / OK | no |
+| ₹20,000 | no | 178.5% | no | yes | 7.5% | no | ₹104 | 787.9% | no / 18.78% / OK | no |
+| ₹25,000 | no | 142.8% | no | yes | 6.0% | no | ₹130 | 630.3% | no / 15.02% / OK | no |
+| ₹30,000 | no | 119.0% | no | yes | 5.0% | no | ₹156 | 525.3% | no / 12.52% / OK | no |
+| ₹40,000 | yes | 89.2% | no | yes | 3.75% | no | ₹208 | 394.0% | no / 9.39% / OK | no |
+| ₹50,000 | yes | 71.4% | no | yes | 3.0% | no | ₹260 | 315.2% | no / 7.51% / OK | no |
+| ₹75,000 | yes | 47.6% | no | yes | 2.0% | no | ₹391 | 210.1% | no / 5.01% / OK | no |
+| ₹100,000 | yes | 35.7% | no | yes | 1.5% | no | ₹521 | 157.6% | no / 3.76% / OK | no |
+| ₹150,000 | yes | 23.8% | no | yes | 1.0% | no | ₹781 | 105.1% | no / 2.5% / OK | no |
+| ₹200,000 | yes | 17.8% | yes | yes | 0.75% | no | ₹1,042 | 78.8% | no / 1.88% / OK | no |
 
-MIN_LIVE_BALANCE_RS / MAX_BALANCE_RS: derived in 3e (K2), never from this skeleton alone.
+No row up to ₹2,00,000 passes: LIVE_POSSIBLE = false (NO_LIVE_BALANCE_UP_TO_2L). The bot ships PAPER only.

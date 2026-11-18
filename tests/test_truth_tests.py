@@ -126,16 +126,32 @@ def test_monte_carlo_is_reproducible_with_a_fixed_seed() -> None:
     assert run() == run()
 
 
-def test_verdict_without_real_data_is_not_yet_and_a_g0_fail_fixture_is_stop(tmp_path: Path) -> None:
+def verdict_root(tmp: Path, grade: str, passed: list[str], holdout: bool, review: bool, live: bool) -> Path:
+    (tmp / "results").mkdir()
+    (tmp / "docs").mkdir()
+    (tmp / "docs/DATA_REPORT.md").write_text(f"**DATA_GRADE = {grade}**\n")
+    (tmp / "results/loss_first_rank.json").write_text(json.dumps({"passed_battery": passed}))
+    (tmp / "results/holdout.json").write_text(json.dumps({"pass": holdout}))
+    if review:
+        (tmp / "results/review.json").write_text(json.dumps({"open_sev12": 0}))
+    (tmp / "limits.toml").write_text(f"[LIVE_POSSIBLE]\nvalue = {str(live).lower()}\n")
+    return tmp
+
+
+def test_verdict_v1_rows_worst_label_and_code_order(tmp_path: Path) -> None:
+    from tools import verdict
+
+    (a, b, c) = (tmp_path / "a", tmp_path / "b", tmp_path / "c")
+    for d in (a, b, c):
+        d.mkdir()
+    stop = verdict.decide(verdict_root(a, "B", [], holdout=False, review=False, live=False))
+    assert stop["label"] == "STOP"
+    assert [x["code"] for x in stop["codes"]] == [
+        "NO_EDGE_IN_TESTED_SET", "NOT_REVIEWED", "HOLDOUT_FAIL", "NO_LIVE_BALANCE_UP_TO_2L"
+    ]  # fmt: skip
+    ready = verdict.decide(verdict_root(b, "B", ["X"], holdout=True, review=True, live=True))
+    assert (ready["label"], ready["codes"]) == ("PAPER_READY", [])
+    none = verdict.decide(verdict_root(c, "NONE", [], holdout=False, review=True, live=False))
+    assert none["label"] == "NOT_YET" and none["headline"] == "NO_DATA"
     out = subprocess.run([sys.executable, str(ROOT / "tools/verdict.py")], capture_output=True, text=True, check=True)  # noqa: S603
-    assert out.stdout.startswith("NOT_YET(NO_DATA")
-    fail = {"g0": "FAIL_ARITH", "members": {f"U{i}": {"outcome": "FAIL_ARITH"} for i in range(1, 7)}}
-    fixture = tmp_path / "g0_fail.json"
-    fixture.write_text(json.dumps(fail))
-    out = subprocess.run(  # noqa: S603
-        [sys.executable, str(ROOT / "tools/verdict.py"), "--g0", str(fixture)],
-        capture_output=True,
-        text=True,
-        check=True,
-    )
-    assert out.stdout.strip() == "STOP(G0_FAIL_ARITH)"
+    assert out.stdout.split("(")[0] in verdict.TEXT

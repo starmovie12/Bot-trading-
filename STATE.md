@@ -1,12 +1,12 @@
 STAGE=2
-NEXT=Phase 3e: open the holdout ONCE (tools/truth_tests.Holdout), engine run on HOLDOUT days, Hlo, Monte Carlo x4, size limits (K1), ladder (K2), LIVE_POSSIBLE, PIN BUMP limits.toml, make verdict, accept --phase 3e
+NEXT=Phase 4A: config/gateway.toml (PIN BUMP), C9 params.local.toml + params.example.toml, gateway + RISK SHELL day rules, clock, journal, PaperBroker, tests; then 4B, 4C, accept --phase 4c, push
 BLOCK=S2
 MODEL_NOW=BIG
 MODEL_NEXT=BIG
 SWITCH_PENDING=none
 FREEZE=none
 TRIALS=13
-HOLDOUT=sealed
+HOLDOUT=burned
 HALT=none
 VISIBILITY=public-ok
 TOKEN=not set

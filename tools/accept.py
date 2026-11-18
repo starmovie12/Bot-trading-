@@ -15,6 +15,7 @@ import json
 import re
 import subprocess
 import sys
+import tomllib
 from collections.abc import Callable
 from pathlib import Path
 
@@ -316,6 +317,123 @@ def data_repo(root: Path) -> Result:
     sha = state(root).get("DATA_SHA", "")
     ignored = git(root, "check-ignore", "-q", "data/banknifty/repo").returncode == 0
     return bool(sha) and ignored, f"DATA_SHA {sha[:12] or 'missing'}, ignored {ignored}"
+
+
+ST1_FIELDS = ("id", "cycle", "idea", "params", "design_net_stressed", "p_screen", "source")
+TRIAL_CAP = 30  # LAB ST1, first design
+LABELS = ("PAPER_READY", "NOT_YET", "STOP")
+PREREG = "## §PREREG-0"
+
+
+def jsonl(path: Path) -> list[dict[str, object]]:
+    return [json.loads(x) for x in path.read_text(encoding="utf-8").splitlines() if x.strip()] if path.is_file() else []
+
+
+def chain_ok(v: dict[str, int], balance: int) -> bool:
+    locks = (v["DAILY_LOSS_LOCK_RS"], v["WEEKLY_LOSS_LOCK_RS"], v["MONTHLY_LOSS_LOCK_RS"])
+    return (
+        2 * v["MAX_TRADE_LOSS_RS"] <= v["MAX_DRAWDOWN_RS"] <= v["MAX_TOTAL_LOSS_RS"] <= balance
+        and v["MAX_TRADE_LOSS_RS"] <= locks[0] <= locks[1] <= locks[2] <= v["MAX_TOTAL_LOSS_RS"]
+        and balance - v["MAX_TOTAL_LOSS_RS"] >= 0
+    )
+
+
+@check("F6-1")
+def limits_chain(root: Path) -> Result:
+    raw = tomllib.loads((root / "limits.toml").read_text(encoding="utf-8"))
+    v = {k: x["value"] for k, x in raw.items() if isinstance(x, dict) and "value" in x}
+    live, lo, hi = v.get("LIVE_POSSIBLE"), v.get("MIN_LIVE_BALANCE_RS"), v.get("MAX_BALANCE_RS")
+    if live is False:
+        ok = lo is None and hi is None and chain_ok(v, v["CAPITAL_RS"])
+        ok = ok and v["EQUITY_FLOOR_RS"] == v["CAPITAL_RS"] - v["MAX_TOTAL_LOSS_RS"]
+        return ok, f"LIVE_POSSIBLE = false, MIN / MAX absent {lo is None and hi is None}, chain at CAPITAL_RS {ok}"
+    if live is not True or not isinstance(lo, int) or not isinstance(hi, int) or lo > hi:
+        return False, f"LIVE_POSSIBLE {live!r} with MIN {lo!r} / MAX {hi!r}"
+    balances = [lo + (hi - lo) * k // 4 for k in range(5)]
+    bad = [b for b in balances if not chain_ok(v, b)]
+    return not bad, f"chain at 5 balances in [{lo}, {hi}]: broken at {bad}" if bad else f"chain holds at {balances}"
+
+
+@check("F6-2")
+def trials_file(root: Path) -> Result:
+    rows = jsonl(root / "trials.jsonl")
+    ids = [str(r.get("id")) for r in rows]
+    missing = [r.get("id") for r in rows if any(f not in r for f in ST1_FIELDS)]
+    have = {json.dumps(r, sort_keys=True) for r in rows}
+    parts = Path(os.environ.get("TMPDIR", "/tmp")).glob("mission-lab-*/trials_part.jsonl")  # noqa: S108
+    lost = [str(p) for p in parts for r in jsonl(p) if json.dumps(r, sort_keys=True) not in have]
+    ok = bool(rows) and not missing and len(set(ids)) == len(ids) and len(rows) <= TRIAL_CAP and not lost
+    return ok, f"{len(rows)} trials (cap {TRIAL_CAP}), unique {len(set(ids)) == len(ids)}, no ST1 fields {missing}, " \
+        f"parts not merged {lost}"  # fmt: skip
+
+
+@check("F6-3")
+def holdout_once(root: Path) -> Result:
+    rows = jsonl(root / "holdout_log.jsonl")
+    opens, seals = sum(r.get("event") == "open" for r in rows), sum(r.get("event") == "seal" for r in rows)
+    return opens == 1 and seals == 1, f"holdout_log.jsonl: {seals} seal, {opens} open record(s)"
+
+
+@check("F6-11")
+def finalist_columns(root: Path) -> Result:
+    board = text(root, "results/scoreboard.md").split("## Finalists")
+    section = board[1].splitlines() if len(board) > 1 else []
+    head = next((x for x in section if x.startswith("| id")), "")
+    need = ("ST4b", "ST4c", "ST7 delay", "ST11", "DESIGN max DD")
+    rows = [x for x in section if x.startswith("| ") and x != head]
+    ok = (root / "results/prefilter.md").is_file() and all(n in head for n in need) and bool(rows)
+    return ok, f"prefilter.md {(root / 'results/prefilter.md').is_file()}, finalist columns {need}, rows {len(rows)}"
+
+
+@check("F3-1")
+def prereg_first(root: Path) -> Result:
+    plan = text(root, "PLAN.md")
+    sec = plan.split(PREREG, 1)[1].split("\n## ", 1)[0] if PREREG in plan else ""
+    words = set(re.findall(r"[A-Za-z0-9]+", sec))
+    ids = {p for r in jsonl(root / "trials.jsonl") for p in str(r["id"]).split("+")}
+    shell = all(k in sec for k in ("RISK SHELL", "C1", "C4")) and not ids - words
+    if "reconstructed after the fact" in sec:
+        return shell and "UPGRADE" in text(root, "DECISIONS.md"), "§PREREG-0 reconstructed after the fact"
+    first = git(root, "log", "--reverse", "--format=%H", "-S", PREREG, "--", "PLAN.md").stdout.split()
+    trial = git(root, "log", "--reverse", "--format=%H", "--diff-filter=A", "--", "trials.jsonl").stdout.split()
+    trial = trial[-1:]  # the latest add: a file deleted and added again (V11 archive) starts a new trial log
+    before = bool(first and trial) and first[0] != trial[0]
+    before = before and git(root, "merge-base", "--is-ancestor", first[0], trial[0]).returncode == 0
+    return (
+        shell and before,
+        f"shell + exit grid + ids {sorted(ids - words) or 'all'} in §PREREG-0; committed first {before}",
+    )
+
+
+@check("F3-2")
+def market_facts(root: Path) -> Result:
+    n = len(text(root, "results/market_facts.md").splitlines())
+    return 0 < n <= 40, f"results/market_facts.md {n} lines (<= 40)"
+
+
+@check("F3-3")
+def contracts_engine(root: Path) -> Result:
+    c = next((root / p for p in ("bot/contracts.py", "src/bot/contracts.py") if (root / p).is_file()), None)
+    nc = len(c.read_text(encoding="utf-8").splitlines()) if c else 0
+    ne = len(text(root, "tools/engine_of_record.py").splitlines())
+    agree = json.loads(text(root, "results/replay_agreement.json") or "{}").get("vec_vs_eor", {}).get("pass") is True
+    test = subprocess.run(
+        [sys.executable, "-m", "pytest", "-q", "-p", "no:cacheprovider", "tests/test_engine_of_record.py",
+         "-k", "hand_computed"], cwd=root, capture_output=True, text=True, check=False,
+    ).returncode == 0  # fmt: skip
+    ok = 0 < nc <= 120 and 0 < ne <= 200 and test and agree
+    return ok, f"contracts {nc} lines, engine {ne} lines, 3-trade test {test}, vec_vs_eor AGREE {agree}"
+
+
+@check("F3-4")
+def rank_and_verdict(root: Path) -> Result:
+    rank = json.loads(text(root, "results/loss_first_rank.json") or "{}")
+    verdict = json.loads(text(root, "results/verdict.json") or "{}")
+    over = rank.get("passed_over") or {}
+    ok = bool(rank.get("pick")) and isinstance(rank.get("pick_dd95_rs"), (int, float)) and "dd95_rs" in over
+    ok = ok and bool(over.get("id")) and verdict.get("label") in LABELS
+    return ok, f"pick {rank.get('pick')} DD95 {rank.get('pick_dd95_rs')}, passed over {over.get('id')}, " \
+        f"verdict {verdict.get('label')}"  # fmt: skip
 
 
 def run(phase: str, root: Path) -> tuple[int, list[str]]:

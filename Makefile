@@ -11,4 +11,4 @@ smoke:
 	cd pehredaar && test -z "$$(gofmt -l .)" && go vet ./... && go test ./...
 
 verdict:
-	$(PY) tools/verdict.py $(if $(DATA),--data $(DATA))
+	$(PY) tools/verdict.py --write
