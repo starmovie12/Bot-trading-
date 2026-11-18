@@ -470,3 +470,11 @@ trading as §PREREG-R17 (1 lot). In each training window the selection is either
 setups have a candidate on the same day, on the same side, with a decision time within 15 minutes of it (itself
 included); priority = the training net per trade. Trial cap added: 10. Trials: R26-r17-k2, R26-r17-k3, R26-mb-k2,
 R26-mb-k3. Gates, PBO and DSR as §PREREG-R17.
+
+## §PREREG-R27 (owner order 5 / D-49, D-52: EARLIER TIME EXITS for the hold-to-close families; nested; before any R27 number)
+
+The late-day decay may eat the hold-to-close trades. Setups: the ideas and grids of R6, R9 and R12 (to-14:30 S2) on
+CAP15 with time exits XT255 = exit at 13:30 and XT315 = exit at 14:30 at the option close, no stop (lab/build_r2.py
+r27 -> data/lab/matrix_r27.npz). Nested as §PREREG-R17 over these setups only (S2 + S3 in each training window,
+priority = training net). The setups are evaluated only inside the training windows, so the nested runs are the
+trials. Trial cap added: 10. Trials: R27-a (1 lot), R27-b (R15 tiers by training rank). Gates, PBO and DSR as R17.
