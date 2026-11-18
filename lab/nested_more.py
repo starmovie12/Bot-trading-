@@ -106,6 +106,8 @@ def run(rnd: str) -> int:
         plans = {"R21-a": ("best", "one", None), "R21-b": ("best", "tiers", None)}
     elif rnd == "R22":
         plans = {f"R22-n{n}": ("r17", "one", n) for n in (5, 10, 20)}
+    elif rnd == "R24":
+        plans = {"R24-a": ("r17", "tiers", 20), "R24-b": ("r17", "vol", 20), "R24-c": ("r17", "tiers", 5)}
     elif rnd == "R23":
         plans = {"R23-a": ("r17", "one", None), "R23-b": ("r17", "tiers", None), "R23-c": ("mb", "one", None)}
     for tid, (sel, lots, trend_n) in plans.items():
@@ -142,6 +144,7 @@ def run(rnd: str) -> int:
         "R21": "per-setup hold and trail",
         "R22": "daily trend bias",
         "R23": "rolling one-block selection",
+        "R24": "combinations of the nested pieces",
     }
     rc = sh.finish(res, meta, rnd, titles[rnd])
     if rnd == "R22":  # neighbours = the adjacent N (§PREREG-R22): recorded in the rows file

@@ -1,11 +1,11 @@
 STAGE=2
-NEXT=Owner order 5: R24 combinations (pre-register first), then further new ideas; holdout by D-49 (4) only; no bot code
+NEXT=Owner order 5: R25 long straddle when realised vol beats implied (research only; pre-register first; build 2-leg outcomes), card after R25; holdout by D-49 (4) only; no bot code
 BLOCK=S2
 MODEL_NOW=BIG
 MODEL_NEXT=BIG
 SWITCH_PENDING=none
 FREEZE=none
-TRIALS=386
+TRIALS=389
 HOLDOUT=burned
 HALT=none
 VISIBILITY=public-ok
