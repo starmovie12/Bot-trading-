@@ -1,0 +1,1 @@
+{"checks": [], "code_commit": "e04933b", "config_hash": "6a7eaa5b772efc25", "flags": {}, "id": "S3-0018", "nested_choice": false, "net_base": -28264.05, "net_stress": -55475.13, "overrides": {"EXIT_MODE": "X-B", "G1_TRIGGER_PTS": 8, "SL_INIT_PTS": 12}, "role": "train:1", "round": "R1", "series_id": "BASE-7c6fea3671", "slots_off": [], "trades": 117, "variant": "T1-P", "window": 1}

@@ -1,0 +1,1 @@
+{"checks": [], "code_commit": "e04933b", "config_hash": "0755e6b660cb2a74", "flags": {"FLAG_N13": true}, "id": "S3-0070", "nested_choice": false, "net_base": -117941.75, "net_stress": -270757.82, "overrides": {}, "role": "train:4", "round": "R1", "series_id": "BASE-7c6fea3671", "slots_off": [], "trades": 654, "variant": "T1-P", "window": 4}

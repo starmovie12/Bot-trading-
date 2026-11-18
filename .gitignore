@@ -44,3 +44,5 @@ logs/
 
 # S3 feature cache (data; never committed)
 wip/cache/
+wip/**/*.log
+wip/*.log
