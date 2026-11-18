@@ -125,3 +125,20 @@ R3-<idea>-<value>[-<structure>-<exit>]. PASS gates and neighbours as §PREREG-R1
 | R3-5 | fade a VIX spike (in %) | STRUCTURAL (fear spikes mean-revert) | t 45..255, vix_pct >= X and ret_open < 0 -> CE; vix_pct <= -X and ret_open > 0 -> PE | X 0.03, 0.045, 0.06 (0.015, 0.075) |
 | R3-6 | follow a VIX move (in %) | DIRECTION | t 45..255, vix_pct >= X and ret_open < 0 -> PE; vix_pct <= -X and ret_open > 0 -> CE | X 0.03, 0.045, 0.06 (0.015, 0.075) |
 | R3-7 | near-expiry momentum (R2-4 rule) with passive entry next to market | DIRECTION | dte 0..7, t 45..165, abs(ret_open) >= X, side = sign(ret_open) | X 0.003, 0.004, 0.005 (0.002, 0.006) |
+
+## §PREREG-R4 (P3R round 4, owner order D-40; committed before any R4 number is computed)
+
+Data: DESIGN 362 days (no new data in the data repo: DATA_SHA unchanged); the old holdout stays closed. Feature scales
+read before this section (no outcomes): first-hour range / spot at 10:15 p50 0.0062, p75 0.0083; distance to the day's
+extreme after 12:00 p25 0.0009; abs(gap) p50 0.0025, p75 0.0050. Trial cap added: 80
+Funnel S1 / S2 as §PREREG-R1. S3 on data/lab/matrix_r2.npz: each S2 survivor x {CAP15-XI2, CAP15-XI1} (§PREREG-R2
+definitions). ids R4-<idea>-<value>[-CAP15-<exit>]. PASS gates and neighbours as §PREREG-R1 / research_plan.md.
+
+| id | idea (side) | edge source | rule | grid (outside neighbours) |
+|---|---|---|---|---|
+| R4-1 | gap follow beyond the 15-min range | DIRECTION | t 30..75, abs(gap) >= X, sign(ret15) = sign(gap), spot beyond or15 on the gap's side; side = sign(gap) | X 0.003, 0.005, 0.007 (0.001, 0.009) |
+| R4-2 | 30-min range break, then a pullback to the range edge | DIRECTION | t 45..255, day_hi > or30_hi and abs(spot / or30_hi - 1) <= X and ret15 > 0 -> CE; mirror at or30_lo -> PE | X 0.0005, 0.001, 0.0015 (0.00025, 0.002) |
+| R4-3 | wide first hour = trend day: follow it | DIRECTION | t = 60 only, (day_hi - day_lo) / spot >= X, side = sign(ret_open) | X 0.006, 0.008, 0.010 (0.004, 0.012) |
+| R4-4 | afternoon push to a new day extreme | DIRECTION | t 180..285, spot >= day_hi x (1 - X) and ret30 > 0 -> CE; spot <= day_lo x (1 + X) and ret30 < 0 -> PE (not both) | X 0.0005, 0.001, 0.0015 (0.00025, 0.002) |
+| R4-5 | gap follow while VIX falls | DIRECTION | t 45..120, abs(gap) >= X, vix_chg < 0, sign(ret_open) = sign(gap); side = sign(gap) | X 0.003, 0.005, 0.007 (0.001, 0.009) |
+| R4-6 | two 15-min candles the same way (second-candle confirmation) | DIRECTION | t 45..255, sign(ret15) = sign(ret30 - ret15), abs(ret30) >= X; side = sign(ret30) | X 0.002, 0.003, 0.004 (0.001, 0.005) |
