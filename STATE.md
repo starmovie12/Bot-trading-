@@ -1,11 +1,11 @@
 STAGE=2
-NEXT=Owner order 5: R20 vol-target lots (pre-register first) -> R21 per-setup hold / trail (nested) -> R22 daily-trend direction filter -> combinations / new ideas; holdout by D-49 (4) only; no bot code
+NEXT=Owner order 5: after R22 card -> R23+ new ideas (rolling-window selection for drift, combinations), each pre-registered; holdout by D-49 (4) only; no bot code
 BLOCK=S2
 MODEL_NOW=BIG
 MODEL_NEXT=BIG
 SWITCH_PENDING=none
 FREEZE=none
-TRIALS=376
+TRIALS=383
 HOLDOUT=burned
 HALT=none
 VISIBILITY=public-ok
