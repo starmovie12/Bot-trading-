@@ -200,6 +200,35 @@ def r5_4(f: le.A, x: float) -> tuple[np.ndarray, np.ndarray, tuple[int, int]]:
     return (f["t"] >= 30) & (f["t"] <= 255) & (up | dn), np.where(up, 1, -1), (30, 255)
 
 
+def fixed(t: int, f: le.A, cond: np.ndarray, side: np.ndarray) -> tuple[np.ndarray, np.ndarray, tuple[int, int]]:
+    return (f["t"] == t) & cond, side, (t, t)
+
+
+def r6_1(f: le.A, x: float) -> tuple[np.ndarray, np.ndarray, tuple[int, int]]:
+    return fixed(105, f, np.abs(f["ret_open"]) >= x, sg(f["ret_open"]))
+
+
+def r6_2(f: le.A, x: float) -> tuple[np.ndarray, np.ndarray, tuple[int, int]]:
+    return fixed(165, f, np.abs(f["ret_open"]) >= x, sg(f["ret_open"]))
+
+
+def r6_3(f: le.A, x: float) -> tuple[np.ndarray, np.ndarray, tuple[int, int]]:
+    return fixed(105, f, f["eff"] >= x, sg(f["ret_open"]))
+
+
+def r6_4(f: le.A, x: float) -> tuple[np.ndarray, np.ndarray, tuple[int, int]]:
+    g = np.nan_to_num(f["gap"])
+    return fixed(30, f, (np.abs(g) >= x) & (sg(f["ret_open"]) == sg(g)), sg(g))
+
+
+def r6_5(f: le.A, x: float) -> tuple[np.ndarray, np.ndarray, tuple[int, int]]:
+    return fixed(75, f, (f["dte"] <= 7) & (np.abs(f["ret_open"]) >= x), sg(f["ret_open"]))
+
+
+def r6_6(f: le.A, x: float) -> tuple[np.ndarray, np.ndarray, tuple[int, int]]:
+    return fixed(60, f, np.abs(f["ret_open"]) >= x, sg(f["ret_open"]))
+
+
 ROUNDS: dict[str, dict[str, Any]] = {
     "R1": {
         "combos": (("EXIT0", "LONG"), ("C2", "LONG"), ("C3", "LONG")),
@@ -267,10 +296,25 @@ ROUNDS: dict[str, dict[str, Any]] = {
             "R5-4": ("break of the prior day's high / low", r5_4, (0.000, 0.001, 0.002), (-0.001, 0.003)),
         },
     },
+    "R6": {
+        "matrix": "data/lab/matrix_r2.npz",
+        "to_close": True,
+        "combos": (("XI2", "CAP15"), ("XI2", "ATM")),
+        "ideas": {
+            "R6-1": ("11:00 day direction, hold to close", r6_1, (0.001, 0.002, 0.003), (0.0005, 0.004)),
+            "R6-2": ("12:00 day direction, hold to close", r6_2, (0.001, 0.002, 0.003), (0.0005, 0.004)),
+            "R6-3": ("11:00 trend efficiency, hold to close", r6_3, (0.10, 0.15, 0.20), (0.05, 0.25)),
+            "R6-4": ("gap-and-go at 09:45, hold to close", r6_4, (0.001, 0.002, 0.003), (0.0005, 0.004)),
+            "R6-5": ("near-expiry 10:30 direction, hold to close", r6_5, (0.002, 0.003, 0.004), (0.001, 0.005)),
+            "R6-6": ("first-hour direction at 10:15, hold to close", r6_6, (0.001, 0.002, 0.003), (0.0005, 0.004)),
+        },
+    },
 }
 
 
-def index_stage(f: le.A, mask: np.ndarray, side: np.ndarray, win: tuple[int, int]) -> dict[str, Any]:
+def index_stage(
+    f: le.A, mask: np.ndarray, side: np.ndarray, win: tuple[int, int], to_close: bool = False
+) -> dict[str, Any]:
     spot, t = f["spot"].reshape(-1, 61), f["t"][:61]
     m, s = mask.reshape(-1, 61), side.reshape(-1, 61)
     picks: list[tuple[int, int, int]] = []
@@ -283,13 +327,15 @@ def index_stage(f: le.A, mask: np.ndarray, side: np.ndarray, win: tuple[int, int
     if not picks:
         return {"signals": 0, "p90_move": 0.0, "mean_pts": 0.0, "p": 1.0, "s1": False, "s2": False}
     d, j, sd = (np.array(c) for c in zip(*picks, strict=True))
-    fwd = (spot[d, np.minimum(j + H, 60)] - spot[d, j]) * sd
+    end = np.full(len(j), 60) if to_close else np.minimum(j + H, 60)  # §PREREG-R6: to 14:30
+    fwd = (spot[d, end] - spot[d, j]) * sd
     p90 = float(np.nanpercentile(np.abs(fwd), 90))
     wcols = np.nonzero((t >= win[0]) & (t <= win[1]))[0]
     rng = np.random.default_rng(le.SEED)
     rj = rng.choice(wcols, size=(1000, len(d)))
     rs = np.where(rng.random((1000, len(d))) < float(np.mean(sd > 0)), 1, -1)
-    null = np.nanmean((spot[d, np.minimum(rj + H, 60)] - spot[d, rj]) * rs, axis=1)
+    rend = np.full(rj.shape, 60) if to_close else np.minimum(rj + H, 60)
+    null = np.nanmean((spot[d, rend] - spot[d, rj]) * rs, axis=1)
     mean = float(np.nanmean(fwd))
     p = (1 + int((null >= mean).sum())) / 1001
     return {
@@ -365,7 +411,7 @@ def run(rnd: str) -> list[dict[str, Any]]:
     for iid, (_text, rule, grid, outside) in spec["ideas"].items():
         for x in grid:
             mask, side, win = rule(f, x)
-            r = index_stage(f, np.nan_to_num(mask).astype(bool), side, win)
+            r = index_stage(f, np.nan_to_num(mask).astype(bool), side, win, spec.get("to_close", False))
             rows.append({"id": f"{iid}-{x}", "stage": "S2", "idea": iid, "x": x} | r)
             if not r["s2"]:
                 continue

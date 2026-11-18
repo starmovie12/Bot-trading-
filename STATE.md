@@ -1,11 +1,11 @@
 STAGE=2
-NEXT=P3R R5 only with a new input (event calendar, recorder bid / ask, longer index history, or fresh days after 2026-11-13) or a new family; pre-register §PREREG-R5 first; no bot code (D-40)
+NEXT=P3R R7: pre-register a hold-to-close exit with no index stop (XH; loss bounded by the CAP15 premium) for gap-and-go and near-expiry direction, build it, run; progress card after R6 (3 rounds) sent; no bot code (D-40)
 BLOCK=S2
 MODEL_NOW=BIG
 MODEL_NEXT=BIG
 SWITCH_PENDING=none
 FREEZE=none
-TRIALS=158
+TRIALS=180
 HOLDOUT=burned
 HALT=none
 VISIBILITY=public-ok
