@@ -309,6 +309,20 @@ ROUNDS: dict[str, dict[str, Any]] = {
             "R6-6": ("first-hour direction at 10:15, hold to close", r6_6, (0.001, 0.002, 0.003), (0.0005, 0.004)),
         },
     },
+    "R7": {
+        "matrix": "data/lab/matrix_r7.npz",
+        "to_close": True,
+        "combos": (("XH", "CAP15"), ("XH2", "CAP15")),
+        "ideas": {
+            "R7-1": ("gap-and-go at 09:45, hold to close (R6-4 rule)", r6_4, (0.001, 0.002, 0.003), (0.0005, 0.004)),
+            "R7-2": (
+                "near-expiry 10:30 direction, hold to close (R6-5 rule)",
+                r6_5,
+                (0.002, 0.003, 0.004),
+                (0.001, 0.005),
+            ),
+        },
+    },
 }
 
 

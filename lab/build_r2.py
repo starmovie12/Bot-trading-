@@ -7,6 +7,7 @@ Every DESIGN decision row (09:30 .. 14:30, 5 min), both sides, structures ATM / 
 import datetime as dt
 import json
 import math
+import sys
 from pathlib import Path
 from typing import Any
 
@@ -25,7 +26,10 @@ def nz(x: float) -> bool:
 
 
 def index_exit(ih: list[float], il: list[float], e: int, side: int, ent: float, r: float, ex: str) -> tuple[int, str]:
-    stop, best, be_on, trail = ent - side * r, ent, False, False
+    if ex == "XH":  # §PREREG-R7: no index stop, hold to force-flat (loss bounded by the premium)
+        return FF, "force_flat"
+    wide = ex == "XH2"  # §PREREG-R7: index stop -2R only, no break-even / trail / target
+    stop, best, be_on, trail = ent - side * r * (2 if wide else 1), ent, False, False
     for m in range(e, FF + 1):
         h, lo = ih[m], il[m]
         if nz(h) and nz(lo):
@@ -35,7 +39,7 @@ def index_exit(ih: list[float], il: list[float], e: int, side: int, ent: float, 
             if ex == "XI1" and side * (good - ent) >= 2 * r:
                 return m, "target"
             best = max(best, good) if side > 0 else min(best, good)
-            if not be_on and side * (best - ent) >= r:
+            if not wide and not be_on and side * (best - ent) >= r:
                 be_on, stop = True, ent
             if ex == "XI2" and side * (best - ent) >= 2 * r and side * (best - side * r - stop) > 0:
                 stop, trail = best - side * r, True
@@ -56,11 +60,18 @@ def entry(a: dict[str, list[float]], t: int) -> int:
     return next((m for m in range(t, min(t + 3, FF)) if a["live"][m] and a["o"][m] > 0), -1)
 
 
-def day_outcomes(d: eor.Day, base: int, spot: np.ndarray, rv30: np.ndarray) -> dict[str, list[dict[str, float]]]:
+def day_outcomes(
+    d: eor.Day,
+    base: int,
+    spot: np.ndarray,
+    rv30: np.ndarray,
+    exits: tuple[str, ...] = ("XI1", "XI2"),
+    structs: tuple[str, ...] = ("ATM", "CAP15"),
+) -> dict[str, list[dict[str, float]]]:
     ih = [b.h for b in d.index]
     il = [b.l for b in d.index]
     io = [b.o for b in d.index]
-    out: dict[str, list[dict[str, float]]] = {k: [] for k in KEYS}
+    out: dict[str, list[dict[str, float]]] = {f"{x}|{s}": [] for x in exits for s in structs}
     for j in range(ROWS):
         t, s0 = 15 + 5 * j, float(spot[j])
         if not nz(s0):
@@ -69,7 +80,7 @@ def day_outcomes(d: eor.Day, base: int, spot: np.ndarray, rv30: np.ndarray) -> d
         r = max(0.0015, float(rv30[j]) * math.sqrt(60) if nz(float(rv30[j])) else 0.0) * s0
         for side in (1, -1):
             typ = "CE" if side > 0 else "PE"
-            for struct in ("ATM", "CAP15"):
+            for struct in structs:
                 pick = None
                 for k in range(1 if struct == "ATM" else 11):  # ATM: the ATM strike only; CAP15: walk OTM
                     key = (float(atm + side * 100 * k), typ)
@@ -82,7 +93,7 @@ def day_outcomes(d: eor.Day, base: int, spot: np.ndarray, rv30: np.ndarray) -> d
                 (strike, _), e = pick
                 a = d.opts[pick[0]]
                 ent_ix = io[e] if nz(io[e]) else s0
-                for ex in ("XI1", "XI2"):
+                for ex in exits:
                     x, why = index_exit(ih, il, e, side, ent_ix, r, ex)
                     px, stale = opt_price(a, x, "low" if why in ("stop", "breakeven", "trail") else "close")
                     if not nz(px):
@@ -114,7 +125,9 @@ def day_outcomes(d: eor.Day, base: int, spot: np.ndarray, rv30: np.ndarray) -> d
     return out
 
 
-def main() -> int:
+def main(argv: list[str]) -> int:
+    r7 = argv[:1] == ["r7"]  # §PREREG-R7: CAP15 x {XH, XH2} -> matrix_r7.npz
+    exits, structs = (("XH", "XH2"), ("CAP15",)) if r7 else (("XI1", "XI2"), ("ATM", "CAP15"))
     days = json.loads((ROOT / "data/lab/split.json").read_text(encoding="utf-8"))["design"]
     lots = {
         e: int(v) for e, v in json.loads((ROOT / "data/lab/data_profile.json").read_text())["lots_by_expiry"].items()
@@ -122,19 +135,19 @@ def main() -> int:
     m = np.load(ROOT / "data/lab/matrix.npz")
     feats: dict[str, Any] = {k: m[k] for k in m.files if k.startswith("F_")}
     spot, rv30 = feats["F_spot"].reshape(-1, ROWS), feats["F_rv30"].reshape(-1, ROWS)
-    allout: dict[str, list[dict[str, float]]] = {k: [] for k in KEYS}
+    allout: dict[str, list[dict[str, float]]] = {f"{x}|{s}": [] for x in exits for s in structs}
     for i, ds in enumerate(days):
         d = eor.load_day(ROOT / "data/banknifty/repo", dt.date.fromisoformat(ds), lots)
-        for k, v in day_outcomes(d, i * ROWS, spot[i], rv30[i]).items():
+        for k, v in day_outcomes(d, i * ROWS, spot[i], rv30[i], exits, structs).items():
             allout[k] += v
     arrays = dict(feats)
     for k, rows in allout.items():
         for col in rows[0]:
             arrays[f"O_{k}_{col}"] = np.array([r[col] for r in rows], dtype=float)
-    np.savez_compressed(ROOT / "data/lab/matrix_r2.npz", **arrays)
+    np.savez_compressed(ROOT / f"data/lab/matrix_{'r7' if r7 else 'r2'}.npz", **arrays)
     print({k: len(v) for k, v in allout.items()})
     return 0
 
 
 if __name__ == "__main__":
-    raise SystemExit(main())
+    raise SystemExit(main(sys.argv[1:]))

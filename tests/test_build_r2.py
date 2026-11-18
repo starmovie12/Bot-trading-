@@ -33,3 +33,11 @@ def test_stop_break_even_target_trail_time_and_force_flat() -> None:
 def test_stop_wins_when_stop_and_target_share_a_minute() -> None:
     hi, lo = path({10: (125, 85)})
     assert index_exit(hi, lo, 10, 1, 100.0, 10.0, "XI1") == (10, "stop")
+
+
+def test_r7_hold_exits() -> None:
+    hi, lo = path({10: (101, 85), 11: (102, 70)})
+    assert index_exit(hi, lo, 10, 1, 100.0, 10.0, "XH") == (FF, "force_flat")  # no index stop at all
+    assert index_exit(hi, lo, 10, 1, 100.0, 10.0, "XH2") == (11, "stop")  # -2R = 80: 85 holds, 70 breaks
+    hi, lo = path({10: (130, 99), 11: (131, 100)})
+    assert index_exit(hi, lo, 10, 1, 100.0, 10.0, "XH2") == (FF, "force_flat")  # no target, no break-even

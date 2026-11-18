@@ -1,11 +1,11 @@
 STAGE=2
-NEXT=P3R R7: pre-register a hold-to-close exit with no index stop (XH; loss bounded by the CAP15 premium) for gap-and-go and near-expiry direction, build it, run; progress card after R6 (3 rounds) sent; no bot code (D-40)
+NEXT=P3R: strongest seed = R7-2 (near-expiry 10:30 direction, hold to close; rare, top-5 driven); further rounds on this data only with a new, pre-registered family; forward shadow of the seed on any fresh day after 2026-11-13; no bot code (D-40)
 BLOCK=S2
 MODEL_NOW=BIG
 MODEL_NEXT=BIG
 SWITCH_PENDING=none
 FREEZE=none
-TRIALS=180
+TRIALS=190
 HOLDOUT=burned
 HALT=none
 VISIBILITY=public-ok
