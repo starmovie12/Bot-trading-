@@ -122,3 +122,25 @@
 {"cycle": 1, "design_net_stressed": null, "id": "R3-7-0.005", "idea": "near-expiry momentum, passive entry next to market", "p_screen": 0.036, "params": {"X": 0.005}, "source": "P3R R3 S2 index 33.81 pts"}
 {"cycle": 1, "design_net_stressed": 25583.74, "id": "R3-7-0.005-CAP15-XI2", "idea": "near-expiry momentum, passive entry next to market", "p_screen": 0.1169, "params": {"X": 0.005, "exit": "XI2", "structure": "CAP15"}, "source": "P3R R3 S3"}
 {"cycle": 1, "design_net_stressed": 18957.04, "id": "R3-7-0.005-CAP15P-XI2", "idea": "near-expiry momentum, passive entry next to market", "p_screen": 0.1778, "params": {"X": 0.005, "exit": "XI2", "structure": "CAP15P"}, "source": "P3R R3 S3"}
+{"cycle": 1, "design_net_stressed": null, "id": "R4-1-0.003", "idea": "gap follow beyond the 15-min range", "p_screen": 0.1289, "params": {"X": 0.003}, "source": "P3R R4 S2 index 24.93 pts"}
+{"cycle": 1, "design_net_stressed": null, "id": "R4-1-0.005", "idea": "gap follow beyond the 15-min range", "p_screen": 0.1109, "params": {"X": 0.005}, "source": "P3R R4 S2 index 39.15 pts"}
+{"cycle": 1, "design_net_stressed": null, "id": "R4-1-0.007", "idea": "gap follow beyond the 15-min range", "p_screen": 0.014, "params": {"X": 0.007}, "source": "P3R R4 S2 index 89.73 pts"}
+{"cycle": 1, "design_net_stressed": 3685.14, "id": "R4-1-0.007-CAP15-XI2", "idea": "gap follow beyond the 15-min range", "p_screen": 0.4176, "params": {"X": 0.007, "exit": "XI2", "structure": "CAP15"}, "source": "P3R R4 S3"}
+{"cycle": 1, "design_net_stressed": 3881.59, "id": "R4-1-0.007-CAP15-XI1", "idea": "gap follow beyond the 15-min range", "p_screen": 0.3207, "params": {"X": 0.007, "exit": "XI1", "structure": "CAP15"}, "source": "P3R R4 S3"}
+{"cycle": 1, "design_net_stressed": null, "id": "R4-2-0.0005", "idea": "30-min range break, then a pullback to the edge", "p_screen": 0.3207, "params": {"X": 0.0005}, "source": "P3R R4 S2 index 2.98 pts"}
+{"cycle": 1, "design_net_stressed": null, "id": "R4-2-0.001", "idea": "30-min range break, then a pullback to the edge", "p_screen": 0.3197, "params": {"X": 0.001}, "source": "P3R R4 S2 index 2.58 pts"}
+{"cycle": 1, "design_net_stressed": null, "id": "R4-2-0.0015", "idea": "30-min range break, then a pullback to the edge", "p_screen": 0.2567, "params": {"X": 0.0015}, "source": "P3R R4 S2 index 3.72 pts"}
+{"cycle": 1, "design_net_stressed": null, "id": "R4-3-0.006", "idea": "wide first hour = trend day: follow it", "p_screen": 0.2547, "params": {"X": 0.006}, "source": "P3R R4 S2 index 9.01 pts"}
+{"cycle": 1, "design_net_stressed": null, "id": "R4-3-0.008", "idea": "wide first hour = trend day: follow it", "p_screen": 0.2697, "params": {"X": 0.008}, "source": "P3R R4 S2 index 10.89 pts"}
+{"cycle": 1, "design_net_stressed": null, "id": "R4-3-0.01", "idea": "wide first hour = trend day: follow it", "p_screen": 0.4625, "params": {"X": 0.01}, "source": "P3R R4 S2 index 6.41 pts"}
+{"cycle": 1, "design_net_stressed": null, "id": "R4-4-0.0005", "idea": "afternoon push to a new day extreme", "p_screen": 0.3007, "params": {"X": 0.0005}, "source": "P3R R4 S2 index 4.04 pts"}
+{"cycle": 1, "design_net_stressed": null, "id": "R4-4-0.001", "idea": "afternoon push to a new day extreme", "p_screen": 0.1129, "params": {"X": 0.001}, "source": "P3R R4 S2 index 7.09 pts"}
+{"cycle": 1, "design_net_stressed": null, "id": "R4-4-0.0015", "idea": "afternoon push to a new day extreme", "p_screen": 0.0809, "params": {"X": 0.0015}, "source": "P3R R4 S2 index 7.3 pts"}
+{"cycle": 1, "design_net_stressed": null, "id": "R4-5-0.003", "idea": "gap follow while VIX falls", "p_screen": 0.3906, "params": {"X": 0.003}, "source": "P3R R4 S2 index 3.77 pts"}
+{"cycle": 1, "design_net_stressed": null, "id": "R4-5-0.005", "idea": "gap follow while VIX falls", "p_screen": 0.5604, "params": {"X": 0.005}, "source": "P3R R4 S2 index -5.25 pts"}
+{"cycle": 1, "design_net_stressed": null, "id": "R4-5-0.007", "idea": "gap follow while VIX falls", "p_screen": 0.4735, "params": {"X": 0.007}, "source": "P3R R4 S2 index 1.65 pts"}
+{"cycle": 1, "design_net_stressed": null, "id": "R4-6-0.002", "idea": "two 15-min candles the same way", "p_screen": 0.2118, "params": {"X": 0.002}, "source": "P3R R4 S2 index 4.92 pts"}
+{"cycle": 1, "design_net_stressed": null, "id": "R4-6-0.003", "idea": "two 15-min candles the same way", "p_screen": 0.049, "params": {"X": 0.003}, "source": "P3R R4 S2 index 14.7 pts"}
+{"cycle": 1, "design_net_stressed": -105480.65, "id": "R4-6-0.003-CAP15-XI2", "idea": "two 15-min candles the same way", "p_screen": 0.8871, "params": {"X": 0.003, "exit": "XI2", "structure": "CAP15"}, "source": "P3R R4 S3"}
+{"cycle": 1, "design_net_stressed": -33931.51, "id": "R4-6-0.003-CAP15-XI1", "idea": "two 15-min candles the same way", "p_screen": 0.4066, "params": {"X": 0.003, "exit": "XI1", "structure": "CAP15"}, "source": "P3R R4 S3"}
+{"cycle": 1, "design_net_stressed": null, "id": "R4-6-0.004", "idea": "two 15-min candles the same way", "p_screen": 0.2637, "params": {"X": 0.004}, "source": "P3R R4 S2 index 7.65 pts"}

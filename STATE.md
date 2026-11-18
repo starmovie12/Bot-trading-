@@ -1,11 +1,11 @@
 STAGE=2
-NEXT=P3R R4 (after the 3-round card): gap follow + the untested combos of the owner's families, or new data (DATA_REQUEST items 5 / 6 / 7); pre-register §PREREG-R4 first; no bot code (D-40)
+NEXT=P3R R5 only with a new input (event calendar, recorder bid / ask, longer index history, or fresh days after 2026-11-13) or a new family; pre-register §PREREG-R5 first; no bot code (D-40)
 BLOCK=S2
 MODEL_NOW=BIG
 MODEL_NEXT=BIG
 SWITCH_PENDING=none
 FREEZE=none
-TRIALS=124
+TRIALS=146
 HOLDOUT=burned
 HALT=none
 VISIBILITY=public-ok

@@ -135,6 +135,43 @@ def r3_6(f: le.A, x: float) -> tuple[np.ndarray, np.ndarray, tuple[int, int]]:
     return m, -side, win
 
 
+def r4_1(f: le.A, x: float) -> tuple[np.ndarray, np.ndarray, tuple[int, int]]:
+    g, r15 = np.nan_to_num(f["gap"]), np.nan_to_num(f["ret15"])
+    beyond = np.where(g > 0, f["spot"] > f["or15_hi"], f["spot"] < f["or15_lo"])
+    m = (f["t"] >= 30) & (f["t"] <= 75) & (np.abs(g) >= x) & (sg(r15) == sg(g)) & beyond
+    return m, sg(g), (30, 75)
+
+
+def r4_2(f: le.A, x: float) -> tuple[np.ndarray, np.ndarray, tuple[int, int]]:
+    r15 = np.nan_to_num(f["ret15"])
+    up = (f["day_hi"] > f["or30_hi"]) & (np.abs(f["spot"] / f["or30_hi"] - 1) <= x) & (r15 > 0)
+    dn = (f["day_lo"] < f["or30_lo"]) & (np.abs(f["spot"] / f["or30_lo"] - 1) <= x) & (r15 < 0)
+    return (f["t"] >= 45) & (f["t"] <= 255) & (up | dn), np.where(up, 1, -1), (45, 255)
+
+
+def r4_3(f: le.A, x: float) -> tuple[np.ndarray, np.ndarray, tuple[int, int]]:
+    rng = (f["day_hi"] - f["day_lo"]) / f["spot"]
+    return (f["t"] == 60) & (rng >= x), sg(f["ret_open"]), (60, 60)
+
+
+def r4_4(f: le.A, x: float) -> tuple[np.ndarray, np.ndarray, tuple[int, int]]:
+    r30 = np.nan_to_num(f["ret30"])
+    hi, lo = (f["spot"] >= f["day_hi"] * (1 - x)) & (r30 > 0), (f["spot"] <= f["day_lo"] * (1 + x)) & (r30 < 0)
+    return (f["t"] >= 180) & (f["t"] <= 285) & (hi ^ lo), np.where(hi, 1, -1), (180, 285)
+
+
+def r4_5(f: le.A, x: float) -> tuple[np.ndarray, np.ndarray, tuple[int, int]]:
+    g = np.nan_to_num(f["gap"])
+    m = (f["t"] >= 45) & (f["t"] <= 120) & (np.abs(g) >= x) & (f["vix_chg"] < 0) & (sg(f["ret_open"]) == sg(g))
+    return m, sg(g), (45, 120)
+
+
+def r4_6(f: le.A, x: float) -> tuple[np.ndarray, np.ndarray, tuple[int, int]]:
+    r15, r30 = np.nan_to_num(f["ret15"]), np.nan_to_num(f["ret30"])
+    m = (f["t"] >= 45) & (f["t"] <= 255) & (sg(r15) == sg(r30 - r15)) & (np.abs(r30) >= x)
+    return m, sg(r30), (45, 255)
+
+
 ROUNDS: dict[str, dict[str, Any]] = {
     "R1": {
         "combos": (("EXIT0", "LONG"), ("C2", "LONG"), ("C3", "LONG")),
@@ -173,6 +210,23 @@ ROUNDS: dict[str, dict[str, Any]] = {
             "R3-5": ("fade a VIX spike (in %)", r3_5, (0.03, 0.045, 0.06), (0.015, 0.075)),
             "R3-6": ("follow a VIX move (in %)", r3_6, (0.03, 0.045, 0.06), (0.015, 0.075)),
             "R3-7": ("near-expiry momentum, passive entry next to market", r2_4, (0.003, 0.004, 0.005), (0.002, 0.006)),
+        },
+    },
+    "R4": {
+        "matrix": "data/lab/matrix_r2.npz",
+        "combos": (("XI2", "CAP15"), ("XI1", "CAP15")),
+        "ideas": {
+            "R4-1": ("gap follow beyond the 15-min range", r4_1, (0.003, 0.005, 0.007), (0.001, 0.009)),
+            "R4-2": (
+                "30-min range break, then a pullback to the edge",
+                r4_2,
+                (0.0005, 0.001, 0.0015),
+                (0.00025, 0.002),
+            ),
+            "R4-3": ("wide first hour = trend day: follow it", r4_3, (0.006, 0.008, 0.010), (0.004, 0.012)),
+            "R4-4": ("afternoon push to a new day extreme", r4_4, (0.0005, 0.001, 0.0015), (0.00025, 0.002)),
+            "R4-5": ("gap follow while VIX falls", r4_5, (0.003, 0.005, 0.007), (0.001, 0.009)),
+            "R4-6": ("two 15-min candles the same way", r4_6, (0.002, 0.003, 0.004), (0.001, 0.005)),
         },
     },
 }
