@@ -342,3 +342,24 @@ gates, ties -> the higher total net.
 | R2-4-0.004-CAP15-XI1 | 73.19 | 84 |
 | R7-1-0.001-CAP15-XH | 39.36 | 91 |
 | R2-4-0.004-ATM-XI1 | 19.23 | 86 |
+
+## §PREREG-R15 (owner order 4 / D-47: SIZING + SCALE-OUT + PYRAMIDING on R14-P3-e3; EXPLORE; before any R15 number)
+
+Base: the R14-P3-e3 portfolio (26 members, priority, one position at a time, max 3 a day). The entry times and the
+sequencing stay those of R14 (an earlier pyramid exit never frees time for an extra trade: conservative). Lots per
+trade by the member's priority rank (results/r14_members.json order restricted to P3): ranks 1-6 -> 3 lots, 7-14 ->
+2 lots, 15-26 -> 1 lot; then capped so the by-construction max loss of the WHOLE position (premium x qty + stressed
+costs) <= MAX_TRADE_LOSS_RS ₹35,700 (fewer lots if needed; never fewer than 1 when 1 lot fits). R = 0.30 x the entry
+premium. Costs: SOURCE charges per order by date (brokerage flat per order) x 1.5 for the actual orders; stressed spread
++ slippage per lot as the member's 1-lot fill. Trial cap added: 10
+- R15-a TIERS: all lots enter together and exit at the member's own exit.
+- R15-b TIERS + SCALE-OUT (lots >= 2): one lot books at entry x 1.30, filled at that price in the first minute (after
+  entry, before the member's exit) whose option HIGH is above it; the other lots exit at the member's exit; one extra
+  exit order is paid.
+- R15-c PYRAMID ONLY IN PROFIT: enter 1 lot; at the first minute (before the member's exit) whose option CLOSE >= entry x
+  1.30, add (tier lots - 1) lots at the next minute's open (a new buy order); the added lots are cut so the position's
+  by-construction max loss stays <= ₹35,700; the stop of ALL lots then moves to S = max(E, (a x A + 0.7 x E) / (a + 1))
+  (E = first entry, A = add price, a = added lots), so the position's loss at S <= the first lot's initial risk 0.3 x E;
+  a minute whose LOW <= S exits all lots at min(S, that minute's open); else all exit at the member's exit. Never adds
+  to a loser (Class D).
+3 trials, ids R15-<a|b|c>; the EXPLORE screen of R14 on the result (bootstrap p < 0.01 etc.).
