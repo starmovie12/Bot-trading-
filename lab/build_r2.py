@@ -82,10 +82,10 @@ def day_outcomes(
             typ = "CE" if side > 0 else "PE"
             for struct in structs:
                 pick = None
-                for k in range(1 if struct == "ATM" else 11):  # ATM: the ATM strike only; CAP15: walk OTM
-                    key = (float(atm + side * 100 * k), typ)
+                for k in range(11 if struct == "CAP15" else 1):  # ATM / ITM2: one strike; CAP15: walk OTM
+                    key = (float(atm + side * 100 * k - (side * 200 if struct == "ITM2" else 0)), typ)
                     ok = key in d.opts and (e := entry(d.opts[key], t)) >= 0
-                    if ok and (struct == "ATM" or d.opts[key]["o"][e] * d.lot <= CAP_RS):
+                    if ok and (struct != "CAP15" or d.opts[key]["o"][e] * d.lot <= CAP_RS):
                         pick = (key, e)
                         break
                 if pick is None:
@@ -126,8 +126,10 @@ def day_outcomes(
 
 
 def main(argv: list[str]) -> int:
-    r7 = argv[:1] == ["r7"]  # §PREREG-R7: CAP15 x {XH, XH2} -> matrix_r7.npz
-    exits, structs = (("XH", "XH2"), ("CAP15",)) if r7 else (("XI1", "XI2"), ("ATM", "CAP15"))
+    mode = argv[0] if argv[:1] in (["r7"], ["r13"]) else "r2"  # §PREREG-R7 / §PREREG-R13 builds
+    exits, structs = {"r7": (("XH", "XH2"), ("CAP15",)), "r13": (("XH", "XH2"), ("ITM2",))}.get(
+        mode, (("XI1", "XI2"), ("ATM", "CAP15"))
+    )
     days = json.loads((ROOT / "data/lab/split.json").read_text(encoding="utf-8"))["design"]
     lots = {
         e: int(v) for e, v in json.loads((ROOT / "data/lab/data_profile.json").read_text())["lots_by_expiry"].items()
@@ -144,7 +146,7 @@ def main(argv: list[str]) -> int:
     for k, rows in allout.items():
         for col in rows[0]:
             arrays[f"O_{k}_{col}"] = np.array([r[col] for r in rows], dtype=float)
-    np.savez_compressed(ROOT / f"data/lab/matrix_{'r7' if r7 else 'r2'}.npz", **arrays)
+    np.savez_compressed(ROOT / f"data/lab/matrix_{mode}.npz", **arrays)
     print({k: len(v) for k, v in allout.items()})
     return 0
 

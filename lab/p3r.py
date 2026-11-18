@@ -401,6 +401,16 @@ ROUNDS: dict[str, dict[str, Any]] = {
             "R12-3": ("trend score at 10:00 with VIX not rising", r12(45, True), (3, 4, 5), (2, 6)),
         },
     },
+    "R13": {
+        "matrix": "data/lab/matrix_r13.npz",
+        "to_close": True,
+        "combos": (("XH", "ITM2"), ("XH2", "ITM2")),
+        "ideas": {
+            "R13-1": ("near-expiry 10:30 direction on ITM2 (R6-5 rule)", r6_5, (0.002, 0.003, 0.004), (0.001, 0.005)),
+            "R13-2": ("trend score at 10:00 on ITM2 (R12-1 rule)", r12(45, False), (3, 4, 5), (2, 6)),
+            "R13-3": ("gap-and-go at 09:45 on ITM2 (R6-4 rule)", r6_4, (0.001, 0.002, 0.003), (0.0005, 0.004)),
+        },
+    },
 }
 
 

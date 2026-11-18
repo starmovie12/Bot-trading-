@@ -337,3 +337,18 @@
 {"cycle": 1, "design_net_stressed": null, "id": "R12-3-3", "idea": "trend score at 10:00 with VIX not rising", "p_screen": 0.6464, "params": {"X": 3}, "source": "P3R R12 S2 index -8.54 pts"}
 {"cycle": 1, "design_net_stressed": null, "id": "R12-3-4", "idea": "trend score at 10:00 with VIX not rising", "p_screen": 0.3876, "params": {"X": 4}, "source": "P3R R12 S2 index 0.0 pts"}
 {"cycle": 1, "design_net_stressed": null, "id": "R12-3-5", "idea": "trend score at 10:00 with VIX not rising", "p_screen": 0.0699, "params": {"X": 5}, "source": "P3R R12 S2 index 78.9 pts"}
+{"cycle": 1, "design_net_stressed": null, "id": "R13-1-0.002", "idea": "near-expiry 10:30 direction on ITM2 (R6-5 rule)", "p_screen": 0.1868, "params": {"X": 0.002}, "source": "P3R R13 S2 index 30.26 pts"}
+{"cycle": 1, "design_net_stressed": null, "id": "R13-1-0.003", "idea": "near-expiry 10:30 direction on ITM2 (R6-5 rule)", "p_screen": 0.0899, "params": {"X": 0.003}, "source": "P3R R13 S2 index 57.01 pts"}
+{"cycle": 1, "design_net_stressed": null, "id": "R13-1-0.004", "idea": "near-expiry 10:30 direction on ITM2 (R6-5 rule)", "p_screen": 0.03, "params": {"X": 0.004}, "source": "P3R R13 S2 index 88.39 pts"}
+{"cycle": 1, "design_net_stressed": 42524.97, "id": "R13-1-0.004-ITM2-XH", "idea": "near-expiry 10:30 direction on ITM2 (R6-5 rule)", "p_screen": 0.033, "params": {"X": 0.004, "exit": "XH", "structure": "ITM2"}, "source": "P3R R13 S3"}
+{"cycle": 1, "design_net_stressed": 43580.67, "id": "R13-1-0.004-ITM2-XH2", "idea": "near-expiry 10:30 direction on ITM2 (R6-5 rule)", "p_screen": 0.036, "params": {"X": 0.004, "exit": "XH2", "structure": "ITM2"}, "source": "P3R R13 S3"}
+{"cycle": 1, "design_net_stressed": null, "id": "R13-2-3", "idea": "trend score at 10:00 on ITM2 (R12-1 rule)", "p_screen": 0.3137, "params": {"X": 3}, "source": "P3R R13 S2 index 14.19 pts"}
+{"cycle": 1, "design_net_stressed": null, "id": "R13-2-4", "idea": "trend score at 10:00 on ITM2 (R12-1 rule)", "p_screen": 0.1359, "params": {"X": 4}, "source": "P3R R13 S2 index 34.98 pts"}
+{"cycle": 1, "design_net_stressed": null, "id": "R13-2-5", "idea": "trend score at 10:00 on ITM2 (R12-1 rule)", "p_screen": 0.04, "params": {"X": 5}, "source": "P3R R13 S2 index 84.77 pts"}
+{"cycle": 1, "design_net_stressed": 38005.5, "id": "R13-2-5-ITM2-XH", "idea": "trend score at 10:00 on ITM2 (R12-1 rule)", "p_screen": 0.034, "params": {"X": 5, "exit": "XH", "structure": "ITM2"}, "source": "P3R R13 S3"}
+{"cycle": 1, "design_net_stressed": 39481.54, "id": "R13-2-5-ITM2-XH2", "idea": "trend score at 10:00 on ITM2 (R12-1 rule)", "p_screen": 0.015, "params": {"X": 5, "exit": "XH2", "structure": "ITM2"}, "source": "P3R R13 S3"}
+{"cycle": 1, "design_net_stressed": null, "id": "R13-3-0.001", "idea": "gap-and-go at 09:45 on ITM2 (R6-4 rule)", "p_screen": 0.034, "params": {"X": 0.001}, "source": "P3R R13 S2 index 47.6 pts"}
+{"cycle": 1, "design_net_stressed": 63012.44, "id": "R13-3-0.001-ITM2-XH", "idea": "gap-and-go at 09:45 on ITM2 (R6-4 rule)", "p_screen": 0.031, "params": {"X": 0.001, "exit": "XH", "structure": "ITM2"}, "source": "P3R R13 S3"}
+{"cycle": 1, "design_net_stressed": -25011.58, "id": "R13-3-0.001-ITM2-XH2", "idea": "gap-and-go at 09:45 on ITM2 (R6-4 rule)", "p_screen": 0.1439, "params": {"X": 0.001, "exit": "XH2", "structure": "ITM2"}, "source": "P3R R13 S3"}
+{"cycle": 1, "design_net_stressed": null, "id": "R13-3-0.002", "idea": "gap-and-go at 09:45 on ITM2 (R6-4 rule)", "p_screen": 0.0919, "params": {"X": 0.002}, "source": "P3R R13 S2 index 43.73 pts"}
+{"cycle": 1, "design_net_stressed": null, "id": "R13-3-0.003", "idea": "gap-and-go at 09:45 on ITM2 (R6-4 rule)", "p_screen": 0.0909, "params": {"X": 0.003}, "source": "P3R R13 S2 index 53.92 pts"}

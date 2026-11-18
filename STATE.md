@@ -1,11 +1,11 @@
 STAGE=2
-NEXT=AUTO-RUN (D-43): R13 last round (seeds R7-2 / R12-1 / R6-4 on the ITM2 strike, pre-register first) -> results/final_research.md + card -> WATCH MODE (daily data-repo check); no bot code
+NEXT=AUTO-RUN (D-43): results/final_research.md + card, results/forward_shadow.md (3 pre-registered seeds), then WATCH MODE (daily scheduled data-repo check); no new rounds on this data; no bot code
 BLOCK=S2
 MODEL_NOW=BIG
 MODEL_NEXT=BIG
 SWITCH_PENDING=none
 FREEZE=none
-TRIALS=339
+TRIALS=354
 HOLDOUT=burned
 HALT=none
 VISIBILITY=public-ok
