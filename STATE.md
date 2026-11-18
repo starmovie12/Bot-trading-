@@ -1,11 +1,11 @@
 STAGE=2
-NEXT=P3R v2 R9 = F4 (near-expiry seed: DTE <= 10, hold to close, trail, an F3-style filter); pre-register §PREREG-R9 first; then R10 F5, R11 F2 (check the IV tables' size first, no blob-size listing on the partial clone), R12 F1; no bot code (D-40, D-42)
+NEXT=P3R v2 R10 = F1 (iron fly / iron condor, long wings first, research only): pre-register §PREREG-R10, build 4-leg outcomes (8 orders stressed), run; progress card after R10; then F2 (IV tables: check size safely), F5; no bot code (D-40, D-42)
 BLOCK=S2
 MODEL_NOW=BIG
 MODEL_NEXT=BIG
 SWITCH_PENDING=none
 FREEZE=none
-TRIALS=286
+TRIALS=295
 HOLDOUT=burned
 HALT=none
 VISIBILITY=public-ok

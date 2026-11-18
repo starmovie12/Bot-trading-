@@ -229,6 +229,13 @@ def r6_6(f: le.A, x: float) -> tuple[np.ndarray, np.ndarray, tuple[int, int]]:
     return fixed(60, f, np.abs(f["ret_open"]) >= x, sg(f["ret_open"]))
 
 
+def r9(dmax: int) -> Rule:
+    def rule(f: le.A, x: float) -> tuple[np.ndarray, np.ndarray, tuple[int, int]]:
+        return fixed(75, f, (f["dte"] <= dmax) & (np.abs(f["ret_open"]) >= x), sg(f["ret_open"]))
+
+    return rule
+
+
 ROUNDS: dict[str, dict[str, Any]] = {
     "R1": {
         "combos": (("EXIT0", "LONG"), ("C2", "LONG"), ("C3", "LONG")),
@@ -321,6 +328,20 @@ ROUNDS: dict[str, dict[str, Any]] = {
                 (0.002, 0.003, 0.004),
                 (0.001, 0.005),
             ),
+        },
+    },
+    "R9": {
+        "matrix": "data/lab/matrix_r9.npz",
+        "to_close": True,
+        "combos": (("XH", "CAP15"), ("XH2", "CAP15"), ("XI2", "CAP15")),
+        "ideas": {
+            f"R9-{i}": (
+                f"near-expiry direction at 10:30, DTE <= {d}, hold to close",
+                r9(d),
+                (0.0005, 0.0015, 0.0025),
+                (0.0, 0.0035),
+            )
+            for i, d in ((1, 10), (2, 15), (3, 20))
         },
     },
 }
