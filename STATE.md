@@ -1,11 +1,11 @@
 STAGE=2
-NEXT=Owner order 4 (D-47): results/lots_math.md -> R14 portfolio (pre-register the member list) -> R15 sizing / scale-out / pyramiding -> R16 cost filter -> one final candidate -> EXPLORE -> CONFIRM on the old holdout only if EXPLORE passes -> card; WATCH MODE off; no bot code
+NEXT=Owner order 4: R15 sizing / scale-out / pyramiding on R14-P3-e3 (pre-register tiers first) -> R16 cost filter -> final candidate -> EXPLORE -> CONFIRM only if EXPLORE passes -> card; no bot code
 BLOCK=S2
 MODEL_NOW=BIG
 MODEL_NEXT=BIG
 SWITCH_PENDING=none
 FREEZE=none
-TRIALS=354
+TRIALS=363
 HOLDOUT=burned
 HALT=none
 VISIBILITY=public-ok
