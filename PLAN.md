@@ -278,3 +278,18 @@ x {CAP15-XH, CAP15-XI2}. ids R12-<idea>-<value>[-CAP15-<exit>]. Outside neighbou
 | R12-1 | trend score at 10:00 | DIRECTION (regime) | t = 45, score >= X | X 3, 4, 5 (2, 6) |
 | R12-2 | trend score at 11:00 | DIRECTION (regime) | t = 105, score >= X | X 3, 4, 5 (2, 6) |
 | R12-3 | trend score at 10:00 with VIX not rising | DIRECTION (regime) | t = 45, score >= X, vix_chg <= 0 | X 3, 4, 5 (2, 6) |
+
+## §PREREG-R13 (P3R v2 round 13 = the last round of remaining combos (D-43 C3); EXPLORE; before any R13 number)
+
+Data: DESIGN 362 days; the old holdout stays closed. The three seeds with an index edge to the close (R6-4 gap-and-go,
+R6-5 / R7-2 near-expiry 10:30, R12-1 trend score) on the strike F6 found cheapest per index point: ITM2 = 200 points
+in the money (CE strike ATM-200, PE strike ATM+200), nearest monthly. Loss-first trade-off, reported: ITM2's
+by-construction max loss is its premium (median ~711 points x lot ~= ₹21,000), above CAP15's ₹15,000.
+Trial cap added: 40. Funnel S1 / S2 to 14:30 (§PREREG-R6). S3 on data/lab/matrix_r13.npz (lab/build_r2.py r13: ITM2 x
+{XH, XH2}, §PREREG-R7 exits). ids R13-<idea>-<value>[-ITM2-<exit>]. EXPLORE screen as research_plan_v2.md.
+
+| id | idea (side) | edge source | rule | grid (outside neighbours) |
+|---|---|---|---|---|
+| R13-1 | near-expiry 10:30 direction on ITM2 (R6-5 rule) | DIRECTION | t = 75, dte <= 7, abs(ret_open) >= X | X 0.002, 0.003, 0.004 (0.001, 0.005) |
+| R13-2 | trend score at 10:00 on ITM2 (R12-1 rule) | DIRECTION (regime) | t = 45, score >= X | X 3, 4, 5 (2, 6) |
+| R13-3 | gap-and-go at 09:45 on ITM2 (R6-4 rule) | DIRECTION | t = 30, abs(gap) >= X, sign(ret_open) = sign(gap) | X 0.001, 0.002, 0.003 (0.0005, 0.004) |
