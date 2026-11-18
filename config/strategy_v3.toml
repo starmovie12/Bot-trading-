@@ -254,6 +254,8 @@ HOLDOUT_P_MAX = 0.10
 HOLDOUT_NULL_PCT = 0.90
 HOLDOUT_MAX_USES = 1        # §14.2: max 1 holdout run in program S3
 PAPER_MIN_TRADES = 60
+R7_MAX_STEPS = 6            # §13.3 R7: forward selection, max 6 steps
+R7_FAMILY_MAX = 2           # §9: max 2 checks from one family in R7
 EXIT_CHECK_BARS = [10, 20, 30]
 
 # §12.3 module flags (all OFF unless the variant table turns them on)

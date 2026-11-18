@@ -42,6 +42,8 @@ def grid(plan_text: str, rnd: str) -> list[Cfg]:
                     overrides=c.get("overrides", {}),
                     flags=c.get("flags", {}),
                     intrabar=c.get("intrabar", "BARCLOSE"),
+                    checks=tuple(c.get("checks", ())),
+                    slots_off=tuple(c.get("slots_off", ())),
                 )
                 for c in json.loads(m["body"])
             ]

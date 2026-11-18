@@ -522,3 +522,16 @@ Series BASE (half spread 0.50, slip 0.20); STRESS frozen from the T1-P OOS entry
 ```json
 [{"variant": "T1-RAW"}, {"variant": "T1"}, {"variant": "T1-P"}]
 ```
+
+Trial cap added: 12 (S3 R0 fits, already run under the grid above)
+
+## S3 · R1 (owner order 6; §13.3; committed before any R1 number)
+Nested (§13.4): per OOS window k the base (T1-P for R1) and the 13 R1 configs are fitted on blocks 1..k; the
+highest training net_base wins (the base wins ties); the winner is tested on block k+1. Each fit is one ledger row.
+R1 = G1_TRIGGER_PTS {5, 8, 12} x SL_INIT_PTS {12, 18} x EXIT_MODE {X-A, X-B} (12) + N13 (1) = 13 configs.
+Nulls (NULL-RANDOM 2,000 seeds on the nested candidate), PBO (CSCV 16 blocks) and DSR (N_eff) after the round.
+Trial cap added: 60
+<!-- S3-GRID R1 -->
+```json
+[{"variant": "T1-P", "overrides": {}, "flags": {}, "checks": [], "slots_off": []}, {"variant": "T1-P", "overrides": {"G1_TRIGGER_PTS": 5, "SL_INIT_PTS": 12, "EXIT_MODE": "X-A"}, "flags": {}, "checks": [], "slots_off": []}, {"variant": "T1-P", "overrides": {"G1_TRIGGER_PTS": 5, "SL_INIT_PTS": 12, "EXIT_MODE": "X-B"}, "flags": {}, "checks": [], "slots_off": []}, {"variant": "T1-P", "overrides": {"G1_TRIGGER_PTS": 5, "SL_INIT_PTS": 18, "EXIT_MODE": "X-A"}, "flags": {}, "checks": [], "slots_off": []}, {"variant": "T1-P", "overrides": {"G1_TRIGGER_PTS": 5, "SL_INIT_PTS": 18, "EXIT_MODE": "X-B"}, "flags": {}, "checks": [], "slots_off": []}, {"variant": "T1-P", "overrides": {"G1_TRIGGER_PTS": 8, "SL_INIT_PTS": 12, "EXIT_MODE": "X-A"}, "flags": {}, "checks": [], "slots_off": []}, {"variant": "T1-P", "overrides": {"G1_TRIGGER_PTS": 8, "SL_INIT_PTS": 12, "EXIT_MODE": "X-B"}, "flags": {}, "checks": [], "slots_off": []}, {"variant": "T1-P", "overrides": {"G1_TRIGGER_PTS": 8, "SL_INIT_PTS": 18, "EXIT_MODE": "X-A"}, "flags": {}, "checks": [], "slots_off": []}, {"variant": "T1-P", "overrides": {"G1_TRIGGER_PTS": 8, "SL_INIT_PTS": 18, "EXIT_MODE": "X-B"}, "flags": {}, "checks": [], "slots_off": []}, {"variant": "T1-P", "overrides": {"G1_TRIGGER_PTS": 12, "SL_INIT_PTS": 12, "EXIT_MODE": "X-A"}, "flags": {}, "checks": [], "slots_off": []}, {"variant": "T1-P", "overrides": {"G1_TRIGGER_PTS": 12, "SL_INIT_PTS": 12, "EXIT_MODE": "X-B"}, "flags": {}, "checks": [], "slots_off": []}, {"variant": "T1-P", "overrides": {"G1_TRIGGER_PTS": 12, "SL_INIT_PTS": 18, "EXIT_MODE": "X-A"}, "flags": {}, "checks": [], "slots_off": []}, {"variant": "T1-P", "overrides": {"G1_TRIGGER_PTS": 12, "SL_INIT_PTS": 18, "EXIT_MODE": "X-B"}, "flags": {}, "checks": [], "slots_off": []}, {"variant": "T1-P", "overrides": {}, "flags": {"FLAG_N13": true}, "checks": [], "slots_off": []}]
+```

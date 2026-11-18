@@ -403,6 +403,7 @@ def prereg_first(root: Path) -> Result:
         exact = re.search(rf"(?<![\w-]){re.escape(str(r['id']))}(?![\w-])", later) is not None  # named in a PREREG-R
         named = bool(key) and re.search(rf"(?<![\w-]){re.escape(key)}(?![\w-])", later) is not None  # idea id named
         listed = exact or pattern or named or (key == "D0-" and "D0-1 .. D0-" in later)
+        listed = listed or (r.get("program") == "S3" and f"<!-- S3-GRID {r.get('round')} -->" in plan)  # S3: grid
         if not listed:
             ids |= set(str(r["id"]).split("+"))
     shell = all(k in sec for k in ("RISK SHELL", "C1", "C4")) and not ids - words
