@@ -106,11 +106,13 @@ def run(rnd: str) -> int:
         plans = {"R21-a": ("best", "one", None), "R21-b": ("best", "tiers", None)}
     elif rnd == "R22":
         plans = {f"R22-n{n}": ("r17", "one", n) for n in (5, 10, 20)}
+    elif rnd == "R23":
+        plans = {"R23-a": ("r17", "one", None), "R23-b": ("r17", "tiers", None), "R23-c": ("mb", "one", None)}
     for tid, (sel, lots, trend_n) in plans.items():
         parts = []
         for b in range(1, 5):
             test = nr.block(b)
-            train = np.arange(0, test[0] - 1)
+            train = np.arange(nr.block(b - 1)[0] if rnd == "R23" else 0, test[0] - 1)  # R23: the previous block only
             members = {"r17": nr.select, "mb": mr.select_mb, "best": best_exit}[sel](setups, train)
             target = float(np.nanmedian(atr10[train]))
             want: Want = {"one": one, "tiers": tiers}.get(lots, one)
@@ -135,7 +137,12 @@ def run(rnd: str) -> int:
             "idea": f"{rnd} {tid}: selection {sel}, lots {lots}, trend N {trend_n}",
             "params": {"selection": sel, "lots": lots, "trend_n": trend_n},
         }
-    titles = {"R20": "volatility-targeted lots", "R21": "per-setup hold and trail", "R22": "daily trend bias"}
+    titles = {
+        "R20": "volatility-targeted lots",
+        "R21": "per-setup hold and trail",
+        "R22": "daily trend bias",
+        "R23": "rolling one-block selection",
+    }
     rc = sh.finish(res, meta, rnd, titles[rnd])
     if rnd == "R22":  # neighbours = the adjacent N (§PREREG-R22): recorded in the rows file
         import json  # noqa: PLC0415

@@ -1,11 +1,11 @@
 STAGE=2
-NEXT=Owner order 5: after R22 card -> R23+ new ideas (rolling-window selection for drift, combinations), each pre-registered; holdout by D-49 (4) only; no bot code
+NEXT=Owner order 5: R24 combinations (pre-register first), then further new ideas; holdout by D-49 (4) only; no bot code
 BLOCK=S2
 MODEL_NOW=BIG
 MODEL_NEXT=BIG
 SWITCH_PENDING=none
 FREEZE=none
-TRIALS=383
+TRIALS=386
 HOLDOUT=burned
 HALT=none
 VISIBILITY=public-ok
