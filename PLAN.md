@@ -432,3 +432,11 @@ through 14:30; ATR10_d = the mean range of the 10 previous DESIGN days. Trial ca
   prev_close_(d-N) - 1 (N trading days back; no trade when trend_N is unknown or 0). Members = the R17 selection, 1
   lot. Trials: R22-n5, R22-n10, R22-n20 (neighbours = the adjacent N).
 Gates, PBO and DSR as §PREREG-R17.
+
+## §PREREG-R23 (owner order 5 / D-49: ROLLING selection for drifting edges, nested; before any R23 number)
+
+Idea: if edges drift (R17-R22 were positive only in the latest test window), choose on the most recent block only.
+Windows and test-window trading as §PREREG-R17, but each test block b (2..5) is trained ONLY on block b-1 (72 days,
+1-day embargo), not on all earlier blocks. Min training trades = 20 x (72 / 362). Trial cap added: 10.
+Trials: R23-a (the R17 S2 + S3 selection, 1 lot), R23-b (the same, R15 tiers by training rank), R23-c (M-b: S3 only,
+1 lot). Gates, PBO and DSR as §PREREG-R17.
