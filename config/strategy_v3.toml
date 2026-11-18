@@ -102,9 +102,8 @@ REENTRY_ABOVE_PEAK = 1
 STALE_EXIT_BARS = 3
 STALE_SPREAD_MULT = 2
 CONSEC_LOSS_STOP = 2
-MAX_LOTS = 3
-MAX_TRADE_LOSS_RS = 35700
-CAPITAL_RS = 200000
+S3_MAX_LOTS = 3            # §2 #3 backtest lots cap (bot live cap stays limits.toml MAX_LOTS; D-55)
+# MAX_TRADE_LOSS_RS (35,700) and CAPITAL_RS (2,00,000): read from limits.toml (one source of risk limits; D-55)
 PROFIT_LOCK_TRIG = 0.04
 PROFIT_LOCK_KEEP = 0.70
 DD_CUT = 0.05
@@ -118,6 +117,7 @@ ROUND_STEP = 500
 LEVEL_IGNORE_ATR = 0.1
 IVP_MAX = 65
 K05_MULT = 2
+K05_OI_MIN = 5            # §9 K05: "deewar ka OI 5 min mein ghata" (minutes)
 STEP_PTS = 3
 STEP_BARS = 2
 TRAIL_REV = 3
@@ -251,6 +251,7 @@ YEAR_DAYS = 250
 HOLDOUT_MIN_TRADES = 20
 HOLDOUT_P_MAX = 0.10
 HOLDOUT_NULL_PCT = 0.90
+HOLDOUT_MAX_USES = 1        # §14.2: max 1 holdout run in program S3
 PAPER_MIN_TRADES = 60
 EXIT_CHECK_BARS = [10, 20, 30]
 

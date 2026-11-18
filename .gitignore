@@ -41,3 +41,6 @@ __pycache__/
 pehredaar/pehredaar
 # --- Logs ---
 logs/
+
+# S3 feature cache (data; never committed)
+wip/cache/

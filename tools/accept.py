@@ -48,6 +48,7 @@ MANDATORY: tuple[str, ...] = (
 )
 MANDATORY += ("HALT", "VISIBILITY", "TOKEN")
 OPTIONAL = ("PREV_FREEZE", "FUNDS_GET_STATIC_IP_REQUIRED", "OWNER_CEILING_RS", "DATA_SHA", "OWNER_STOP_AT_STOP1")
+OPTIONAL += ("ACTIVE_SPEC", "PROGRAM", "PHASE_4", "DESIGN_DAYS", "HOLDOUT_DAYS", "S3_TRIALS")  # owner order 6 (D-54)
 IGNORED_SAMPLES: tuple[str, ...] = ("data/x", "data/banknifty/x", "data/recorded/x", "data/journal/x", "data/lab/x")
 IGNORED_SAMPLES += ("recordings_private/x", "state/x", "config/params.local.toml")
 RETIRED: tuple[str, ...] = (

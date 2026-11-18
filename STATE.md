@@ -1,5 +1,5 @@
 STAGE=2
-NEXT=S3 Step A: lab/s3/data.py (day loader + holdout guard + access log), tools/preflight.py, tools/nested_wf.py; then engine + T01-T25 (WIP: registry, costs, config, features.yaml done)
+NEXT=S3 R0: commit R0 grid in PLAN.md, preflight, run T1-RAW/T1/T1-P + nulls + reports (Step A/B done: T01-T25 green)
 BLOCK=S2
 MODEL_NOW=BIG
 MODEL_NEXT=BIG
