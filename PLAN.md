@@ -73,3 +73,33 @@ Neighbours: the adjacent grid values; an end value that reaches the neighbour ga
 | R1-5 | expiry-week momentum | DIRECTION (DTE 3-7 seed) | dte 3..7, t 45..165, abs(ret_open) >= X, side = sign(ret_open) | X 0.003, 0.005, 0.007 (0.001, 0.009) |
 | R1-6 | follow HDFCBANK + ICICIBANK when the index lags | STRUCTURAL (index arbitrage lag) | t 30..255, hdfc15 and icici15 >= X and ret15 <= X/2 -> CE; mirror -> PE | X 0.004, 0.006, 0.008 (0.002, 0.010) |
 | R1-7 | range-day band fade | STRUCTURAL (range-day liquidity) | t 105..285, eff <= 0.20, abs(ret_open) >= X, side = -sign(ret_open) | X 0.004, 0.006, 0.008 (0.002, 0.010) |
+
+## §PREREG-R2 (P3R round 2, owner order D-40; committed before any R2 number is computed)
+
+Data: DESIGN 362 days; the old holdout stays closed. Funnel S1 / S2 exactly as §PREREG-R1 (60 min, break-even 14.2
+points, signals >= 60 min apart, <= 2 a day, matched null 1,000 runs). Trial cap added: 150
+S3 builds new outcomes (lab/build_r2.py -> data/lab/matrix_r2.npz) for every DESIGN decision row, both sides, on the
+engine-of-record data reader: entry at the next non-stale option bar within 2 bars (as the engine), 1 lot, RISK SHELL
+day rules, stressed costs (ST7, as R1). Index risk unit R = max(0.0015, rv30 x sqrt(60)) x spot (the next-hour move
+implied by the last 30 minutes' 1-minute volatility; floor 0.15%). Index levels are read from 1-minute index bars;
+stop before target in the same minute; the break-even / trail switch acts from the next minute.
+Structure grid: ATM = the ATM strike of the nearest monthly expiry; CAP15 = the strike nearest ATM, walking OTM (CE up,
+PE down, <= 10 steps of 100), whose entry premium x lot <= ₹15,000 (none -> no trade); max loss per trade <= ₹15,000 +
+stressed costs.
+Exit grid: XI1 = index stop -1R, break-even after +1R, index target +2R, time-stop 120 min, force-flat 15:10;
+XI2 = index stop -1R, break-even after +1R, trail 1R behind the best index price after +2R, no target, force-flat 15:10.
+Option fill at an index-triggered exit: stop / break-even / trail -> the option bar's LOW of that minute (pessimistic);
+target, time, force-flat -> its close; a missing bar -> the last close, stale (2 x spread).
+S3 combinations = each S2 survivor x {ATM, CAP15} x {XI1, XI2}; ids R2-<idea>-<value>[-<structure>-<exit>].
+PASS gates and neighbours as §PREREG-R1 / results/research_plan.md (the outside neighbour runs only when needed).
+
+| id | idea (side) | edge source | rule | grid (outside neighbours) |
+|---|---|---|---|---|
+| R2-1 | 30-min range break, low trend gate | DIRECTION | t 30..255, eff >= X, spot beyond or30 with ret15 the same way; side = the break | X 0.10, 0.20, 0.30 (0.00, 0.40) |
+| R2-2 | 15-min range break by a margin | DIRECTION | t 30..255, spot beyond or15 by >= X (fraction of or15 level), ret15 the same way; side = the break | X 0.001, 0.002, 0.003 (0.000, 0.004) |
+| R2-3 | late-morning day-direction momentum | DIRECTION | t 75..165, abs(ret_open) >= X, side = sign(ret_open) | X 0.002, 0.004, 0.006 (0.000, 0.008) |
+| R2-4 | near-expiry momentum (R1-5 widened to DTE 0..7) | DIRECTION | dte 0..7, t 45..165, abs(ret_open) >= X, side = sign(ret_open) | X 0.002, 0.004, 0.006 (0.000, 0.008) |
+| R2-5 | 30-min momentum aligned with the day | DIRECTION | t 45..255, abs(ret30) >= X, sign(ret30) = sign(ret_open), side = sign(ret30) | X 0.002, 0.003, 0.004 (0.001, 0.005) |
+| R2-6 | trend-day continuation | DIRECTION | t 75..195, eff >= X, side = sign(ret_open) | X 0.30, 0.40, 0.50 (0.20, 0.60) |
+| R2-7 | volatility expansion with a 15-min move | DIRECTION | t 30..255, rv5 >= X x rv30, abs(ret15) >= 0.0015, side = sign(ret15) | X 1.3, 1.6, 2.0 (1.0, 2.4) |
+| R2-8 | VWAP-side momentum | DIRECTION | t 45..255, abs(vwap_dist) >= X, sign(ret15) = sign(vwap_dist), side = sign(vwap_dist) | X 0.001, 0.002, 0.003 (0.000, 0.004) |
