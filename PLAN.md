@@ -231,3 +231,20 @@ Rule (R7-2 widened): t = 75 (10:30), dte <= D, abs(ret_open) >= X, side = sign(r
 | R9-1 | near-expiry direction at 10:30, DTE <= 10, hold to close | DIRECTION | t = 75, dte <= 10, abs(ret_open) >= X | X 0.0005, 0.0015, 0.0025 (0.0, 0.0035) |
 | R9-2 | the same, DTE <= 15 | DIRECTION | t = 75, dte <= 15, abs(ret_open) >= X | X 0.0005, 0.0015, 0.0025 (0.0, 0.0035) |
 | R9-3 | the same, DTE <= 20 | DIRECTION | t = 75, dte <= 20, abs(ret_open) >= X | X 0.0005, 0.0015, 0.0025 (0.0, 0.0035) |
+
+## §PREREG-R10 (P3R v2 round 10 = F1 defined-risk volatility premium, RESEARCH ONLY (D-42 (4)); before any R10 number)
+
+Data: DESIGN 362 days; the old holdout stays closed. Re-ordered before F2 / F5 (rounds.md R9 line). Trial cap added: 40
+Structures (nearest monthly expiry, 1 lot each leg; the long wings are bought FIRST, then the shorts; never a naked
+short): IF300 = sell ATM CE + ATM PE, buy CE ATM+300 and PE ATM-300; IF500 = the same with wings +-500; IC = sell CE
+ATM+200 and PE ATM-200, buy CE ATM+500 and PE ATM-500. Entry: the first minute in [t, t+2] where all 4 legs are live
+(non-stale, volume) at their opens; t in {45 (10:00), 135 (11:30)}. Exit: E1 = hold to force-flat 15:10 at the closes;
+E2 = stop when the worst-case cost to close (shorts at the bar HIGH, longs at the bar LOW) exceeds the credit by
+>= 1.0 x credit, filled at that worst-case value; else 15:10. Filter: none / trend-skip (skip when eff >= 0.35 or
+abs(ret_open) >= 0.006 at entry). Costs: SOURCE charges per leg and side by date (a short leg sells first) x 1.5 +
+the stressed spread and slippage on 4 legs (ST7). Max loss by construction = (wing distance - credit) x lot + costs.
+24 trials = 3 structures x 2 entry times x 2 exits x 2 filters; ids R10-<structure>-t<t>-<exit>-<filter>.
+EXPLORE screen as research_plan_v2.md; the null for a non-directional fixed-time structure = one-sided day-block
+bootstrap (5-day blocks, 10,000 resamples, SEED) of the mean stressed net: p = share of resampled means <= 0, < 0.01.
+Neighbours = the trials that differ in ONE grid value (structure, entry time) must also be net > 0. The day-rule grid
+is moot (one structure a day). Margin is not modelled here (research only; a bot would need the broker's margin).
