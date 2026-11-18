@@ -1,5 +1,5 @@
 STAGE=2
-NEXT=Phase 4A: config/gateway.toml (PIN BUMP), C9 params.local.toml + params.example.toml, gateway + RISK SHELL day rules, clock, journal, PaperBroker, tests; then 4B, 4C, accept --phase 4c, push
+NEXT=P3R (strategy re-search, owner order D-40): STEP 0 diagnosis -> STEP 1 research plan -> rounds R1.. (PREREG-R<n> first); no bot code until STRATEGY PASS + owner's 'build bot'
 BLOCK=S2
 MODEL_NOW=BIG
 MODEL_NEXT=BIG
