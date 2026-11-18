@@ -1,5 +1,5 @@
 STAGE=2
-NEXT=Owner order 4 DONE (D-48): FINAL card sent; no STRATEGY PASS; R15-a = EXPERIMENTAL: paper only; holdout unused (owner's call); waiting for an owner order; no bot code
+NEXT=Owner order 5 (D-49): tools/overfit.py (PBO CSCV 16 blocks, DSR) + tests -> R17 nested WF of the R14 + R15 pipeline (pre-register first) -> R18 meta-labeling -> R19 shrinkage -> R20 vol-target lots -> R21 per-setup holds -> R22 daily trend bias -> combos; holdout opens once by the D-49 (4) rule; no bot code
 BLOCK=S2
 MODEL_NOW=BIG
 MODEL_NEXT=BIG
