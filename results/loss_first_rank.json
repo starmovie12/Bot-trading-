@@ -1,0 +1,31 @@
+{
+ "passed_battery": [],
+ "result": "NO EDGE FOUND IN THE TESTED SET",
+ "pick": "A1+b1",
+ "flag": "EXPERIMENTAL: paper only",
+ "pick_dd95_rs": 15326.0,
+ "pick_dd95_source": "engine of record, MTM marks, 5-day blocks, 2,000 paths, 12 months",
+ "pick_net_per_month_rs": -81.0,
+ "pick_trades": 24,
+ "passed_over": {
+  "id": "A2+b1",
+  "dd95_rs": 20746.0,
+  "net_per_month_rs": 2206.0,
+  "source": "lab screen (closed trades), data/lab/dd95_screen.json"
+ },
+ "screen_dd95_rs": {
+  "K1": 139959.0,
+  "K3": 91037.0,
+  "K4": 128869.0,
+  "A1": 30894.0,
+  "A2": 34062.0,
+  "A7": 86577.0,
+  "A9": 94115.0,
+  "A1+b1": 14395.0,
+  "A1+b2": 43084.0,
+  "A2+b1": 20746.0,
+  "A2+b2": 62801.0
+ },
+ "seed": 20261116,
+ "date": "2026-11-18"
+}

@@ -1,5 +1,5 @@
 STAGE=2
-NEXT=Phase 3d: loss-first rank (DD95 from engine trades with MAE marks), STRATEGY.md, edge decomposition, PREMORTEM; then 3e holdout + Monte Carlo + limits
+NEXT=Phase 3e: open the holdout ONCE (tools/truth_tests.Holdout), engine run on HOLDOUT days, Hlo, Monte Carlo x4, size limits (K1), ladder (K2), LIVE_POSSIBLE, PIN BUMP limits.toml, make verdict, accept --phase 3e
 BLOCK=S2
 MODEL_NOW=BIG
 MODEL_NEXT=BIG
