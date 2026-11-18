@@ -248,3 +248,18 @@ EXPLORE screen as research_plan_v2.md; the null for a non-directional fixed-time
 bootstrap (5-day blocks, 10,000 resamples, SEED) of the mean stressed net: p = share of resampled means <= 0, < 0.01.
 Neighbours = the trials that differ in ONE grid value (structure, entry time) must also be net > 0. The day-rule grid
 is moot (one structure a day). Margin is not modelled here (research only; a bot would need the broker's margin).
+
+## §PREREG-R11 (P3R v2 round 11 = F2 implied vs realised move; EXPLORE; before any R11 number)
+
+Data: DESIGN 362 days (347 with an opening straddle); the old holdout stays closed. Features (lab/build_r11.py; only
+scales read: impl_ratio p50 0.48 / p75 0.80 / p90 1.17; rv_iv p50 0.74 / p75 0.93 / p90 1.14): impl_ratio = abs(spot -
+open) / (opening ATM straddle / sqrt(max(1, dte x 5 / 7))); rv_iv = realised daily vol (rv30 x sqrt(375)) / the
+straddle-implied daily vol. F2 (c) (rich IV -> selling) is not run: R10 showed 4-leg selling cannot cover its costs.
+Trial cap added: 50. Funnel S1 / S2 (60 min) as §PREREG-R1. S3 on data/lab/matrix_r11.npz: each S2 survivor x
+{CAP15-XI2, CAP15-XH}. ids R11-<idea>-<value>[-CAP15-<exit>]. EXPLORE screen as research_plan_v2.md.
+
+| id | idea (side) | edge source | rule | grid (outside neighbours) |
+|---|---|---|---|---|
+| R11-1 | the day's move passes X of the implied daily move: follow | STRUCTURAL (an implied-move break = new information) | t 45..255, impl_ratio >= X, side = sign(ret_open) | X 0.5, 0.75, 1.0 (0.25, 1.25) |
+| R11-2 | realised vol above implied and rising: buy the move | STRUCTURAL (IV too cheap for the realised move) | t 45..255, rv_iv >= X, rv5 > rv30, abs(ret15) >= 0.001, side = sign(ret15) | X 0.8, 1.0, 1.2 (0.6, 1.4) |
+| R11-3 | the move overshoots the implied move in the afternoon: fade | STRUCTURAL (implied move as a fair range) | t 165..285, impl_ratio >= X, side = -sign(ret_open) | X 1.0, 1.25, 1.5 (0.75, 1.75) |
