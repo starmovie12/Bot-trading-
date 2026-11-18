@@ -2,7 +2,7 @@ PASS F6-1 LIVE_POSSIBLE = false, MIN / MAX absent True, chain at CAPITAL_RS True
 PASS F6-2 363 trials (cap 1090), unique True, no ST1 fields [], parts not merged []
 PASS F6-3 holdout_log.jsonl: 1 seal, 1 open record(s)
 PASS F6-11 prefilter.md True, finalist columns ('ST4b', 'ST4c', 'ST7 delay', 'ST11', 'DESIGN max DD'), rows 1
-FAIL F3-1 shell + exit grid + ids ['R14-P1-e2', 'R14-P1-e3', 'R14-P1-e5', 'R14-P2-e2', 'R14-P2-e3', 'R14-P2-e5', 'R14-P3-e2', 'R14-P3-e3', 'R14-P3-e5'] in §PREREG-0; committed first True
+PASS F3-1 shell + exit grid + ids all in §PREREG-0; committed first True
 PASS F3-2 results/market_facts.md 25 lines (<= 40)
 PASS F3-3 contracts 119 lines, engine 199 lines, 3-trade test True, vec_vs_eor AGREE True
 PASS F3-4 pick A1+b1 DD95 15326.0, passed over A2+b1, verdict STOP
