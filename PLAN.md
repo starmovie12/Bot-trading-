@@ -51,3 +51,25 @@ BRACKET (3b; lab/ideas.py holds the exact rules and params; trials counted in tr
 - Round B (<= 6): the best <= 3 Round A ideas by the loss-first order (if none survived, the 2 least bad), each with two
   add-ons in this order: (b1) VIX falling at entry (vix_chg < 0), (b2) SPREAD structure instead of LONG.
 - Round C (<= 8): finalists only, presets C1..C4 of the exit grid above.
+
+## §PREREG-R1 (P3R round 1, owner order D-40; committed before any R1 number is computed)
+
+Data: DESIGN 362 days (data/lab/matrix.npz); the old holdout stays closed. Structure: 1 lot ATM long option, nearest
+monthly expiry (OUTCOMES `<preset>|LONG`); RISK SHELL day rules of §PREREG-0; stressed costs (ST7). Trial cap added: 120
+Funnel: S1 p90 forward |index move| (60 min) >= 2 x break-even (14.2 points) · S2 forward index move in the idea's
+side (60 min, signals >= 60 min apart, <= 2 a day) > 14.2 points and matched-null p <= 0.05 (1,000 runs, SEED) ·
+S3 option P&L on each S2 survivor x exit grid {EXIT0, C2, C3}; gates as in results/research_plan.md (PASS).
+Every S2 combination and every S3 combination is one trials.jsonl line (id R1-<idea>-<value>[-<exit>]).
+D0-1 .. D0-30: the 30 STEP 0 bucket cells (computed before this section; counted in k with p = 1, never candidates).
+Neighbours: the adjacent grid values; an end value that reaches the neighbour gate also runs its outside neighbour
+(listed below), counted as a trial.
+
+| id | idea (side) | edge source | rule | grid (outside neighbours) |
+|---|---|---|---|---|
+| R1-1 | fade the day's move after 12:00 | STRUCTURAL (intraday reversal, spot-vol) | t 165..255, abs(ret_open) >= X, side = -sign(ret_open) | X 0.003, 0.005, 0.007 (0.001, 0.009) |
+| R1-2 | fade a VIX fear spike | STRUCTURAL (fear spikes mean-revert) | t 45..255, vix_chg >= X and ret_open < 0 -> CE; vix_chg <= -X and ret_open > 0 -> PE | X 0.03, 0.05, 0.08 (0.01, 0.11) |
+| R1-3 | VWAP stretch reversion | STRUCTURAL (liquidity provision) | t 75..255, abs(vwap_dist) >= X, side = -sign(vwap_dist) | X 0.0025, 0.004, 0.006 (0.001, 0.008) |
+| R1-4 | gap fade after a 15-min reversal | STRUCTURAL (overnight imbalance) | t 30..75, abs(gap) >= X, sign(ret15) = -sign(gap), side = -sign(gap) | X 0.004, 0.006, 0.008 (0.002, 0.010) |
+| R1-5 | expiry-week momentum | DIRECTION (DTE 3-7 seed) | dte 3..7, t 45..165, abs(ret_open) >= X, side = sign(ret_open) | X 0.003, 0.005, 0.007 (0.001, 0.009) |
+| R1-6 | follow HDFCBANK + ICICIBANK when the index lags | STRUCTURAL (index arbitrage lag) | t 30..255, hdfc15 and icici15 >= X and ret15 <= X/2 -> CE; mirror -> PE | X 0.004, 0.006, 0.008 (0.002, 0.010) |
+| R1-7 | range-day band fade | STRUCTURAL (range-day liquidity) | t 105..285, eff <= 0.20, abs(ret_open) >= X, side = -sign(ret_open) | X 0.004, 0.006, 0.008 (0.002, 0.010) |

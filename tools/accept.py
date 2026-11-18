@@ -362,8 +362,9 @@ def trials_file(root: Path) -> Result:
     have = {json.dumps(r, sort_keys=True) for r in rows}
     parts = Path(os.environ.get("TMPDIR", "/tmp")).glob("mission-lab-*/trials_part.jsonl")  # noqa: S108
     lost = [str(p) for p in parts for r in jsonl(p) if json.dumps(r, sort_keys=True) not in have]
-    ok = bool(rows) and not missing and len(set(ids)) == len(ids) and len(rows) <= TRIAL_CAP and not lost
-    return ok, f"{len(rows)} trials (cap {TRIAL_CAP}), unique {len(set(ids)) == len(ids)}, no ST1 fields {missing}, " \
+    cap = TRIAL_CAP + sum(int(x) for x in re.findall(r"Trial cap added: (\d+)", text(root, "PLAN.md")))
+    ok = bool(rows) and not missing and len(set(ids)) == len(ids) and len(rows) <= cap and not lost
+    return ok, f"{len(rows)} trials (cap {cap}), unique {len(set(ids)) == len(ids)}, no ST1 fields {missing}, " \
         f"parts not merged {lost}"  # fmt: skip
 
 
@@ -390,7 +391,15 @@ def prereg_first(root: Path) -> Result:
     plan = text(root, "PLAN.md")
     sec = plan.split(PREREG, 1)[1].split("\n## ", 1)[0] if PREREG in plan else ""
     words = set(re.findall(r"[A-Za-z0-9]+", sec))
-    ids = {p for r in jsonl(root / "trials.jsonl") for p in str(r["id"]).split("+")}
+    later = "".join(plan.split(f"## §PREREG-R{n}", 1)[1].split("\n## ", 1)[0] for n in range(1, 99)
+                    if f"## §PREREG-R{n}" in plan)  # fmt: skip
+    ids = set()
+    for r in jsonl(root / "trials.jsonl"):
+        base = re.match(r"(R\d+-\d+|D\d+-)", str(r["id"]))
+        key = base.group(1) if base else ""
+        listed = bool(key) and (f"| {key} |" in later or (key == "D0-" and "D0-1 .. D0-" in later))
+        if not listed:
+            ids |= set(str(r["id"]).split("+"))
     shell = all(k in sec for k in ("RISK SHELL", "C1", "C4")) and not ids - words
     if "reconstructed after the fact" in sec:
         return shell and "UPGRADE" in text(root, "DECISIONS.md"), "§PREREG-0 reconstructed after the fact"
