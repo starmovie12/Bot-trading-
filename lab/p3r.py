@@ -172,6 +172,34 @@ def r4_6(f: le.A, x: float) -> tuple[np.ndarray, np.ndarray, tuple[int, int]]:
     return m, sg(r30), (45, 255)
 
 
+def r5_1(f: le.A, x: float) -> tuple[np.ndarray, np.ndarray, tuple[int, int]]:
+    r15, rr = np.nan_to_num(f["ret15"]), np.nan_to_num(f["prev_rr"], nan=9.0)
+    up, dn = (f["spot"] > f["or30_hi"]) & (r15 > 0), (f["spot"] < f["or30_lo"]) & (r15 < 0)
+    return (f["t"] >= 30) & (f["t"] <= 165) & (rr <= x) & (up | dn), np.where(up, 1, -1), (30, 165)
+
+
+def r5_2(f: le.A, x: float) -> tuple[np.ndarray, np.ndarray, tuple[int, int]]:
+    cl = f["prev_cl"]
+    up, dn = (
+        (np.nan_to_num(cl, nan=0.5) >= 1 - x) & (f["ret_open"] > 0),
+        (np.nan_to_num(cl, nan=0.5) <= x) & (f["ret_open"] < 0),
+    )
+    return (f["t"] >= 30) & (f["t"] <= 120) & (up | dn), np.where(up, 1, -1), (30, 120)
+
+
+def r5_3(f: le.A, x: float) -> tuple[np.ndarray, np.ndarray, tuple[int, int]]:
+    pr = np.nan_to_num(f["prev_ret"])
+    m = (f["t"] >= 45) & (f["t"] <= 120) & (np.abs(pr) >= x) & (sg(f["ret_open"]) == sg(pr)) & (pr != 0)
+    return m, sg(pr), (45, 120)
+
+
+def r5_4(f: le.A, x: float) -> tuple[np.ndarray, np.ndarray, tuple[int, int]]:
+    r15, hi, lo = np.nan_to_num(f["ret15"]), f["prev_hi"], f["prev_lo"]
+    up = (f["spot"] >= np.nan_to_num(hi, nan=np.inf) * (1 + x)) & (r15 > 0)
+    dn = (f["spot"] <= np.nan_to_num(lo, nan=-np.inf) * (1 - x)) & (r15 < 0)
+    return (f["t"] >= 30) & (f["t"] <= 255) & (up | dn), np.where(up, 1, -1), (30, 255)
+
+
 ROUNDS: dict[str, dict[str, Any]] = {
     "R1": {
         "combos": (("EXIT0", "LONG"), ("C2", "LONG"), ("C3", "LONG")),
@@ -227,6 +255,16 @@ ROUNDS: dict[str, dict[str, Any]] = {
             "R4-4": ("afternoon push to a new day extreme", r4_4, (0.0005, 0.001, 0.0015), (0.00025, 0.002)),
             "R4-5": ("gap follow while VIX falls", r4_5, (0.003, 0.005, 0.007), (0.001, 0.009)),
             "R4-6": ("two 15-min candles the same way", r4_6, (0.002, 0.003, 0.004), (0.001, 0.005)),
+        },
+    },
+    "R5": {
+        "matrix": "data/lab/matrix_r5.npz",
+        "combos": (("XI2", "CAP15"), ("XI1", "CAP15")),
+        "ideas": {
+            "R5-1": ("a narrow prior day, then a 30-min range break", r5_1, (0.65, 0.80, 0.95), (0.50, 1.10)),
+            "R5-2": ("prior close at its extreme, today the same way", r5_2, (0.15, 0.25, 0.35), (0.05, 0.45)),
+            "R5-3": ("a prior trend day, today continues it", r5_3, (0.004, 0.007, 0.010), (0.001, 0.013)),
+            "R5-4": ("break of the prior day's high / low", r5_4, (0.000, 0.001, 0.002), (-0.001, 0.003)),
         },
     },
 }

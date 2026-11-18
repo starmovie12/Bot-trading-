@@ -144,3 +144,15 @@
 {"cycle": 1, "design_net_stressed": -105480.65, "id": "R4-6-0.003-CAP15-XI2", "idea": "two 15-min candles the same way", "p_screen": 0.8871, "params": {"X": 0.003, "exit": "XI2", "structure": "CAP15"}, "source": "P3R R4 S3"}
 {"cycle": 1, "design_net_stressed": -33931.51, "id": "R4-6-0.003-CAP15-XI1", "idea": "two 15-min candles the same way", "p_screen": 0.4066, "params": {"X": 0.003, "exit": "XI1", "structure": "CAP15"}, "source": "P3R R4 S3"}
 {"cycle": 1, "design_net_stressed": null, "id": "R4-6-0.004", "idea": "two 15-min candles the same way", "p_screen": 0.2637, "params": {"X": 0.004}, "source": "P3R R4 S2 index 7.65 pts"}
+{"cycle": 1, "design_net_stressed": null, "id": "R5-1-0.65", "idea": "a narrow prior day, then a 30-min range break", "p_screen": 0.1179, "params": {"X": 0.65}, "source": "P3R R5 S2 index 22.03 pts"}
+{"cycle": 1, "design_net_stressed": null, "id": "R5-1-0.8", "idea": "a narrow prior day, then a 30-min range break", "p_screen": 0.2537, "params": {"X": 0.8}, "source": "P3R R5 S2 index 8.17 pts"}
+{"cycle": 1, "design_net_stressed": null, "id": "R5-1-0.95", "idea": "a narrow prior day, then a 30-min range break", "p_screen": 0.1359, "params": {"X": 0.95}, "source": "P3R R5 S2 index 10.94 pts"}
+{"cycle": 1, "design_net_stressed": null, "id": "R5-2-0.15", "idea": "prior close at its extreme, today the same way", "p_screen": 0.4995, "params": {"X": 0.15}, "source": "P3R R5 S2 index 0.07 pts"}
+{"cycle": 1, "design_net_stressed": null, "id": "R5-2-0.25", "idea": "prior close at its extreme, today the same way", "p_screen": 0.4106, "params": {"X": 0.25}, "source": "P3R R5 S2 index 3.26 pts"}
+{"cycle": 1, "design_net_stressed": null, "id": "R5-2-0.35", "idea": "prior close at its extreme, today the same way", "p_screen": 0.7982, "params": {"X": 0.35}, "source": "P3R R5 S2 index -6.64 pts"}
+{"cycle": 1, "design_net_stressed": null, "id": "R5-3-0.004", "idea": "a prior trend day, today continues it", "p_screen": 0.3516, "params": {"X": 0.004}, "source": "P3R R5 S2 index 3.8 pts"}
+{"cycle": 1, "design_net_stressed": null, "id": "R5-3-0.007", "idea": "a prior trend day, today continues it", "p_screen": 0.6424, "params": {"X": 0.007}, "source": "P3R R5 S2 index -0.7 pts"}
+{"cycle": 1, "design_net_stressed": null, "id": "R5-3-0.01", "idea": "a prior trend day, today continues it", "p_screen": 0.4985, "params": {"X": 0.01}, "source": "P3R R5 S2 index -3.28 pts"}
+{"cycle": 1, "design_net_stressed": null, "id": "R5-4-0.0", "idea": "break of the prior day's high / low", "p_screen": 0.8362, "params": {"X": 0.0}, "source": "P3R R5 S2 index -6.18 pts"}
+{"cycle": 1, "design_net_stressed": null, "id": "R5-4-0.001", "idea": "break of the prior day's high / low", "p_screen": 0.4406, "params": {"X": 0.001}, "source": "P3R R5 S2 index 1.0 pts"}
+{"cycle": 1, "design_net_stressed": null, "id": "R5-4-0.002", "idea": "break of the prior day's high / low", "p_screen": 0.1568, "params": {"X": 0.002}, "source": "P3R R5 S2 index 7.83 pts"}
