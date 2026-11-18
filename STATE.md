@@ -1,11 +1,11 @@
 STAGE=2
-NEXT=AUTO-RUN (D-43): R11 F2 (IV tables: size via the GitHub tree API, then sparse-add only those) -> R12 F5 -> last round -> results/final_research.md + card -> WATCH MODE (daily data-repo check); no bot code
+NEXT=AUTO-RUN (D-43): R12 F5 regime switch (pre-register first) -> last round of remaining combos -> results/final_research.md + card -> WATCH MODE; no bot code
 BLOCK=S2
 MODEL_NOW=BIG
 MODEL_NEXT=BIG
 SWITCH_PENDING=none
 FREEZE=none
-TRIALS=319
+TRIALS=328
 HOLDOUT=burned
 HALT=none
 VISIBILITY=public-ok

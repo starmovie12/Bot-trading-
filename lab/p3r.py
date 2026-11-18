@@ -236,6 +236,22 @@ def r9(dmax: int) -> Rule:
     return rule
 
 
+def r11_1(f: le.A, x: float) -> tuple[np.ndarray, np.ndarray, tuple[int, int]]:
+    ir = np.nan_to_num(f["impl_ratio"])
+    return (f["t"] >= 45) & (f["t"] <= 255) & (ir >= x), sg(f["ret_open"]), (45, 255)
+
+
+def r11_2(f: le.A, x: float) -> tuple[np.ndarray, np.ndarray, tuple[int, int]]:
+    r15 = np.nan_to_num(f["ret15"])
+    m = (np.nan_to_num(f["rv_iv"]) >= x) & (np.nan_to_num(f["rv5"]) > f["rv30"]) & (np.abs(r15) >= 0.001)
+    return (f["t"] >= 45) & (f["t"] <= 255) & m, sg(r15), (45, 255)
+
+
+def r11_3(f: le.A, x: float) -> tuple[np.ndarray, np.ndarray, tuple[int, int]]:
+    ir = np.nan_to_num(f["impl_ratio"])
+    return (f["t"] >= 165) & (f["t"] <= 285) & (ir >= x), -sg(f["ret_open"]), (165, 285)
+
+
 ROUNDS: dict[str, dict[str, Any]] = {
     "R1": {
         "combos": (("EXIT0", "LONG"), ("C2", "LONG"), ("C3", "LONG")),
@@ -342,6 +358,15 @@ ROUNDS: dict[str, dict[str, Any]] = {
                 (0.0, 0.0035),
             )
             for i, d in ((1, 10), (2, 15), (3, 20))
+        },
+    },
+    "R11": {
+        "matrix": "data/lab/matrix_r11.npz",
+        "combos": (("XI2", "CAP15"), ("XH", "CAP15")),
+        "ideas": {
+            "R11-1": ("the move passes X of the implied daily move: follow", r11_1, (0.5, 0.75, 1.0), (0.25, 1.25)),
+            "R11-2": ("realised vol above implied and rising: buy the move", r11_2, (0.8, 1.0, 1.2), (0.6, 1.4)),
+            "R11-3": ("afternoon overshoot of the implied move: fade", r11_3, (1.0, 1.25, 1.5), (0.75, 1.75)),
         },
     },
 }
