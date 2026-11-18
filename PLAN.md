@@ -417,3 +417,18 @@ the trade-weighted mean of the m_i; B = (k - 3) x mean(se_i^2) / sum (m_i - m)^2
 (m_i - m) (positive-part James-Stein toward the grand mean). Members = setups with mu_i > 0, priority = mu_i (highest
 first); lots: mu_i >= ₹600 -> 3, >= ₹300 -> 2, else 1, capped at the ₹35,700 max loss. Trial cap added: 10.
 Trials: R19-a, R19-b. Gates, PBO and DSR as §PREREG-R17.
+
+## §PREREG-R20 / R21 / R22 (owner order 5 / D-49; nested walk-forward; committed together before any of their numbers)
+
+Windows, universe, S2 / S3 selection (= "the R17 selection") and test-window trading as §PREREG-R17 unless stated.
+Daily series from DESIGN rows (no look-ahead): prev_close_d = today's open / (1 + gap_d); range_d = day high - day low
+through 14:30; ATR10_d = the mean range of the 10 previous DESIGN days. Trial cap added: 20.
+- R20 VOLATILITY-TARGETED LOTS: lots = clip(round(2 x ATR_target / ATR10_d), 1, 3), ATR_target = the median ATR10 of
+  the training window; capped at the ₹35,700 max loss. Trials: R20-a (the R17 selection), R20-b (M-b of §PREREG-R18).
+- R21 PER-SETUP HOLD AND TRAIL: for each idea value (round, idea, X) keep only its structure / exit combination with the
+  best training stressed net per trade; members = those that pass S2 + S3, priority = training net. Trials: R21-a
+  (1 lot), R21-b (R15 tiers by training rank).
+- R22 DAILY TREND BIAS: a candidate is kept only if its side agrees with the sign of trend_N = prev_close_d /
+  prev_close_(d-N) - 1 (N trading days back; no trade when trend_N is unknown or 0). Members = the R17 selection, 1
+  lot. Trials: R22-n5, R22-n10, R22-n20 (neighbours = the adjacent N).
+Gates, PBO and DSR as §PREREG-R17.
