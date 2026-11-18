@@ -406,3 +406,14 @@ lots 1 / 2 / 3 at p >= 0.50 / 0.60 / 0.70, capped at the ₹35,700 by-constructi
 first); one position at a time, max 3 a day, cool-off 15, daily lock ₹71,400. Trial cap added: 10.
 Trials: R18-Ma-L, R18-Ma-S, R18-Mb-L (stumps on M-b skipped: too many rows for the numpy stumps; logged here).
 Gates and PBO / DSR exactly as §PREREG-R17.
+
+## §PREREG-R19 (owner order 5 / D-49: JAMES-STEIN SHRINKAGE sizing, nested walk-forward; before any R19 number)
+
+Windows, universe and test-window trading as §PREREG-R17. In each training window, eligible setups = every universe
+setup with >= 20 x (training days / 362) training trades (traded alone, RISK SHELL): R19-a = all of them; R19-b =
+only those whose idea passes the S2 index test on the training days (Phase 3 trials stay eligible without S2).
+For eligible setup i: m_i = training stressed net per trade, se_i^2 = its sample variance / n_i; grand mean m =
+the trade-weighted mean of the m_i; B = (k - 3) x mean(se_i^2) / sum (m_i - m)^2; shrunk mu_i = m + max(0, 1 - B) x
+(m_i - m) (positive-part James-Stein toward the grand mean). Members = setups with mu_i > 0, priority = mu_i (highest
+first); lots: mu_i >= ₹600 -> 3, >= ₹300 -> 2, else 1, capped at the ₹35,700 max loss. Trial cap added: 10.
+Trials: R19-a, R19-b. Gates, PBO and DSR as §PREREG-R17.
