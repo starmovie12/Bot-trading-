@@ -375,3 +375,21 @@ results/lots_math.md for the candidate's strike and its R15 lot count: ATM 14.9 
 straddle: the candidate is dropped. Grid X in {2, 4, 6}; neighbours = the adjacent X. Trial cap added: 10. ids
 R16-x<X>. EXPLORE screen as R14. Then ONE final candidate = the R14 / R15 / R16 trial passing the most gates
 (ties -> the higher total net), and the EXPLORE verdict decides whether CONFIRM (the old holdout, once) runs.
+
+## §PREREG-R17 (owner order 5 / D-49: NESTED walk-forward of the R14 + R15 pipeline; before any R17 number)
+
+Universe U (fixed now): every pre-registered S3 setup of R1-R7, R9, R11-R13 = each idea x each grid value x each
+structure / exit combination of lab/p3r.py ROUNDS (whether it passed S2 on DESIGN or not), plus the 13 Phase 3 trials
+(results/scoreboard.json). Windows: DESIGN days in 5 blocks (72 / 72 / 72 / 72 / 74 days); test windows = blocks 2..5;
+each trained on all earlier blocks with a 1-day embargo. Inside each training window ONLY, the whole selection is
+redone: (1) S2: the idea's index test on the training days (mean > 14.2 points and matched-null p <= 0.05; the round's
+horizon; Phase 3 trials skip S2 as they did); (2) S3: the setup alone (RISK SHELL day rules) has training stressed net
+per trade > 0 and >= 20 x (training days / 362) trades; (3) members = the S3 survivors, priority = training net per
+trade; (4) tiers by training rank: 1-6 -> 3 lots, 7-14 -> 2, else 1, capped at the ₹35,700 by-construction max loss.
+Then the next block is traded with the R14 / R15 rules (one position at a time, max 3 entries a day, cool-off 15 min,
+daily lock ₹71,400; exact charges per order x 1.5 and the stressed fill per lot). Only the 4 test blocks (290 days)
+count. Trial cap added: 10. Trials: R17-a = with tiers (R15-a pipeline); R17-b = 1 lot (R14-P3 pipeline).
+Gates (D-49 (4)): OOS stressed net > 0, >= 3 of 4 test windows positive, >= 0.5 trades a day, net > 0 without the best
+5 trades, net >= 0 at 1.5 x cost, 12-month expected net >= DD95 (5-day blocks, 12 months, closed-trade marks), PBO <=
+0.25 (CSCV 16 blocks over the daily P&L of every universe setup alone on DESIGN plus the R14-R16 portfolios), DSR >=
+0.95 (the candidate's OOS daily P&L; N = every trials.jsonl line; Sharpe variance over the universe series).
