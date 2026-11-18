@@ -142,3 +142,18 @@ definitions). ids R4-<idea>-<value>[-CAP15-<exit>]. PASS gates and neighbours as
 | R4-4 | afternoon push to a new day extreme | DIRECTION | t 180..285, spot >= day_hi x (1 - X) and ret30 > 0 -> CE; spot <= day_lo x (1 + X) and ret30 < 0 -> PE (not both) | X 0.0005, 0.001, 0.0015 (0.00025, 0.002) |
 | R4-5 | gap follow while VIX falls | DIRECTION | t 45..120, abs(gap) >= X, vix_chg < 0, sign(ret_open) = sign(gap); side = sign(gap) | X 0.003, 0.005, 0.007 (0.001, 0.009) |
 | R4-6 | two 15-min candles the same way (second-candle confirmation) | DIRECTION | t 45..255, sign(ret15) = sign(ret30 - ret15), abs(ret30) >= X; side = sign(ret30) | X 0.002, 0.003, 0.004 (0.001, 0.005) |
+
+## §PREREG-R5 (P3R round 5, owner order D-40; committed before any R5 number is computed)
+
+Data: DESIGN 362 days (the data repo is unchanged: DATA_SHA 9e7a49d4); the old holdout stays closed. New family:
+the PRIOR DAY (lab/build_r5.py; only the scales were read: prev_rr p25 0.78 / p50 0.99; prev_cl p25 0.17 / p75 0.82;
+prev_ret p10 -0.0083 / p90 0.0102; 30% of rows are above the prior high). Trial cap added: 60
+Funnel S1 / S2 as §PREREG-R1. S3 on data/lab/matrix_r5.npz (= matrix_r2 outcomes): each S2 survivor x {CAP15-XI2,
+CAP15-XI1}. ids R5-<idea>-<value>[-CAP15-<exit>]. PASS gates and neighbours as §PREREG-R1 / research_plan.md.
+
+| id | idea (side) | edge source | rule | grid (outside neighbours) |
+|---|---|---|---|---|
+| R5-1 | a narrow prior day, then a 30-min range break | STRUCTURAL (volatility contraction -> expansion) | t 30..165, prev_rr <= X, spot beyond or30 with ret15 the same way; side = the break | X 0.65, 0.80, 0.95 (0.50, 1.10) |
+| R5-2 | prior close at its extreme, today the same way | DIRECTION | t 30..120, prev_cl >= 1 - X and ret_open > 0 -> CE; prev_cl <= X and ret_open < 0 -> PE | X 0.15, 0.25, 0.35 (0.05, 0.45) |
+| R5-3 | a prior trend day, today continues it | DIRECTION | t 45..120, abs(prev_ret) >= X, sign(ret_open) = sign(prev_ret); side = sign(prev_ret) | X 0.004, 0.007, 0.010 (0.001, 0.013) |
+| R5-4 | break of the prior day's high / low | DIRECTION | t 30..255, spot >= prev_hi x (1 + X) and ret15 > 0 -> CE; spot <= prev_lo x (1 - X) and ret15 < 0 -> PE | X 0.000, 0.001, 0.002 (-0.001, 0.003) |
