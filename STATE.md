@@ -1,5 +1,5 @@
 STAGE=2
-NEXT=P3R v2 R11 = F2 (IV vs realised): check the IV tables' size via the GitHub tree API (never ls-tree -l on the partial clone), sparse-add them, pre-register §PREREG-R11, run; then F5; no bot code (D-40, D-42)
+NEXT=AUTO-RUN (D-43): R11 F2 (IV tables: size via the GitHub tree API, then sparse-add only those) -> R12 F5 -> last round -> results/final_research.md + card -> WATCH MODE (daily data-repo check); no bot code
 BLOCK=S2
 MODEL_NOW=BIG
 MODEL_NEXT=BIG
