@@ -1,11 +1,11 @@
 STAGE=2
-NEXT=P3R R2: pre-register §PREREG-R2 (loss-first structures + index-based exits on momentum families, >= 0.5 a day), build the matrix columns, run R2; no bot code (D-40)
+NEXT=P3R R3: pre-register §PREREG-R3 (passive limit entry with trade-through fill; OI change, basis change, VIX spike in %), build its features / outcomes, run R3; progress card after R3 (3 rounds); no bot code (D-40)
 BLOCK=S2
 MODEL_NOW=BIG
 MODEL_NEXT=BIG
 SWITCH_PENDING=none
 FREEZE=none
-TRIALS=67
+TRIALS=99
 HOLDOUT=burned
 HALT=none
 VISIBILITY=public-ok

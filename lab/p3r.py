@@ -61,9 +61,52 @@ def r1_7(f: le.A, x: float) -> tuple[np.ndarray, np.ndarray, tuple[int, int]]:
     return m, -sg(f["ret_open"]), (105, 285)
 
 
+def r2_1(f: le.A, x: float) -> tuple[np.ndarray, np.ndarray, tuple[int, int]]:
+    r15 = np.nan_to_num(f["ret15"])
+    up, dn = (f["spot"] > f["or30_hi"]) & (r15 > 0), (f["spot"] < f["or30_lo"]) & (r15 < 0)
+    return (f["t"] >= 30) & (f["t"] <= 255) & (f["eff"] >= x) & (up | dn), np.where(up, 1, -1), (30, 255)
+
+
+def r2_2(f: le.A, x: float) -> tuple[np.ndarray, np.ndarray, tuple[int, int]]:
+    r15 = np.nan_to_num(f["ret15"])
+    up, dn = (f["spot"] >= f["or15_hi"] * (1 + x)) & (r15 > 0), (f["spot"] <= f["or15_lo"] * (1 - x)) & (r15 < 0)
+    return (f["t"] >= 30) & (f["t"] <= 255) & (up | dn), np.where(up, 1, -1), (30, 255)
+
+
+def r2_3(f: le.A, x: float) -> tuple[np.ndarray, np.ndarray, tuple[int, int]]:
+    return (f["t"] >= 75) & (f["t"] <= 165) & (np.abs(f["ret_open"]) >= x), sg(f["ret_open"]), (75, 165)
+
+
+def r2_4(f: le.A, x: float) -> tuple[np.ndarray, np.ndarray, tuple[int, int]]:
+    m = (f["dte"] <= 7) & (f["t"] >= 45) & (f["t"] <= 165) & (np.abs(f["ret_open"]) >= x)
+    return m, sg(f["ret_open"]), (45, 165)
+
+
+def r2_5(f: le.A, x: float) -> tuple[np.ndarray, np.ndarray, tuple[int, int]]:
+    r30 = np.nan_to_num(f["ret30"])
+    m = (f["t"] >= 45) & (f["t"] <= 255) & (np.abs(r30) >= x) & (sg(r30) == sg(f["ret_open"]))
+    return m, sg(r30), (45, 255)
+
+
+def r2_6(f: le.A, x: float) -> tuple[np.ndarray, np.ndarray, tuple[int, int]]:
+    return (f["t"] >= 75) & (f["t"] <= 195) & (f["eff"] >= x), sg(f["ret_open"]), (75, 195)
+
+
+def r2_7(f: le.A, x: float) -> tuple[np.ndarray, np.ndarray, tuple[int, int]]:
+    r15 = np.nan_to_num(f["ret15"])
+    m = (f["t"] >= 30) & (f["t"] <= 255) & (np.nan_to_num(f["rv5"]) >= x * f["rv30"]) & (np.abs(r15) >= 0.0015)
+    return m, sg(r15), (30, 255)
+
+
+def r2_8(f: le.A, x: float) -> tuple[np.ndarray, np.ndarray, tuple[int, int]]:
+    vd, r15 = f["vwap_dist"], np.nan_to_num(f["ret15"])
+    m = (f["t"] >= 45) & (f["t"] <= 255) & (np.abs(vd) >= x) & (sg(r15) == sg(vd))
+    return m, sg(vd), (45, 255)
+
+
 ROUNDS: dict[str, dict[str, Any]] = {
     "R1": {
-        "exits": ("EXIT0", "C2", "C3"),
+        "combos": (("EXIT0", "LONG"), ("C2", "LONG"), ("C3", "LONG")),
         "ideas": {
             "R1-1": ("fade the day's move after 12:00", r1_1, (0.003, 0.005, 0.007), (0.001, 0.009)),
             "R1-2": ("fade a VIX fear spike (vix_chg in VIX points)", r1_2, (0.03, 0.05, 0.08), (0.01, 0.11)),
@@ -73,7 +116,21 @@ ROUNDS: dict[str, dict[str, Any]] = {
             "R1-6": ("follow HDFCBANK + ICICIBANK when the index lags", r1_6, (0.004, 0.006, 0.008), (0.002, 0.010)),
             "R1-7": ("range-day band fade", r1_7, (0.004, 0.006, 0.008), (0.002, 0.010)),
         },
-    }
+    },
+    "R2": {
+        "matrix": "data/lab/matrix_r2.npz",
+        "combos": (("XI1", "ATM"), ("XI1", "CAP15"), ("XI2", "ATM"), ("XI2", "CAP15")),
+        "ideas": {
+            "R2-1": ("30-min range break, low trend gate", r2_1, (0.10, 0.20, 0.30), (0.00, 0.40)),
+            "R2-2": ("15-min range break by a margin", r2_2, (0.001, 0.002, 0.003), (0.000, 0.004)),
+            "R2-3": ("late-morning day-direction momentum", r2_3, (0.002, 0.004, 0.006), (0.000, 0.008)),
+            "R2-4": ("near-expiry momentum (DTE 0..7)", r2_4, (0.002, 0.004, 0.006), (0.000, 0.008)),
+            "R2-5": ("30-min momentum aligned with the day", r2_5, (0.002, 0.003, 0.004), (0.001, 0.005)),
+            "R2-6": ("trend-day continuation", r2_6, (0.30, 0.40, 0.50), (0.20, 0.60)),
+            "R2-7": ("volatility expansion with a 15-min move", r2_7, (1.3, 1.6, 2.0), (1.0, 2.4)),
+            "R2-8": ("VWAP-side momentum", r2_8, (0.001, 0.002, 0.003), (0.000, 0.004)),
+        },
+    },
 }
 
 
@@ -115,10 +172,10 @@ def option_stage(
     days: list[str],
     mask: np.ndarray,
     side: np.ndarray,
-    exit_: str,
+    key: str,
     win: tuple[int, int],
 ) -> dict[str, Any]:
-    tr = le.trades(f, outs[f"{exit_}|LONG"], days)
+    tr = le.trades(f, outs[key], days)
     taken = le.sequence(tr, le.select(tr, mask, side))
     n_days = len(days)
     met = le.metrics(tr, taken, n_days, VIX_MEDIAN)
@@ -146,9 +203,7 @@ def option_stage(
         "folds_thin": fold["thin"],
         "p_screen": round(p, 4),
         "max_loss_rs": round(max_loss, 0),
-        "max_premium_x_lot": round(
-            float(np.max(outs[f"{exit_}|LONG"]["entry"][taken] * lot)) if len(taken) else 0.0, 0
-        ),
+        "max_premium_x_lot": round(float(np.max(outs[key]["entry"][taken] * lot)) if len(taken) else 0.0, 0),
         "gates": gates,
         "screen_pass": all(gates.values()),
     }
@@ -156,16 +211,20 @@ def option_stage(
 
 def run(rnd: str) -> list[dict[str, Any]]:
     spec = ROUNDS[rnd]
-    f, outs, days = le.load()
+    f, outs, days = le.load(ROOT / spec.get("matrix", "data/lab/matrix.npz"))
     rows: list[dict[str, Any]] = []
-    s3: dict[tuple[str, float, str], dict[str, Any]] = {}
+    s3: dict[tuple[str, float, str, str], dict[str, Any]] = {}
 
-    def opt(iid: str, x: float, ex: str) -> dict[str, Any]:
-        if (iid, x, ex) not in s3:
+    def opt(iid: str, x: float, ex: str, st: str) -> dict[str, Any]:
+        if (iid, x, ex, st) not in s3:
             mask, side, win = spec["ideas"][iid][1](f, x)
-            s3[(iid, x, ex)] = option_stage(f, outs, days, np.nan_to_num(mask).astype(bool), side, ex, win)
-            rows.append({"id": f"{iid}-{x}-{ex}", "stage": "S3", "idea": iid, "x": x, "exit": ex} | s3[(iid, x, ex)])
-        return s3[(iid, x, ex)]
+            res = option_stage(f, outs, days, np.nan_to_num(mask).astype(bool), side, f"{ex}|{st}", win)
+            s3[(iid, x, ex, st)] = res
+            suffix = ex if st == "LONG" else f"{st}-{ex}"
+            rows.append(
+                {"id": f"{iid}-{x}-{suffix}", "stage": "S3", "idea": iid, "x": x, "exit": ex, "structure": st} | res
+            )
+        return s3[(iid, x, ex, st)]
 
     for iid, (_text, rule, grid, outside) in spec["ideas"].items():
         for x in grid:
@@ -174,13 +233,13 @@ def run(rnd: str) -> list[dict[str, Any]]:
             rows.append({"id": f"{iid}-{x}", "stage": "S2", "idea": iid, "x": x} | r)
             if not r["s2"]:
                 continue
-            for ex in spec["exits"]:
-                res = opt(iid, x, ex)
+            for ex, st in spec["combos"]:
+                res = opt(iid, x, ex, st)
                 if not res["screen_pass"]:
                     continue
                 full = (outside[0], *grid, outside[1])
                 k = full.index(x)
-                nb = [opt(iid, v, ex)["net_mean"] > 0 for v in (full[k - 1], full[k + 1])]
+                nb = [opt(iid, v, ex, st)["net_mean"] > 0 for v in (full[k - 1], full[k + 1])]
                 res["gates"]["neighbours"] = all(nb)
                 res["finalist"] = all(nb)
     return rows
@@ -194,7 +253,7 @@ def trial_lines(rnd: str, rows: list[dict[str, Any]]) -> None:
                 "id": r["id"],
                 "cycle": 1,
                 "idea": text[r["idea"]],
-                "params": {"X": r["x"]} | ({"exit": r["exit"]} if "exit" in r else {}),
+                "params": {"X": r["x"]} | ({"exit": r["exit"], "structure": r["structure"]} if "exit" in r else {}),
                 "design_net_stressed": r.get("net_total"),
                 "p_screen": r["p"] if r["stage"] == "S2" else r["p_screen"],
                 "source": f"P3R {rnd} {r['stage']}" + (f" index {r['mean_pts']} pts" if r["stage"] == "S2" else ""),
@@ -218,7 +277,7 @@ def board(rnd: str, rows: list[dict[str, Any]]) -> list[str]:
     ]
     out += [
         "",
-        "## S3 option P&L (ATM long, nearest monthly, RISK SHELL)",
+        "## S3 option P&L (1 lot long option, nearest monthly, RISK SHELL; structure and exit in the id)",
         "",
         "| id | trades | per day | net / trade | folds + | p screen | high / low VIX net | w/o best 5 | max loss ₹ "
         "| failed gates |",
