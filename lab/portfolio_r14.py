@@ -43,8 +43,8 @@ def matrix(path: str) -> tuple[le.A, dict[str, le.A], list[str]]:
     return _CACHE[path]
 
 
-def member(mid: str) -> tuple[le.Trades, np.ndarray, str, le.A]:
-    """The member's trade table, its candidate indices, its outcome matrix path and its features."""
+def member(mid: str) -> tuple[le.Trades, np.ndarray, str, le.A, str]:
+    """The member's trade table, its candidate indices, its outcome matrix path, its features and its OUTCOMES key."""
     if mid.startswith("A2"):
         path, key = "data/lab/matrix.npz", "EXIT0|LONG"
         f, outs, days = matrix(path)
@@ -63,7 +63,7 @@ def member(mid: str) -> tuple[le.Trades, np.ndarray, str, le.A]:
         f, outs, days = matrix(path)
         mask, side, _ = spec["ideas"][iid][1](f, x)
     tr = le.trades(f, outs[key], days)
-    return tr, le.select(tr, np.nan_to_num(mask).astype(bool), side), path, f
+    return tr, le.select(tr, np.nan_to_num(mask).astype(bool), side), path, f, key
 
 
 def union(ids: list[str]) -> tuple[le.Trades, np.ndarray]:
@@ -71,7 +71,7 @@ def union(ids: list[str]) -> tuple[le.Trades, np.ndarray]:
     cols: dict[str, list[np.ndarray]] = {k: [] for k in FIELDS}
     prio: list[np.ndarray] = []
     for p, mid in enumerate(ids):
-        tr, cand, _, _ = member(mid)
+        tr, cand, _, _, _ = member(mid)
         for k in FIELDS:
             cols[k].append(np.asarray(getattr(tr, k))[cand])
         prio.append(np.full(len(cand), p))

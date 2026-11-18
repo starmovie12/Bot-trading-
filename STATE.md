@@ -1,11 +1,11 @@
 STAGE=2
-NEXT=Owner order 4: R15 sizing / scale-out / pyramiding on R14-P3-e3 (pre-register tiers first) -> R16 cost filter -> final candidate -> EXPLORE -> CONFIRM only if EXPLORE passes -> card; no bot code
+NEXT=Owner order 4: R16 cost-aware filter on R15-a (pre-register X grid first) -> final candidate -> EXPLORE -> CONFIRM on the old holdout only if EXPLORE passes -> card; no bot code
 BLOCK=S2
 MODEL_NOW=BIG
 MODEL_NEXT=BIG
 SWITCH_PENDING=none
 FREEZE=none
-TRIALS=363
+TRIALS=366
 HOLDOUT=burned
 HALT=none
 VISIBILITY=public-ok
