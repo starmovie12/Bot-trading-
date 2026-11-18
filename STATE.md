@@ -1,5 +1,5 @@
 STAGE=2
-NEXT=Order 5 stop condition (2) reached (D-53): waiting for the owner's decision on a route outside the current rules (overnight holding / structure / spending); holdout unopened; no bot code
+NEXT=S3 Step A: config/strategy_v3.toml, features.yaml, tools/preflight.py, nested WF check (V3 §12, §4.2, §13.1, §13.4)
 BLOCK=S2
 MODEL_NOW=BIG
 MODEL_NEXT=BIG
@@ -11,3 +11,9 @@ HALT=none
 VISIBILITY=public-ok
 TOKEN=not set
 DATA_SHA=9e7a49d4eb838d0127fe9267c007888f69c0cc58
+ACTIVE_SPEC=BANKNIFTY_STRATEGY_V3.md
+PROGRAM=S3
+PHASE_4=LOCKED
+DESIGN_DAYS=362 (2024-11-21 .. 2026-07-03, data/lab/split.json)
+HOLDOUT_DAYS=90 (2026-07-06 .. 2026-11-12, HOLDOUT_REUSED, holdout_uses=0)
+S3_TRIALS=0
