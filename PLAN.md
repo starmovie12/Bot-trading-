@@ -461,3 +461,12 @@ rv5 >= X x rv30, t 45..255, X in {1.5, 2.0, 2.5}; R25-3 every day at 10:00 (t = 
 each a trial line (DESIGN alone, also a PBO column). Nested trial R25-n: windows and test trading as §PREREG-R17,
 members per training window = the straddle setups with a positive training net and >= 20 x (training days / 362)
 trades, priority = training net, 1 lot. Trial cap added: 20. Gates, PBO and DSR as §PREREG-R17.
+
+## §PREREG-R26 (owner order 5 / D-49: CONSENSUS VOTING across the selected setups; nested; before any R26 number)
+
+Idea: many weak signals agreeing at the same time may be stronger than any one. Windows, universe and test-window
+trading as §PREREG-R17 (1 lot). In each training window the selection is either the R17 S2 + S3 selection or M-b
+(§PREREG-R18). In the test window a candidate of a selected setup is kept only when at least K DIFFERENT selected
+setups have a candidate on the same day, on the same side, with a decision time within 15 minutes of it (itself
+included); priority = the training net per trade. Trial cap added: 10. Trials: R26-r17-k2, R26-r17-k3, R26-mb-k2,
+R26-mb-k3. Gates, PBO and DSR as §PREREG-R17.
