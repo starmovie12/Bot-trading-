@@ -214,3 +214,20 @@ structure at a time; daily ₹ loss lock = 2 x the structure's max loss. ids R8-
 Every id is a trial (2 x 2 x 24 = 96 lines). EXPLORE screen as results/research_plan_v2.md (null: random sides and
 times on the same days, same count, p < 0.01, 2,000 runs).
 F6 (not a trial): the break-even table by strike (ITM delta 0.6-0.7 / ATM / CAP15) and hold time -> results/f6_breakeven.md.
+
+## §PREREG-R9 (P3R v2 round 9 = F4 near-expiry seed, owner order 2; EXPLORE; before any R9 number)
+
+Data: DESIGN 362 days; the old holdout stays closed. Only scales were read: share of DESIGN days with DTE <= 7 / 10 /
+15 / 20 = 0.28 / 0.37 / 0.55 / 0.70. A hold-to-close rule trades at most once a day, so ST11 (>= 0.5 a day) needs a DTE
+limit above about 15; the grid therefore spans DTE 10 / 15 / 20. The F3 filter is NOT used: R8 found no out-of-sample
+edge in the F3 models, so filtering by them has no evidence behind it (the owner may overrule). The day-rule grid is
+moot here (one signal a day at 10:30); no trials are spent on it. Trial cap added: 60
+Rule (R7-2 widened): t = 75 (10:30), dte <= D, abs(ret_open) >= X, side = sign(ret_open). Funnel S1 / S2 to 14:30 as
+§PREREG-R6. S3 on data/lab/matrix_r9.npz (= matrix_r7 XH / XH2 + matrix_r2 XI2, CAP15 only): each S2 survivor x
+{CAP15-XH, CAP15-XH2, CAP15-XI2}. ids R9-<idea>-<value>[-CAP15-<exit>]. EXPLORE screen as research_plan_v2.md.
+
+| id | idea (side) | edge source | rule | grid (outside neighbours) |
+|---|---|---|---|---|
+| R9-1 | near-expiry direction at 10:30, DTE <= 10, hold to close | DIRECTION | t = 75, dte <= 10, abs(ret_open) >= X | X 0.0005, 0.0015, 0.0025 (0.0, 0.0035) |
+| R9-2 | the same, DTE <= 15 | DIRECTION | t = 75, dte <= 15, abs(ret_open) >= X | X 0.0005, 0.0015, 0.0025 (0.0, 0.0035) |
+| R9-3 | the same, DTE <= 20 | DIRECTION | t = 75, dte <= 20, abs(ret_open) >= X | X 0.0005, 0.0015, 0.0025 (0.0, 0.0035) |
