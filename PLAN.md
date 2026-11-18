@@ -501,3 +501,13 @@ R30 (near-futures volume surge with a 15-min move, abs(fret15) >= 0.001; t 45..2
 sign(fret15)) when fvol_ratio >= X, X in {1.0, 1.25, 1.5}; R30-2 fade (side = -sign(fret15)), same X.
 Nested as §PREREG-R17 over each round's own 12 setups (S2 + S3 per training window), 1 lot; the nested runs are the
 trials. Trial cap added: 10. Trials: R29-a, R30-a. Gates, PBO and DSR as §PREREG-R17.
+
+## §PREREG-R31 (owner order 5 / D-49: CALENDAR family; nested; before any R31 number)
+
+Setups on data/lab/matrix_r9.npz (CAP15 x {XI2, XH}); weekday from the DESIGN date (0 = Monday .. 4 = Friday); S2 =
+60-min index test. R31-1 weekday follow: at 10:30 (t = 75), on weekday X, abs(ret_open) >= 0.002, side =
+sign(ret_open), X in {0, 1, 2, 3, 4}; R31-2 weekday afternoon fade: at 13:00 (t = 225), on weekday X, abs(ret_open)
+>= 0.003, side = -sign(ret_open), X in {0, 1, 2, 3, 4}; R31-3 expiry-day afternoon follow: dte = 0, at 12:30 (t =
+195), abs(ret_open) >= X, side = sign(ret_open), X in {0.002, 0.004, 0.006}. Nested as §PREREG-R17 over these 26
+setups (S2 + S3 per training window), 1 lot; the nested run is the trial. Trial cap added: 5. Trial: R31-a.
+Gates, PBO and DSR as §PREREG-R17.
