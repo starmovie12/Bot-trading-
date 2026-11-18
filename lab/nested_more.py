@@ -211,8 +211,61 @@ def r28_setups() -> list[uv.Setup]:
     return out
 
 
+def r29_setups(rnd: str) -> list[uv.Setup]:
+    """§PREREG-R29 / R30: index vs constituents, futures volume surge; CAP15 x {XI2, XH}."""
+    path = "data/lab/matrix_r29.npz"
+    f = pf.matrix(path)[0]
+    t = f["t"]
+    div, fv, fr = np.nan_to_num(f["div"]), np.nan_to_num(f["fvol_ratio"]), np.nan_to_num(f["fret15"])
+    rules: dict[str, tuple[Callable[[float], tuple[np.ndarray, np.ndarray]], tuple[float, ...]]] = {}
+    w29, w30 = (t >= 45) & (t <= 255), (t >= 45) & (t <= 285)
+    if rnd == "R29":
+        rules["R29-1"] = (lambda x: (w29 & (np.abs(div) >= x), np.where(div > 0, -1, 1)), (0.002, 0.003, 0.004))
+        rules["R29-2"] = (lambda x: (w29 & (np.abs(div) >= x), np.where(div > 0, 1, -1)), (0.002, 0.003, 0.004))
+    else:
+        rules["R30-1"] = (
+            lambda x: (w30 & (fv >= x) & (np.abs(fr) >= 0.001), np.where(fr > 0, 1, -1)),
+            (1.0, 1.25, 1.5),
+        )
+        rules["R30-2"] = (
+            lambda x: (w30 & (fv >= x) & (np.abs(fr) >= 0.001), np.where(fr > 0, -1, 1)),
+            (1.0, 1.25, 1.5),
+        )
+    win = (45, 255) if rnd == "R29" else (45, 285)
+    out = []
+    for iid, (rule, grid) in rules.items():
+        for x in grid:
+            mb, side = rule(x)
+            for ex in ("XI2", "XH"):
+                tr = uv.trades(path, f"{ex}|CAP15")
+                out.append(
+                    uv.Setup(
+                        f"{iid}-{x}-CAP15-{ex}",
+                        (rnd, iid, float(x)),
+                        path,
+                        f"{ex}|CAP15",
+                        tr,
+                        le.select(tr, mb, side),
+                        mb,
+                        side,
+                        win,
+                        False,
+                        1,
+                    )
+                )
+    return out
+
+
 def run(rnd: str) -> int:
-    setups = r27_setups() if rnd == "R27" else r28_setups() if rnd == "R28" else uv.build()
+    setups = (
+        r27_setups()
+        if rnd == "R27"
+        else r28_setups()
+        if rnd == "R28"
+        else r29_setups(rnd)
+        if rnd in ("R29", "R30")
+        else uv.build()
+    )
     prev_close, atr10 = daily_series()
     res: dict[str, dict[str, np.ndarray]] = {}
     meta: dict[str, dict[str, Any]] = {}
@@ -227,6 +280,8 @@ def run(rnd: str) -> int:
         plans = {"R24-a": ("r17", "tiers", 20), "R24-b": ("r17", "vol", 20), "R24-c": ("r17", "tiers", 5)}
     elif rnd == "R26":
         plans = {f"R26-{sel}-k{k}": (sel, "one", -k) for sel in ("r17", "mb") for k in (2, 3)}
+    elif rnd in ("R29", "R30"):
+        plans = {f"{rnd}-a": ("r17", "one", None)}
     elif rnd == "R28":
         plans = {"R28-a": ("r17", "one", None), "R28-b": ("r17", "tiers", None)}
     elif rnd == "R27":
@@ -272,6 +327,8 @@ def run(rnd: str) -> int:
         "R26": "consensus voting across the selected setups",
         "R27": "earlier time exits for the hold-to-close families",
         "R28": "classic indicator families",
+        "R29": "index vs its two biggest constituents",
+        "R30": "near-futures volume surge",
     }
     rc = sh.finish(res, meta, rnd, titles[rnd])
     if rnd == "R22":  # neighbours = the adjacent N (§PREREG-R22): recorded in the rows file

@@ -1,11 +1,11 @@
 STAGE=2
-NEXT=Owner order 5: card after R28; R29 index vs HDFCBANK + ICICIBANK divergence, R30 futures volume surge (pre-register first); holdout by D-49 (4) only; no bot code
+NEXT=Owner order 5: R31 calendar family (weekday, first / last hour, expiry day; pre-register first); holdout by D-49 (4) only; no bot code
 BLOCK=S2
 MODEL_NOW=BIG
 MODEL_NEXT=BIG
 SWITCH_PENDING=none
 FREEZE=none
-TRIALS=412
+TRIALS=414
 HOLDOUT=burned
 HALT=none
 VISIBILITY=public-ok
