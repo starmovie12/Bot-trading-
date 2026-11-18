@@ -1,11 +1,11 @@
 STAGE=2
-NEXT=P3R v2 R10 = F1 (iron fly / iron condor, long wings first, research only): pre-register §PREREG-R10, build 4-leg outcomes (8 orders stressed), run; progress card after R10; then F2 (IV tables: check size safely), F5; no bot code (D-40, D-42)
+NEXT=P3R v2 R11 = F2 (IV vs realised): check the IV tables' size via the GitHub tree API (never ls-tree -l on the partial clone), sparse-add them, pre-register §PREREG-R11, run; then F5; no bot code (D-40, D-42)
 BLOCK=S2
 MODEL_NOW=BIG
 MODEL_NEXT=BIG
 SWITCH_PENDING=none
 FREEZE=none
-TRIALS=295
+TRIALS=319
 HOLDOUT=burned
 HALT=none
 VISIBILITY=public-ok
