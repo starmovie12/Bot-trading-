@@ -109,8 +109,40 @@ def best_exit(setups: list[uv.Setup], train: np.ndarray) -> list[uv.Setup]:
     return nr.select(chosen, train)
 
 
+def r27_setups() -> list[uv.Setup]:
+    """§PREREG-R27: the R6 / R9 / R12 ideas and grids on CAP15 with the 13:30 / 14:30 time exits."""
+    from lab import p3r  # noqa: PLC0415
+
+    path = "data/lab/matrix_r27.npz"
+    f = pf.matrix(path)[0]
+    out = []
+    for rnd in ("R6", "R9", "R12"):
+        for iid, (_t, rule, grid, _o) in p3r.ROUNDS[rnd]["ideas"].items():
+            for x in grid:
+                mask, side, win = rule(f, x)
+                mb = np.nan_to_num(mask).astype(bool)
+                for ex in ("XT255", "XT315"):
+                    tr = uv.trades(path, f"{ex}|CAP15")
+                    out.append(
+                        uv.Setup(
+                            f"R27:{iid}-{x}-CAP15-{ex}",
+                            (rnd, iid, float(x)),
+                            path,
+                            f"{ex}|CAP15",
+                            tr,
+                            le.select(tr, mb, side),
+                            mb,
+                            side,
+                            win,
+                            True,
+                            1,
+                        )
+                    )
+    return out
+
+
 def run(rnd: str) -> int:
-    setups = uv.build()
+    setups = r27_setups() if rnd == "R27" else uv.build()
     prev_close, atr10 = daily_series()
     res: dict[str, dict[str, np.ndarray]] = {}
     meta: dict[str, dict[str, Any]] = {}
@@ -125,6 +157,8 @@ def run(rnd: str) -> int:
         plans = {"R24-a": ("r17", "tiers", 20), "R24-b": ("r17", "vol", 20), "R24-c": ("r17", "tiers", 5)}
     elif rnd == "R26":
         plans = {f"R26-{sel}-k{k}": (sel, "one", -k) for sel in ("r17", "mb") for k in (2, 3)}
+    elif rnd == "R27":
+        plans = {"R27-a": ("r17", "one", None), "R27-b": ("r17", "tiers", None)}
     elif rnd == "R23":
         plans = {"R23-a": ("r17", "one", None), "R23-b": ("r17", "tiers", None), "R23-c": ("mb", "one", None)}
     for tid, (sel, lots, trend_n) in plans.items():
@@ -164,6 +198,7 @@ def run(rnd: str) -> int:
         "R23": "rolling one-block selection",
         "R24": "combinations of the nested pieces",
         "R26": "consensus voting across the selected setups",
+        "R27": "earlier time exits for the hold-to-close families",
     }
     rc = sh.finish(res, meta, rnd, titles[rnd])
     if rnd == "R22":  # neighbours = the adjacent N (§PREREG-R22): recorded in the rows file

@@ -28,6 +28,8 @@ def nz(x: float) -> bool:
 def index_exit(ih: list[float], il: list[float], e: int, side: int, ent: float, r: float, ex: str) -> tuple[int, str]:
     if ex == "XH":  # §PREREG-R7: no index stop, hold to force-flat (loss bounded by the premium)
         return FF, "force_flat"
+    if ex.startswith("XT"):  # §PREREG-R27: a fixed exit minute, no stop
+        return max(e, min(int(ex[2:]), FF)), "time"
     wide = ex == "XH2"  # §PREREG-R7: index stop -2R only, no break-even / trail / target
     stop, best, be_on, trail = ent - side * r * (2 if wide else 1), ent, False, False
     for m in range(e, FF + 1):
@@ -126,10 +128,12 @@ def day_outcomes(
 
 
 def main(argv: list[str]) -> int:
-    mode = argv[0] if argv[:1] in (["r7"], ["r13"]) else "r2"  # §PREREG-R7 / §PREREG-R13 builds
-    exits, structs = {"r7": (("XH", "XH2"), ("CAP15",)), "r13": (("XH", "XH2"), ("ITM2",))}.get(
-        mode, (("XI1", "XI2"), ("ATM", "CAP15"))
-    )
+    mode = argv[0] if argv[:1] in (["r7"], ["r13"], ["r27"]) else "r2"  # §PREREG-R7 / R13 / R27 builds
+    exits, structs = {
+        "r7": (("XH", "XH2"), ("CAP15",)),
+        "r13": (("XH", "XH2"), ("ITM2",)),
+        "r27": (("XT255", "XT315"), ("CAP15",)),
+    }.get(mode, (("XI1", "XI2"), ("ATM", "CAP15")))
     days = json.loads((ROOT / "data/lab/split.json").read_text(encoding="utf-8"))["design"]
     lots = {
         e: int(v) for e, v in json.loads((ROOT / "data/lab/data_profile.json").read_text())["lots_by_expiry"].items()

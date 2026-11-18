@@ -1,11 +1,11 @@
 STAGE=2
-NEXT=Owner order 5: R27 next-month expiry for the hold-to-close families (lower decay per day; pre-register first; lab loader, no engine change); holdout by D-49 (4) only; no bot code
+NEXT=Owner order 5: R28 classic indicator families (RSI, Bollinger, Supertrend, MACD on 5-min index closes) in the nested pipeline (pre-register first); card after R28; holdout by D-49 (4) only; no bot code
 BLOCK=S2
 MODEL_NOW=BIG
 MODEL_NEXT=BIG
 SWITCH_PENDING=none
 FREEZE=none
-TRIALS=408
+TRIALS=410
 HOLDOUT=burned
 HALT=none
 VISIBILITY=public-ok

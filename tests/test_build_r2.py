@@ -41,3 +41,9 @@ def test_r7_hold_exits() -> None:
     assert index_exit(hi, lo, 10, 1, 100.0, 10.0, "XH2") == (11, "stop")  # -2R = 80: 85 holds, 70 breaks
     hi, lo = path({10: (130, 99), 11: (131, 100)})
     assert index_exit(hi, lo, 10, 1, 100.0, 10.0, "XH2") == (FF, "force_flat")  # no target, no break-even
+
+
+def test_r27_time_exits() -> None:
+    hi, lo = path({10: (101, 50)})
+    assert index_exit(hi, lo, 10, 1, 100.0, 10.0, "XT255") == (255, "time")  # no stop, exits at 13:30
+    assert index_exit(hi, lo, 300, 1, 100.0, 10.0, "XT255") == (300, "time")  # an entry after the exit minute
