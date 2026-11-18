@@ -41,3 +41,27 @@
 {"cycle": 1, "design_net_stressed": -190.1, "id": "D0-28", "idea": "STEP 0 bucket cell: day gap |gap| >= 0.5%, fade", "p_screen": 1.0, "params": {}, "source": "diagnosis (descriptive, per-row mean net; counted in k, D-41)"}
 {"cycle": 1, "design_net_stressed": -319.9, "id": "D0-29", "idea": "STEP 0 bucket cell: day no gap, momentum", "p_screen": 1.0, "params": {}, "source": "diagnosis (descriptive, per-row mean net; counted in k, D-41)"}
 {"cycle": 1, "design_net_stressed": -154.0, "id": "D0-30", "idea": "STEP 0 bucket cell: day no gap, fade", "p_screen": 1.0, "params": {}, "source": "diagnosis (descriptive, per-row mean net; counted in k, D-41)"}
+{"cycle": 1, "design_net_stressed": null, "id": "R1-1-0.003", "idea": "fade the day's move after 12:00", "p_screen": 0.8222, "params": {"X": 0.003}, "source": "P3R R1 S2 index -5.97 pts"}
+{"cycle": 1, "design_net_stressed": null, "id": "R1-1-0.005", "idea": "fade the day's move after 12:00", "p_screen": 0.6164, "params": {"X": 0.005}, "source": "P3R R1 S2 index -2.02 pts"}
+{"cycle": 1, "design_net_stressed": null, "id": "R1-1-0.007", "idea": "fade the day's move after 12:00", "p_screen": 0.4735, "params": {"X": 0.007}, "source": "P3R R1 S2 index 0.17 pts"}
+{"cycle": 1, "design_net_stressed": null, "id": "R1-2-0.03", "idea": "fade a VIX fear spike (vix_chg in VIX points)", "p_screen": 0.2537, "params": {"X": 0.03}, "source": "P3R R1 S2 index 3.38 pts"}
+{"cycle": 1, "design_net_stressed": null, "id": "R1-2-0.05", "idea": "fade a VIX fear spike (vix_chg in VIX points)", "p_screen": 0.1788, "params": {"X": 0.05}, "source": "P3R R1 S2 index 4.54 pts"}
+{"cycle": 1, "design_net_stressed": null, "id": "R1-2-0.08", "idea": "fade a VIX fear spike (vix_chg in VIX points)", "p_screen": 0.1479, "params": {"X": 0.08}, "source": "P3R R1 S2 index 6.05 pts"}
+{"cycle": 1, "design_net_stressed": null, "id": "R1-3-0.0025", "idea": "VWAP stretch reversion", "p_screen": 0.9381, "params": {"X": 0.0025}, "source": "P3R R1 S2 index -10.74 pts"}
+{"cycle": 1, "design_net_stressed": null, "id": "R1-3-0.004", "idea": "VWAP stretch reversion", "p_screen": 0.8731, "params": {"X": 0.004}, "source": "P3R R1 S2 index -14.9 pts"}
+{"cycle": 1, "design_net_stressed": null, "id": "R1-3-0.006", "idea": "VWAP stretch reversion", "p_screen": 0.4116, "params": {"X": 0.006}, "source": "P3R R1 S2 index 6.71 pts"}
+{"cycle": 1, "design_net_stressed": null, "id": "R1-4-0.004", "idea": "gap fade after a 15-min reversal", "p_screen": 0.7812, "params": {"X": 0.004}, "source": "P3R R1 S2 index -9.78 pts"}
+{"cycle": 1, "design_net_stressed": null, "id": "R1-4-0.006", "idea": "gap fade after a 15-min reversal", "p_screen": 0.7902, "params": {"X": 0.006}, "source": "P3R R1 S2 index -16.46 pts"}
+{"cycle": 1, "design_net_stressed": null, "id": "R1-4-0.008", "idea": "gap fade after a 15-min reversal", "p_screen": 0.985, "params": {"X": 0.008}, "source": "P3R R1 S2 index -48.17 pts"}
+{"cycle": 1, "design_net_stressed": null, "id": "R1-5-0.003", "idea": "expiry-week momentum", "p_screen": 0.0689, "params": {"X": 0.003}, "source": "P3R R1 S2 index 24.96 pts"}
+{"cycle": 1, "design_net_stressed": null, "id": "R1-5-0.005", "idea": "expiry-week momentum", "p_screen": 0.032, "params": {"X": 0.005}, "source": "P3R R1 S2 index 43.82 pts"}
+{"cycle": 1, "design_net_stressed": 30603.1, "id": "R1-5-0.005-EXIT0", "idea": "expiry-week momentum", "p_screen": 0.044, "params": {"X": 0.005, "exit": "EXIT0"}, "source": "P3R R1 S3"}
+{"cycle": 1, "design_net_stressed": 31636.26, "id": "R1-5-0.005-C2", "idea": "expiry-week momentum", "p_screen": 0.0539, "params": {"X": 0.005, "exit": "C2"}, "source": "P3R R1 S3"}
+{"cycle": 1, "design_net_stressed": 22305.22, "id": "R1-5-0.005-C3", "idea": "expiry-week momentum", "p_screen": 0.04, "params": {"X": 0.005, "exit": "C3"}, "source": "P3R R1 S3"}
+{"cycle": 1, "design_net_stressed": null, "id": "R1-5-0.007", "idea": "expiry-week momentum", "p_screen": 0.2368, "params": {"X": 0.007}, "source": "P3R R1 S2 index 33.05 pts"}
+{"cycle": 1, "design_net_stressed": null, "id": "R1-6-0.004", "idea": "follow HDFCBANK + ICICIBANK when the index lags", "p_screen": 0.3686, "params": {"X": 0.004}, "source": "P3R R1 S2 index 4.51 pts"}
+{"cycle": 1, "design_net_stressed": null, "id": "R1-6-0.006", "idea": "follow HDFCBANK + ICICIBANK when the index lags", "p_screen": 1.0, "params": {"X": 0.006}, "source": "P3R R1 S2 index 0.0 pts"}
+{"cycle": 1, "design_net_stressed": null, "id": "R1-6-0.008", "idea": "follow HDFCBANK + ICICIBANK when the index lags", "p_screen": 1.0, "params": {"X": 0.008}, "source": "P3R R1 S2 index 0.0 pts"}
+{"cycle": 1, "design_net_stressed": null, "id": "R1-7-0.004", "idea": "range-day band fade", "p_screen": 0.6054, "params": {"X": 0.004}, "source": "P3R R1 S2 index -2.09 pts"}
+{"cycle": 1, "design_net_stressed": null, "id": "R1-7-0.006", "idea": "range-day band fade", "p_screen": 0.1888, "params": {"X": 0.006}, "source": "P3R R1 S2 index 7.39 pts"}
+{"cycle": 1, "design_net_stressed": null, "id": "R1-7-0.008", "idea": "range-day band fade", "p_screen": 0.2208, "params": {"X": 0.008}, "source": "P3R R1 S2 index 10.13 pts"}

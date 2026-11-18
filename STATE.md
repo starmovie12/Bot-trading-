@@ -1,11 +1,11 @@
 STAGE=2
-NEXT=P3R (strategy re-search, owner order D-40): STEP 0 diagnosis -> STEP 1 research plan -> rounds R1.. (PREREG-R<n> first); no bot code until STRATEGY PASS + owner's 'build bot'
+NEXT=P3R R2: pre-register §PREREG-R2 (loss-first structures + index-based exits on momentum families, >= 0.5 a day), build the matrix columns, run R2; no bot code (D-40)
 BLOCK=S2
 MODEL_NOW=BIG
 MODEL_NEXT=BIG
 SWITCH_PENDING=none
 FREEZE=none
-TRIALS=13
+TRIALS=67
 HOLDOUT=burned
 HALT=none
 VISIBILITY=public-ok
