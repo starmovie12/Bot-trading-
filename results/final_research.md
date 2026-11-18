@@ -54,3 +54,34 @@ With 1 lot, intraday-only holding, these costs and these 362 days, no rule was f
 earns more than its costs robustly. The few positive pockets are rare, concentrated in a handful of days, and fail
 the robustness gates; they are watched forward, not traded. No bot is built (D-40); the old holdout stays unused for
 any future CONFIRM.
+
+## Owner order 5 status (D-49 .. D-52): R17-R31, process-level tests
+
+Every candidate after D-49 was judged by NESTED walk-forward (the whole selection redone inside each training window,
+only the next untouched window counted), with PBO (CSCV, 16 blocks) and the Deflated Sharpe Ratio after each round.
+
+| round | idea | best out-of-sample result | why it failed |
+|---|---|---|---|
+| R17 | the R14 + R15 pipeline, nested | +₹39 a trade at 1 lot (tiers +₹370, one window carries it) | windows, ST11, ST4c, DSR 0 |
+| R18 | meta-labeling (probability of profit -> 0-3 lots) | 16 trades only; broader primaries lose | ST11, DSR 0 |
+| R19 | James-Stein shrinkage | almost no setup survives shrinkage | no trades |
+| R20-R22 | vol-target lots, per-setup exits, 5-20 day trend filter | +₹111 .. +₹370 a trade, 0.2-0.45 a day | windows 2/4, ST4c, DSR 0 |
+| R23 | rolling one-block selection | -₹260 .. -₹314 a trade | results do not persist block to block |
+| R24 | combinations | +₹1,135 a trade, 0.22 a day | ST11, ST4c, DD95, DSR 0 |
+| R25 | long straddle (research) | loses before costs | gross negative |
+| R26 | consensus of selected setups | +₹146 a trade, 0.53 a day | windows 2/4, ST4c, DSR 0 |
+| R27 | earlier time exits (next-month expiry not in the data) | -₹149 a trade | worse than holding |
+| R28 | RSI / Bollinger / MACD / Supertrend | -₹588 a trade | every window loses |
+| R29-R31 | index vs constituents, futures volume, calendar | no training-window survivor | no edge in any window |
+
+The pattern across all nested runs: test windows 1-3 lose or stay flat and only window 4 (the latest ~74 DESIGN days)
+is sometimes positive; with rolling selection even that disappears. PBO stays about 0.26 and DSR about 0: with 415
+trials the expected best Sharpe of luck alone is about 0.25 a day, so a pass needs an out-of-sample daily Sharpe near
+0.34 (about 5.4 a year; D-51). No candidate came near the D-49 holdout rule; the old holdout is still unopened.
+
+Routes that remain need a decision only the owner can take (they change money at risk or the rules he set):
+1. Holding positions overnight / for several days (removing the 15:10 force-flat): overnight gap risk on real money.
+2. A structure outside R2 in the bot (tested here only for research: straddles and iron flies lost).
+3. Paying for a cheaper execution route or more data (the owner said no new data will come).
+Within the current rules (BANKNIFTY only, intraday, 1-3 lots, long option / debit spread, stressed costs, every
+gate), 31 rounds found no edge that survives an honest out-of-sample test on these 470 days.

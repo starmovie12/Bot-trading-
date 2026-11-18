@@ -1,11 +1,11 @@
 STAGE=2
-NEXT=Owner order 5: R31 calendar family (weekday, first / last hour, expiry day; pre-register first); holdout by D-49 (4) only; no bot code
+NEXT=Order 5 stop condition (2) reached (D-53): waiting for the owner's decision on a route outside the current rules (overnight holding / structure / spending); holdout unopened; no bot code
 BLOCK=S2
 MODEL_NOW=BIG
 MODEL_NEXT=BIG
 SWITCH_PENDING=none
 FREEZE=none
-TRIALS=414
+TRIALS=415
 HOLDOUT=burned
 HALT=none
 VISIBILITY=public-ok

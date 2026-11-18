@@ -256,16 +256,49 @@ def r29_setups(rnd: str) -> list[uv.Setup]:
     return out
 
 
+def r31_setups() -> list[uv.Setup]:
+    """§PREREG-R31: calendar family on CAP15 x {XI2, XH}."""
+    import datetime as dt  # noqa: PLC0415
+    import json  # noqa: PLC0415
+
+    path = "data/lab/matrix_r9.npz"
+    f = pf.matrix(path)[0]
+    days = json.loads((sh.ROOT / "data/lab/split.json").read_text(encoding="utf-8"))["design"]
+    wd = np.repeat([dt.date.fromisoformat(d).weekday() for d in days], nr.ROWS)
+    t, ro, so = f["t"], f["ret_open"], np.where(f["ret_open"] >= 0, 1, -1)
+    rules: dict[str, tuple[Callable[[float], tuple[np.ndarray, np.ndarray]], tuple[float, ...]]] = {
+        "R31-1": (lambda x: ((t == 75) & (wd == x) & (np.abs(ro) >= 0.002), so), (0, 1, 2, 3, 4)),
+        "R31-2": (lambda x: ((t == 225) & (wd == x) & (np.abs(ro) >= 0.003), -so), (0, 1, 2, 3, 4)),
+        "R31-3": (lambda x: ((t == 195) & (f["dte"] == 0) & (np.abs(ro) >= x), so), (0.002, 0.004, 0.006)),
+    }
+    wins = {"R31-1": (75, 75), "R31-2": (225, 225), "R31-3": (195, 195)}
+    out = []
+    for iid, (rule, grid) in rules.items():
+        for x in grid:
+            mb, side = rule(x)
+            for ex in ("XI2", "XH"):
+                tr = uv.trades(path, f"{ex}|CAP15")
+                out.append(
+                    uv.Setup(
+                        f"{iid}-{x}-CAP15-{ex}",
+                        ("R31", iid, float(x)),
+                        path,
+                        f"{ex}|CAP15",
+                        tr,
+                        le.select(tr, mb, side),
+                        mb,
+                        side,
+                        wins[iid],
+                        False,
+                        1,
+                    )
+                )
+    return out
+
+
 def run(rnd: str) -> int:
-    setups = (
-        r27_setups()
-        if rnd == "R27"
-        else r28_setups()
-        if rnd == "R28"
-        else r29_setups(rnd)
-        if rnd in ("R29", "R30")
-        else uv.build()
-    )
+    special = {"R27": r27_setups, "R28": r28_setups, "R31": r31_setups}
+    setups = special[rnd]() if rnd in special else r29_setups(rnd) if rnd in ("R29", "R30") else uv.build()
     prev_close, atr10 = daily_series()
     res: dict[str, dict[str, np.ndarray]] = {}
     meta: dict[str, dict[str, Any]] = {}
@@ -280,6 +313,8 @@ def run(rnd: str) -> int:
         plans = {"R24-a": ("r17", "tiers", 20), "R24-b": ("r17", "vol", 20), "R24-c": ("r17", "tiers", 5)}
     elif rnd == "R26":
         plans = {f"R26-{sel}-k{k}": (sel, "one", -k) for sel in ("r17", "mb") for k in (2, 3)}
+    elif rnd == "R31":
+        plans = {"R31-a": ("r17", "one", None)}
     elif rnd in ("R29", "R30"):
         plans = {f"{rnd}-a": ("r17", "one", None)}
     elif rnd == "R28":
@@ -329,6 +364,7 @@ def run(rnd: str) -> int:
         "R28": "classic indicator families",
         "R29": "index vs its two biggest constituents",
         "R30": "near-futures volume surge",
+        "R31": "calendar family",
     }
     rc = sh.finish(res, meta, rnd, titles[rnd])
     if rnd == "R22":  # neighbours = the adjacent N (§PREREG-R22): recorded in the rows file
