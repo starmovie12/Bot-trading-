@@ -103,3 +103,25 @@ PASS gates and neighbours as §PREREG-R1 / results/research_plan.md (the outside
 | R2-6 | trend-day continuation | DIRECTION | t 75..195, eff >= X, side = sign(ret_open) | X 0.30, 0.40, 0.50 (0.20, 0.60) |
 | R2-7 | volatility expansion with a 15-min move | DIRECTION | t 30..255, rv5 >= X x rv30, abs(ret15) >= 0.0015, side = sign(ret15) | X 1.3, 1.6, 2.0 (1.0, 2.4) |
 | R2-8 | VWAP-side momentum | DIRECTION | t 45..255, abs(vwap_dist) >= X, sign(ret15) = sign(vwap_dist), side = sign(vwap_dist) | X 0.001, 0.002, 0.003 (0.000, 0.004) |
+
+## §PREREG-R3 (P3R round 3, owner order D-40; committed before any R3 outcome is computed)
+
+Data: DESIGN 362 days; the old holdout stays closed. New features (lab/build_r3.py features; only their scale was
+read before this section: p90 oi_skew 0.135, basis_chg 0.00072, vix_pct 0.030): oi_skew = (PE OI change - CE OI
+change since 09:29) / (CE + PE OI at 09:29) over ATM +- 5 strikes of the nearest monthly expiry; basis_chg = futures
+basis now - at 09:30; vix_pct = VIX change since the open / VIX open (R1-2's intent, now in %). Trial cap added: 100
+Funnel S1 / S2 as §PREREG-R1. S3 combinations = each S2 survivor x {CAP15-XI2 (market entry, as R2), CAP15P-XI2
+(passive entry)}. Passive entry: a buy limit at the last closed option bar's close, filled only when a bar in the next
+3 minutes trades THROUGH it (low < limit), at the limit; no fill -> no trade; the entry pays no half spread, keeps the
+stressed slippage; the exit pays the full stressed spread. Strike: CAP15 walk on the limit price. ids
+R3-<idea>-<value>[-<structure>-<exit>]. PASS gates and neighbours as §PREREG-R1 / results/research_plan.md.
+
+| id | idea (side) | edge source | rule | grid (outside neighbours) |
+|---|---|---|---|---|
+| R3-1 | option-writer positioning | STRUCTURAL (writers defend strikes) | t 45..255, oi_skew >= X -> CE; oi_skew <= -X -> PE | X 0.10, 0.15, 0.20 (0.05, 0.25) |
+| R3-2 | writer positioning + the day's move agree | STRUCTURAL | R3-1 and side = sign(ret_open) | X 0.10, 0.15, 0.20 (0.05, 0.25) |
+| R3-3 | futures basis momentum | STRUCTURAL (futures demand leads) | t 45..255, basis_chg >= X -> CE; <= -X -> PE | X 0.0005, 0.0008, 0.0011 (0.0002, 0.0014) |
+| R3-4 | basis + the 15-min move agree | STRUCTURAL | t 45..255, abs(basis_chg) >= X, sign(ret15) = sign(basis_chg), side = sign(basis_chg) | X 0.0005, 0.0008, 0.0011 (0.0002, 0.0014) |
+| R3-5 | fade a VIX spike (in %) | STRUCTURAL (fear spikes mean-revert) | t 45..255, vix_pct >= X and ret_open < 0 -> CE; vix_pct <= -X and ret_open > 0 -> PE | X 0.03, 0.045, 0.06 (0.015, 0.075) |
+| R3-6 | follow a VIX move (in %) | DIRECTION | t 45..255, vix_pct >= X and ret_open < 0 -> PE; vix_pct <= -X and ret_open > 0 -> CE | X 0.03, 0.045, 0.06 (0.015, 0.075) |
+| R3-7 | near-expiry momentum (R2-4 rule) with passive entry next to market | DIRECTION | dte 0..7, t 45..165, abs(ret_open) >= X, side = sign(ret_open) | X 0.003, 0.004, 0.005 (0.002, 0.006) |
