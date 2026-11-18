@@ -393,3 +393,16 @@ Gates (D-49 (4)): OOS stressed net > 0, >= 3 of 4 test windows positive, >= 0.5 
 5 trades, net >= 0 at 1.5 x cost, 12-month expected net >= DD95 (5-day blocks, 12 months, closed-trade marks), PBO <=
 0.25 (CSCV 16 blocks over the daily P&L of every universe setup alone on DESIGN plus the R14-R16 portfolios), DSR >=
 0.95 (the candidate's OOS daily P&L; N = every trials.jsonl line; Sharpe variance over the universe series).
+
+## §PREREG-R18 (owner order 5 / D-49, D-50: META-LABELING, nested walk-forward; before any R18 number)
+
+Windows, universe, S2 / S3 rules and the test-window trading rules as §PREREG-R17. Primary signals per training window:
+M-a = the R17 selection; M-b = every universe setup whose training trades (traded alone, RISK SHELL) have a positive
+stressed net per trade and >= 20 x (training days / 362) trades. Meta-label: 1 if the candidate trade's 1-lot stressed
+net > 0. Features: the 20 of §PREREG-R8 at the decision row + one-hot structure (ATM / CAP15 / ITM2 / spread) + exit
+type (hold to close / other). Models (numpy, trained on the training window's candidate trades only): L = logistic
+(L2 = 1.0); S = boosted stumps (50 rounds, learning rate 0.1). Test window: a candidate is taken only if p >= 0.50;
+lots 1 / 2 / 3 at p >= 0.50 / 0.60 / 0.70, capped at the ₹35,700 by-construction max loss; priority = p (highest
+first); one position at a time, max 3 a day, cool-off 15, daily lock ₹71,400. Trial cap added: 10.
+Trials: R18-Ma-L, R18-Ma-S, R18-Mb-L (stumps on M-b skipped: too many rows for the numpy stumps; logged here).
+Gates and PBO / DSR exactly as §PREREG-R17.
