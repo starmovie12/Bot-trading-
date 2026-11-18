@@ -400,9 +400,8 @@ def prereg_first(root: Path) -> Result:
         rnd = re.match(r"(R\d+)-", str(r["id"]))
         pattern = bool(rnd) and bool(re.search(rf"ids\s+{rnd.group(1) if rnd else ''}-[a-z]*<", later))  # id pattern
         exact = re.search(rf"(?<![\w-]){re.escape(str(r['id']))}(?![\w-])", later) is not None  # named in a PREREG-R
-        listed = (
-            exact or pattern or (bool(key) and (f"| {key} |" in later or (key == "D0-" and "D0-1 .. D0-" in later)))
-        )
+        named = bool(key) and re.search(rf"(?<![\w-]){re.escape(key)}(?![\w-])", later) is not None  # idea id named
+        listed = exact or pattern or named or (key == "D0-" and "D0-1 .. D0-" in later)
         if not listed:
             ids |= set(str(r["id"]).split("+"))
     shell = all(k in sec for k in ("RISK SHELL", "C1", "C4")) and not ids - words
