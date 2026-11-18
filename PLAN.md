@@ -263,3 +263,18 @@ Trial cap added: 50. Funnel S1 / S2 (60 min) as §PREREG-R1. S3 on data/lab/matr
 | R11-1 | the day's move passes X of the implied daily move: follow | STRUCTURAL (an implied-move break = new information) | t 45..255, impl_ratio >= X, side = sign(ret_open) | X 0.5, 0.75, 1.0 (0.25, 1.25) |
 | R11-2 | realised vol above implied and rising: buy the move | STRUCTURAL (IV too cheap for the realised move) | t 45..255, rv_iv >= X, rv5 > rv30, abs(ret15) >= 0.001, side = sign(ret15) | X 0.8, 1.0, 1.2 (0.6, 1.4) |
 | R11-3 | the move overshoots the implied move in the afternoon: fade | STRUCTURAL (implied move as a fair range) | t 165..285, impl_ratio >= X, side = -sign(ret_open) | X 1.0, 1.25, 1.5 (0.75, 1.75) |
+
+## §PREREG-R12 (P3R v2 round 12 = F5 regime switch; EXPLORE; before any R12 number)
+
+Data: DESIGN 362 days; the old holdout stays closed. Trend score at the decision row = number of these that hold
+(0..5): eff >= 0.30; abs(ret_open) >= 0.003; sign(ret15) = sign(ret_open); sign(hdfc15) = sign(icici15) =
+sign(ret_open) (breadth of the two biggest constituents); sign(vwap_dist) = sign(ret_open). Trend day = score >= X ->
+momentum long option on sign(ret_open), held to the close; a range day -> NO-TRADE (R10: 4-leg selling cannot cover
+its costs). Trial cap added: 40. Funnel S1 / S2 to 14:30 (§PREREG-R6). S3 on data/lab/matrix_r11.npz: each S2 survivor
+x {CAP15-XH, CAP15-XI2}. ids R12-<idea>-<value>[-CAP15-<exit>]. Outside neighbour 6 = an empty rule (score max 5).
+
+| id | idea (side) | edge source | rule | grid (outside neighbours) |
+|---|---|---|---|---|
+| R12-1 | trend score at 10:00 | DIRECTION (regime) | t = 45, score >= X | X 3, 4, 5 (2, 6) |
+| R12-2 | trend score at 11:00 | DIRECTION (regime) | t = 105, score >= X | X 3, 4, 5 (2, 6) |
+| R12-3 | trend score at 10:00 with VIX not rising | DIRECTION (regime) | t = 45, score >= X, vix_chg <= 0 | X 3, 4, 5 (2, 6) |
