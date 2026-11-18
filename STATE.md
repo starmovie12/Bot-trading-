@@ -1,11 +1,11 @@
 STAGE=2
-NEXT=P3R R3: pre-register §PREREG-R3 (passive limit entry with trade-through fill; OI change, basis change, VIX spike in %), build its features / outcomes, run R3; progress card after R3 (3 rounds); no bot code (D-40)
+NEXT=P3R R4 (after the 3-round card): gap follow + the untested combos of the owner's families, or new data (DATA_REQUEST items 5 / 6 / 7); pre-register §PREREG-R4 first; no bot code (D-40)
 BLOCK=S2
 MODEL_NOW=BIG
 MODEL_NEXT=BIG
 SWITCH_PENDING=none
 FREEZE=none
-TRIALS=99
+TRIALS=124
 HOLDOUT=burned
 HALT=none
 VISIBILITY=public-ok

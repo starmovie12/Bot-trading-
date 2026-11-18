@@ -16,7 +16,7 @@
 - `tools/engine_of_record.py` · bar-by-bar engine of record (every verdict number) · `tests/test_engine_of_record.py`
 - `lab/build_matrix.py`, `lab/ideas.py`, `lab/run_round.py`, `lab/replay_agree.py`, `tools/lab_eval.py` · 3a matrix, bracket, rounds, AGREE · `python3 -m lab.run_round`
 - `lab/select_spec.py`, `lab/holdout_mc.py`, `lab/finalists.py` · 3d loss-first rank, 3e holdout (opened once) + Monte Carlo + K1 limits + K2 ladder, finalist columns · `python3 -m lab.holdout_mc`
-- `lab/diagnose.py`, `lab/p3r.py`, `lab/build_r2.py` · P3R (owner order D-40): STEP 0 diagnosis; round runner (S1 move, S2 index points, S3 option P&L + every PASS gate) · `python3 -m lab.p3r R<n>` -> results/r<n>_board.md, results/rounds.md
+- `lab/diagnose.py`, `lab/p3r.py`, `lab/build_r2.py`, `lab/build_r3.py` · P3R (owner order D-40): STEP 0 diagnosis; round runner (S1 move, S2 index points, S3 option P&L + every PASS gate) · `python3 -m lab.p3r R<n>` -> results/r<n>_board.md, results/rounds.md
 - `src/bot/limits.py` · loads `limits.toml` (K1 chain, LIVE_POSSIBLE, fixed rupees, derive_day_limits) · `tests/test_limits_chain.py`
 - `src/bot/limits.py` · loads `limits.toml` (RiskLimits, chain check) · `tests/test_limits_chain.py`
 - `pehredaar/` · Go watchdog (lease) · `cd pehredaar && go test ./...`

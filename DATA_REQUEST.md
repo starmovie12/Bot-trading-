@@ -18,3 +18,9 @@ Sirf woh cheezein jo data repo mein nahi hain aur jinse strategy ka hisaab sach 
 Every item above is OPEN_FOR_NEXT_CYCLE (Phase 7 step 1 ticks it). Cap codes this cycle: items 1-6 fall back to
 excluding the affected days or features (no V3 cap code); item 7 falls back to the stressed spread ESTIMATE (C4, ST7),
 which caps nothing in V3 but keeps every spread number tagged ESTIMATE until DATA-R arrives.
+
+## P3R routes (owner order D-40; after rounds R1-R3, k = 124, no candidate passed)
+- Item 5 (event calendar) opens the only family of the owner's list that is still untested: event days (RBI policy, big bank results, the budget).
+- Item 7 (recorder bid / ask) replaces the spread ESTIMATE (stressed x2 .. x4) with the measured p90 spread: an honest cost cut on every family; until then the stress stays.
+- Item 6 (index, futures and VIX 2022-01 .. 2024-09) gives the direction stage (S2) about 2.5 times the days, enough to tell a real near-expiry momentum effect from noise; option P&L stays on the current regime (ST6).
+- New data days after 2026-11-13 are the fresh forward test (results/forward_shadow.md) for any candidate that passes.

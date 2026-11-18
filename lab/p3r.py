@@ -104,6 +104,37 @@ def r2_8(f: le.A, x: float) -> tuple[np.ndarray, np.ndarray, tuple[int, int]]:
     return m, sg(vd), (45, 255)
 
 
+def r3_1(f: le.A, x: float) -> tuple[np.ndarray, np.ndarray, tuple[int, int]]:
+    oi = np.nan_to_num(f["oi_skew"])
+    return (f["t"] >= 45) & (f["t"] <= 255) & (np.abs(oi) >= x), sg(oi), (45, 255)
+
+
+def r3_2(f: le.A, x: float) -> tuple[np.ndarray, np.ndarray, tuple[int, int]]:
+    m, side, win = r3_1(f, x)
+    return m & (side == sg(f["ret_open"])), side, win
+
+
+def r3_3(f: le.A, x: float) -> tuple[np.ndarray, np.ndarray, tuple[int, int]]:
+    b = np.nan_to_num(f["basis_chg"])
+    return (f["t"] >= 45) & (f["t"] <= 255) & (np.abs(b) >= x), sg(b), (45, 255)
+
+
+def r3_4(f: le.A, x: float) -> tuple[np.ndarray, np.ndarray, tuple[int, int]]:
+    m, side, win = r3_3(f, x)
+    return m & (sg(np.nan_to_num(f["ret15"])) == side), side, win
+
+
+def r3_5(f: le.A, x: float) -> tuple[np.ndarray, np.ndarray, tuple[int, int]]:
+    v = np.nan_to_num(f["vix_pct"])
+    up, dn = (v >= x) & (f["ret_open"] < 0), (v <= -x) & (f["ret_open"] > 0)
+    return (f["t"] >= 45) & (f["t"] <= 255) & (up | dn), np.where(up, 1, -1), (45, 255)
+
+
+def r3_6(f: le.A, x: float) -> tuple[np.ndarray, np.ndarray, tuple[int, int]]:
+    m, side, win = r3_5(f, x)
+    return m, -side, win
+
+
 ROUNDS: dict[str, dict[str, Any]] = {
     "R1": {
         "combos": (("EXIT0", "LONG"), ("C2", "LONG"), ("C3", "LONG")),
@@ -129,6 +160,19 @@ ROUNDS: dict[str, dict[str, Any]] = {
             "R2-6": ("trend-day continuation", r2_6, (0.30, 0.40, 0.50), (0.20, 0.60)),
             "R2-7": ("volatility expansion with a 15-min move", r2_7, (1.3, 1.6, 2.0), (1.0, 2.4)),
             "R2-8": ("VWAP-side momentum", r2_8, (0.001, 0.002, 0.003), (0.000, 0.004)),
+        },
+    },
+    "R3": {
+        "matrix": "data/lab/matrix_r3.npz",
+        "combos": (("XI2", "CAP15"), ("XI2", "CAP15P")),
+        "ideas": {
+            "R3-1": ("option-writer positioning (OI skew)", r3_1, (0.10, 0.15, 0.20), (0.05, 0.25)),
+            "R3-2": ("writer positioning + the day's move agree", r3_2, (0.10, 0.15, 0.20), (0.05, 0.25)),
+            "R3-3": ("futures basis momentum", r3_3, (0.0005, 0.0008, 0.0011), (0.0002, 0.0014)),
+            "R3-4": ("basis + the 15-min move agree", r3_4, (0.0005, 0.0008, 0.0011), (0.0002, 0.0014)),
+            "R3-5": ("fade a VIX spike (in %)", r3_5, (0.03, 0.045, 0.06), (0.015, 0.075)),
+            "R3-6": ("follow a VIX move (in %)", r3_6, (0.03, 0.045, 0.06), (0.015, 0.075)),
+            "R3-7": ("near-expiry momentum, passive entry next to market", r2_4, (0.003, 0.004, 0.005), (0.002, 0.006)),
         },
     },
 }

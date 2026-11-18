@@ -97,3 +97,28 @@
 {"cycle": 1, "design_net_stressed": null, "id": "R2-8-0.001", "idea": "VWAP-side momentum", "p_screen": 0.4775, "params": {"X": 0.001}, "source": "P3R R2 S2 index 0.15 pts"}
 {"cycle": 1, "design_net_stressed": null, "id": "R2-8-0.002", "idea": "VWAP-side momentum", "p_screen": 0.2458, "params": {"X": 0.002}, "source": "P3R R2 S2 index 4.2 pts"}
 {"cycle": 1, "design_net_stressed": null, "id": "R2-8-0.003", "idea": "VWAP-side momentum", "p_screen": 0.1688, "params": {"X": 0.003}, "source": "P3R R2 S2 index 8.11 pts"}
+{"cycle": 1, "design_net_stressed": null, "id": "R3-1-0.1", "idea": "option-writer positioning (OI skew)", "p_screen": 0.5954, "params": {"X": 0.1}, "source": "P3R R3 S2 index -1.34 pts"}
+{"cycle": 1, "design_net_stressed": null, "id": "R3-1-0.15", "idea": "option-writer positioning (OI skew)", "p_screen": 0.2238, "params": {"X": 0.15}, "source": "P3R R3 S2 index 8.91 pts"}
+{"cycle": 1, "design_net_stressed": null, "id": "R3-1-0.2", "idea": "option-writer positioning (OI skew)", "p_screen": 0.1239, "params": {"X": 0.2}, "source": "P3R R3 S2 index 16.92 pts"}
+{"cycle": 1, "design_net_stressed": null, "id": "R3-2-0.1", "idea": "writer positioning + the day's move agree", "p_screen": 0.6983, "params": {"X": 0.1}, "source": "P3R R3 S2 index -3.76 pts"}
+{"cycle": 1, "design_net_stressed": null, "id": "R3-2-0.15", "idea": "writer positioning + the day's move agree", "p_screen": 0.2967, "params": {"X": 0.15}, "source": "P3R R3 S2 index 5.8 pts"}
+{"cycle": 1, "design_net_stressed": null, "id": "R3-2-0.2", "idea": "writer positioning + the day's move agree", "p_screen": 0.1329, "params": {"X": 0.2}, "source": "P3R R3 S2 index 16.29 pts"}
+{"cycle": 1, "design_net_stressed": null, "id": "R3-3-0.0005", "idea": "futures basis momentum", "p_screen": 0.8571, "params": {"X": 0.0005}, "source": "P3R R3 S2 index -5.42 pts"}
+{"cycle": 1, "design_net_stressed": null, "id": "R3-3-0.0008", "idea": "futures basis momentum", "p_screen": 0.3986, "params": {"X": 0.0008}, "source": "P3R R3 S2 index 2.24 pts"}
+{"cycle": 1, "design_net_stressed": null, "id": "R3-3-0.0011", "idea": "futures basis momentum", "p_screen": 0.1988, "params": {"X": 0.0011}, "source": "P3R R3 S2 index 10.57 pts"}
+{"cycle": 1, "design_net_stressed": null, "id": "R3-4-0.0005", "idea": "basis + the 15-min move agree", "p_screen": 0.7602, "params": {"X": 0.0005}, "source": "P3R R3 S2 index -4.06 pts"}
+{"cycle": 1, "design_net_stressed": null, "id": "R3-4-0.0008", "idea": "basis + the 15-min move agree", "p_screen": 0.4585, "params": {"X": 0.0008}, "source": "P3R R3 S2 index 1.11 pts"}
+{"cycle": 1, "design_net_stressed": null, "id": "R3-4-0.0011", "idea": "basis + the 15-min move agree", "p_screen": 0.5834, "params": {"X": 0.0011}, "source": "P3R R3 S2 index -3.69 pts"}
+{"cycle": 1, "design_net_stressed": null, "id": "R3-5-0.03", "idea": "fade a VIX spike (in %)", "p_screen": 0.6184, "params": {"X": 0.03}, "source": "P3R R3 S2 index -2.71 pts"}
+{"cycle": 1, "design_net_stressed": null, "id": "R3-5-0.045", "idea": "fade a VIX spike (in %)", "p_screen": 0.1698, "params": {"X": 0.045}, "source": "P3R R3 S2 index 13.31 pts"}
+{"cycle": 1, "design_net_stressed": null, "id": "R3-5-0.06", "idea": "fade a VIX spike (in %)", "p_screen": 0.1069, "params": {"X": 0.06}, "source": "P3R R3 S2 index 23.96 pts"}
+{"cycle": 1, "design_net_stressed": null, "id": "R3-6-0.03", "idea": "follow a VIX move (in %)", "p_screen": 0.3946, "params": {"X": 0.03}, "source": "P3R R3 S2 index 2.71 pts"}
+{"cycle": 1, "design_net_stressed": null, "id": "R3-6-0.045", "idea": "follow a VIX move (in %)", "p_screen": 0.8092, "params": {"X": 0.045}, "source": "P3R R3 S2 index -13.31 pts"}
+{"cycle": 1, "design_net_stressed": null, "id": "R3-6-0.06", "idea": "follow a VIX move (in %)", "p_screen": 0.8771, "params": {"X": 0.06}, "source": "P3R R3 S2 index -23.96 pts"}
+{"cycle": 1, "design_net_stressed": null, "id": "R3-7-0.003", "idea": "near-expiry momentum, passive entry next to market", "p_screen": 0.2587, "params": {"X": 0.003}, "source": "P3R R3 S2 index 9.03 pts"}
+{"cycle": 1, "design_net_stressed": null, "id": "R3-7-0.004", "idea": "near-expiry momentum, passive entry next to market", "p_screen": 0.037, "params": {"X": 0.004}, "source": "P3R R3 S2 index 28.32 pts"}
+{"cycle": 1, "design_net_stressed": 33581.73, "id": "R3-7-0.004-CAP15-XI2", "idea": "near-expiry momentum, passive entry next to market", "p_screen": 0.0579, "params": {"X": 0.004, "exit": "XI2", "structure": "CAP15"}, "source": "P3R R3 S3"}
+{"cycle": 1, "design_net_stressed": 22995.1, "id": "R3-7-0.004-CAP15P-XI2", "idea": "near-expiry momentum, passive entry next to market", "p_screen": 0.1289, "params": {"X": 0.004, "exit": "XI2", "structure": "CAP15P"}, "source": "P3R R3 S3"}
+{"cycle": 1, "design_net_stressed": null, "id": "R3-7-0.005", "idea": "near-expiry momentum, passive entry next to market", "p_screen": 0.036, "params": {"X": 0.005}, "source": "P3R R3 S2 index 33.81 pts"}
+{"cycle": 1, "design_net_stressed": 25583.74, "id": "R3-7-0.005-CAP15-XI2", "idea": "near-expiry momentum, passive entry next to market", "p_screen": 0.1169, "params": {"X": 0.005, "exit": "XI2", "structure": "CAP15"}, "source": "P3R R3 S3"}
+{"cycle": 1, "design_net_stressed": 18957.04, "id": "R3-7-0.005-CAP15P-XI2", "idea": "near-expiry momentum, passive entry next to market", "p_screen": 0.1778, "params": {"X": 0.005, "exit": "XI2", "structure": "CAP15P"}, "source": "P3R R3 S3"}

@@ -91,8 +91,9 @@ def trades(feats: A, o: A, days: list[str]) -> Trades:
     legs = o["legs"]
     gross = (o["exit"] - o["entry"]) * lot
     ch = charges(o, lot, dates)
+    passive = o["passive"] if "passive" in o else np.zeros(len(row))  # P3R R3: a limit filled THROUGH pays no spread
     m_in, m_out = (
-        spread_mult(o["entry_m"], expiry),
+        spread_mult(o["entry_m"], expiry) * (1 - passive),
         spread_mult(o["exit_m"], expiry) * np.where(o["stale_exit"] > 0, 2, 1),
     )
     fill = lot * legs * ((HALF_SPREAD * m_in + SLIP * STRESS_SLIP) + (HALF_SPREAD * m_out + SLIP * STRESS_SLIP))
