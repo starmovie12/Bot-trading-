@@ -1,11 +1,11 @@
 STAGE=2
-NEXT=Owner order 5: R19 James-Stein shrinkage sizing (pre-register first) -> card after R19 -> R20 vol-target -> R21 per-setup hold -> R22 daily trend; holdout by D-49 (4) only; no bot code
+NEXT=Owner order 5: R20 vol-target lots (pre-register first) -> R21 per-setup hold / trail (nested) -> R22 daily-trend direction filter -> combinations / new ideas; holdout by D-49 (4) only; no bot code
 BLOCK=S2
 MODEL_NOW=BIG
 MODEL_NEXT=BIG
 SWITCH_PENDING=none
 FREEZE=none
-TRIALS=374
+TRIALS=376
 HOLDOUT=burned
 HALT=none
 VISIBILITY=public-ok
