@@ -1,11 +1,11 @@
 STAGE=2
-NEXT=Owner order 5: R18 meta-labeling (pre-register first; walk-forward probability per R14 signal -> 0..3 lots) -> R19 shrinkage -> R20 vol-target -> R21 per-setup hold -> R22 daily trend; card after R19; holdout by D-49 (4) only; no bot code
+NEXT=Owner order 5: R19 James-Stein shrinkage sizing (pre-register first) -> card after R19 -> R20 vol-target -> R21 per-setup hold -> R22 daily trend; holdout by D-49 (4) only; no bot code
 BLOCK=S2
 MODEL_NOW=BIG
 MODEL_NEXT=BIG
 SWITCH_PENDING=none
 FREEZE=none
-TRIALS=371
+TRIALS=374
 HOLDOUT=burned
 HALT=none
 VISIBILITY=public-ok
