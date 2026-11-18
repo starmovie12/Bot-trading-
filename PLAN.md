@@ -440,3 +440,11 @@ Windows and test-window trading as §PREREG-R17, but each test block b (2..5) is
 1-day embargo), not on all earlier blocks. Min training trades = 20 x (72 / 362). Trial cap added: 10.
 Trials: R23-a (the R17 S2 + S3 selection, 1 lot), R23-b (the same, R15 tiers by training rank), R23-c (M-b: S3 only,
 1 lot). Gates, PBO and DSR as §PREREG-R17.
+
+## §PREREG-R24 (owner order 5 / D-49: COMBINATIONS of the nested pieces; before any R24 number)
+
+Combined from the pieces whose OUT-OF-SAMPLE mean was positive (R17-a tiers, R20-a vol lots, R22 trend filters); that
+choice was itself made on out-of-sample numbers, which the trial count in DSR and the PBO matrix carry. Windows,
+selection (the R17 S2 + S3, anchored) and test-window trading as §PREREG-R17. Trial cap added: 10.
+Trials: R24-a = trend filter N 20 + R15 tiers; R24-b = trend filter N 20 + vol-targeted lots; R24-c = trend filter N 5
++ R15 tiers. Gates, PBO and DSR as §PREREG-R17.
