@@ -178,3 +178,18 @@ day); option-only (IV) edges, because the owner's funnel requires an index-point
 | R6-4 | gap-and-go at 09:45, hold to close | DIRECTION | t = 30, abs(gap) >= X, sign(ret_open) = sign(gap), side = sign(gap) | X 0.001, 0.002, 0.003 (0.0005, 0.004) |
 | R6-5 | near-expiry 10:30 direction, hold to close | DIRECTION | t = 75, dte <= 7, abs(ret_open) >= X, side = sign(ret_open) | X 0.002, 0.003, 0.004 (0.001, 0.005) |
 | R6-6 | first-hour direction at 10:15, hold to close | DIRECTION | t = 60, abs(ret_open) >= X, side = sign(ret_open) | X 0.001, 0.002, 0.003 (0.0005, 0.004) |
+
+## §PREREG-R7 (P3R round 7, owner order D-40; before any R7 number)
+
+Data: DESIGN 362 days (no new data); the old holdout stays closed. Question from R6: do the two ideas with an index
+edge to the close keep it in options when the trade is NOT cut early by an index stop? Trial cap added: 30
+Funnel S1 / S2 as §PREREG-R6 (forward index move to 14:30). S3 on data/lab/matrix_r7.npz (lab/build_r2.py r7):
+CAP15 structure only (loss-first: max loss <= ₹15,000 + stressed costs), exits XH = no index stop, no target, hold to
+force-flat 15:10; XH2 = index stop -2R only (no break-even, no trail, no target), else hold to force-flat. Fill rules
+as §PREREG-R2. ids R7-<idea>-<value>[-CAP15-<exit>]. PASS gates and neighbours as before. R6-4 / R6-5 rules are
+re-run under new ids (their S2 lines count again in k).
+
+| id | idea (side) | edge source | rule | grid (outside neighbours) |
+|---|---|---|---|---|
+| R7-1 | gap-and-go at 09:45, hold to close (R6-4 rule) | DIRECTION | t = 30, abs(gap) >= X, sign(ret_open) = sign(gap), side = sign(gap) | X 0.001, 0.002, 0.003 (0.0005, 0.004) |
+| R7-2 | near-expiry 10:30 direction, hold to close (R6-5 rule) | DIRECTION | t = 75, dte <= 7, abs(ret_open) >= X, side = sign(ret_open) | X 0.002, 0.003, 0.004 (0.001, 0.005) |
