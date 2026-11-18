@@ -363,3 +363,15 @@ premium. Costs: SOURCE charges per order by date (brokerage flat per order) x 1.
   a minute whose LOW <= S exits all lots at min(S, that minute's open); else all exit at the member's exit. Never adds
   to a loser (Class D).
 3 trials, ids R15-<a|b|c>; the EXPLORE screen of R14 on the result (bootstrap p < 0.01 etc.).
+
+## §PREREG-R16 (owner order 4 / D-47: COST-AWARE FILTER on R15-a; EXPLORE; before any R16 number)
+
+Base: R15-a (the R14-P3-e3 portfolio with the R15 tiers and the ₹35,700 cap). Filter on every CANDIDATE before the
+sequencing (a filtered candidate never holds the position): keep it only when the expected index move left in the day
+>= X x its break-even. Expected move = m_d x sqrt((355 - entry minute) / 375), m_d = the opening ATM straddle /
+sqrt(max(1, dte x 5 / 7)) (§PREREG-R11; lab/build_r11.py now also stores m_d as F_md). Break-even (index points) =
+results/lots_math.md for the candidate's strike and its R15 lot count: ATM 14.9 / 12.5 / 11.7, CAP15 17.0 / 14.0 /
+13.0, ITM2 14.0 / 11.8 / 11.1 for 1 / 2 / 3 lots (matrix.npz LONG members = ATM; CAP15P = CAP15). Days without a
+straddle: the candidate is dropped. Grid X in {2, 4, 6}; neighbours = the adjacent X. Trial cap added: 10. ids
+R16-x<X>. EXPLORE screen as R14. Then ONE final candidate = the R14 / R15 / R16 trial passing the most gates
+(ties -> the higher total net), and the EXPLORE verdict decides whether CONFIRM (the old holdout, once) runs.
