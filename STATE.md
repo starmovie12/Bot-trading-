@@ -1,11 +1,11 @@
 STAGE=2
-NEXT=Owner order 5: card after R25 sent; R26 consensus voting across selected setups (pre-register first); holdout by D-49 (4) only; no bot code
+NEXT=Owner order 5: R27 next-month expiry for the hold-to-close families (lower decay per day; pre-register first; lab loader, no engine change); holdout by D-49 (4) only; no bot code
 BLOCK=S2
 MODEL_NOW=BIG
 MODEL_NEXT=BIG
 SWITCH_PENDING=none
 FREEZE=none
-TRIALS=404
+TRIALS=408
 HOLDOUT=burned
 HALT=none
 VISIBILITY=public-ok

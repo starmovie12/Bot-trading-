@@ -36,7 +36,7 @@ def daily_series() -> tuple[np.ndarray, np.ndarray]:
 
 
 def trade_custom(
-    members: list[uv.Setup], test: np.ndarray, want: Want, keep: Keep | None = None, max_e: int = 3
+    members: list[uv.Setup], test: np.ndarray, want: Want, keep: Keep | None = None, max_e: int = 3, consensus: int = 0
 ) -> dict[str, np.ndarray]:
     cols: dict[str, list[np.ndarray]] = {k: [] for k in pf.FIELDS}
     prio, legs = [], []
@@ -52,6 +52,21 @@ def trade_custom(
     pr, lg = np.concatenate(prio), np.concatenate(legs)
     if keep is not None:
         tr = dataclasses.replace(tr, max_loss=np.where(keep(tr), tr.max_loss, np.inf))
+    if consensus > 1:  # §PREREG-R26: >= K different selected setups, same day, same side, within 15 minutes
+        votes = np.array(
+            [
+                len(
+                    {
+                        int(pr[j])
+                        for j in np.nonzero(
+                            (tr.day == tr.day[i]) & (tr.dir == tr.dir[i]) & (np.abs(tr.t - tr.t[i]) <= 15)
+                        )[0]
+                    }
+                )
+                for i in range(len(pr))
+            ]
+        )
+        tr = dataclasses.replace(tr, max_loss=np.where(votes >= consensus, tr.max_loss, np.inf))
     taken = pf.sequence(tr, pr, max_e)
     per = tr.max_loss[taken]
     n = np.minimum(want(tr, pr)[taken], np.maximum(1, np.floor(pf.CAP / per))).astype(float)
@@ -108,6 +123,8 @@ def run(rnd: str) -> int:
         plans = {f"R22-n{n}": ("r17", "one", n) for n in (5, 10, 20)}
     elif rnd == "R24":
         plans = {"R24-a": ("r17", "tiers", 20), "R24-b": ("r17", "vol", 20), "R24-c": ("r17", "tiers", 5)}
+    elif rnd == "R26":
+        plans = {f"R26-{sel}-k{k}": (sel, "one", -k) for sel in ("r17", "mb") for k in (2, 3)}
     elif rnd == "R23":
         plans = {"R23-a": ("r17", "one", None), "R23-b": ("r17", "tiers", None), "R23-c": ("mb", "one", None)}
     for tid, (sel, lots, trend_n) in plans.items():
@@ -125,7 +142,8 @@ def run(rnd: str) -> int:
                     return np.where(np.isnan(a), 1.0, np.clip(np.round(2 * t / a), 1, 3))
 
             keep: Keep | None = None
-            if trend_n:
+            votes_k = -trend_n if trend_n and trend_n < 0 else 0  # R26 passes the consensus K as a negative number
+            if trend_n and trend_n > 0:
 
                 def keep(tr: le.Trades, n: int = trend_n) -> np.ndarray:
                     d = tr.day.astype(int)
@@ -133,7 +151,7 @@ def run(rnd: str) -> int:
                     tr_n = prev_close[d] / past - 1
                     return np.asarray(np.nan_to_num(np.sign(tr_n)) == tr.dir)
 
-            parts.append(trade_custom(members, test, want, keep))
+            parts.append(trade_custom(members, test, want, keep, consensus=votes_k))
         res[tid] = sh.concat(parts)
         meta[tid] = {
             "idea": f"{rnd} {tid}: selection {sel}, lots {lots}, trend N {trend_n}",
@@ -145,6 +163,7 @@ def run(rnd: str) -> int:
         "R22": "daily trend bias",
         "R23": "rolling one-block selection",
         "R24": "combinations of the nested pieces",
+        "R26": "consensus voting across the selected setups",
     }
     rc = sh.finish(res, meta, rnd, titles[rnd])
     if rnd == "R22":  # neighbours = the adjacent N (§PREREG-R22): recorded in the rows file
