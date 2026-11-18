@@ -478,3 +478,15 @@ CAP15 with time exits XT255 = exit at 13:30 and XT315 = exit at 14:30 at the opt
 r27 -> data/lab/matrix_r27.npz). Nested as §PREREG-R17 over these setups only (S2 + S3 in each training window,
 priority = training net). The setups are evaluated only inside the training windows, so the nested runs are the
 trials. Trial cap added: 10. Trials: R27-a (1 lot), R27-b (R15 tiers by training rank). Gates, PBO and DSR as R17.
+
+## §PREREG-R28 (owner order 5 / D-49: CLASSIC INDICATOR families; nested; before any R28 number)
+
+Indicators on 1-minute index bars of the same day, the last bar closed before the decision (lab/build_r28.py; only
+the scales were read: RSI14 p5 31 / p95 69; Bollinger z p5 -2.0 / p95 2.0; MACD histogram / price ~1e-4). Setups on
+data/lab/matrix_r28.npz (CAP15 x {XI2, XH}), t 45..285: R28-1 RSI fade (RSI <= X -> CE, >= 100 - X -> PE), X in {25,
+30, 35}; R28-2 RSI momentum (RSI >= 100 - X -> CE, <= X -> PE), X in {30, 35, 40}; R28-3 Bollinger breakout (z >= X ->
+CE, <= -X -> PE), X in {1.5, 2.0, 2.5}; R28-4 Bollinger fade (z >= X -> PE, <= -X -> CE), X in {1.5, 2.0, 2.5};
+R28-5 MACD histogram cross (prev <= 0 < now and now >= X -> CE; mirror -> PE), X in {0, 0.00005, 0.0001}; R28-6
+Supertrend(10, X) flip (prev dir -1 -> now +1 -> CE; mirror -> PE), X in {2, 3, 4}. S2 = 60-min index test.
+Nested as §PREREG-R17 over these 36 setups only (S2 + S3 per training window); the nested runs are the trials. Trial
+cap added: 10. Trials: R28-a (1 lot), R28-b (R15 tiers). Gates, PBO and DSR as §PREREG-R17.
