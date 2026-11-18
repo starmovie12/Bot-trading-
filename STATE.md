@@ -1,11 +1,11 @@
 STAGE=2
-NEXT=Owner order 5: R28 classic indicator families (RSI, Bollinger, Supertrend, MACD on 5-min index closes) in the nested pipeline (pre-register first); card after R28; holdout by D-49 (4) only; no bot code
+NEXT=Owner order 5: card after R28; R29 index vs HDFCBANK + ICICIBANK divergence, R30 futures volume surge (pre-register first); holdout by D-49 (4) only; no bot code
 BLOCK=S2
 MODEL_NOW=BIG
 MODEL_NEXT=BIG
 SWITCH_PENDING=none
 FREEZE=none
-TRIALS=410
+TRIALS=412
 HOLDOUT=burned
 HALT=none
 VISIBILITY=public-ok

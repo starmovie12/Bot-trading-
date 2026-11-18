@@ -141,8 +141,78 @@ def r27_setups() -> list[uv.Setup]:
     return out
 
 
+def r28_rules() -> dict[str, tuple[Any, tuple[float, ...]]]:
+    def win(f: le.A) -> np.ndarray:
+        return np.asarray((f["t"] >= 45) & (f["t"] <= 285))
+
+    def pair(f: le.A, up: np.ndarray, dn: np.ndarray) -> tuple[np.ndarray, np.ndarray, tuple[int, int]]:
+        return win(f) & (up | dn), np.where(up, 1, -1), (45, 285)
+
+    def rsi_fade(f: le.A, x: float) -> Any:
+        r = np.nan_to_num(f["rsi14"], nan=50.0)
+        return pair(f, r <= x, r >= 100 - x)
+
+    def rsi_mom(f: le.A, x: float) -> Any:
+        r = np.nan_to_num(f["rsi14"], nan=50.0)
+        return pair(f, r >= 100 - x, r <= x)
+
+    def bb_break(f: le.A, x: float) -> Any:
+        z = np.nan_to_num(f["bbz20"])
+        return pair(f, z >= x, z <= -x)
+
+    def bb_fade(f: le.A, x: float) -> Any:
+        z = np.nan_to_num(f["bbz20"])
+        return pair(f, z <= -x, z >= x)
+
+    def macd_x(f: le.A, x: float) -> Any:
+        h, hp = np.nan_to_num(f["macd_h"]), np.nan_to_num(f["macd_h_prev"])
+        return pair(f, (hp <= 0) & (h > 0) & (h >= x), (hp >= 0) & (h < 0) & (-h >= x))
+
+    def st_flip(f: le.A, x: float) -> Any:
+        d, dp = f[f"st_dir{int(x)}"], f[f"st_dir{int(x)}_prev"]
+        return pair(f, (dp == -1) & (d == 1), (dp == 1) & (d == -1))
+
+    return {
+        "R28-1": (rsi_fade, (25, 30, 35)),
+        "R28-2": (rsi_mom, (30, 35, 40)),
+        "R28-3": (bb_break, (1.5, 2.0, 2.5)),
+        "R28-4": (bb_fade, (1.5, 2.0, 2.5)),
+        "R28-5": (macd_x, (0.0, 0.00005, 0.0001)),
+        "R28-6": (st_flip, (2, 3, 4)),
+    }
+
+
+def r28_setups() -> list[uv.Setup]:
+    """§PREREG-R28: the classic indicator setups on CAP15 x {XI2, XH}."""
+    path = "data/lab/matrix_r28.npz"
+    f = pf.matrix(path)[0]
+    out = []
+    for iid, (rule, grid) in r28_rules().items():
+        for x in grid:
+            mask, side, win = rule(f, x)
+            mb = np.nan_to_num(mask).astype(bool)
+            for ex in ("XI2", "XH"):
+                tr = uv.trades(path, f"{ex}|CAP15")
+                out.append(
+                    uv.Setup(
+                        f"{iid}-{x}-CAP15-{ex}",
+                        ("R28", iid, float(x)),
+                        path,
+                        f"{ex}|CAP15",
+                        tr,
+                        le.select(tr, mb, side),
+                        mb,
+                        side,
+                        win,
+                        False,
+                        1,
+                    )
+                )
+    return out
+
+
 def run(rnd: str) -> int:
-    setups = r27_setups() if rnd == "R27" else uv.build()
+    setups = r27_setups() if rnd == "R27" else r28_setups() if rnd == "R28" else uv.build()
     prev_close, atr10 = daily_series()
     res: dict[str, dict[str, np.ndarray]] = {}
     meta: dict[str, dict[str, Any]] = {}
@@ -157,6 +227,8 @@ def run(rnd: str) -> int:
         plans = {"R24-a": ("r17", "tiers", 20), "R24-b": ("r17", "vol", 20), "R24-c": ("r17", "tiers", 5)}
     elif rnd == "R26":
         plans = {f"R26-{sel}-k{k}": (sel, "one", -k) for sel in ("r17", "mb") for k in (2, 3)}
+    elif rnd == "R28":
+        plans = {"R28-a": ("r17", "one", None), "R28-b": ("r17", "tiers", None)}
     elif rnd == "R27":
         plans = {"R27-a": ("r17", "one", None), "R27-b": ("r17", "tiers", None)}
     elif rnd == "R23":
@@ -199,6 +271,7 @@ def run(rnd: str) -> int:
         "R24": "combinations of the nested pieces",
         "R26": "consensus voting across the selected setups",
         "R27": "earlier time exits for the hold-to-close families",
+        "R28": "classic indicator families",
     }
     rc = sh.finish(res, meta, rnd, titles[rnd])
     if rnd == "R22":  # neighbours = the adjacent N (§PREREG-R22): recorded in the rows file
