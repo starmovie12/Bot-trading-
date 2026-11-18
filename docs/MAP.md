@@ -15,6 +15,8 @@
 - `src/bot/strategy/orb_vix.py` · carried candidate A1+b1 (EXPERIMENTAL: paper only) · `tests/test_engine_of_record.py`
 - `tools/engine_of_record.py` · bar-by-bar engine of record (every verdict number) · `tests/test_engine_of_record.py`
 - `lab/build_matrix.py`, `lab/ideas.py`, `lab/run_round.py`, `lab/replay_agree.py`, `tools/lab_eval.py` · 3a matrix, bracket, rounds, AGREE · `python3 -m lab.run_round`
+- `lab/select_spec.py`, `lab/holdout_mc.py`, `lab/finalists.py` · 3d loss-first rank, 3e holdout (opened once) + Monte Carlo + K1 limits + K2 ladder, finalist columns · `python3 -m lab.holdout_mc`
+- `src/bot/limits.py` · loads `limits.toml` (K1 chain, LIVE_POSSIBLE, fixed rupees, derive_day_limits) · `tests/test_limits_chain.py`
 - `src/bot/limits.py` · loads `limits.toml` (RiskLimits, chain check) · `tests/test_limits_chain.py`
 - `pehredaar/` · Go watchdog (lease) · `cd pehredaar && go test ./...`
 - `tools/accept.py` · acceptance checks per phase · `python3 tools/accept.py --phase <p>` · `tests/test_accept.py`
@@ -26,7 +28,7 @@
 - `tools/webgrep.py` · grep a saved web page (≤ 30 lines) · `tests/test_webgrep.py`
 - `tools/clock.sh` · IST + UTC now · —
 - `tools/bn_economics.py`, `tools/power_table.py` · BANKNIFTY costs, feasibility card, power table · `tests/test_bn_economics.py`, `tests/test_power_table.py`
-- `tools/truth_tests.py`, `tools/verdict.py` · Holm, block bootstrap, null, walk-forward, MC, holdout · `tests/test_truth_tests.py`
+- `tools/truth_tests.py`, `tools/verdict.py` · Holm, block bootstrap, null, walk-forward, MC, holdout; `make verdict` = RULES V1 → results/verdict.json · `tests/test_truth_tests.py`
 - `lab/data.py` · read-only loader of the data repo (per day, per table, no look-ahead) · `tests/test_lab_data.py`
 - `tools/profile_data.py`, `tools/data_gaps.py`, `tools/make_calendar.py` · data profile, DG audit G1-G5, calendar · `tests/test_data_gaps.py`
 - `.githooks/` · pre-commit (data paths, secrets, ruff), pre-push (main, secrets, pins) · `git config core.hooksPath`
