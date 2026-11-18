@@ -397,7 +397,9 @@ def prereg_first(root: Path) -> Result:
     for r in jsonl(root / "trials.jsonl"):
         base = re.match(r"(R\d+-\d+|D\d+-)", str(r["id"]))
         key = base.group(1) if base else ""
-        listed = bool(key) and (f"| {key} |" in later or (key == "D0-" and "D0-1 .. D0-" in later))
+        rnd = re.match(r"(R\d+)-", str(r["id"]))
+        pattern = bool(rnd) and f"ids {rnd.group(1) if rnd else ''}-<" in later  # an id pattern + its full grid
+        listed = pattern or (bool(key) and (f"| {key} |" in later or (key == "D0-" and "D0-1 .. D0-" in later)))
         if not listed:
             ids |= set(str(r["id"]).split("+"))
     shell = all(k in sec for k in ("RISK SHELL", "C1", "C4")) and not ids - words

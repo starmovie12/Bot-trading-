@@ -1,11 +1,11 @@
 STAGE=2
-NEXT=P3R v2 R8 (F3 ML, §PREREG-R8 committed): build lab/ml_r8.py (numpy logistic + stumps, walk-forward, day-rule grid), F6 table, run, rounds.md; then R9 F4; no bot code (D-40, D-42)
+NEXT=P3R v2 R9 = F4 (near-expiry seed: DTE <= 10, hold to close, trail, an F3-style filter); pre-register §PREREG-R9 first; then R10 F5, R11 F2 (check the IV tables' size first, no blob-size listing on the partial clone), R12 F1; no bot code (D-40, D-42)
 BLOCK=S2
 MODEL_NOW=BIG
 MODEL_NEXT=BIG
 SWITCH_PENDING=none
 FREEZE=none
-TRIALS=190
+TRIALS=286
 HOLDOUT=burned
 HALT=none
 VISIBILITY=public-ok

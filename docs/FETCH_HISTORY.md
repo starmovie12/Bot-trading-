@@ -20,8 +20,10 @@ Checked on 2026-11-18 on the Upstox developer pages (SOURCE):
 
 ```python
 import csv, os, time, datetime as dt, pathlib, requests
+
 token = os.environ["UPSTOX_TOKEN"]
-out = pathlib.Path("history_1m"); out.mkdir(exist_ok=True)
+out = pathlib.Path("history_1m")
+out.mkdir(exist_ok=True)
 for key in ("NSE_INDEX|Nifty Bank", "NSE_INDEX|India VIX"):
     m = dt.date(2022, 1, 1)
     while m <= dt.date(2024, 9, 1):
@@ -33,6 +35,10 @@ for key in ("NSE_INDEX|Nifty Bank", "NSE_INDEX|India VIX"):
         rows = r.json()["data"]["candles"]
         name = key.split("|")[1].replace(" ", "_")
         with open(out / f"{name}_{m:%Y-%m}.csv", "w", newline="") as fh:
-            w = csv.writer(fh); w.writerow(["ts", "open", "high", "low", "close", "volume", "oi"]); w.writerows(rows)
-        print(name, m, len(rows)); m = nxt; time.sleep(1)
+            w = csv.writer(fh)
+            w.writerow(["ts", "open", "high", "low", "close", "volume", "oi"])
+            w.writerows(rows)
+        print(name, m, len(rows))
+        m = nxt
+        time.sleep(1)
 ```
