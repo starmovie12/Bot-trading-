@@ -1,5 +1,5 @@
 STAGE=2
-NEXT=P3R: strongest seed = R7-2 (near-expiry 10:30 direction, hold to close; rare, top-5 driven); further rounds on this data only with a new, pre-registered family; forward shadow of the seed on any fresh day after 2026-11-13; no bot code (D-40)
+NEXT=P3R v2 (owner order 2, D-42): research_plan_v2.md + card; Round 8 (EXPLORE) with the shell day rules as a grid; no bot code until STRATEGY PASS + 'build bot'
 BLOCK=S2
 MODEL_NOW=BIG
 MODEL_NEXT=BIG
