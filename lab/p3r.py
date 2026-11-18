@@ -252,6 +252,28 @@ def r11_3(f: le.A, x: float) -> tuple[np.ndarray, np.ndarray, tuple[int, int]]:
     return (f["t"] >= 165) & (f["t"] <= 285) & (ir >= x), -sg(f["ret_open"]), (165, 285)
 
 
+def trend_score(f: le.A) -> np.ndarray:
+    so = sg(f["ret_open"])
+    h, i = np.nan_to_num(f["hdfc15"]), np.nan_to_num(f["icici15"])
+    return np.asarray(
+        (f["eff"] >= 0.30).astype(int)
+        + (np.abs(f["ret_open"]) >= 0.003)
+        + (sg(np.nan_to_num(f["ret15"])) == so)
+        + ((sg(h) == so) & (sg(i) == so))
+        + (sg(f["vwap_dist"]) == so)
+    )
+
+
+def r12(t: int, vix_calm: bool) -> Rule:
+    def rule(f: le.A, x: float) -> tuple[np.ndarray, np.ndarray, tuple[int, int]]:
+        cond = trend_score(f) >= x
+        if vix_calm:
+            cond = cond & (f["vix_chg"] <= 0)
+        return fixed(t, f, cond, sg(f["ret_open"]))
+
+    return rule
+
+
 ROUNDS: dict[str, dict[str, Any]] = {
     "R1": {
         "combos": (("EXIT0", "LONG"), ("C2", "LONG"), ("C3", "LONG")),
@@ -367,6 +389,16 @@ ROUNDS: dict[str, dict[str, Any]] = {
             "R11-1": ("the move passes X of the implied daily move: follow", r11_1, (0.5, 0.75, 1.0), (0.25, 1.25)),
             "R11-2": ("realised vol above implied and rising: buy the move", r11_2, (0.8, 1.0, 1.2), (0.6, 1.4)),
             "R11-3": ("afternoon overshoot of the implied move: fade", r11_3, (1.0, 1.25, 1.5), (0.75, 1.75)),
+        },
+    },
+    "R12": {
+        "matrix": "data/lab/matrix_r11.npz",
+        "to_close": True,
+        "combos": (("XH", "CAP15"), ("XI2", "CAP15")),
+        "ideas": {
+            "R12-1": ("trend score at 10:00, follow to the close", r12(45, False), (3, 4, 5), (2, 6)),
+            "R12-2": ("trend score at 11:00, follow to the close", r12(105, False), (3, 4, 5), (2, 6)),
+            "R12-3": ("trend score at 10:00 with VIX not rising", r12(45, True), (3, 4, 5), (2, 6)),
         },
     },
 }

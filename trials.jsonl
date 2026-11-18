@@ -326,3 +326,14 @@
 {"cycle": 1, "design_net_stressed": null, "id": "R11-3-1.0", "idea": "afternoon overshoot of the implied move: fade", "p_screen": 0.7263, "params": {"X": 1.0}, "source": "P3R R11 S2 index -5.23 pts"}
 {"cycle": 1, "design_net_stressed": null, "id": "R11-3-1.25", "idea": "afternoon overshoot of the implied move: fade", "p_screen": 0.2707, "params": {"X": 1.25}, "source": "P3R R11 S2 index 7.85 pts"}
 {"cycle": 1, "design_net_stressed": null, "id": "R11-3-1.5", "idea": "afternoon overshoot of the implied move: fade", "p_screen": 0.0889, "params": {"X": 1.5}, "source": "P3R R11 S2 index 24.49 pts"}
+{"cycle": 1, "design_net_stressed": null, "id": "R12-1-3", "idea": "trend score at 10:00, follow to the close", "p_screen": 0.3137, "params": {"X": 3}, "source": "P3R R12 S2 index 14.19 pts"}
+{"cycle": 1, "design_net_stressed": null, "id": "R12-1-4", "idea": "trend score at 10:00, follow to the close", "p_screen": 0.1359, "params": {"X": 4}, "source": "P3R R12 S2 index 34.98 pts"}
+{"cycle": 1, "design_net_stressed": null, "id": "R12-1-5", "idea": "trend score at 10:00, follow to the close", "p_screen": 0.04, "params": {"X": 5}, "source": "P3R R12 S2 index 84.77 pts"}
+{"cycle": 1, "design_net_stressed": 26554.58, "id": "R12-1-5-CAP15-XH", "idea": "trend score at 10:00, follow to the close", "p_screen": 0.037, "params": {"X": 5, "exit": "XH", "structure": "CAP15"}, "source": "P3R R12 S3"}
+{"cycle": 1, "design_net_stressed": 17008.43, "id": "R12-1-5-CAP15-XI2", "idea": "trend score at 10:00, follow to the close", "p_screen": 0.1049, "params": {"X": 5, "exit": "XI2", "structure": "CAP15"}, "source": "P3R R12 S3"}
+{"cycle": 1, "design_net_stressed": null, "id": "R12-2-3", "idea": "trend score at 11:00, follow to the close", "p_screen": 0.8382, "params": {"X": 3}, "source": "P3R R12 S2 index -18.07 pts"}
+{"cycle": 1, "design_net_stressed": null, "id": "R12-2-4", "idea": "trend score at 11:00, follow to the close", "p_screen": 0.9101, "params": {"X": 4}, "source": "P3R R12 S2 index -32.95 pts"}
+{"cycle": 1, "design_net_stressed": null, "id": "R12-2-5", "idea": "trend score at 11:00, follow to the close", "p_screen": 0.2717, "params": {"X": 5}, "source": "P3R R12 S2 index 77.14 pts"}
+{"cycle": 1, "design_net_stressed": null, "id": "R12-3-3", "idea": "trend score at 10:00 with VIX not rising", "p_screen": 0.6464, "params": {"X": 3}, "source": "P3R R12 S2 index -8.54 pts"}
+{"cycle": 1, "design_net_stressed": null, "id": "R12-3-4", "idea": "trend score at 10:00 with VIX not rising", "p_screen": 0.3876, "params": {"X": 4}, "source": "P3R R12 S2 index 0.0 pts"}
+{"cycle": 1, "design_net_stressed": null, "id": "R12-3-5", "idea": "trend score at 10:00 with VIX not rising", "p_screen": 0.0699, "params": {"X": 5}, "source": "P3R R12 S2 index 78.9 pts"}
