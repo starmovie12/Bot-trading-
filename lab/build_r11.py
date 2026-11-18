@@ -43,6 +43,7 @@ def main() -> int:
     arrays: dict[str, Any] = {k: m[k] for k in m.files}
     arrays["F_impl_ratio"] = np.abs(f["spot"] - opn) / md
     arrays["F_rv_iv"] = (f["rv30"] * math.sqrt(375)) / (md / f["spot"])
+    arrays["F_md"] = md  # §PREREG-R16: the straddle-implied daily move in index points
     np.savez_compressed(ROOT / "data/lab/matrix_r11.npz", **arrays)
     t = f["t"]
     for k in ("impl_ratio", "rv_iv"):

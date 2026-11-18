@@ -3,9 +3,11 @@
 python -m lab.sizing_r15 -> trials.jsonl (3 lines), results/r15_board.md, data/lab/r15_rows.json
 """
 
+import dataclasses
 import datetime as dt
 import json
 import math
+from collections.abc import Callable
 from decimal import Decimal
 from pathlib import Path
 from typing import Any
@@ -19,12 +21,16 @@ from tools import lab_eval as le
 
 ROOT = Path(__file__).resolve().parent.parent
 TIERS = ((6, 3), (14, 2), (99, 1))  # priority rank (1-based) up to -> lots
+LAST: dict[str, le.Trades] = {}
 
 
-def base() -> tuple[le.Trades, np.ndarray, dict[str, np.ndarray], list[str]]:
+Keep = Callable[[le.Trades, dict[str, np.ndarray]], np.ndarray]
+
+
+def base(keep: Keep | None = None) -> tuple[le.Trades, np.ndarray, dict[str, np.ndarray], list[str]]:
     allm = json.loads((ROOT / "results/r14_members.json").read_text(encoding="utf-8"))
     ids = [m for m in allm if pf.member(m)[1].size >= 20]
-    extra: dict[str, list[np.ndarray]] = {"entry": [], "exit": [], "strike": [], "rank": []}
+    extra: dict[str, list[np.ndarray]] = {"entry": [], "exit": [], "strike": [], "rank": [], "struct": []}
     for rank, mid in enumerate(ids, start=1):
         tr, cand, path, f, key = pf.member(mid)
         o = pf.matrix(path)[1][key]
@@ -33,18 +39,28 @@ def base() -> tuple[le.Trades, np.ndarray, dict[str, np.ndarray], list[str]]:
         strike = o["strike"][cand] if "strike" in o else np.round(f["spot"][tr.row[cand]] / 100) * 100
         extra["strike"].append(np.asarray(strike, dtype=float))
         extra["rank"].append(np.full(len(cand), rank))
+        st = next((k for k in ("CAP15", "ITM2", "ATM") if k in mid), "ATM")  # LONG / A2 members trade the ATM strike
+        extra["struct"].append(np.full(len(cand), ("ATM", "CAP15", "ITM2").index(st)))
     tr, prio = pf.union(ids)
+    full = {k: np.concatenate(v) for k, v in extra.items()}
+    if keep is not None:  # §PREREG-R16: a filtered candidate never holds the position
+        tr = dataclasses.replace(tr, max_loss=np.where(keep(tr, full), tr.max_loss, np.inf))
     taken = pf.sequence(tr, prio, 3)
     days = json.loads((ROOT / "data/lab/split.json").read_text(encoding="utf-8"))["design"]
-    return tr, taken, {k: np.concatenate(v)[taken] for k, v in extra.items()}, days
+    return tr, taken, {k: v[taken] for k, v in full.items()}, days
 
 
 def charges(orders: list[tuple[float, int, str]], day: dt.date, c: dict[str, Any]) -> float:
     return float(sum(be.side_charges(Decimal(str(p)) * q, side, day, c) for p, q, side in orders))
 
 
-def run(variant: str) -> dict[str, Any]:
-    tr, taken, ex, days = base()
+def lots_for(rank: int, per_lot: float) -> int:
+    tier = next(n for r, n in TIERS if rank <= r)
+    return max(1, min(tier, int(pf.CAP // per_lot))) if per_lot <= pf.CAP else 1
+
+
+def run(variant: str, keep: Keep | None = None, tid: str = "") -> dict[str, Any]:
+    tr, taken, ex, days = base(keep)
     lots_map = json.loads((ROOT / "data/lab/data_profile.json").read_text())["lots_by_expiry"]
     lots = {e: int(v) for e, v in lots_map.items()}
     c = be.consts()
@@ -58,7 +74,7 @@ def run(variant: str) -> dict[str, Any]:
         en, xp, rank = float(ex["entry"][j]), float(ex["exit"][j]), int(ex["rank"][j])
         tier = next(n for r, n in TIERS if rank <= r)
         per_lot = float(tr.max_loss[i])
-        n = max(1, min(tier, int(pf.CAP // per_lot))) if per_lot <= pf.CAP else 1
+        n = lots_for(rank, per_lot)
         f1 = float(tr.fill_stressed[i])
         orders = [(en, lot * n, "BUY"), (xp, lot * n, "SELL")]
         gross, fill, mloss = (xp - en) * lot * n, f1 * n, per_lot * n
@@ -114,7 +130,8 @@ def run(variant: str) -> dict[str, Any]:
         np.zeros(k),
         tr.vix[taken],
     )
-    return pf.evaluate(f"R15-{variant}", t2, np.arange(k))
+    LAST["trades"] = t2  # the per-trade table of the last run (DD95 / reports)
+    return pf.evaluate(tid or f"R15-{variant}", t2, np.arange(k))
 
 
 def main() -> int:

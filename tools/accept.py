@@ -398,7 +398,7 @@ def prereg_first(root: Path) -> Result:
         base = re.match(r"(R\d+-\d+|D\d+-)", str(r["id"]))
         key = base.group(1) if base else ""
         rnd = re.match(r"(R\d+)-", str(r["id"]))
-        pattern = bool(rnd) and bool(re.search(rf"ids\s+{rnd.group(1) if rnd else ''}-<", later))  # id pattern
+        pattern = bool(rnd) and bool(re.search(rf"ids\s+{rnd.group(1) if rnd else ''}-[a-z]*<", later))  # id pattern
         listed = pattern or (bool(key) and (f"| {key} |" in later or (key == "D0-" and "D0-1 .. D0-" in later)))
         if not listed:
             ids |= set(str(r["id"]).split("+"))

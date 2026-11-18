@@ -1,11 +1,11 @@
 STAGE=2
-NEXT=Owner order 4: R16 cost-aware filter on R15-a (pre-register X grid first) -> final candidate -> EXPLORE -> CONFIRM on the old holdout only if EXPLORE passes -> card; no bot code
+NEXT=Owner order 4 DONE (D-48): FINAL card sent; no STRATEGY PASS; R15-a = EXPERIMENTAL: paper only; holdout unused (owner's call); waiting for an owner order; no bot code
 BLOCK=S2
 MODEL_NOW=BIG
 MODEL_NEXT=BIG
 SWITCH_PENDING=none
 FREEZE=none
-TRIALS=366
+TRIALS=369
 HOLDOUT=burned
 HALT=none
 VISIBILITY=public-ok
