@@ -293,3 +293,52 @@ Trial cap added: 40. Funnel S1 / S2 to 14:30 (§PREREG-R6). S3 on data/lab/matri
 | R13-1 | near-expiry 10:30 direction on ITM2 (R6-5 rule) | DIRECTION | t = 75, dte <= 7, abs(ret_open) >= X | X 0.002, 0.003, 0.004 (0.001, 0.005) |
 | R13-2 | trend score at 10:00 on ITM2 (R12-1 rule) | DIRECTION (regime) | t = 45, score >= X | X 3, 4, 5 (2, 6) |
 | R13-3 | gap-and-go at 09:45 on ITM2 (R6-4 rule) | DIRECTION | t = 30, abs(gap) >= X, sign(ret_open) = sign(gap) | X 0.001, 0.002, 0.003 (0.0005, 0.004) |
+
+## §PREREG-R14 (owner order 4 / D-47: PORTFOLIO OF SETUPS; EXPLORE; before any R14 number)
+
+Data: DESIGN 362 days; the old holdout stays closed. Members = every S3 setup with a positive DESIGN stressed net in
+rounds R1-R13 plus the Phase 3 trials with a positive net (A2, A2+b1): 29 setups, listed in results/r14_members.json
+in PRIORITY order (DESIGN stressed net per trade, highest first; ties keep the listed order). Each member keeps its
+own rule, structure, exit and outcome matrix. Trial cap added: 30
+Portfolio rule: the union of the members' candidate trades in time order; ONE position at a time (a candidate enters
+only after the previous trade's exit minute); when two members fire at the same minute the higher priority wins;
+1 lot; a trade whose by-construction max loss exceeds the pinned MAX_TRADE_LOSS_RS ₹35,700 is skipped; daily loss
+lock ₹71,400 (DAILY_LOSS_LOCK_RS); cool-off 15 min after a loss; no day stop after a loss.
+Variants: P1 = S1 + S2 + S3 only (R7-2-0.004-CAP15-XH2, R12-1-5-CAP15-XH, R13-3-0.001-ITM2-XH; priority as listed);
+P2 = all 29; P3 = the members with >= 20 DESIGN trades. Day rule: max entries a day {2, 3, 5}. 9 trials, ids
+R14-<P>-e<n>. EXPLORE screen (D-42) on the whole portfolio: stressed net > 0, folds >= 3 of 4, both VIX halves,
+ST11 >= 0.5 a day, net >= 0 at 1.5 x cost, ST4c, one-sided day-block bootstrap p < 0.01 (5-day blocks, 10,000),
+neighbours = the adjacent max-entries values must be net > 0. Selection for R15: the R14 trial passing the most
+gates, ties -> the higher total net.
+
+| member (priority order) | DESIGN net / trade | DESIGN trades |
+|---|---|---|
+| R2-7-2.0-ATM-XI1 | 1825.87 | 8 |
+| R13-2-5-ITM2-XH2 | 1273.60 | 31 |
+| R2-7-2.0-ATM-XI2 | 1267.01 | 8 |
+| R2-7-2.0-CAP15-XI1 | 1266.75 | 7 |
+| R13-1-0.004-ITM2-XH2 | 1245.16 | 35 |
+| R13-2-5-ITM2-XH | 1225.98 | 31 |
+| R7-2-0.004-CAP15-XH2 | 1222.55 | 35 |
+| R13-1-0.004-ITM2-XH | 1215.00 | 35 |
+| R7-2-0.004-CAP15-XH | 1152.72 | 35 |
+| A2+b1 | 1118.57 | 34 |
+| R12-1-5-CAP15-XH | 948.38 | 28 |
+| R2-7-2.0-CAP15-XI2 | 778.58 | 7 |
+| R1-5-0.005-C2 | 620.32 | 51 |
+| R12-1-5-CAP15-XI2 | 607.44 | 28 |
+| R1-5-0.005-EXIT0 | 556.42 | 55 |
+| R13-3-0.001-ITM2-XH | 525.10 | 120 |
+| R2-4-0.004-CAP15-XI2 | 466.41 | 72 |
+| R3-7-0.004-CAP15-XI2 | 466.41 | 72 |
+| R3-7-0.005-CAP15-XI2 | 448.84 | 57 |
+| R1-5-0.005-C3 | 384.57 | 58 |
+| R3-7-0.005-CAP15P-XI2 | 338.52 | 56 |
+| R2-4-0.004-ATM-XI2 | 330.47 | 72 |
+| R3-7-0.004-CAP15P-XI2 | 323.87 | 71 |
+| R4-1-0.007-CAP15-XI2 | 283.47 | 13 |
+| R4-1-0.007-CAP15-XI1 | 277.26 | 14 |
+| A2 | 258.25 | 73 |
+| R2-4-0.004-CAP15-XI1 | 73.19 | 84 |
+| R7-1-0.001-CAP15-XH | 39.36 | 91 |
+| R2-4-0.004-ATM-XI1 | 19.23 | 86 |
