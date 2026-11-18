@@ -490,3 +490,14 @@ R28-5 MACD histogram cross (prev <= 0 < now and now >= X -> CE; mirror -> PE), X
 Supertrend(10, X) flip (prev dir -1 -> now +1 -> CE; mirror -> PE), X in {2, 3, 4}. S2 = 60-min index test.
 Nested as §PREREG-R17 over these 36 setups only (S2 + S3 per training window); the nested runs are the trials. Trial
 cap added: 10. Trials: R28-a (1 lot), R28-b (R15 tiers). Gates, PBO and DSR as §PREREG-R17.
+
+## §PREREG-R29 / R30 (owner order 5 / D-49: INDEX vs CONSTITUENTS and FUTURES VOLUME; nested; before any number)
+
+Features (lab/build_r29.py; only scales read: div p5 -0.0061 / p95 +0.0063; fvol_ratio p50 0.48 / p90 1.14; fret15
+p5 -0.0020 / p95 +0.0020). Setups on data/lab/matrix_r29.npz (CAP15 x {XI2, XH}); S2 = 60-min index test.
+R29 (index vs HDFCBANK + ICICIBANK; t 45..255): R29-1 the index converges to the banks (div >= X -> PE, div <= -X ->
+CE), X in {0.002, 0.003, 0.004}; R29-2 the index keeps leading (div >= X -> CE, <= -X -> PE), same X.
+R30 (near-futures volume surge with a 15-min move, abs(fret15) >= 0.001; t 45..285): R30-1 follow (side =
+sign(fret15)) when fvol_ratio >= X, X in {1.0, 1.25, 1.5}; R30-2 fade (side = -sign(fret15)), same X.
+Nested as §PREREG-R17 over each round's own 12 setups (S2 + S3 per training window), 1 lot; the nested runs are the
+trials. Trial cap added: 10. Trials: R29-a, R30-a. Gates, PBO and DSR as §PREREG-R17.
