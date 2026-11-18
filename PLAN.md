@@ -448,3 +448,16 @@ choice was itself made on out-of-sample numbers, which the trial count in DSR an
 selection (the R17 S2 + S3, anchored) and test-window trading as §PREREG-R17. Trial cap added: 10.
 Trials: R24-a = trend filter N 20 + R15 tiers; R24-b = trend filter N 20 + vol-targeted lots; R24-c = trend filter N 5
 + R15 tiers. Gates, PBO and DSR as §PREREG-R17.
+
+## §PREREG-R25 (owner order 5 / D-49, D-51: LONG STRADDLE when realised vol beats implied; RESEARCH ONLY; nested)
+
+Structure: buy ATM CE + ATM PE of the nearest monthly expiry, 1 lot each (research only: R2 lets the bot hold one long
+option or a debit spread; a pass would need the owner's decision). Entry: the first minute in [t, t+2] where both legs
+are live, at their opens; debit D. Exits: SX1 = hold to force-flat 15:10 at the closes; SX2 = exit when the
+worst-case value (both legs at the bar LOW) <= 0.70 x D, at that value, else 15:10. Costs: SOURCE charges per leg
+(both long) x 1.5 + the stressed fill on 2 legs; max loss by construction = D x lot + costs. Non-directional (no S2).
+Setups (data/lab/matrix_r25.npz, lab/straddle_r25.py): R25-1 rv_iv >= X, t 45..255, X in {1.0, 1.2, 1.4}; R25-2
+rv5 >= X x rv30, t 45..255, X in {1.5, 2.0, 2.5}; R25-3 every day at 10:00 (t = 45); each x {SX1, SX2} = 14 setups,
+each a trial line (DESIGN alone, also a PBO column). Nested trial R25-n: windows and test trading as §PREREG-R17,
+members per training window = the straddle setups with a positive training net and >= 20 x (training days / 362)
+trades, priority = training net, 1 lot. Trial cap added: 20. Gates, PBO and DSR as §PREREG-R17.
