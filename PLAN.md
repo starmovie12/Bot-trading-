@@ -157,3 +157,24 @@ CAP15-XI1}. ids R5-<idea>-<value>[-CAP15-<exit>]. PASS gates and neighbours as �
 | R5-2 | prior close at its extreme, today the same way | DIRECTION | t 30..120, prev_cl >= 1 - X and ret_open > 0 -> CE; prev_cl <= X and ret_open < 0 -> PE | X 0.15, 0.25, 0.35 (0.05, 0.45) |
 | R5-3 | a prior trend day, today continues it | DIRECTION | t 45..120, abs(prev_ret) >= X, sign(ret_open) = sign(prev_ret); side = sign(prev_ret) | X 0.004, 0.007, 0.010 (0.001, 0.013) |
 | R5-4 | break of the prior day's high / low | DIRECTION | t 30..255, spot >= prev_hi x (1 + X) and ret15 > 0 -> CE; spot <= prev_lo x (1 - X) and ret15 < 0 -> PE | X 0.000, 0.001, 0.002 (-0.001, 0.003) |
+
+## §PREREG-R6 (P3R round 6, owner order D-40 + "no new data: continue on this data"; before any R6 number)
+
+Data: DESIGN 362 days (no new data); the old holdout stays closed. New family: HOLD TO CLOSE at a fixed decision time
+(one signal a day at most). Only scales were read: abs(ret_open) p50 0.0034 at 11:00, 0.0037 at 12:00; eff p50 0.17 at
+11:00; abs(gap) p50 0.0025. Trial cap added: 60
+Funnel change, pre-registered for this round only: S2 measures the forward index move from the decision to 14:30 (the
+last decision row) instead of 60 min (the trades hold to the close); S1 / S2 thresholds and the null as §PREREG-R1.
+S3 on data/lab/matrix_r2.npz: each S2 survivor x {CAP15-XI2, ATM-XI2} (index stop -1R, break-even, 1R trail, no
+target, force-flat 15:10). ids R6-<idea>-<value>[-<structure>-XI2]. PASS gates and neighbours as before.
+Not tested, by design: event days (about 10 RBI-type days in DESIGN, a count UNVERIFIED, can never meet ST11 >= 0.5 a
+day); option-only (IV) edges, because the owner's funnel requires an index-point edge before option P&L (D-40).
+
+| id | idea (side) | edge source | rule | grid (outside neighbours) |
+|---|---|---|---|---|
+| R6-1 | 11:00 day direction, hold to close | DIRECTION | t = 105, abs(ret_open) >= X, side = sign(ret_open) | X 0.001, 0.002, 0.003 (0.0005, 0.004) |
+| R6-2 | 12:00 day direction, hold to close | DIRECTION | t = 165, abs(ret_open) >= X, side = sign(ret_open) | X 0.001, 0.002, 0.003 (0.0005, 0.004) |
+| R6-3 | 11:00 trend efficiency, hold to close | DIRECTION | t = 105, eff >= X, side = sign(ret_open) | X 0.10, 0.15, 0.20 (0.05, 0.25) |
+| R6-4 | gap-and-go at 09:45, hold to close | DIRECTION | t = 30, abs(gap) >= X, sign(ret_open) = sign(gap), side = sign(gap) | X 0.001, 0.002, 0.003 (0.0005, 0.004) |
+| R6-5 | near-expiry 10:30 direction, hold to close | DIRECTION | t = 75, dte <= 7, abs(ret_open) >= X, side = sign(ret_open) | X 0.002, 0.003, 0.004 (0.001, 0.005) |
+| R6-6 | first-hour direction at 10:15, hold to close | DIRECTION | t = 60, abs(ret_open) >= X, side = sign(ret_open) | X 0.001, 0.002, 0.003 (0.0005, 0.004) |
