@@ -42,6 +42,7 @@ CHOP_CROSSES = { t1 = 4, range = [3, 4, 6], status = "SUJHAAV" }
 DEAD_MULT = { t1 = 2.0, range = [1.5, 2.0, 3.0], status = "SUJHAAV" }
 DELTA_FLOOR = { t1 = 0.30, range = [0.25, 0.30, 0.35], status = "SUJHAAV" }
 LEVEL_NEAR_ATR = { t1 = 0.3, range = [0.2, 0.3, 0.5], status = "SUJHAAV" }
+P3_MODE = { t1 = "ALL", range = ["ALL", "CHOP", "PM"], status = "R6" }  # §13.3 R6 (a)/(b)/(c); D-56
 ENTRY_ENGINE = { t1 = "INSTANT", range = ["INSTANT", "STEP", "TRAIL_BUY"], status = "DEFAULT" }
 
 # §12.2 FIXED / PAKKA (never tuned)

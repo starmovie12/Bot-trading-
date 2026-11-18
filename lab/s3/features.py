@@ -160,6 +160,10 @@ def signals(d: Day, sp: SigParams, f: dict[str, F64] | None = None) -> Sig:
     with np.errstate(invalid="ignore"):
         c_ok = np.where(vol_known, fv >= sp.vol_mult * fa, rng >= nmin_atr * atr)
     c_ok = np.asarray(np.nan_to_num(c_ok, nan=0).astype(bool))
+    # N12 reason-reversal inputs and the heavyweights' returns (P3, N12)
+    f = {**f, "r_hdfc": r["HDFCBANK"], "r_icici": r["ICICIBANK"], "hi_l": hi_l, "lo_l": lo_l}
+    f["rev_ce"] = (_gt(vwap, fc) & _gt(zero, r["HDFCBANK"]) & _gt(zero, r["ICICIBANK"])).astype(np.float64)
+    f["rev_pe"] = (_gt(fc, vwap) & _gt(r["HDFCBANK"], zero) & _gt(r["ICICIBANK"], zero)).astype(np.float64)
     return Sig(a_ce, a_pe, p1_ce, p1_pe, p2_ce, p2_pe, c_ok, f)
 
 

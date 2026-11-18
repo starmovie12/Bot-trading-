@@ -134,8 +134,8 @@ def zero_crossing(curve: list[tuple[float, float]]) -> str:
         if n0 >= 0 > n1:
             return f"₹{s0 + (s1 - s0) * n0 / (n0 - n1):.2f}"
     if curve and curve[0][1] < 0:
-        return f"₹{curve[0][0]:.2f} se neeche bhi (sabse kam spread par bhi ghaata)"
-    return f"₹{curve[-1][0]:.2f} se upar"
+        return f"sabse kam spread (₹{curve[0][0]:.2f}) par bhi net zero se neeche: koi zero-crossing nahi"
+    return f"₹{curve[-1][0]:.2f} tak net zero se upar"
 
 
 def chart_pick(trades: list[dict[str, Any]], n: int = 5) -> list[dict[str, Any]]:
@@ -152,3 +152,19 @@ def chart_pick(trades: list[dict[str, Any]], n: int = 5) -> list[dict[str, Any]]
             out.append(max(c, key=lambda t: abs(t["net_base"])))
             used.add(m)
     return out
+
+
+def write_signals(folder: Path, rows: list[dict[str, Any]], variants: Iterable[str]) -> list[str]:
+    """One signals CSV per variant (each under the 1 MB commit limit); numbers rounded to 2 decimals."""
+    cols = ["variant", *sorted({k for r in rows for k in r} - {"variant"})]
+    names = []
+    for v in variants:
+        name = f"s3_signals_{v}.csv"
+        sub = [
+            {k: (round(x, 2) if isinstance(x, float) and not math.isnan(x) else x) for k, x in r.items()}
+            for r in rows
+            if r.get("variant") == v
+        ]
+        write_csv(folder / name, sub, cols)
+        names.append(name)
+    return names

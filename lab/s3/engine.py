@@ -19,7 +19,7 @@ import numpy as np
 from lab.s3 import costs
 from lab.s3.data import Day, N
 from lab.s3.features import Sig
-from lab.s3.registry import FIX, RAW, Cfg, minute
+from lab.s3.registry import CHK, FIX, RAW, SCORE, Cfg, hhmm, minute
 
 TICK = Decimal(str(FIX["TICK"]))
 M_FF = minute(str(FIX["FORCE_FLAT"]))
@@ -69,6 +69,7 @@ class Mode:
 
     intrabar: str = "BARCLOSE"
     px: Px = BASE
+    dd_cut: bool = False  # §10.2 cut: equity 5% below its peak (set per day by the runner)
 
 
 BARCLOSE = Mode()
@@ -273,6 +274,22 @@ class TradePath:
     mfe: float
     mae: float
     step_at_exit: float
+    entry_level: float = math.nan  # STEP / TRAIL_BUY intrabar entry level (NaN: the entry bar's open)
+    book_bar: int = -1  # N3 runner: bar where one lot was sold at book_level
+    book_level: float = math.nan
+    book_lots: int = 0
+
+
+@dataclass
+class TradeCtx:
+    """Per-trade inputs beyond the option path: shock bars, side, N7 structure level, signals (N12/N14)."""
+
+    shock: np.ndarray[Any, np.dtype[np.bool_]]
+    side: str = "CE"
+    struct: float = math.nan
+    sig: Sig | None = None
+    entry_level: float = math.nan
+    ref: str = "spot_c"  # N7 structure level is in this series (fut_c when SIGNAL_SRC = FUT)
 
 
 def opt_atr5(rng: list[float], stale: list[bool], upto: int) -> float:
@@ -291,10 +308,13 @@ def simulate(
     f: Decimal,
     n: int,
     cfg: Cfg,
-    shock: np.ndarray[Any, np.dtype[np.bool_]],
+    ctx: TradeCtx | np.ndarray[Any, np.dtype[np.bool_]],
     run: Mode = BARCLOSE,
 ) -> TradePath:
-    """One trade from its entry bar e (fill F at e's open) to exit, per §6.2 / §6.4 / §7.6."""
+    """One trade from its entry bar e (fill F at e's open, or intrabar at ctx.entry_level) to exit,
+    per §6.2 / §6.4 / §7.6, plus the exit modules of §11 when their flag / EXIT_MODE is on."""
+    c_ = ctx if isinstance(ctx, TradeCtx) else TradeCtx(ctx)
+    shock = c_.shock
     mode, px = run.intrabar, run.px
     o, h, lo, c = (d.opt[x][k].tolist() for x in ("o", "h", "l", "c"))
     st = d.stale[k].tolist()
@@ -304,6 +324,7 @@ def simulate(
     ff = float(f)
     bep = float(be_pts(f, qty, d.day, px))
     atr_e = opt_atr5(rng, st, e - 1)
+    xmode = str(cfg["EXIT_MODE"])
     if cfg.var("lock_raw"):
         be_level, g1 = ff + float(RAW["raw"]["LOCK_PTS"]), ff + float(RAW["raw"]["TRIGGER_PTS"])
     else:
@@ -315,9 +336,17 @@ def simulate(
         g2s = clamp(float(FIX["N13_G2_ATR"]) * atr_e, *map(float, FIX["N13_G2_CLAMP"]))
         g3s = clamp(float(FIX["N13_G3_ATR"]) * atr_e, *map(float, FIX["N13_G3_CLAMP"]))
     sl_pts = sl_points(cfg, atr_e)
-    sl = max(ff - sl_pts, ff * (1 - float(FIX["SL_MAX_PCT"])))
+    floor_sl = ff * (1 - float(FIX["SL_MAX_PCT"]))
+    sl = max(ff - sl_pts, floor_sl)
+    tgt = math.inf
+    if xmode == "X-B":
+        tgt = ff + float(FIX["TARGET_XB_PTS"])
+    elif xmode == "X-D":
+        sl = max(ff * (1 - float(FIX["XD_SL_PCT"])), floor_sl)
+        tgt = ff * (1 + float(FIX["XD_TARGET_PCT"]))
+    book = ff + float(cfg["RUNNER_BOOK_PTS"]) if xmode == "X-C" and n >= int(FIX["N3_MIN_LOTS"]) else math.inf
+    booked: tuple[int, float] | None = None
     why = "SL_G0"
-    tgt = ff + float(FIX["TARGET_XB_PTS"]) if cfg["EXIT_MODE"] == "X-B" else math.inf
     step_lo, step_hi = (float(x) for x in FIX["STEP_CLAMP"])
     smult, g3m = float(cfg["STEP_MULT"]), float(cfg["G3_MULT"])
     climax, cgap = float(cfg["CLIMAX_PTS"]), float(FIX["CLIMAX_GAP"])
@@ -330,23 +359,37 @@ def simulate(
     pending: str | None = None
     stale_run = 0
     last_ns = e
+    sgn = 1 if c_.side == "CE" else -1
+    spot = d.base[c_.ref]
+    n12 = cfg.flag("FLAG_N12") and c_.sig is not None
+    n14 = cfg.flag("FLAG_N14") and c_.sig is not None
+    rev = c_.sig.f["rev_ce" if c_.side == "CE" else "rev_pe"] if c_.sig is not None else None
+    xd_be, xd_tr = ff * (1 + float(FIX["XD_BE_PCT"])), ff * (1 + float(FIX["XD_TRAIL_START_PCT"]))
 
     def lift(
         sl: float, why: str, gear: int, pk: float, step: float, close_o: tuple[float, float] | None
     ) -> tuple[float, str, int]:
         cands: list[tuple[float, str]] = []
-        if pk >= g1:
-            cands.append((be_level, "SL_G1_LOCK"))
-            gear = max(gear, 1)
-        gain = pk - ff
-        if gain >= g2s:
-            cands.append((pk - step, "TRAIL_G2"))
-            gear = max(gear, 2)
-        if gain >= g3s:
-            cands.append((pk - g3m * step, "TRAIL_G3"))
-            gear = 3
-        if close_o is not None and close_o[0] - close_o[1] >= climax:
-            cands.append((close_o[0] - cgap, "CLIMAX_LOCK"))
+        if xmode == "X-D":
+            if pk >= xd_be:
+                cands.append((be_level, "SL_G1_LOCK"))
+                gear = max(gear, 1)
+            if pk >= xd_tr:
+                cands.append((pk - float(FIX["XD_TRAIL_RS"]), "TRAIL_G2"))
+                gear = max(gear, 2)
+        else:
+            if pk >= g1:
+                cands.append((be_level, "SL_G1_LOCK"))
+                gear = max(gear, 1)
+            gain = pk - ff
+            if gain >= g2s:
+                cands.append((pk - step, "TRAIL_G2"))
+                gear = max(gear, 2)
+            if gain >= g3s:
+                cands.append((pk - g3m * step, "TRAIL_G3"))
+                gear = 3
+            if close_o is not None and close_o[0] - close_o[1] >= climax:
+                cands.append((close_o[0] - cgap, "CLIMAX_LOCK"))
         for v, r in cands:
             if v > sl:
                 sl, why = v, r
@@ -355,26 +398,11 @@ def simulate(
     sl0 = sl
 
     def done(bar: int, level: float, reason: str, stale: bool) -> TradePath:
+        bb, bl = booked if booked is not None else (-1, math.nan)
         return TradePath(
-            k,
-            e,
-            f,
-            n,
-            lot,
-            sl0,
-            be_level,
-            g1,
-            bar,
-            level,
-            reason,
-            stale,
-            peak,
-            peak_bar,
-            max_gear,
-            peak - ff,
-            mae,
-            step,
-        )
+            k, e, f, n, lot, sl0, be_level, g1, bar, level, reason, stale, peak, peak_bar, max_gear, peak - ff,
+            mae, step, c_.entry_level, bb, bl, 1 if booked is not None else 0,
+        )  # fmt: skip
 
     for b in range(e, N):
         ns = not st[b]
@@ -395,38 +423,64 @@ def simulate(
                 pending = "SHOCK"
             continue
         stale_run = 0
-        if o[b] <= sl:
-            return done(b, o[b], "GAP_SL", False)
-        green = c[b] > o[b]
-        if (mode == "BARCLOSE" or (mode == "PATH" and green)) and lo[b] <= sl:
-            return done(b, sl, why, False)
-        if mode == "BARCLOSE" and h[b] >= tgt:
-            return done(b, tgt, "TARGET30", False)
-        if mode != "BARCLOSE":
-            pk = max(peak, h[b])
-            sl, why, gear = lift(sl, why, gear, pk, step, None)
-            max_gear = max(max_gear, gear)
-            if mode == "WORST" or not green:
-                if lo[b] <= sl:
+        intrabar_entry = b == e and not math.isnan(c_.entry_level)
+        if not intrabar_entry:
+            if o[b] <= sl:
+                return done(b, o[b], "GAP_SL", False)
+            green = c[b] > o[b]
+            if (mode == "BARCLOSE" or (mode == "PATH" and green)) and lo[b] <= sl:
+                return done(b, sl, why, False)
+            if h[b] >= tgt:
+                return done(b, tgt, "TARGET30", False)
+            if booked is None and h[b] >= book:
+                booked = (b, book)
+            if mode != "BARCLOSE":
+                pk = max(peak, h[b])
+                sl, why, gear = lift(sl, why, gear, pk, step, None)
+                max_gear = max(max_gear, gear)
+                if mode == "WORST" or not green:
+                    if lo[b] <= sl:
+                        peak, peak_bar = (pk, b) if h[b] > peak else (peak, peak_bar)
+                        return done(b, sl, why, False)
+                elif c[b] <= sl:
                     peak, peak_bar = (pk, b) if h[b] > peak else (peak, peak_bar)
                     return done(b, sl, why, False)
-            elif c[b] <= sl:
-                peak, peak_bar = (pk, b) if h[b] > peak else (peak, peak_bar)
-                return done(b, sl, why, False)
         mae = min(mae, lo[b] - ff)
         if b - e + 1 >= ts_bars and max_gear < 2:
             pending = "TIME_STOP"
         if shock[b] and pending is None:
             pending = "SHOCK"
+        if pending is None and not math.isnan(c_.struct) and sgn * (spot[b] - c_.struct) < 0:
+            pending = "STRUCTURE_STOP"
+        if pending is None and n12 and rev is not None and max_gear <= 1 and b >= 1 and rev[b] and rev[b - 1]:
+            pending = "REASON_REVERSAL"
         if h[b] > peak:
             peak, peak_bar = h[b], b
         step = clamp(smult * opt_atr5(rng, st, b), step_lo, step_hi)
         sl, why, gear = lift(sl, why, gear, peak, step, (c[b], o[b]))
+        if (
+            n14
+            and gear == 2
+            and c_.sig is not None
+            and _near_level(d, c_.sig, b, c_.side, float(cfg["LEVEL_NEAR_ATR"]))
+        ):
+            v = peak - g3m * step
+            if v > sl:
+                sl, why = v, "TRAIL_G3"
+            gear = 3
         max_gear = max(max_gear, gear)
         if sl >= c[b] and pending is None:
             pending = why
         last_ns = b
     raise AssertionError(f"{d.day} trade open after the last bar")
+
+
+def _near_level(d: Day, sig: Sig, b: int, side: str, near: float) -> bool:
+    """N14: spot within LEVEL_NEAR_ATR x ATR10 of the next resistance (CE) / support (PE)."""
+    from lab.s3.checks import next_level  # noqa: PLC0415
+
+    atr = sig.f["atr10"][b]
+    return bool(atr > 0 and next_level(d, sig.f, b, side) <= near * atr)
 
 
 def sl_points(cfg: Cfg, atr_e: float) -> float:
@@ -438,10 +492,26 @@ def sl_points(cfg: Cfg, atr_e: float) -> float:
 
 def fills(d: Day, p: TradePath, px: Px) -> tuple[Decimal, Decimal]:
     """Entry and exit fill of a path under one cost series (§6.1, §6.5; stale exit: spread and slip x 2)."""
-    fe = costs.buy_fill(dec(d.opt["o"][p.k, p.e]), px.hs, px.slip)
+    lvl = d.opt["o"][p.k, p.e] if math.isnan(p.entry_level) else p.entry_level
+    fe = costs.buy_fill(dec(lvl), px.hs, px.slip)
     m = Decimal(str(FIX["STALE_SPREAD_MULT"])) if p.stale_forced else Decimal(1)
     fx = costs.sell_fill(dec(p.exit_level), px.hs * m, px.slip * m)
     return fe, fx
+
+
+def path_net(d: Day, p: TradePath, px: Px) -> tuple[Decimal, dict[str, Decimal], Decimal, Decimal]:
+    """Net of a path (N3 runner: the booked lot is a separate sell order with its own brokerage + GST).
+    Returns (net, charges, entry fill, qty-weighted exit fill)."""
+    fe, fx = fills(d, p, px)
+    q = p.n * p.lot
+    if p.book_lots:
+        qb = p.book_lots * p.lot
+        fb = costs.sell_fill(dec(p.book_level), px.hs, px.slip)
+        ch = costs.charges([(fe, q, "BUY"), (fb, qb, "SELL"), (fx, q - qb, "SELL")], d.day)
+        gross = fb * qb + fx * (q - qb) - fe * q
+        return gross - ch["total"], ch, fe, (fb * qb + fx * (q - qb)) / q
+    ch = costs.round_trip(fe, fx, q, d.day)
+    return (fx - fe) * q - ch["total"], ch, fe, fx
 
 
 def proxy_px(d: Day, k: int, bar: int) -> Px:
@@ -542,9 +612,10 @@ def run_day(
     trig, blocked = shock_state(d)
     st = DayState()
     queue = list(events if events is not None else ([] if provider else regular_events(sig)))
+    if events is None and provider is None and cfg.flag("FLAG_P3"):
+        queue = _with_p3(d, sig, cfg, queue)
     reentry: Event | None = None
     taken = 0
-    n_mode = int(FIX["S3_MAX_LOTS"])
     cool = int(cfg["LOSS_COOLDOWN_MIN"])
     while True:
         if reentry is not None and (provider is not None or not queue or reentry.t <= queue[0].t):
@@ -561,50 +632,16 @@ def run_day(
         else:
             break
         t = ev.t
-        why = _skip_reason(d, cfg, win, blocked, st, ev, n_mode)
-        k, how, f, n, lots_reason = -1, "", Decimal(0), 0, ""
-        if why is None:
-            if ev.pattern == "REENTRY":
-                k, how = ev.k, "SAME"
-            else:
-                k, how = pick_strike(d, t, ev.side, cfg)
-                if k < 0:
-                    why = "NO_STRIKE_IN_BAND"
-        if why is None:
-            e = t + 1
-            if d.stale[k, e]:
-                why = "NO_FILL_STALE"
-            else:
-                f = costs.buy_fill(dec(d.opt["o"][k, e]), px.hs, px.slip)
-                if (
-                    ev.pattern == "REENTRY"
-                    and float(d.opt["o"][k, e]) > ev.peak + float(FIX["REENTRY_ABOVE_PEAK"]) + ev.step
-                ):
-                    why = "REENTRY_CHASE"
-                elif how == "BAND" and not cfg.var("strike_itm1") and f > Decimal(FIX["PREMIUM_MAX"]):
-                    why = "NO_FILL_BAND"
-        sl_pts = 0.0
-        if why is None:
-            sl_pts = sl_points(cfg, opt_atr5((d.opt["h"][k] - d.opt["l"][k]).tolist(), d.stale[k].tolist(), t))
-            sl_eff = min(sl_pts, float(f) * float(FIX["SL_MAX_PCT"]))
-            n, lots_reason = size_at_fill(f, d.lot, d.day, dec(sl_eff), (st.net, st.floor()), cfg, n_mode, px)
-            if n == 0:
-                why = lots_reason
-        if why is None and cfg.var("gate_k03") and k03_ok(d) is False:
-            why = "GATE_IVP"
-        if (
-            why is None
-            and cfg.var("gate_k05")
-            and k05_ok(d, t, ev.side, k, min(sl_pts, float(f) * float(FIX["SL_MAX_PCT"]))) is False
-        ):
-            why = "GATE_OI_WALL"
-        row: dict[str, Any] = {"date": d.day.isoformat(), "t": t, "side": ev.side, "pattern": ev.pattern, "k": k}
-        if why is not None:
+        why, ent = _entry(d, sig, cfg, ev, st, run, (win, blocked, trig))
+        row: dict[str, Any] = {"date": d.day.isoformat(), "t": t, "side": ev.side, "pattern": ev.pattern}
+        row["k"] = ent.k if ent is not None else -1
+        if why is not None or ent is None:
             if record:
                 res.signals.append(row | {"decision": why})
             continue
-        p = simulate(d, k, t + 1, f, n, cfg, trig, run)
-        nb = net(*fills(d, p, px), n * d.lot, d.day)
+        k, how, f, n, lots_reason = ent.k, ent.how, ent.f, ent.n, ent.lots_reason
+        p = simulate(d, k, ent.e, f, n, cfg, ent.ctx, run)
+        nb = path_net(d, p, px)[0]
         taken += ev.pattern != "REENTRY"
         st.trades += 1
         st.net += nb
@@ -639,7 +676,7 @@ def _reentry(d: Day, sig: Sig, cfg: Cfg, win: Any, p: TradePath, side: str) -> E
     return None
 
 
-def _skip_reason(d: Day, cfg: Cfg, win: Any, blocked: Any, st: DayState, ev: Event, n_mode: int) -> str | None:
+def _skip_reason(d: Day, cfg: Cfg, win: Any, blocked: Any, st: DayState, ev: Event) -> str | None:
     t = ev.t
     if not win[t]:
         return "EXPIRY_AFTER_1259" if d.dte == 0 and t > M_EXP_LAST else "WINDOW"
@@ -657,4 +694,191 @@ def _skip_reason(d: Day, cfg: Cfg, win: Any, blocked: Any, st: DayState, ev: Eve
         return "SHOCK"
     if t + 1 < st.cool_until:
         return "COOLDOWN"
+    if cfg.slots_off and half_hour(t + 1) in cfg.slots_off:
+        return "SLOT_OFF_N9"
     return None
+
+
+def half_hour(m: int) -> str:
+    """Half-hour slot of minute m (e.g. 10:30 for 10:30-10:59)."""
+    hm = hhmm(m)
+    return f"{hm[:3]}{'00' if int(hm[3:]) < minute('09:45') - minute('09:15') else '30'}"
+
+
+@dataclass
+class Entry:
+    k: int
+    how: str
+    e: int
+    f: Decimal
+    n: int
+    lots_reason: str
+    ctx: TradeCtx
+
+
+GATE_LABEL = {
+    "K01": "GATE_MAUSAM_K01", "K02": "GAP_WAIT_K02", "K04": "GATE_IV_K04", "K06": "GATE_STRIKEVOL_K06",
+    "K07": "GATE_FAKESPIKE_K07", "K08": "GATE_CHASE_K08", "K09": "GATE_WICK_K09", "K10": "GATE_PREMTEZI_K10",
+    "K11": "GATE_VOLUCHHAL_K11", "K12": "GATE_TRAP_K12", "K13": "GATE_RANGEBO_K13", "K14": "GATE_TFMATCH_K14",
+    "K16": "GATE_RSI_K16", "K17": "GATE_OISC_K17", "K18": "GATE_PCR_K18", "K19": "GATE_BREADTH_K19",
+    "K20": "GATE_VIX_K20", "K21": "GATE_KHARCHA_K21", "K29": "GATE_LEVELBREAK_K29",
+}  # fmt: skip
+LEVEL_FILTERS = (("FLAG_K25", "K25", "STRETCH"), ("FLAG_K26", "K26", "NO_ROOM"), ("FLAG_K27", "K27", "CHOP"),
+                 ("FLAG_K28", "K28", "DEAD"))  # fmt: skip
+
+
+def _needs_checks(cfg: Cfg) -> bool:
+    return bool(cfg.checks) or cfg["LOT_MODE"] != "L1" or any(cfg.flag(f) for f, _, _ in LEVEL_FILTERS)
+
+
+def _entry(
+    d: Day, sig: Sig, cfg: Cfg, ev: Event, st: DayState, run: Mode, day_arr: tuple[Any, Any, Any]
+) -> tuple[str | None, Entry | None]:
+    """All entry checks of §6.1 / §7.4 / §7.5 / §7.7 (+ module filters and lot modes) for one event."""
+    win, blocked, trig = day_arr
+    px, t = run.px, ev.t
+    why = _skip_reason(d, cfg, win, blocked, st, ev)
+    if why is not None:
+        return why, None
+    if ev.pattern == "REENTRY":
+        k, how = ev.k, "SAME"
+    else:
+        k, how = pick_strike(d, t, ev.side, cfg)
+        if k < 0:
+            return ("NO_DELTA_FLOOR_N6" if how == "N6_FAIL" else "NO_STRIKE_IN_BAND"), None
+    e, level = t + 1, math.nan
+    if d.stale[k, e]:
+        return "NO_FILL_STALE", None
+    eng = str(cfg["ENTRY_ENGINE"]) if ev.pattern != "REENTRY" else "INSTANT"
+    if eng != "INSTANT":
+        e, level = _engine_entry(d, k, t, eng)
+        if e < 0:
+            return f"NO_{eng}_TRIGGER", None
+        if not win[e - 1]:
+            return "WINDOW", None
+    f = costs.buy_fill(dec(d.opt["o"][k, e] if math.isnan(level) else level), px.hs, px.slip)
+    if ev.pattern == "REENTRY" and float(d.opt["o"][k, e]) > ev.peak + float(FIX["REENTRY_ABOVE_PEAK"]) + ev.step:
+        return "REENTRY_CHASE", None
+    if how == "BAND" and not cfg.var("strike_itm1") and f > Decimal(FIX["PREMIUM_MAX"]):
+        return "NO_FILL_BAND", None
+    sl_pts = sl_points(cfg, opt_atr5((d.opt["h"][k] - d.opt["l"][k]).tolist(), d.stale[k].tolist(), t))
+    sl_eff = min(sl_pts, float(f) * float(FIX["SL_MAX_PCT"]))
+    ck: dict[str, Any] = {}
+    if _needs_checks(cfg):
+        from lab.s3.checks import shadow  # noqa: PLC0415
+
+        ck = shadow(d, sig, t, ev.side, k, sl_eff, ev.pattern, cfg)
+    n0, why = _lot_mode(d, cfg, ck, f, sl_eff, run)
+    if why is not None:
+        return why, None
+    n, lots_reason = size_at_fill(f, d.lot, d.day, dec(sl_eff), (st.net, st.floor()), cfg, n0, px)
+    if n == 0:
+        return lots_reason, None
+    if lots_reason == "MODE" and str(cfg["LOT_MODE"]).startswith("RISK") and n0 < int(FIX["S3_MAX_LOTS"]):
+        lots_reason = "RISK"
+    if cfg.var("gate_k03") and k03_ok(d) is False:
+        return "GATE_IVP", None
+    if cfg.var("gate_k05") and k05_ok(d, t, ev.side, k, sl_eff) is False:
+        return "GATE_OI_WALL", None
+    for flag, cid, label in LEVEL_FILTERS:
+        if cfg.flag(flag) and ck.get(cid) == "RED":
+            return label, None
+    for cid in cfg.checks:
+        if ck.get(cid) == "RED":
+            return GATE_LABEL[cid], None
+    struct, ref = _structure(d, sig, cfg, ev)
+    return None, Entry(k, how, e, f, n, lots_reason, TradeCtx(trig, ev.side, struct, sig, level, ref))
+
+
+def _lot_mode(d: Day, cfg: Cfg, ck: dict[str, Any], f: Decimal, sl_eff: float, run: Mode) -> tuple[int, str | None]:
+    """§10.2 lot modes L1 / L2 / L3 / RISK / RISK+L2 and the cuts (K01 MIXED day, equity 5% below peak)."""
+    mode, top = str(cfg["LOT_MODE"]), int(FIX["S3_MAX_LOTS"])
+    if mode == "L1":
+        return top, None
+    sc = int(ck.get("score", 0))
+    l2 = top if sc >= int(SCORE["L2_HIGH"]) else top - 1 if sc >= int(SCORE["L2_MID"]) else 1
+    if mode == "L3" and not ck.get("score_pass"):
+        return 0, "GATE_SCORE_L3"
+    n = l2
+    if mode.startswith("RISK"):
+        r, why = risk_lots(f, d.lot, dec(sl_eff), Decimal(str(cfg["RISK_PER_TRADE_RS"])), d.day)
+        if r == 0:
+            return 0, why
+        n = r if mode == "RISK" else min(r, l2)
+    adx = ck.get("K01_adx", math.nan)
+    mixed = not math.isnan(adx) and CHK["K01_ADX_RED"] < adx < CHK["K01_ADX_GREEN"]
+    for cut in (mixed, run.dd_cut):
+        if cut:
+            n = max(1, int(n * float(FIX["DD_CUT_FACTOR"])))
+    return n, None
+
+
+def _engine_entry(d: Day, k: int, t: int, eng: str) -> tuple[int, float]:
+    """N4 entry engines. STEP: within STEP_BARS a high >= open(t+1) + STEP_PTS -> buy at that level.
+    TRAIL_BUY: for TRAIL_BARS track the low; buy at low + TRAIL_REV when reached, or at open + FOMO_PTS."""
+    o1 = float(d.opt["o"][k, t + 1])
+    h, lo, stl = d.opt["h"][k], d.opt["l"][k], d.stale[k]
+    if eng == "STEP":
+        lvl = o1 + float(FIX["STEP_PTS"])
+        for j in range(t + 1, min(N, t + 1 + int(FIX["STEP_BARS"]))):
+            if not stl[j] and h[j] >= lvl:
+                return j, lvl
+        return -1, math.nan
+    low = math.inf
+    for j in range(t + 1, min(N, t + 1 + int(FIX["TRAIL_BARS"]))):
+        if stl[j]:
+            continue
+        if h[j] >= o1 + float(FIX["FOMO_PTS"]):
+            return j, o1 + float(FIX["FOMO_PTS"])
+        low = min(low, float(lo[j]))
+        if h[j] >= low + float(FIX["TRAIL_REV"]):
+            return j, low + float(FIX["TRAIL_REV"])
+    return -1, math.nan
+
+
+def _structure(d: Day, sig: Sig, cfg: Cfg, ev: Event) -> tuple[float, str]:
+    """N7 structure level (P1 breakout level, P2 pullback low, P3 trap high), offset by N7_OFFSET_ATR x ATR10."""
+    if not (cfg.flag("FLAG_N7") or ev.pattern == "P3") or ev.pattern not in ("P1", "P2", "P3"):
+        return math.nan, "spot_c"
+    fut = cfg["SIGNAL_SRC"] == "FUT"
+    pre, ref = ("fut", "fut_c") if fut else ("spot", "spot_c")
+    t, up = ev.t, ev.side == "CE"
+    atr = sig.f["fatr10" if fut else "atr10"][t]
+    off = float(FIX["N7_OFFSET_ATR"]) * atr
+    hi, lo = d.base[f"{pre}_h"], d.base[f"{pre}_l"]
+    w = slice(t - int(FIX["P2_MAX_BARS"]), t)
+    if ev.pattern == "P1":
+        lvl = sig.f["hi_l"][t] - off if up else sig.f["lo_l"][t] + off
+    elif ev.pattern == "P2":
+        lvl = float(np.min(lo[w])) - off if up else float(np.max(hi[w])) + off
+    else:
+        w3 = slice(t - int(FIX["TRAP_BARS"]), t + 1)
+        lvl = float(np.min(lo[w3])) - off if up else float(np.max(hi[w3])) + off
+    return lvl, ref
+
+
+def _with_p3(d: Day, sig: Sig, cfg: Cfg, queue: list[Event]) -> list[Event]:
+    """R6: add P3 trap-reversal events (P3_MODE ALL / CHOP: only when K27 is RED at that bar / PM: from 13:15)."""
+    from lab.s3.p3 import p3  # noqa: PLC0415
+
+    pe3, ce3 = p3(d, sig, float(cfg["FUT_VOL_MULT"]), {"HDFCBANK": sig.f["r_hdfc"], "ICICIBANK": sig.f["r_icici"]})
+    mode = str(cfg["P3_MODE"])
+    have = {e.t: e for e in queue}
+    nb = int(CHK["K27_BARS"])
+    above = (d.base["fut_c"] > sig.f["vwap"]).astype(int)
+    for t in np.flatnonzero(pe3 | ce3):
+        ti = int(t)
+        side = "PE" if pe3[ti] else "CE"
+        if mode == "PM" and ti < minute(str(cfg["AFTERNOON_START"])):
+            continue
+        if mode == "CHOP":
+            if ti + 1 <= minute(str(FIX["K27_START"])) or ti < nb:
+                continue
+            if int(np.sum(np.abs(np.diff(above[ti - nb : ti + 1])))) < float(cfg["CHOP_CROSSES"]):
+                continue
+        if ti in have:
+            if have[ti].side not in (side, "BOTH"):
+                have[ti] = Event(ti, "BOTH", "-")
+            continue
+        have[ti] = Event(ti, side, "P3")
+    return [have[x] for x in sorted(have)]

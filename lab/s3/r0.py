@@ -77,8 +77,7 @@ def main() -> int:
         runs[v] = r
         log(f"{v}: {len(r.trades)} trades net {sum(t['net_base'] for t in r.trades):.2f}")
     rp.write_csv(WIP / "s3_trades.csv", [t for r in runs.values() for t in r.trades], rp.TRADE_COLS)
-    sig_cols = ["variant", *sorted({k for r in runs.values() for s in r.signals for k in s} - {"variant"})]
-    rp.write_csv(WIP / "s3_signals.csv", [s for r in runs.values() for s in r.signals], sig_cols)
+    sig_files = rp.write_signals(WIP, [s for r in runs.values() for s in r.signals], runs)
     main_cfg, tp = Cfg("T1-P"), runs["T1-P"].trades
     curve = []
     for full in COST["COST_CURVE_SPREADS"]:
@@ -116,7 +115,7 @@ def main() -> int:
     write_reports(runs, summary, nr, days)
     for f in (
         "s3_trades.csv",
-        "s3_signals.csv",
+        *sig_files,
         "s3_nulls.md",
         "s3_diagnosis.md",
         "s3_cost_curve.md",
@@ -154,7 +153,7 @@ def write_reports(runs: dict[str, R.Run], s: dict[str, Any], nr: dict[str, Any],
         "|---:|---:|---:|",
     ]
     c += [f"| ₹{a:.2f} | {k} | {rp.rs(b)} |" for a, b, k in s["cost_curve"]]
-    c += ["", f"**Spread {rp.zero_crossing([(a, b) for a, b, _ in s['cost_curve']])} hua toh strategy zero par.**"]
+    c += ["", f"**Zero-crossing: {rp.zero_crossing([(a, b) for a, b, _ in s['cost_curve']])}.**"]
     (WIP / "s3_cost_curve.md").write_text("\n".join(c) + "\n")
     bc = sum(t["net_base"] for t in tp)
     sens = any(v[0] < 0 for v in s["intrabar"].values())
