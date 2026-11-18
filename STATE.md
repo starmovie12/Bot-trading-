@@ -1,5 +1,5 @@
 STAGE=2
-NEXT=WATCH MODE (D-43, D-45): daily scheduled data-repo check; new days -> forward shadow S1-S3 (results/forward_shadow.md); FETCH_HISTORY data -> seal first, then index-point tests; recorder bid / ask -> measured spreads, re-run the 3 seeds (pre-registered); 5-line card per new input; no bot code
+NEXT=WATCH MODE (D-43, D-45, D-46): daily 17:39 IST scheduled check (trig_0187dm7EUBGPLmbgC3cuRkR8); new days -> forward shadow S1-S3 (results/forward_shadow.md); FETCH_HISTORY data -> seal first, then index-point tests; recorder bid / ask -> measured spreads, re-run the 3 seeds (pre-registered); 5-line card per new input; no bot code
 BLOCK=S2
 MODEL_NOW=BIG
 MODEL_NEXT=BIG
