@@ -544,3 +544,12 @@ Trial cap added: 20
 ```json
 [{"variant": "T1-P", "overrides": {}, "flags": {}, "checks": [], "slots_off": []}, {"variant": "T1-P", "overrides": {"STRIKE_MODE": "DELTA_BAND"}, "flags": {}, "checks": [], "slots_off": []}, {"variant": "T1-P", "overrides": {"STRIKE_MODE": "N6"}, "flags": {}, "checks": [], "slots_off": []}, {"variant": "T1-P", "overrides": {"STRIKE_MODE": "N15"}, "flags": {}, "checks": [], "slots_off": []}]
 ```
+
+## S3 · R3 (owner order 6; §13.3; committed before any R3 number)
+Nested as S3 R1 (per-window base = the previous round's training choice; best training net_base wins, base wins ties).
+R3 = exit modules on each window's R2 base: X-C (N3 runner), X-D, N2 k 1.0, N2 k 1.5, N7, N12, N14 (7 configs).
+Trial cap added: 36
+<!-- S3-GRID R3 -->
+```json
+[{"variant": "T1-P", "overrides": {}, "flags": {}, "checks": [], "slots_off": []}, {"variant": "T1-P", "overrides": {"EXIT_MODE": "X-C"}, "flags": {}, "checks": [], "slots_off": []}, {"variant": "T1-P", "overrides": {"EXIT_MODE": "X-D"}, "flags": {}, "checks": [], "slots_off": []}, {"variant": "T1-P", "overrides": {"N2_K": 1.0}, "flags": {"FLAG_N2": true}, "checks": [], "slots_off": []}, {"variant": "T1-P", "overrides": {"N2_K": 1.5}, "flags": {"FLAG_N2": true}, "checks": [], "slots_off": []}, {"variant": "T1-P", "overrides": {}, "flags": {"FLAG_N7": true}, "checks": [], "slots_off": []}, {"variant": "T1-P", "overrides": {}, "flags": {"FLAG_N12": true}, "checks": [], "slots_off": []}, {"variant": "T1-P", "overrides": {}, "flags": {"FLAG_N14": true}, "checks": [], "slots_off": []}]
+```
