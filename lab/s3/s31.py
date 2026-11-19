@@ -249,6 +249,93 @@ def d1_recount() -> int:
     return 0
 
 
+def _terc_rows(cfg: Cfg) -> list[dict[str, Any]]:
+    """OOS trades of cfg with a tercile label from each window's training cut (as D1)."""
+    ev = evaluate(cfg)
+    out = []
+    for w in windows(design_days()):
+        tr = [t["atr5"] for t in ev.trades if t["wf_window"] <= w.k and t["atr5"] == t["atr5"]]
+        lo, hi = np.percentile(tr, [100 / 3, 200 / 3])
+        for t in ev.trades:
+            if t["wf_window"] == w.k + 1:
+                out.append(t | {"terc": "LOW" if t["atr5"] <= lo else "MID" if t["atr5"] <= hi else "HIGH"})
+    return out
+
+
+def step_a() -> int:
+    """Owner order 8 STEP A (0 trials): the rule in PLAN.md (committed before this ran)."""
+    from decimal import Decimal  # noqa: PLC0415
+
+    from lab.s3 import costs  # noqa: PLC0415
+    from lab.s3.engine import BASE, Px, dec, net  # noqa: PLC0415
+
+    rows10, rows3 = _terc_rows(xt0(T1P, 10)), _terc_rows(xt0(T1P, 3))
+    minw = int(STATS["WINDOW_MIN_TRADES"])
+    tab = [
+        "| H | tercile | " + " | ".join(f"w{w} n · mid/tr · net/tr" for w in (2, 3, 4, 5)) + " |",
+        "|---|---|" + "---|" * 4,
+    ]
+    for h, rows in ((10, rows10), (3, rows3)):
+        for tc in ("LOW", "MID", "HIGH"):
+            cells = []
+            for w in (2, 3, 4, 5):
+                x = [t for t in rows if t["terc"] == tc and t["wf_window"] == w]
+                cells.append(
+                    f"{len(x)} · {rp.rs(np.mean([t['mid'] for t in x]) if x else 0)} · {rp.rs(np.mean([t['net_base'] for t in x]) if x else 0)}"
+                )
+            tab.append(f"| {h} | {tc} | " + " | ".join(cells) + " |")
+    high = [t for t in rows10 if t["terc"] == "HIGH"]
+    W = [w for w in (2, 3, 4, 5) if sum(1 for t in high if t["wf_window"] == w) >= minw]
+    mid_ok = all(np.mean([t["mid"] for t in high if t["wf_window"] == w]) > 0 for w in W)
+    net_high = float(sum(t["net_base"] for t in high))
+    go = len(W) >= 3 and mid_ok and net_high > 0
+    full = {(t["date"], t["signal_ts"]): t for t in R.run_days(xt0(T1P, 10), R.oos(), record=False, full=True).trades}
+    keyed = []
+    for t in high:
+        d = R.day(dt.date.fromisoformat(t["date"]))
+        fr = full[(t["date"], R.ts(d, t["t"]))]
+        keyed.append((d, fr))
+    spread = []
+    for full_sp in (0.40, 0.60, 1.00):
+        px = Px(Decimal(str(full_sp)) / 2, BASE.slip)
+        tot = 0.0
+        for d, fr in keyed:
+            k = d.k(fr["strike"], fr["side"])
+            e = int(fr["entry_ts"][-5:-3]) * 60 + int(fr["entry_ts"][-2:]) - 555
+            fe = costs.buy_fill(dec(d.opt["o"][k, e]), px.hs, px.slip)
+            m = Decimal(2) if fr["stale_forced"] else Decimal(1)
+            fx = costs.sell_fill(dec(fr["exit_level"]), px.hs * m, px.slip * m)
+            tot += float(net(fe, fx, int(fr["qty"]), d.day))
+        spread.append((full_sp, tot / max(1, len(keyed))))
+    allf = list(full.values())
+
+    def desc(sel: list[dict[str, Any]], lt: list[dict[str, Any]]) -> str:
+        return (f"OptATR5 {np.nanmean([t['atr5'] for t in lt]):.1f} · |Delta| {np.mean([abs(t['delta_at_entry']) for t in sel]):.2f} · "
+                f"qty {np.mean([t['qty'] for t in sel]):.0f} · VIX {np.mean([t['vix_open'] for t in sel]):.1f} · trades {len(sel)}")  # fmt: skip
+
+    w4 = [t for t in allf if t["wf_window"] == 4]
+    rest = [t for t in allf if t["wf_window"] != 4]
+    card = [
+        "## S3.2 STEP A CARD · DIAGNOSIS (0 trial) · [BACKTEST·OOS] PRE-TAX · D1 trades (T1-P + X-T0, H 10)",
+        f"1. HIGH tercile: {len(high)} trade · mid/trade {rp.rs(np.mean([t['mid'] for t in high]))} · net kul {rp.rs(net_high)} ({rp.rs(net_high / max(1, len(high)))}/trade).",
+        f"2. Windows jahan HIGH >= {minw} trade: {W} · HIGH mid/trade > 0 sab mein: {mid_ok}.",
+        "3. HIGH net/trade full spread par: "
+        + " · ".join(f"₹{a:.2f}: {rp.rs(b)}" for a, b in spread)
+        + " (sirf report).",
+        f"4. Window 4: {desc(w4, [t for t in rows10 if t['wf_window'] == 4])}; baaki: {desc(rest, [t for t in rows10 if t['wf_window'] != 4])}.",
+        f"5. Rule (PLAN.md): |W| >= 3 aur HIGH mid > 0 har W mein aur HIGH net kul > 0 → {'met' if go else 'not met'}.",
+        f"6. Faisla: **{'STEP B' if go else 'FINAL STOP (FINAL_S3.md addendum)'}**.",
+    ]
+    text = "\n".join([*card, "", "**Tercile x window (n · mid/trade · net/trade)**", "", *tab]) + "\n"
+    with OUT.open("a", encoding="utf-8") as fh:
+        fh.write("\n" + text)
+    (ROOT / "results/s3_s32_step_a.json").write_text(
+        json.dumps({"W": W, "mid_ok": mid_ok, "net_high": net_high, "go": go, "spread": spread}, indent=1)
+    )
+    print(text)
+    return 0
+
+
 def tercile(cfg: Cfg) -> dict[str, tuple[int, float, float]]:
     ev = evaluate(cfg)
     out: dict[str, list[dict[str, Any]]] = {"LOW": [], "MID": [], "HIGH": []}
@@ -413,4 +500,4 @@ def round_main(name: str) -> int:
 
 if __name__ == "__main__":
     arg = sys.argv[1]
-    sys.exit(d1() if arg == "D1" else d1_recount() if arg == "D1R" else round_main(arg))
+    sys.exit(d1() if arg == "D1" else d1_recount() if arg == "D1R" else step_a() if arg == "A" else round_main(arg))
