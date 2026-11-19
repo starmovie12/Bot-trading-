@@ -579,3 +579,13 @@ def test_v31_skip_risk_and_k03_switch() -> None:
         d = make_day(ivp=70.0)
         c = Cfg("T1-P", overrides={"K03_SWITCH": sw})
         assert decisions(run_day(d, sig(d, c), c, events=[Event(100, "CE", "P1")]))[100] == expect
+
+
+def test_v32_xt_lots_switch() -> None:
+    d = make_day()
+    d.opt["h"][:, :] = d.opt["c"] + 10
+    d.opt["l"][:, :] = d.opt["c"] - 10  # OptATR5 20 -> SL 35 pt
+    for lots, expect in (("RISK", 1), ("L1", 3)):
+        cfg = Cfg("T1-P", overrides={"EXIT_MODE": "X-T", "SL_K": 3.0, "XT_LOTS": lots})
+        r = run_day(d, sig(d, cfg), cfg, events=[Event(100, "CE", "P1")])
+        assert r.trades[0]["path"].n == expect

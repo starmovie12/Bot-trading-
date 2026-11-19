@@ -44,6 +44,7 @@ DELTA_FLOOR = { t1 = 0.30, range = [0.25, 0.30, 0.35], status = "SUJHAAV" }
 LEVEL_NEAR_ATR = { t1 = 0.3, range = [0.2, 0.3, 0.5], status = "SUJHAAV" }
 XT_H = { t1 = 10, range = [3, 5, 10, 15, 20, 30], status = "V3.1" }  # §V3.1 X-T0 / X-T horizon (bars)
 SL_K = { t1 = 2.0, range = [2.0, 3.0], status = "V3.1" }  # §V3.1 X-T HARD_SL = clamp(SL_K x OptATR5, 12, 35)
+XT_LOTS = { t1 = "RISK", range = ["RISK", "L1"], status = "V3.2" }  # owner order 8 1c: X-T sizing
 K03_SWITCH = { t1 = "ON", range = ["ON", "OFF"], status = "V3.1" }  # FIX-10
 P3_MODE = { t1 = "ALL", range = ["ALL", "CHOP", "PM"], status = "R6" }  # §13.3 R6 (a)/(b)/(c); D-56
 ENTRY_ENGINE = { t1 = "INSTANT", range = ["INSTANT", "STEP", "TRAIL_BUY"], status = "DEFAULT" }
@@ -260,6 +261,7 @@ HOLDOUT_P_MAX = 0.10
 HOLDOUT_NULL_PCT = 0.90
 HOLDOUT_MAX_USES = 1        # §14.2: max 1 holdout run in program S3
 PAPER_MIN_TRADES = 60
+WINDOW_MIN_TRADES = 15      # owner order 8 1b: a window with fewer trades is NA in window rules
 R7_MAX_STEPS = 6            # §13.3 R7: forward selection, max 6 steps
 R7_FAMILY_MAX = 2           # §9: max 2 checks from one family in R7
 EXIT_CHECK_BARS = [10, 20, 30]

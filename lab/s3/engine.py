@@ -878,7 +878,7 @@ def _entry(
     n, lots_reason = size_at_fill(f, d.lot, d.day, dec(sl_eff), (st.net, st.floor()), cfg, n0, px)
     if n == 0:
         return lots_reason, None
-    risk_sized = str(cfg["LOT_MODE"]).startswith("RISK") or cfg["EXIT_MODE"] == "X-T"
+    risk_sized = str(cfg["LOT_MODE"]).startswith("RISK") or (cfg["EXIT_MODE"] == "X-T" and cfg["XT_LOTS"] == "RISK")
     if lots_reason == "MODE" and risk_sized and n0 < int(FIX["S3_MAX_LOTS"]):
         lots_reason = "RISK"
     if k03_on(cfg) and k03_ok(d) is False:
@@ -898,9 +898,11 @@ def _entry(
 def _lot_mode(d: Day, cfg: Cfg, ck: dict[str, Any], f: Decimal, sl_eff: float, run: Mode) -> tuple[int, str | None]:
     """§10.2 lot modes L1 / L2 / L3 / RISK / RISK+L2 and the cuts (K01 MIXED day, equity 5% below peak)."""
     mode, top = str(cfg["LOT_MODE"]), int(FIX["S3_MAX_LOTS"])
-    if cfg["EXIT_MODE"] == "X-T":
+    if cfg["EXIT_MODE"] == "X-T" and cfg["XT_LOTS"] == "RISK":
         r, why = risk_lots(f, d.lot, dec(sl_eff), Decimal(str(cfg["RISK_PER_TRADE_RS"])), d.day)
         return (r, None) if r > 0 else (0, "SKIP_RISK")
+    if mode == "L1" or cfg["EXIT_MODE"] == "X-T":  # X-T with XT_LOTS = L1 (owner order 8): 3 lots inside the cap
+        return top, None
     if mode == "L1":
         return top, None
     sc = int(ck.get("score", 0))

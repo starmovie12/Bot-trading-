@@ -101,6 +101,27 @@ def p_of(cand: float, draws: list[float]) -> float:
     return (sum(1 for v in draws if v >= cand) + 1) / (len(draws) + 1)
 
 
+def p_pt(cand: list[dict[str, Any]], draws: list[tuple[float, float, int]], col: str) -> float:
+    """FIX-13: p on the PER-TRADE mean (a draw with a different trade count no longer carries a different total
+    cost). col: net_base (draw[0]) or mid (draw[1]); a draw with no trade has mean 0."""
+    c = float(np.mean([t[col] for t in cand])) if cand else 0.0
+    i = 0 if col == "net_base" else 1
+    return p_of(c, [d[i] / d[2] if d[2] else 0.0 for d in draws])
+
+
+def avg_n(draws: list[tuple[float, float, int]]) -> float:
+    return float(np.mean([d[2] for d in draws])) if draws else 0.0
+
+
+def windows_na(trs: list[dict[str, Any]], col: str = "mid") -> dict[int, float | None]:
+    """Owner order 8 1b: per OOS window the sum of col, or None (NA) when the window has < WINDOW_MIN_TRADES."""
+    out: dict[int, float | None] = {}
+    for w in (2, 3, 4, 5):
+        x = [t[col] for t in trs if t["wf_window"] == w]
+        out[w] = float(sum(x)) if len(x) >= int(STATS["WINDOW_MIN_TRADES"]) else None
+    return out
+
+
 # ---------- D1 signal test ----------
 
 
@@ -192,6 +213,42 @@ def d1() -> int:
     return 0
 
 
+def d1_recount() -> int:
+    """Owner order 8 FIX-13: the D1 NULL on per-trade means. The D1 draws were not stored, so they are rebuilt
+    from the same seeds (deterministic); the old total-based p must come out exactly as recorded."""
+    old = json.loads((ROOT / "results/s3_d1_summary.json").read_text())
+    cfg = xt0(T1P, 10)
+    trs = oos_of(cfg)
+    if len(trs) != 525 or abs(sum(t["net_base"] for t in trs) - old["net"]) > 0.01:
+        raise AssertionError("D1 trades do not reproduce")
+    nn = null(dict.fromkeys((1, 2, 3, 4), cfg), trs, int(STATS["NULL_SEEDS"]))
+    d = nn["draws"]
+    tot_net = p_of(sum(t["net_base"] for t in trs), [x[0] for x in d])
+    tot_mid = p_of(sum(t["mid"] for t in trs), [x[1] for x in d])
+    if abs(tot_net - old["p_net"]) > 1e-12 or abs(tot_mid - old["p_mid"]) > 1e-12:
+        raise AssertionError(f"draws differ from D1: {tot_net} {tot_mid}")
+    (ROOT / "wip/s31_d1_draws.json").write_text(json.dumps(d))
+    pn, pm = p_pt(trs, d, "net_base"), p_pt(trs, d, "mid")
+    wn = windows_na(trs)
+    pos = sum(1 for v in wn.values() if v is not None and v > 0)
+    lines = [
+        "## D1 RECOUNT (owner order 8, FIX-13: NULL p per-trade; same 2,000 seeds, rebuilt deterministically)",
+        f"1. Same draws check: total-based p(net) {tot_net:.4f} / p(mid) {tot_mid:.4f} = D1 as recorded.",
+        f"2. Per-trade: T1-P net {rp.rs(float(np.mean([t['net_base'] for t in trs])))} / mid {rp.rs(float(np.mean([t['mid'] for t in trs])))} per trade; random avg n {avg_n(d):.0f} vs 525.",
+        f"3. **Per-trade p(net) {pn:.4f} · p(mid) {pm:.4f}** (total-based was {tot_net:.3f} / {tot_mid:.3f}).",
+        "4. Windows (mid, NA if < 15 trades): "
+        + " · ".join("NA" if v is None else rp.rs(v) for v in wn.values())
+        + f" → mid > 0 in {pos} windows.",
+        f"5. D1 rule (p <= 0.05 and mid > 0 in >= 3/4 windows): {'met' if pn <= 0.05 and pos >= 3 else 'not met'} (per-trade p; D-60 stays the record of the run as committed).",
+    ]
+    with OUT.open("a", encoding="utf-8") as fh:
+        fh.write("\n" + "\n".join(lines) + "\n")
+    old |= {"pt_p_net": pn, "pt_p_mid": pm, "rand_n": avg_n(d)}
+    (ROOT / "results/s3_d1_summary.json").write_text(json.dumps(old, indent=1, default=str))
+    print("\n".join(lines))
+    return 0
+
+
 def tercile(cfg: Cfg) -> dict[str, tuple[int, float, float]]:
     ev = evaluate(cfg)
     out: dict[str, list[dict[str, Any]]] = {"LOW": [], "MID": [], "HIGH": []}
@@ -280,9 +337,9 @@ def card(name: str, res: dict[str, Any], final: bool = False) -> tuple[str, dict
     days = R.oos()
     own = null(chosen, trs, int(STATS["NULL_SEEDS"]))
     x0 = null(chosen, trs, int(STATS["NULL_SEEDS"]), lambda c: apply(c, {"EXIT_MODE": "X-T0", "XT_H": 10}))
-    net_c = sum(t["net_base"] for t in trs)
-    p_own, p_x0 = p_of(net_c, [d[0] for d in own["draws"]]), p_of(net_c, [d[0] for d in x0["draws"]])
-    g = R.gates(trs, days, p_own)
+    p_own, p_x0 = p_pt(trs, own["draws"], "net_base"), p_pt(trs, x0["draws"], "net_base")
+    pm_own, pm_x0 = p_pt(trs, own["draws"], "mid"), p_pt(trs, x0["draws"], "mid")
+    g = R.gates(trs, days, p_own)  # gate 9 on the per-trade p (FIX-13)
     ne, nraw, srv = n_eff()
     v = R.daily(trs, days)
     d_eff = dsr(v, max(ne, 1), srv)
@@ -313,7 +370,7 @@ def card(name: str, res: dict[str, Any], final: bool = False) -> tuple[str, dict
         + " · ".join(f"{rp.rs(m)} / {rp.rs(n)} ({c})" for m, n, c in pw.values())
         + f" · best-5 hatakar {rp.rs(g['best5_removed'])} · E12 {rp.rs(g['e12'])} vs DD95 {rp.rs(g['dd95'])}.",
         f"4. Mid edge/trade {rp.rs(mid_tr)} vs kharcha/trade {rp.rs(cost_tr)}.",
-        f"5. NULL-RANDOM p: apna exit {p_own:.3f} · X-T0 {p_x0:.3f} · §14.1 gates {sum(g['gates'].values())}/9.",
+        f"5. NULL-RANDOM per-trade p (net / mid): apna exit {p_own:.3f} / {pm_own:.3f} · X-T0 {p_x0:.3f} / {pm_x0:.3f} · random avg n {avg_n(own['draws']):.0f} vs {len(trs)} · §14.1 gates {sum(g['gates'].values())}/9.",
         f"6. Faisla: **{verdict}**.",
     ]
     summ = {
@@ -356,4 +413,4 @@ def round_main(name: str) -> int:
 
 if __name__ == "__main__":
     arg = sys.argv[1]
-    sys.exit(d1() if arg == "D1" else round_main(arg))
+    sys.exit(d1() if arg == "D1" else d1_recount() if arg == "D1R" else round_main(arg))
