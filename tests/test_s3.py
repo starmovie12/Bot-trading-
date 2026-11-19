@@ -502,3 +502,35 @@ def test_nested_wf_fixture() -> None:
     out = nested(days, [1, 3, 2], fit, lambda v: v)
     assert [o.chosen for o in out] == [1, 1, 1, 1] and all(o.test == -3.0 for o in out)
     assert len(calls) == 4 * 3 + 4
+
+
+# R2 strike modes and the R5 K12 confirmation (module tests, D-56)
+def test_r2_strike_modes() -> None:
+    d = make_day()
+    t = 100
+    d.opt["delta"][d.cp == "CE", t] = 0.1
+    for s in (49800.0, 49900.0, 50000.0, 50100.0, 50200.0):
+        k = d.k(s, "CE")
+        d.opt["delta"][k, t] = {49800.0: 0.70, 49900.0: 0.60, 50000.0: 0.25, 50100.0: 0.50, 50200.0: 0.40}[s]
+        d.opt["c"][k, t] = {49800.0: 450.0, 49900.0: 430.0, 50000.0: 350.0, 50100.0: 290.0, 50200.0: 250.0}[s]
+    pick = lambda m: float(d.strikes[engine.pick_strike(d, t, "CE", Cfg("T1-P", overrides={"STRIKE_MODE": m}))[0]])  # noqa: E731
+    assert pick("PREMIUM_BAND") == 50000.0
+    assert pick("DELTA_BAND") == 49900.0  # |Delta| 0.60 and 0.50 tie at 0.05 from 0.55; the lower index wins
+    assert pick("N15") == 50100.0  # CE: nearest 0.50 inside 0.45-0.55
+    assert pick("N6") == 49900.0  # band strike Delta 0.25 < 0.30 -> one strike in, premium 430 <= 500
+    d.opt["c"][d.k(49900.0, "CE"), t] = 520.0
+    assert engine.pick_strike(d, t, "CE", Cfg("T1-P", overrides={"STRIKE_MODE": "N6"})) == (-1, "N6_FAIL")
+
+
+def test_r5_k12_confirmation() -> None:
+    cfg = Cfg("T1", checks=("K12",))
+    for back_inside, expect in ((True, "GATE_TRAP_K12"), (False, "TAKEN")):
+        d = make_day()
+        t = 100
+        s = sig(d, cfg)
+        s.f["hi_l"][t] = 50010.0
+        d.base["spot_c"][t + 1] = 50000.0 if back_inside else 50020.0
+        r = run_day(d, s, cfg, events=[Event(t, "CE", "P1")])
+        assert decisions(r)[t] == expect
+        if expect == "TAKEN":
+            assert r.trades[0]["path"].e == t + 2

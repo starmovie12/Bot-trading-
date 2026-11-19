@@ -125,10 +125,19 @@ def _light(d: Any, tr: dict[str, Any], sp: Any) -> dict[str, Any]:
     }
 
 
+def code_hash() -> str:
+    """Engine source version: a cached run is reused only by the same code (a fix invalidates it)."""
+    import hashlib  # noqa: PLC0415
+
+    h = hashlib.sha256()
+    for name in ("data", "features", "engine", "checks", "p3", "costs", "registry"):
+        h.update((ROOT / f"lab/s3/{name}.py").read_bytes())
+    return h.hexdigest()[:10]
+
+
 def evaluate(cfg: Cfg) -> Ev:
     """All 362 DESIGN days, light trade rows + daily net; cached in wip/cache/runs (gitignored)."""
-    key = cfg.config_hash()
-    f = RUNS / f"{key}.pkl"
+    f = RUNS / f"{cfg.config_hash()}_{code_hash()}.pkl"
     if f.exists():
         out: Ev = pickle.loads(f.read_bytes())  # noqa: S301 (our own cache)
         return out
@@ -154,7 +163,7 @@ def evaluate(cfg: Cfg) -> Ev:
 
 
 def evaluate_many(cfgs: list[Cfg], workers: int = 4) -> list[Ev]:
-    todo = [c for c in cfgs if not (RUNS / f"{c.config_hash()}.pkl").exists()]
+    todo = [c for c in cfgs if not (RUNS / f"{c.config_hash()}_{code_hash()}.pkl").exists()]
     if len(todo) > 1:
         with ProcessPoolExecutor(min(workers, len(todo))) as ex:
             list(ex.map(evaluate, todo))
@@ -386,7 +395,7 @@ def _backward(led: Ledger, rnd: str, base: Cfg, k: int, gh: set[str], tried: dic
 def n_eff() -> tuple[int, int, float]:
     """N_eff (§13.2): clusters of all S3 configs' daily nets (distance 1 - rho, average linkage, cut NEFF_CORR)."""
     mats = []
-    for f in sorted(RUNS.glob("*.pkl")):
+    for f in sorted(RUNS.glob(f"*_{code_hash()}.pkl")):
         ev: Ev = pickle.loads(f.read_bytes())  # noqa: S301
         if ev.daily.std() > 0:
             mats.append(ev.daily)

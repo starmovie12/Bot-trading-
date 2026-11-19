@@ -181,17 +181,32 @@ def strike_step(d: Day, t: int) -> float:
     return float(np.min(other))
 
 
+def _delta_pick(d: Day, t: int, sel: Any, band: Any, target: float) -> int:
+    lo_d, hi_d = (float(x) for x in band)
+    dl = np.abs(d.opt["delta"][:, t])
+    ok = sel & (dl >= lo_d) & (dl <= hi_d)
+    if not np.any(ok):
+        return -1
+    idx = np.flatnonzero(ok)
+    return int(idx[np.argmin(np.abs(dl[idx] - target))])
+
+
 def pick_strike(d: Day, t: int, side: str, cfg: Cfg) -> tuple[int, str]:
-    """§7.4: premium band nearest PREMIUM_TARGET at signal-bar close; DTE 0: |Delta| band nearest the target.
-    T1-RAW: nothing found -> ITM1. Returns (k, how) with k = -1 when nothing fits."""
+    """§7.4 / R2: at signal-bar close. PREMIUM_BAND (T1): premium band nearest PREMIUM_TARGET. DELTA_BAND: |Delta| in
+    DELTA_BAND nearest its middle. N6: band strike, but |Delta| < DELTA_FLOOR -> N6_STRIKES_IN strike(s) in-the-money
+    if its premium <= N6_PREMIUM_CAP, else skip. N15: CE by CE_DELTA_BAND (nearest its middle), PE by the band.
+    DTE 0 (every mode): |Delta| EXPIRY_DELTA nearest EXPIRY_DELTA_TARGET. T1-RAW: nothing found -> ITM1."""
     sel = (d.cp == side) & ~d.stale[:, t]
+    mode = str(cfg["STRIKE_MODE"])
     if d.dte == 0:
-        lo_d, hi_d = (float(x) for x in FIX["EXPIRY_DELTA"])
-        dl = np.abs(d.opt["delta"][:, t])
-        ok = sel & (dl >= lo_d) & (dl <= hi_d)
-        if np.any(ok):
-            idx = np.flatnonzero(ok)
-            return int(idx[np.argmin(np.abs(dl[idx] - float(FIX["EXPIRY_DELTA_TARGET"])))]), "DELTA"
+        k = _delta_pick(d, t, sel, FIX["EXPIRY_DELTA"], float(FIX["EXPIRY_DELTA_TARGET"]))
+        if k >= 0:
+            return k, "DELTA"
+    elif mode == "DELTA_BAND" or (mode == "N15" and side == "CE"):
+        band = FIX["DELTA_BAND"] if mode == "DELTA_BAND" else FIX["CE_DELTA_BAND"]
+        k = _delta_pick(d, t, sel, band, float(np.mean([float(x) for x in band])))
+        if k >= 0:
+            return k, "DELTA"
     else:
         px = d.opt["c"][:, t]
         ok = sel & (px >= float(FIX["PREMIUM_MIN"])) & (px <= float(FIX["PREMIUM_MAX"]))
@@ -199,8 +214,14 @@ def pick_strike(d: Day, t: int, side: str, cfg: Cfg) -> tuple[int, str]:
             idx = np.flatnonzero(ok)
             dist = np.abs(px[idx] - float(FIX["PREMIUM_TARGET"]))
             spot = d.base["spot_c"][t]
-            order = np.lexsort((np.abs(d.strikes[idx] - spot), dist))
-            return int(idx[order[0]]), "BAND"
+            k = int(idx[np.lexsort((np.abs(d.strikes[idx] - spot), dist))[0]])
+            if mode != "N6" or abs(d.opt["delta"][k, t]) >= float(cfg["DELTA_FLOOR"]):
+                return k, "BAND"
+            step = strike_step(d, t) * int(FIX["N6_STRIKES_IN"])
+            k2 = d.k(float(d.strikes[k]) + (-step if side == "CE" else step), side)
+            if k2 >= 0 and not d.stale[k2, t] and d.opt["c"][k2, t] <= float(FIX["N6_PREMIUM_CAP"]):
+                return k2, "N6"
+            return -1, "N6_FAIL"
     if cfg.var("strike_itm1"):
         step = strike_step(d, t)
         k = d.k(atm(d, t) + (-step if side == "CE" else step), side)
@@ -747,6 +768,15 @@ def _entry(
         if k < 0:
             return ("NO_DELTA_FLOOR_N6" if how == "N6_FAIL" else "NO_STRIKE_IN_BAND"), None
     e, level = t + 1, math.nan
+    if "K12" in cfg.checks and ev.pattern == "P1":
+        # R5 / R7 K12 (trap check): the bar after the breakout must not close back inside the level; entry one bar later
+        if e >= N - 1 or not win[t + 1]:
+            return "WINDOW", None
+        lvl = sig.f["hi_l"][t] if ev.side == "CE" else sig.f["lo_l"][t]
+        ref = d.base["fut_c" if cfg["SIGNAL_SRC"] == "FUT" else "spot_c"][t + 1]
+        if (ref <= lvl) if ev.side == "CE" else (ref >= lvl):
+            return GATE_LABEL["K12"], None
+        e = t + 2
     if d.stale[k, e]:
         return "NO_FILL_STALE", None
     eng = str(cfg["ENTRY_ENGINE"]) if ev.pattern != "REENTRY" else "INSTANT"
@@ -784,7 +814,7 @@ def _entry(
         if cfg.flag(flag) and ck.get(cid) == "RED":
             return label, None
     for cid in cfg.checks:
-        if ck.get(cid) == "RED":
+        if cid != "K12" and ck.get(cid) == "RED":
             return GATE_LABEL[cid], None
     struct, ref = _structure(d, sig, cfg, ev)
     return None, Entry(k, how, e, f, n, lots_reason, TradeCtx(trig, ev.side, struct, sig, level, ref))
