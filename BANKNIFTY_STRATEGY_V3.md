@@ -922,3 +922,25 @@ Signal details, K01–K29, score, levels, aur faisla: `TAKEN` ya wajah:
   - Strategy ke naye trading idea **nahi** jode: pehle imaandaar R0 nateeja.
 - **2.0:** levels, CHOP/DEAD, P3, risk lots, nulls, poora udaharan.
 - **1.0:** paanch files se pehli file.
+
+---
+
+## §V3.1 · S3.1 PATCH (owner order 7, 19 Nov 2026; D-58) — iske upar ke §6.3 / §7.6 ke takraav mein yeh jeetega
+
+| FIX | Niyam |
+|---|---|
+| FIX-9 | Saare lock/trail exit CLOSE-confirmed: bar CLOSE ≤ level → agli bar ke open par exit. PEAK = entry ke baad sabse ooncha CLOSE. Intrabar sirf HARD_SL (exchange SL-M; backtest = live). PATH/WORST report; farak sirf HARD_SL par aana chahiye, bada farak = bug. |
+| FIX-10 | K03 (IVP ≤ 65) ab PAKKA nahi: switch `K03_SWITCH` {ON, OFF}. |
+| FIX-11 | Har NULL-RANDOM do roop mein: (i) candidate ka apna exit, (ii) X-T0 = koi SL nahi, exit open e+10. (ii) hi signal ka test hai. |
+| FIX-12 | S3.1 mein max 14 naye configs. Har card par N_eff aur "mid edge/trade vs kharcha/trade". |
+
+**Exit X-T0 (signal test):** entry ke baad koi SL nahi; exit bar e+H ke open par (H = `XT_H`, D1 mein 10). Clock (15:10 / 13:30), shock, stale niyam same.
+
+**Exit X-T (R13):**
+- HARD_SL = F − clamp(`SL_K` × OptATR5_entry, 12, 35), §2 #11 ki 30% seema ke andar; intrabar (gap par open).
+- Lots = sabse bada n (1–3) jahan risk(n) ≤ `RISK_PER_TRADE_RS` aur `size_at_fill` pass; n = 0 → `SKIP_RISK`.
+- RUNNER: kisi bar ka CLOSE − F ≥ 2 × OptATR5 (us bar tak) → runner chalu. TRAIL = sabse ooncha CLOSE − 1.5 × OptATR5 (har bar naya); CLOSE ≤ TRAIL → agli open.
+- Runner se pehle na BE lock, na trail (sirf HARD_SL). Bar e+H tak runner nahi → agli open par exit (`TIME_H`).
+- Clock (15:10 / 13:30) aur FIX-8 same.
+
+**Kram:** D1 signal test (T1-P entries + X-T0; NULL-RANDOM X-T0 aur apne exit ke saath) → faisla (p ≤ 0.05 aur mid edge > 0 kam se kam 3/4 windows) → R13 X-T (8 configs) → R14 chaal gate K28 (2) → R15 strike (2) → FINAL (§14.1 ke 9 gate) → pass par HOLDOUT_REUSED ek baar. Koi fail → STOP, `FINAL_S3.md`.

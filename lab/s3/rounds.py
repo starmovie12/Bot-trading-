@@ -15,6 +15,7 @@ os.environ.pop("UPSTOX_RO_TOKEN", None)
 
 import datetime as dt
 import json
+import math
 import pickle
 import sys
 import time
@@ -32,7 +33,7 @@ from lab.s3 import costs
 from lab.s3 import report as rp
 from lab.s3 import run as R
 from lab.s3.data import design_days
-from lab.s3.engine import BASE, Mode, half_hour, path_net, run_day
+from lab.s3.engine import BASE, Mode, half_hour, opt_atr5, path_net, run_day
 from lab.s3.features import SigParams, signals
 from lab.s3.ledger import Ledger, s3_rows
 from lab.s3.registry import FAMILY, FILTER_CHECKS, FIX, SEED, STATS, Cfg
@@ -105,10 +106,25 @@ class Ev:
     days: tuple[Any, ...] = field(default_factory=tuple)
 
 
+def mid_rs(d: Any, p: Any) -> float:
+    """Mid P&L before any cost: (exit level - entry level) x qty; entry level = the entry bar open (or the
+    intrabar entry level), exit level = the exit trigger (open, SL level or the stale base)."""
+    lvl = float(d.opt["o"][p.k, p.e]) if math.isnan(p.entry_level) else p.entry_level
+    if p.book_lots:
+        qb = p.book_lots * p.lot
+        return (p.book_level - lvl) * qb + (p.exit_level - lvl) * (p.n * p.lot - qb)
+    return (p.exit_level - lvl) * p.n * p.lot
+
+
 def _light(d: Any, tr: dict[str, Any], sp: Any) -> dict[str, Any]:
     p = tr["path"]
     ns = path_net(d, p, sp)[0]
+    rng_ = (d.opt["h"][p.k] - d.opt["l"][p.k]).tolist()
     return {
+        "mid": mid_rs(d, p),
+        "qty": p.n * p.lot,
+        "atr5": opt_atr5(rng_, d.stale[p.k].tolist(), tr["t"]),
+        "bars_held": p.exit_bar - p.e,
         "date": d.day.isoformat(),
         "t": tr["t"],
         "e": p.e,
