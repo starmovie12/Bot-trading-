@@ -125,6 +125,48 @@
      "net_stress": -15599.53
     }
    }
+  },
+  "R4": {
+   "1": {
+    "chosen": "T1-P + EXIT_MODE=X-A + G1_TRIGGER_PTS=12 + SL_INIT_PTS=12 + STRIKE_MODE=N15 + FLAG_K27 + FLAG_N7",
+    "hash": "3071af58149aa0ac",
+    "train": -2328.8400000000006,
+    "test": {
+     "trades": 106,
+     "net_base": -12565.83,
+     "net_stress": -34142.64
+    }
+   },
+   "2": {
+    "chosen": "T1-P + EXIT_MODE=X-A + G1_TRIGGER_PTS=5 + SL_INIT_PTS=12 + STRIKE_MODE=N6 + FLAG_K27 + FLAG_K28 + FLAG_N7",
+    "hash": "78de4b5764af217c",
+    "train": -4209.91,
+    "test": {
+     "trades": 188,
+     "net_base": -20427.43,
+     "net_stress": -63725.95
+    }
+   },
+   "3": {
+    "chosen": "T1-P + EXIT_MODE=X-A + G1_TRIGGER_PTS=5 + SL_INIT_PTS=12 + STRIKE_MODE=N6 + FLAG_K27 + FLAG_N7",
+    "hash": "1ada5f0266aee844",
+    "train": -28814.48,
+    "test": {
+     "trades": 160,
+     "net_base": -23764.43,
+     "net_stress": -63168.56
+    }
+   },
+   "4": {
+    "chosen": "T1-P + EXIT_MODE=X-B + G1_TRIGGER_PTS=12 + SL_INIT_PTS=12 + STRIKE_MODE=N15 + FLAG_K26 + FLAG_K28 + FLAG_N7",
+    "hash": "e1ece2dfc3190b23",
+    "train": -44577.19,
+    "test": {
+     "trades": 15,
+     "net_base": -5968.89,
+     "net_stress": -8924.69
+    }
+   }
   }
  },
  "bases": {
@@ -137,7 +179,8 @@
     "STRIKE_MODE": "N15"
    },
    "flags": {
-    "FLAG_N7": true
+    "FLAG_N7": true,
+    "FLAG_K27": true
    },
    "checks": [],
    "slots_off": []
@@ -151,7 +194,9 @@
     "STRIKE_MODE": "N6"
    },
    "flags": {
-    "FLAG_N7": true
+    "FLAG_N7": true,
+    "FLAG_K27": true,
+    "FLAG_K28": true
    },
    "checks": [],
    "slots_off": []
@@ -165,7 +210,8 @@
     "STRIKE_MODE": "N6"
    },
    "flags": {
-    "FLAG_N7": true
+    "FLAG_N7": true,
+    "FLAG_K27": true
    },
    "checks": [],
    "slots_off": []
@@ -179,7 +225,9 @@
     "STRIKE_MODE": "N15"
    },
    "flags": {
-    "FLAG_N7": true
+    "FLAG_N7": true,
+    "FLAG_K26": true,
+    "FLAG_K28": true
    },
    "checks": [],
    "slots_off": []

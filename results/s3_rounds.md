@@ -58,3 +58,14 @@
 7. Intrabar: **INTRABAR-SENSITIVE** (PATH -₹14,897, WORST -₹76,227). §14.1 gates pass 1/9 → **FAIL**.
 8. Seekha: training ne 4/4 window mein badlaav chuna (sabse aam: T1-P + EXIT_MODE=X-A + G1_TRIGGER_PTS=5 + SL_INIT_PTS=12 + STRIKE_MODE=N6 + FLAG_N7); OOS -₹103,357 (pichhla base) → -₹81,422.
 9. Aage: R4 (filters K25-K28 akele + sabse achhe do ka jod)
+
+## R4 CARD · [BACKTEST·OOS] PRE-TAX · nested, 290 OOS din · series BASE
+1. Configs 19 (is round mein), fits 28; S3 kul distinct configs 61. Chune gaye (training se): w1: T1-P + EXIT_MODE=X-A + G1_TRIGGER_PTS=12 + SL_INIT_PTS=12 + STRIKE_MODE=N15 + FLAG_K27 + FLAG_N7; w2: T1-P + EXIT_MODE=X-A + G1_TRIGGER_PTS=5 + SL_INIT_PTS=12 + STRIKE_MODE=N6 + FLAG_K27 + FLAG_K28 + FLAG_N7; w3: T1-P + EXIT_MODE=X-A + G1_TRIGGER_PTS=5 + SL_INIT_PTS=12 + STRIKE_MODE=N6 + FLAG_K27 + FLAG_N7; w4: T1-P + EXIT_MODE=X-B + G1_TRIGGER_PTS=12 + SL_INIT_PTS=12 + STRIKE_MODE=N15 + FLAG_K26 + FLAG_K28 + FLAG_N7.
+2. Net base -₹62,727 (-₹134/trade) · stress -₹169,962 · 469 trade (1.62/din).
+3. OOS windows: -₹12,566 (106) · -₹20,427 (188) · -₹23,764 (160) · -₹5,969 (15) → positive 0/4.
+4. Best-5 hatakar -₹83,585 · E12 -₹54,075 vs DD95 ₹84,626 · bootstrap p 1.000.
+5. NULL-RANDOM p 0.202 (2,000 seeds) · PBO 0.41 · DSR(N_eff 2) 0.000, DSR(raw N 60) 0.000.
+6. CE -₹17,533 (253) · PE -₹45,194 (216) · VIX low -₹64,886, high ₹2,159.
+7. Intrabar: **INTRABAR-SENSITIVE** (PATH ₹9,285, WORST -₹40,149). §14.1 gates pass 1/9 → **FAIL**.
+8. Seekha: training ne 4/4 window mein badlaav chuna (sabse aam: T1-P + EXIT_MODE=X-A + G1_TRIGGER_PTS=12 + SL_INIT_PTS=12 + STRIKE_MODE=N15 + FLAG_K27 + FLAG_N7); OOS -₹81,422 (pichhla base) → -₹62,727.
+9. Aage: R5 (entry: STEP, TRAIL_BUY, K12, N10, N16)
