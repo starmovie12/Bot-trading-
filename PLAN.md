@@ -553,3 +553,12 @@ Trial cap added: 36
 ```json
 [{"variant": "T1-P", "overrides": {}, "flags": {}, "checks": [], "slots_off": []}, {"variant": "T1-P", "overrides": {"EXIT_MODE": "X-C"}, "flags": {}, "checks": [], "slots_off": []}, {"variant": "T1-P", "overrides": {"EXIT_MODE": "X-D"}, "flags": {}, "checks": [], "slots_off": []}, {"variant": "T1-P", "overrides": {"N2_K": 1.0}, "flags": {"FLAG_N2": true}, "checks": [], "slots_off": []}, {"variant": "T1-P", "overrides": {"N2_K": 1.5}, "flags": {"FLAG_N2": true}, "checks": [], "slots_off": []}, {"variant": "T1-P", "overrides": {}, "flags": {"FLAG_N7": true}, "checks": [], "slots_off": []}, {"variant": "T1-P", "overrides": {}, "flags": {"FLAG_N12": true}, "checks": [], "slots_off": []}, {"variant": "T1-P", "overrides": {}, "flags": {"FLAG_N14": true}, "checks": [], "slots_off": []}]
 ```
+
+## S3 · R4 (owner order 6; §13.3; committed before any R4 number)
+Nested as S3 R1 (per-window base = the previous round's training choice; best training net_base wins, base wins ties).
+R4 = filters on each window's R3 base: K25 STRETCH, K26 ROOM, K27 CHOP, K28 DEAD alone (4), then the training-best two together (1).
+Trial cap added: 28
+<!-- S3-GRID R4 -->
+```json
+[{"variant": "T1-P", "overrides": {}, "flags": {}, "checks": [], "slots_off": []}, {"variant": "T1-P", "overrides": {}, "flags": {"FLAG_K25": true}, "checks": [], "slots_off": []}, {"variant": "T1-P", "overrides": {}, "flags": {"FLAG_K26": true}, "checks": [], "slots_off": []}, {"variant": "T1-P", "overrides": {}, "flags": {"FLAG_K27": true}, "checks": [], "slots_off": []}, {"variant": "T1-P", "overrides": {}, "flags": {"FLAG_K28": true}, "checks": [], "slots_off": []}]
+```
