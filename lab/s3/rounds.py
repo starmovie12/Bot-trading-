@@ -394,8 +394,11 @@ def _backward(led: Ledger, rnd: str, base: Cfg, k: int, gh: set[str], tried: dic
 
 def n_eff() -> tuple[int, int, float]:
     """N_eff (§13.2): clusters of all S3 configs' daily nets (distance 1 - rho, average linkage, cut NEFF_CORR)."""
+    latest: dict[str, Path] = {}
+    for f in sorted(RUNS.glob("*.pkl"), key=lambda x: x.stat().st_mtime):
+        latest[f.name.split("_")[0]] = f  # every S3 config once (its latest run)
     mats = []
-    for f in sorted(RUNS.glob(f"*_{code_hash()}.pkl")):
+    for f in latest.values():
         ev: Ev = pickle.loads(f.read_bytes())  # noqa: S301
         if ev.daily.std() > 0:
             mats.append(ev.daily)
