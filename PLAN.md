@@ -562,3 +562,14 @@ Trial cap added: 28
 ```json
 [{"variant": "T1-P", "overrides": {}, "flags": {}, "checks": [], "slots_off": []}, {"variant": "T1-P", "overrides": {}, "flags": {"FLAG_K25": true}, "checks": [], "slots_off": []}, {"variant": "T1-P", "overrides": {}, "flags": {"FLAG_K26": true}, "checks": [], "slots_off": []}, {"variant": "T1-P", "overrides": {}, "flags": {"FLAG_K27": true}, "checks": [], "slots_off": []}, {"variant": "T1-P", "overrides": {}, "flags": {"FLAG_K28": true}, "checks": [], "slots_off": []}]
 ```
+
+## S3.1 · D1 SIGNAL TEST (owner order 7; §V3.1; committed before any D1 number)
+T1-P entries with EXIT_MODE X-T0 (no stop, exit open e+10) through run_day (day rules on), 290 OOS days, one config
+(logged per window). NULL-RANDOM 2,000 seeds with the same X-T0 exit. Edge curve H 3/5/10/15/20/30 (mid + net,
+500 seeds) and the OptATR5-tercile split are diagnosis. Decision: p <= 0.05 and mid edge > 0 in >= 3 of 4 windows
+-> SIGNAL REAL -> R13; otherwise S3 STOP (FINAL_S3.md).
+Trial cap added: 4
+<!-- S3-GRID D1 -->
+```json
+[{"variant": "T1-P", "overrides": {"EXIT_MODE": "X-T0", "XT_H": 10}, "flags": {}}]
+```
