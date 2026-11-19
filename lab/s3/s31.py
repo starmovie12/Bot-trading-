@@ -216,7 +216,7 @@ def tercile(cfg: Cfg) -> dict[str, tuple[int, float, float]]:
 
 def r13_grid(base: Cfg) -> list[Cfg]:
     return [
-        apply(base, {"EXIT_MODE": "X-T", "XT_H": h, "SL_K": k, "K03_SWITCH": sw, "LOT_MODE": "RISK"})
+        apply(base, {"EXIT_MODE": "X-T", "XT_H": h, "SL_K": k, "K03_SWITCH": sw})
         for sw in ("ON", "OFF")
         for h in (10, 15)
         for k in (2.0, 3.0)
