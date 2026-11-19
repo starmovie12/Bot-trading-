@@ -1,5 +1,5 @@
 STAGE=2
-NEXT=STOPPED: S3.1 D1 signal not proven (D-60, results/FINAL_S3.md); waiting for the owner's decision
+NEXT=STOPPED: S3.2 Step A rule not met (D-62, results/FINAL_S3.md addendum); S3 closed; waiting for the owner
 BLOCK=S2
 MODEL_NOW=BIG
 MODEL_NEXT=BIG

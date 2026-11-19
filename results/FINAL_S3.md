@@ -35,3 +35,20 @@ Files:
 - Holdout: S3 mein ek baar use ho sakta hai (§14.2, HOLDOUT_REUSED, uses 0). 90 din chhota hai, isliye power kam hai.
 - OptATR5 tercile split order 7 §3 mein registered diagnosis tha, aur chaal gate (R14) D1 se pehle registered tha, isliye yeh post-hoc nahi hai.
 - NULL p ab per-trade mean par gina jaata hai (FIX-13). D1 ka recount `results/s3_s31.md` mein hai.
+
+## ADDENDUM · S3.2 (owner order 8) · FINAL STOP
+[BACKTEST·OOS] PRE-TAX · 0 naye trial (sirf diagnosis) · holdout nahi khola (uses 0) · Step B / C / FORWARD nahi chale
+1. **D1 recount (FIX-13, wahi 2,000 seeds):**
+   - Total-based p hoobahu wahi aaye (0.097 / 0.035), isliye draws wahi hain.
+   - Per-trade p(net) 0.071 aur p(mid) 0.070 hain. Random ka avg n 436 hai, jabki T1-P ke 525 trade.
+   - Mid > 0 sirf 2/4 windows mein → D1 niyam phir bhi pura nahi.
+2. **Step A (niyam pehle PLAN.md mein commit hua, phir chala):**
+   - HIGH OptATR5 tercile: 145 trade, mid +₹340/trade, net kul +₹17,598 (+₹121/trade).
+   - Window 2 mein HIGH mid −₹197/trade (31 trade). Sirf window 3 (+₹162) aur window 4 (+₹1,154) positive.
+   - Shart thi ≥15 trade wali har window mein positive → **niyam pura nahi hua**.
+3. **Sach:** HIGH tercile ka plus zyadatar window 4 se aata hai (47 trade, mid +₹1,154/trade, net +₹929/trade). Window 4 ke din baaki dinon jaise hi the (OptATR5 8.8 vs 9.6, VIX 11.5 vs 11.9). Yeh ek daur ka asar lagta hai, tika hua edge nahi.
+4. **Faisla:** S3 band. Koi STRATEGY PASS nahi, koi paper candidate nahi, holdout nahi khola, Phase 4 band.
+   Order 8 ke niyam se ("kuch aur nahi") koi frozen candidate nahi bana, isliye FORWARD_S3.md bhi nahi.
+5. **Aage sirf malik ke faisle par:**
+   - Asli bid-ask spread ka naap (§18 #1).
+   - Naya, anchhua data (paper/shadow logging) par pehle se likha niyam.
