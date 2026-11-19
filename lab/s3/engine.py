@@ -233,6 +233,11 @@ def pick_strike(d: Day, t: int, side: str, cfg: Cfg) -> tuple[int, str]:
 # ---------- gates ----------
 
 
+def k03_on(cfg: Cfg) -> bool:
+    """FIX-10: K03 is a switch (K03_SWITCH ON / OFF) inside the variants that carry the gate."""
+    return bool(cfg.var("gate_k03")) and cfg["K03_SWITCH"] == "ON"
+
+
 def k03_ok(d: Day) -> bool | None:
     """IVP <= IVP_MAX on INTRADAY_PREV_CLOSE; status not OK -> NA (None)."""
     if not d.meta.get("ivp_ok") or math.isnan(float(d.meta["ivp"])):
@@ -335,6 +340,8 @@ def simulate(
     """One trade from its entry bar e (fill F at e's open, or intrabar at ctx.entry_level) to exit,
     per §6.2 / §6.4 / §7.6, plus the exit modules of §11 when their flag / EXIT_MODE is on."""
     c_ = ctx if isinstance(ctx, TradeCtx) else TradeCtx(ctx)
+    if str(cfg["EXIT_MODE"]) in ("X-T0", "X-T"):
+        return _simulate_xt(d, k, e, f, n, cfg, c_)
     shock = c_.shock
     mode, px = run.intrabar, run.px
     o, h, lo, c = (d.opt[x][k].tolist() for x in ("o", "h", "l", "c"))
@@ -496,6 +503,70 @@ def simulate(
     raise AssertionError(f"{d.day} trade open after the last bar")
 
 
+def _simulate_xt(d: Day, k: int, e: int, f: Decimal, n: int, cfg: Cfg, c_: TradeCtx) -> TradePath:
+    """§V3.1 exits. X-T0: no stop, exit at the open of bar e + XT_H. X-T: HARD_SL intrabar (gap -> open);
+    runner once a bar CLOSE - F >= XT_RUNNER_ATR x OptATR5; then TRAIL = highest CLOSE - XT_TRAIL_ATR x OptATR5,
+    CLOSE <= TRAIL -> next open; no runner by bar e + XT_H -> next open. PEAK = highest CLOSE (FIX-9).
+    Clock (15:10 / 13:30), shock and stale rules as §6.4. Intrabar mode has no effect (only HARD_SL is intrabar)."""
+    o, h, lo, c = (d.opt[x][k].tolist() for x in ("o", "h", "l", "c"))
+    st = d.stale[k].tolist()
+    rng = [h[j] - lo[j] for j in range(N)]
+    ff = float(f)
+    atr_e = opt_atr5(rng, st, e - 1)
+    xt = str(cfg["EXIT_MODE"]) == "X-T"
+    hard = max(ff - sl_points(cfg, atr_e), ff * (1 - float(FIX["SL_MAX_PCT"]))) if xt else -math.inf
+    hz = int(cfg["XT_H"])
+    run_k, trail_k = float(FIX["XT_RUNNER_ATR"]), float(FIX["XT_TRAIL_ATR"])
+    clock_bar = M_EXP if d.dte == 0 else M_FF
+    clock_why = "EXPIRY_1330" if d.dte == 0 else "FORCE_FLAT_1510"
+    peak, peak_bar, mae, runner = -math.inf, e, 0.0, False
+    pending: str | None = None
+    stale_run, last_ns = 0, e
+
+    def done(bar: int, level: float, reason: str, stale: bool) -> TradePath:
+        return TradePath(
+            k, e, f, n, d.lot, hard, math.nan, math.nan, bar, level, reason, stale, peak, peak_bar,
+            2 if runner else 0, peak - ff, mae, math.nan, c_.entry_level,
+        )  # fmt: skip
+
+    for b in range(e, N):
+        ns = not st[b]
+        if pending is None and b >= clock_bar:
+            pending = clock_why
+        if pending is None and not runner and b >= e + hz:
+            pending = "TIME_H"
+        if pending is not None:
+            if ns:
+                return done(b, o[b], pending, False)
+            if pending in (clock_why, "SHOCK", "ILLIQUID_EXIT"):
+                return done(b, min(lo[last_ns], c[last_ns]), pending, True)
+        if not ns:
+            stale_run += 1
+            if stale_run >= int(FIX["STALE_EXIT_BARS"]) and pending is None:
+                pending = "ILLIQUID_EXIT"
+            if c_.shock[b] and pending is None:
+                pending = "SHOCK"
+            continue
+        stale_run = 0
+        if b > e or math.isnan(c_.entry_level):
+            if o[b] <= hard:
+                return done(b, o[b], "GAP_SL", False)
+            if lo[b] <= hard:
+                return done(b, hard, "HARD_SL", False)
+        mae = min(mae, lo[b] - ff)
+        if c[b] > peak:
+            peak, peak_bar = c[b], b
+        atr = opt_atr5(rng, st, b)
+        if xt and not runner and c[b] - ff >= run_k * atr:
+            runner = True
+        if runner and c[b] <= peak - trail_k * atr and pending is None:
+            pending = "TRAIL_RUNNER"
+        if c_.shock[b] and pending is None:
+            pending = "SHOCK"
+        last_ns = b
+    raise AssertionError(f"{d.day} trade open after the last bar")
+
+
 def _near_level(d: Day, sig: Sig, b: int, side: str, near: float) -> bool:
     """N14: spot within LEVEL_NEAR_ATR x ATR10 of the next resistance (CE) / support (PE)."""
     from lab.s3.checks import next_level  # noqa: PLC0415
@@ -505,6 +576,9 @@ def _near_level(d: Day, sig: Sig, b: int, side: str, near: float) -> bool:
 
 
 def sl_points(cfg: Cfg, atr_e: float) -> float:
+    if cfg["EXIT_MODE"] == "X-T":
+        lo_c, hi_c = (float(x) for x in FIX["XT_SL_CLAMP"])
+        return clamp(float(cfg["SL_K"]) * atr_e, lo_c, hi_c)
     if cfg.flag("FLAG_N2"):
         lo_c, hi_c = (float(x) for x in FIX["N2_CLAMP"])
         return clamp(float(cfg["N2_K"]) * atr_e, lo_c, hi_c)
@@ -804,9 +878,10 @@ def _entry(
     n, lots_reason = size_at_fill(f, d.lot, d.day, dec(sl_eff), (st.net, st.floor()), cfg, n0, px)
     if n == 0:
         return lots_reason, None
-    if lots_reason == "MODE" and str(cfg["LOT_MODE"]).startswith("RISK") and n0 < int(FIX["S3_MAX_LOTS"]):
+    risk_sized = str(cfg["LOT_MODE"]).startswith("RISK") or cfg["EXIT_MODE"] == "X-T"
+    if lots_reason == "MODE" and risk_sized and n0 < int(FIX["S3_MAX_LOTS"]):
         lots_reason = "RISK"
-    if cfg.var("gate_k03") and k03_ok(d) is False:
+    if k03_on(cfg) and k03_ok(d) is False:
         return "GATE_IVP", None
     if cfg.var("gate_k05") and k05_ok(d, t, ev.side, k, sl_eff) is False:
         return "GATE_OI_WALL", None
@@ -823,6 +898,9 @@ def _entry(
 def _lot_mode(d: Day, cfg: Cfg, ck: dict[str, Any], f: Decimal, sl_eff: float, run: Mode) -> tuple[int, str | None]:
     """§10.2 lot modes L1 / L2 / L3 / RISK / RISK+L2 and the cuts (K01 MIXED day, equity 5% below peak)."""
     mode, top = str(cfg["LOT_MODE"]), int(FIX["S3_MAX_LOTS"])
+    if cfg["EXIT_MODE"] == "X-T":
+        r, why = risk_lots(f, d.lot, dec(sl_eff), Decimal(str(cfg["RISK_PER_TRADE_RS"])), d.day)
+        return (r, None) if r > 0 else (0, "SKIP_RISK")
     if mode == "L1":
         return top, None
     sc = int(ck.get("score", 0))

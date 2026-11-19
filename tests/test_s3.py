@@ -534,3 +534,48 @@ def test_r5_k12_confirmation() -> None:
         assert decisions(r)[t] == expect
         if expect == "TAKEN":
             assert r.trades[0]["path"].e == t + 2
+
+
+# S3.1 (owner order 7, §V3.1): X-T0 / X-T exits, SKIP_RISK, K03 switch, FIX-9 (no intrabar trail)
+def test_v31_xt0_time_exit_no_stop(monkeypatch: pytest.MonkeyPatch) -> None:
+    flat_atr(monkeypatch, 10.0)
+    d = make_day()
+    e = 100
+    k = set_path(d, 50000.0, "CE", e, [(350.0, 351.0, 300.0, 301.0)] + [(301.0, 302.0, 260.0, 262.0)] * 30)
+    p = simulate(d, k, e, D("350.70"), 3, Cfg("T1-P", overrides={"EXIT_MODE": "X-T0", "XT_H": 10}), NOSHOCK)
+    assert (p.exit_reason, p.exit_bar) == ("TIME_H", e + 10)
+
+
+def test_v31_xt_hard_sl_runner_and_time(monkeypatch: pytest.MonkeyPatch) -> None:
+    flat_atr(monkeypatch, 10.0)
+    cfg = Cfg("T1-P", overrides={"EXIT_MODE": "X-T", "XT_H": 10, "SL_K": 2.0})
+    d = make_day()
+    e = 100
+    k = set_path(d, 50000.0, "CE", e, [(350.0, 352.0, 345.0, 351.0), (351.0, 351.5, 330.0, 331.0)])
+    p = simulate(d, k, e, D("350.70"), 3, cfg, NOSHOCK)
+    assert (p.exit_reason, round(p.exit_level, 2)) == ("HARD_SL", 330.70)  # F - clamp(2 x 10, 12, 35)
+    d = make_day()
+    up = [(350.0, 362.0, 349.0, 361.0), (361.0, 373.0, 360.0, 372.0), (372.0, 380.0, 370.0, 379.0)]
+    k = set_path(d, 50000.0, "CE", e, [*up, (379.0, 379.5, 362.0, 363.0), (363.0, 364.0, 362.0, 363.0)])
+    p = simulate(d, k, e, D("350.70"), 3, cfg, NOSHOCK)
+    assert (p.exit_reason, p.exit_bar, p.peak) == ("TRAIL_RUNNER", e + 4, 379.0)  # close 363 <= 379 - 15
+    d = make_day()
+    k = set_path(d, 50000.0, "CE", e, [(350.0, 356.0, 348.0, 355.0)] + [(355.0, 356.0, 354.0, 355.0)] * 30)
+    p = simulate(d, k, e, D("350.70"), 3, cfg, NOSHOCK)
+    assert (p.exit_reason, p.exit_bar) == ("TIME_H", e + 10)
+    for mode in ("PATH", "WORST"):
+        q = simulate(d, k, e, D("350.70"), 3, cfg, NOSHOCK, Mode(mode, BASE))
+        assert (q.exit_reason, q.exit_bar) == (p.exit_reason, p.exit_bar)  # FIX-9: no intrabar trail
+
+
+def test_v31_skip_risk_and_k03_switch() -> None:
+    d = make_day()
+    cfg = Cfg("T1-P", overrides={"EXIT_MODE": "X-T", "SL_K": 3.0, "RISK_PER_TRADE_RS": 1000})
+    d.opt["h"][:, :] = d.opt["c"] + 10
+    d.opt["l"][:, :] = d.opt["c"] - 10  # OptATR5 = 20 -> SL 35 pt -> risk(1) > 1,000
+    r = run_day(d, sig(d, cfg), cfg, events=[Event(100, "CE", "P1")])
+    assert decisions(r)[100] == "SKIP_RISK"
+    for sw, expect in (("ON", "GATE_IVP"), ("OFF", "TAKEN")):
+        d = make_day(ivp=70.0)
+        c = Cfg("T1-P", overrides={"K03_SWITCH": sw})
+        assert decisions(run_day(d, sig(d, c), c, events=[Event(100, "CE", "P1")]))[100] == expect

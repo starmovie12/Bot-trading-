@@ -34,6 +34,7 @@ from lab.s3.engine import (
     dec,
     fills,
     k03_ok,
+    k03_on,
     k05_ok,
     net,
     opt_atr5,
@@ -317,7 +318,7 @@ def fit(led: Ledger, rnd: str, cfg: Cfg, run: Run, window: int, role: str) -> st
 
 def _eligible(d: Day, cfg: Cfg) -> np.ndarray[Any, Any]:
     w = windows(cfg, d.dte)
-    if cfg.var("gate_k03") and k03_ok(d) is False:
+    if k03_on(cfg) and k03_ok(d) is False:
         w[:] = False
     return w
 

@@ -146,8 +146,9 @@ def code_hash() -> str:
     import hashlib  # noqa: PLC0415
 
     h = hashlib.sha256()
-    for name in ("data", "features", "engine", "checks", "p3", "costs", "registry"):
+    for name in ("data", "features", "engine", "checks", "p3", "costs", "registry", "run", "rounds"):
         h.update((ROOT / f"lab/s3/{name}.py").read_bytes())
+    h.update((ROOT / "config/strategy_v3.toml").read_bytes())
     return h.hexdigest()[:10]
 
 
