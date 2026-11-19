@@ -25,3 +25,14 @@
 | 8 | 2026-01-21 | 10:42 | 10:43 | 59000 | PE | 368.05 | 425.05 | 3 (90) | CLIMAX_LOCK | ₹5,013.54 |
 | 9 | 2026-06-29 | 10:16 | 10:16 | 58200 | PE | 376.75 | 361.05 | 3 (90) | SL_G0 | ₹-1,537.88 |
 | 10 | 2026-07-03 | 11:09 | 11:13 | 56800 | PE | 346.40 | 351.90 | 3 (90) | TRAIL_G2 | ₹372.94 |
+
+## R1 CARD · [BACKTEST·OOS] PRE-TAX · nested, 290 OOS din · series BASE
+1. Configs 14 (is round mein), fits 60; S3 kul distinct configs 17. Chune gaye (training se): w1: T1-P + EXIT_MODE=X-A + G1_TRIGGER_PTS=12 + SL_INIT_PTS=12; w2: T1-P + EXIT_MODE=X-A + G1_TRIGGER_PTS=5 + SL_INIT_PTS=12; w3: T1-P + EXIT_MODE=X-A + G1_TRIGGER_PTS=5 + SL_INIT_PTS=12; w4: T1-P + EXIT_MODE=X-B + G1_TRIGGER_PTS=12 + SL_INIT_PTS=12.
+2. Net base -₹102,597 (-₹188/trade) · stress -₹232,338 · 547 trade (1.89/din).
+3. OOS windows: -₹21,395 (109) · -₹32,994 (233) · -₹32,961 (183) · -₹15,247 (22) → positive 0/4.
+4. Best-5 hatakar -₹121,779 · E12 -₹88,446 vs DD95 ₹126,164 · bootstrap p 1.000.
+5. NULL-RANDOM p 0.517 (2,000 seeds) · PBO 0.15 · DSR(N_eff 1) 0.000, DSR(raw N 14) 0.000.
+6. CE -₹40,873 (274) · PE -₹61,725 (273) · VIX low -₹99,887, high -₹2,710.
+7. Intrabar: **INTRABAR-SENSITIVE** (PATH -₹19,628, WORST -₹85,828). §14.1 gates pass 1/9 → **FAIL**.
+8. Seekha: training ne 4/4 window mein badlaav chuna (sabse aam: T1-P + EXIT_MODE=X-A + G1_TRIGGER_PTS=5 + SL_INIT_PTS=12); OOS -₹99,562 (pichhla base) → -₹102,597.
+9. Aage: R2 (strike: DELTA_BAND, N6, N15)

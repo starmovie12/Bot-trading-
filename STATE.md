@@ -1,5 +1,5 @@
 STAGE=2
-NEXT=S3 R1: grid in PLAN.md, preflight, nested run (R0 done: T1-P FAIL, results/s3_rounds.md)
+NEXT=S3 R2 (strike modes) nested; R1 done (FAIL, card in results/s3_rounds.md)
 BLOCK=S2
 MODEL_NOW=BIG
 MODEL_NEXT=BIG
@@ -16,4 +16,4 @@ PROGRAM=S3
 PHASE_4=LOCKED
 DESIGN_DAYS=362 (2024-11-21 .. 2026-07-03, data/lab/split.json)
 HOLDOUT_DAYS=90 (2026-07-06 .. 2026-11-12, HOLDOUT_REUSED, holdout_uses=0)
-S3_TRIALS=3 (fits 12; R0 done)
+S3_TRIALS=17 distinct configs (fits 72; R0-R1 done)

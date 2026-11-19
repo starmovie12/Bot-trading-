@@ -1,0 +1,108 @@
+{
+ "round": "R1",
+ "gates": {
+  "gates": {
+   "1_net_base_pos": false,
+   "2_net_stress_ge0": false,
+   "3_windows_3of4_25tr": false,
+   "4_best5_removed_pos": false,
+   "5_vix_halves_ge0": false,
+   "6_trades_ge150": true,
+   "7_boot_p_lt_005": false,
+   "8_e12_ge_dd95": false,
+   "9_null_p_le_005": false
+  },
+  "all_pass": false,
+  "net_base": -102597.46,
+  "net_stress": -232337.89,
+  "per_trade": -187.5639122486289,
+  "trades": 547,
+  "trades_per_day": 1.8862068965517242,
+  "windows": {
+   "2": [
+    -21394.65,
+    109
+   ],
+   "3": [
+    -32994.14,
+    233
+   ],
+   "4": [
+    -32961.41,
+    183
+   ],
+   "5": [
+    -15247.26,
+    22
+   ]
+  },
+  "best5_removed": -121778.88999999998,
+  "vix_halves": {
+   "LOW": -99887.39,
+   "HIGH": -2710.0699999999997
+  },
+  "e12": -88446.08620689654,
+  "dd95": 126164.1355,
+  "boot_p": 1.0,
+  "null_p": 0.5172413793103449
+ },
+ "null": {
+  "candidate": -102597.46,
+  "p": 0.5172413793103449,
+  "median": -102021.655,
+  "seeds": 2000
+ },
+ "pbo": 0.15042735042735042,
+ "n_eff": 1,
+ "n_raw": 14,
+ "dsr_eff": 3.141659478861358e-05,
+ "dsr_raw": 1.7697654979276223e-06,
+ "intrabar": {
+  "PATH": -19628.41,
+  "WORST": -85828.35
+ },
+ "history": {
+  "1": {
+   "chosen": "T1-P + EXIT_MODE=X-A + G1_TRIGGER_PTS=12 + SL_INIT_PTS=12",
+   "hash": "bfd8afccef7bd777",
+   "train": -18171.12,
+   "test": {
+    "trades": 109,
+    "net_base": -21394.65,
+    "net_stress": -47134.15
+   }
+  },
+  "2": {
+   "chosen": "T1-P + EXIT_MODE=X-A + G1_TRIGGER_PTS=5 + SL_INIT_PTS=12",
+   "hash": "2114fb365a5039da",
+   "train": -30507.69,
+   "test": {
+    "trades": 233,
+    "net_base": -32994.14,
+    "net_stress": -86122.89
+   }
+  },
+  "3": {
+   "chosen": "T1-P + EXIT_MODE=X-A + G1_TRIGGER_PTS=5 + SL_INIT_PTS=12",
+   "hash": "2114fb365a5039da",
+   "train": -63501.83,
+   "test": {
+    "trades": 183,
+    "net_base": -32961.41,
+    "net_stress": -78100.28
+   }
+  },
+  "4": {
+   "chosen": "T1-P + EXIT_MODE=X-B + G1_TRIGGER_PTS=12 + SL_INIT_PTS=12",
+   "hash": "7d3c0914bc6c895b",
+   "train": -94991.78,
+   "test": {
+    "trades": 22,
+    "net_base": -15247.26,
+    "net_stress": -20980.57
+   }
+  }
+ },
+ "fits": 60,
+ "configs": 14
+}

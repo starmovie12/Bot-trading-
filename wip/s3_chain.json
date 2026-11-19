@@ -1,0 +1,92 @@
+{
+ "history": {
+  "R1": {
+   "1": {
+    "chosen": "T1-P + EXIT_MODE=X-A + G1_TRIGGER_PTS=12 + SL_INIT_PTS=12",
+    "hash": "bfd8afccef7bd777",
+    "train": -18171.12,
+    "test": {
+     "trades": 109,
+     "net_base": -21394.65,
+     "net_stress": -47134.15
+    }
+   },
+   "2": {
+    "chosen": "T1-P + EXIT_MODE=X-A + G1_TRIGGER_PTS=5 + SL_INIT_PTS=12",
+    "hash": "2114fb365a5039da",
+    "train": -30507.69,
+    "test": {
+     "trades": 233,
+     "net_base": -32994.14,
+     "net_stress": -86122.89
+    }
+   },
+   "3": {
+    "chosen": "T1-P + EXIT_MODE=X-A + G1_TRIGGER_PTS=5 + SL_INIT_PTS=12",
+    "hash": "2114fb365a5039da",
+    "train": -63501.83,
+    "test": {
+     "trades": 183,
+     "net_base": -32961.41,
+     "net_stress": -78100.28
+    }
+   },
+   "4": {
+    "chosen": "T1-P + EXIT_MODE=X-B + G1_TRIGGER_PTS=12 + SL_INIT_PTS=12",
+    "hash": "7d3c0914bc6c895b",
+    "train": -94991.78,
+    "test": {
+     "trades": 22,
+     "net_base": -15247.26,
+     "net_stress": -20980.57
+    }
+   }
+  }
+ },
+ "bases": {
+  "1": {
+   "variant": "T1-P",
+   "overrides": {
+    "G1_TRIGGER_PTS": 12,
+    "SL_INIT_PTS": 12,
+    "EXIT_MODE": "X-A"
+   },
+   "flags": {},
+   "checks": [],
+   "slots_off": []
+  },
+  "2": {
+   "variant": "T1-P",
+   "overrides": {
+    "G1_TRIGGER_PTS": 5,
+    "SL_INIT_PTS": 12,
+    "EXIT_MODE": "X-A"
+   },
+   "flags": {},
+   "checks": [],
+   "slots_off": []
+  },
+  "3": {
+   "variant": "T1-P",
+   "overrides": {
+    "G1_TRIGGER_PTS": 5,
+    "SL_INIT_PTS": 12,
+    "EXIT_MODE": "X-A"
+   },
+   "flags": {},
+   "checks": [],
+   "slots_off": []
+  },
+  "4": {
+   "variant": "T1-P",
+   "overrides": {
+    "G1_TRIGGER_PTS": 12,
+    "SL_INIT_PTS": 12,
+    "EXIT_MODE": "X-B"
+   },
+   "flags": {},
+   "checks": [],
+   "slots_off": []
+  }
+ }
+}
