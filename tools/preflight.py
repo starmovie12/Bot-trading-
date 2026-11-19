@@ -26,7 +26,7 @@ sys.path.insert(0, str(ROOT))
 from lab.s3.ledger import Ledger, s3_rows  # noqa: E402
 from lab.s3.registry import Cfg  # noqa: E402
 
-GRID = re.compile(r"<!-- S3-GRID (?P<round>R\d+) -->\s*```json\s*(?P<body>.*?)```", re.S)
+GRID = re.compile(r"<!-- S3-GRID (?P<round>[A-Z][A-Z0-9]*) -->\s*```json\s*(?P<body>.*?)```", re.S)
 
 
 class PreflightError(RuntimeError):
