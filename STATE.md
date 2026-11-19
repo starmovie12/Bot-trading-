@@ -1,5 +1,5 @@
 STAGE=2
-NEXT=S3 next round after R4 (FAIL; card in results/s3_rounds.md)
+NEXT=STOPPED: S3.1 D1 signal not proven (D-60, results/FINAL_S3.md); waiting for the owner's decision
 BLOCK=S2
 MODEL_NOW=BIG
 MODEL_NEXT=BIG
@@ -16,4 +16,4 @@ PROGRAM=S3
 PHASE_4=LOCKED
 DESIGN_DAYS=362 (2024-11-21 .. 2026-07-03, data/lab/split.json)
 HOLDOUT_DAYS=90 (2026-07-06 .. 2026-11-12, HOLDOUT_REUSED, holdout_uses=0)
-S3_TRIALS=17 distinct configs (fits 72; R0-R1 done)
+S3_TRIALS=62 distinct configs (fits 160; R0-R4 + D1; holdout_uses=0)
