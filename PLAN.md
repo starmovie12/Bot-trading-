@@ -573,3 +573,23 @@ Trial cap added: 4
 ```json
 [{"variant": "T1-P", "overrides": {"EXIT_MODE": "X-T0", "XT_H": 10}, "flags": {}}]
 ```
+
+## S3.2 · STEP A (owner order 8; 0 trials; this rule is committed before any Step A number)
+Data: the D1 trades only (T1-P entries + X-T0, XT_H 10, through run_day), OOS blocks 2-5. OptATR5 at entry; tercile
+cuts per window from that window's training blocks 1..k (as D1). Decision on H = 10 (the D1 run); H = 3 is report only.
+Rule: W = the OOS windows where the HIGH tercile has >= 15 trades. STEP B iff |W| >= 3 AND HIGH mid/trade > 0 in
+every window of W AND the HIGH tercile's net_base total (all OOS windows) > 0. Otherwise FINAL STOP (FINAL_S3.md
+addendum), nothing else. Reports only: tercile x window table (trades, mid/trade, net/trade) for H 3 and 10; HIGH
+net/trade at full spread 0.40 / 0.60 / 1.00 (slip 0.20 per side); window 4 vs the others: average OptATR5, |Delta|,
+qty, VIX.
+
+## S3.2 · STEP B (only if Step A passes; one nested round, 4 configs; grid committed now, before any number)
+T1-P signals + FLAG_K28 (movement >= DEAD_MULT x COST_PER_UNIT_1LOT) + EXIT_MODE X-T (XT_H 10, SL_K 3.0; runner and
+trail as §V3.1) + XT_LOTS L1; grid K03_SWITCH {ON, OFF} x DEAD_MULT {2.0, 3.0}. Nested as S3 (training net_base
+picks per window, no base). Card: the 9 §14.1 gates with no relaxation (>= 150 trades included), NULL-RANDOM per-trade
+(own exit and X-T0), N_eff, PBO, DSR, mid edge vs cost per trade. Fail -> STOP, FINAL_S3.md.
+Trial cap added: 20
+<!-- S3-GRID S32 -->
+```json
+[{"variant": "T1-P", "overrides": {"EXIT_MODE": "X-T", "XT_H": 10, "SL_K": 3.0, "XT_LOTS": "L1", "K03_SWITCH": "ON", "DEAD_MULT": 2.0}, "flags": {"FLAG_K28": true}}, {"variant": "T1-P", "overrides": {"EXIT_MODE": "X-T", "XT_H": 10, "SL_K": 3.0, "XT_LOTS": "L1", "K03_SWITCH": "ON", "DEAD_MULT": 3.0}, "flags": {"FLAG_K28": true}}, {"variant": "T1-P", "overrides": {"EXIT_MODE": "X-T", "XT_H": 10, "SL_K": 3.0, "XT_LOTS": "L1", "K03_SWITCH": "OFF", "DEAD_MULT": 2.0}, "flags": {"FLAG_K28": true}}, {"variant": "T1-P", "overrides": {"EXIT_MODE": "X-T", "XT_H": 10, "SL_K": 3.0, "XT_LOTS": "L1", "K03_SWITCH": "OFF", "DEAD_MULT": 3.0}, "flags": {"FLAG_K28": true}}]
+```

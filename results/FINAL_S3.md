@@ -16,7 +16,7 @@
 ## Ek dhyaan dene wali baat (sirf observation, strategy nahi)
 - Entry ke waqt option ki chaal (OptATR5) ke top tercile mein 145 trade the: mid +₹340/trade, net +₹121/trade [BACKTEST·OOS].
 - Neeche wale tercile mein mid −₹8/trade raha.
-- Yeh baat D1 ke **baad** dekhi gayi (post-hoc), isliye ise gate ki tarah test nahi kiya gaya. Holdout pehle se REUSED hai, isliye ise isi data par saabit karna mumkin nahi.
+- Yeh tercile split order 7 §3 mein pehle se registered diagnosis tha, aur chaal gate (R14) D1 se pehle registered tha, isliye yeh post-hoc nahi hai (sudhaar, D-61). Holdout S3 mein abhi bhi ek baar use ho sakta hai (§14.2, HOLDOUT_REUSED, uses 0); asli seema yeh hai ki 90 din chhota hai, power kam hai.
 - Iska matlab sirf itna hai: option buyer ko tabhi mauka hai jab chaal kharche ka kai guna ho. Yeh profit ka daava nahi hai.
 
 ## Kya madad karega (malik ka faisla)
@@ -30,3 +30,8 @@ Files:
 - results/s3_d1_summary.json
 - results/s3_trades.csv, s3_signals_*.csv, s3_r1…r4_trades.csv
 - DECISIONS D-54…D-60
+
+## Sudhaar (owner order 8, D-61)
+- Holdout: S3 mein ek baar use ho sakta hai (§14.2, HOLDOUT_REUSED, uses 0). 90 din chhota hai, isliye power kam hai.
+- OptATR5 tercile split order 7 §3 mein registered diagnosis tha, aur chaal gate (R14) D1 se pehle registered tha, isliye yeh post-hoc nahi hai.
+- NULL p ab per-trade mean par gina jaata hai (FIX-13). D1 ka recount `results/s3_s31.md` mein hai.
