@@ -1,5 +1,5 @@
 STAGE=2
-NEXT=S3 next round after R2 (FAIL; card in results/s3_rounds.md)
+NEXT=S3 next round after R3 (FAIL; card in results/s3_rounds.md)
 BLOCK=S2
 MODEL_NOW=BIG
 MODEL_NEXT=BIG

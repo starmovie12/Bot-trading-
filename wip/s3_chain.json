@@ -83,6 +83,48 @@
      "net_stress": -17598.18
     }
    }
+  },
+  "R3": {
+   "1": {
+    "chosen": "T1-P + EXIT_MODE=X-A + G1_TRIGGER_PTS=12 + SL_INIT_PTS=12 + STRIKE_MODE=N15 + FLAG_N7",
+    "hash": "929df1435f730161",
+    "train": -8037.72,
+    "test": {
+     "trades": 105,
+     "net_base": -19470.41,
+     "net_stress": -41192.2
+    }
+   },
+   "2": {
+    "chosen": "T1-P + EXIT_MODE=X-A + G1_TRIGGER_PTS=5 + SL_INIT_PTS=12 + STRIKE_MODE=N6 + FLAG_N7",
+    "hash": "2472efbd93144ddd",
+    "train": -23716.92,
+    "test": {
+     "trades": 231,
+     "net_base": -25238.81,
+     "net_stress": -77664.38
+    }
+   },
+   "3": {
+    "chosen": "T1-P + EXIT_MODE=X-A + G1_TRIGGER_PTS=5 + SL_INIT_PTS=12 + STRIKE_MODE=N6 + FLAG_N7",
+    "hash": "2472efbd93144ddd",
+    "train": -48955.729999999996,
+    "test": {
+     "trades": 178,
+     "net_base": -25285.84,
+     "net_stress": -69216.54
+    }
+   },
+   "4": {
+    "chosen": "T1-P + EXIT_MODE=X-B + G1_TRIGGER_PTS=12 + SL_INIT_PTS=12 + STRIKE_MODE=N15 + FLAG_N7",
+    "hash": "9876bc9fad794913",
+    "train": -65178.63,
+    "test": {
+     "trades": 20,
+     "net_base": -11426.61,
+     "net_stress": -15599.53
+    }
+   }
   }
  },
  "bases": {
@@ -94,7 +136,9 @@
     "EXIT_MODE": "X-A",
     "STRIKE_MODE": "N15"
    },
-   "flags": {},
+   "flags": {
+    "FLAG_N7": true
+   },
    "checks": [],
    "slots_off": []
   },
@@ -106,7 +150,9 @@
     "EXIT_MODE": "X-A",
     "STRIKE_MODE": "N6"
    },
-   "flags": {},
+   "flags": {
+    "FLAG_N7": true
+   },
    "checks": [],
    "slots_off": []
   },
@@ -118,7 +164,9 @@
     "EXIT_MODE": "X-A",
     "STRIKE_MODE": "N6"
    },
-   "flags": {},
+   "flags": {
+    "FLAG_N7": true
+   },
    "checks": [],
    "slots_off": []
   },
@@ -130,7 +178,9 @@
     "EXIT_MODE": "X-B",
     "STRIKE_MODE": "N15"
    },
-   "flags": {},
+   "flags": {
+    "FLAG_N7": true
+   },
    "checks": [],
    "slots_off": []
   }

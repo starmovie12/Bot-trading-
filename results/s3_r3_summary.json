@@ -1,0 +1,108 @@
+{
+ "round": "R3",
+ "gates": {
+  "gates": {
+   "1_net_base_pos": false,
+   "2_net_stress_ge0": false,
+   "3_windows_3of4_25tr": false,
+   "4_best5_removed_pos": false,
+   "5_vix_halves_ge0": false,
+   "6_trades_ge150": true,
+   "7_boot_p_lt_005": false,
+   "8_e12_ge_dd95": false,
+   "9_null_p_le_005": false
+  },
+  "all_pass": false,
+  "net_base": -81421.67,
+  "net_stress": -203672.65,
+  "per_trade": -152.47503745318352,
+  "trades": 534,
+  "trades_per_day": 1.8413793103448275,
+  "windows": {
+   "2": [
+    -19470.41,
+    105
+   ],
+   "3": [
+    -25238.81,
+    231
+   ],
+   "4": [
+    -25285.84,
+    178
+   ],
+   "5": [
+    -11426.61,
+    20
+   ]
+  },
+  "best5_removed": -101289.35999999999,
+  "vix_halves": {
+   "LOW": -78812.38,
+   "HIGH": -2609.2900000000004
+  },
+  "e12": -70191.0948275862,
+  "dd95": 104172.93449999997,
+  "boot_p": 1.0,
+  "null_p": 0.25037481259370314
+ },
+ "null": {
+  "candidate": -81421.67,
+  "p": 0.25037481259370314,
+  "median": -93826.775,
+  "seeds": 2000
+ },
+ "pbo": 0.35384615384615387,
+ "n_eff": 1,
+ "n_raw": 44,
+ "dsr_eff": 0.000345786694208261,
+ "dsr_raw": 6.653874241036029e-07,
+ "intrabar": {
+  "PATH": -14897.369999999999,
+  "WORST": -76226.65
+ },
+ "history": {
+  "1": {
+   "chosen": "T1-P + EXIT_MODE=X-A + G1_TRIGGER_PTS=12 + SL_INIT_PTS=12 + STRIKE_MODE=N15 + FLAG_N7",
+   "hash": "929df1435f730161",
+   "train": -8037.72,
+   "test": {
+    "trades": 105,
+    "net_base": -19470.41,
+    "net_stress": -41192.2
+   }
+  },
+  "2": {
+   "chosen": "T1-P + EXIT_MODE=X-A + G1_TRIGGER_PTS=5 + SL_INIT_PTS=12 + STRIKE_MODE=N6 + FLAG_N7",
+   "hash": "2472efbd93144ddd",
+   "train": -23716.92,
+   "test": {
+    "trades": 231,
+    "net_base": -25238.81,
+    "net_stress": -77664.38
+   }
+  },
+  "3": {
+   "chosen": "T1-P + EXIT_MODE=X-A + G1_TRIGGER_PTS=5 + SL_INIT_PTS=12 + STRIKE_MODE=N6 + FLAG_N7",
+   "hash": "2472efbd93144ddd",
+   "train": -48955.729999999996,
+   "test": {
+    "trades": 178,
+    "net_base": -25285.84,
+    "net_stress": -69216.54
+   }
+  },
+  "4": {
+   "chosen": "T1-P + EXIT_MODE=X-B + G1_TRIGGER_PTS=12 + SL_INIT_PTS=12 + STRIKE_MODE=N15 + FLAG_N7",
+   "hash": "9876bc9fad794913",
+   "train": -65178.63,
+   "test": {
+    "trades": 20,
+    "net_base": -11426.61,
+    "net_stress": -15599.53
+   }
+  }
+ },
+ "fits": 36,
+ "configs": 22
+}
